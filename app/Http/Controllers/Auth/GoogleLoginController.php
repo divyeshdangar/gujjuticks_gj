@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Foundation\Support\Providers\RouteServiceProvider;
 
 class GoogleLoginController extends Controller
 {
