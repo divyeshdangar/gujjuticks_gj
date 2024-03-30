@@ -1,7 +1,6 @@
 <x-guest-layout>
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
-    <script src="https://accounts.google.com/gsi/client" async></script>
     <form method="POST" action="{{ route('login') }}">
         @csrf
 
@@ -40,13 +39,15 @@
                 {{ __('Log in') }}
             </x-primary-button>
 
-            <br>
-
-            
         </div>
         <hr class="mt-4 mb-4">
-        <a href="{{ route('google.redirect') }}" class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
-            Login with Google
-        </a>
+
+        <div class="flex items-center justify-center mt-4">
+            <a title="Login with Google" href="{{ route('google.redirect') }}" class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
+                <img height="35" width="35" src="{{url('/images/google/search.png')}}" alt="Image"/>                
+            </a>
+        </div>
+        <div class="text-center">
+        </div>
     </form>
 </x-guest-layout>
