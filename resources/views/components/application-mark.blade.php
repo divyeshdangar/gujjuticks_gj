@@ -1,0 +1,1 @@
+<img src="{{ asset('storage/logos/full-logo-black.png') }}" class="h-16">
