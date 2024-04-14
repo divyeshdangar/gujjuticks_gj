@@ -11,6 +11,6 @@ Route::get('/test', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard/home');
+    return view('pages/dashboard/home');
 });
 
