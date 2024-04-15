@@ -79,7 +79,7 @@
             <div class="d-flex align-items-center admin-info border-top">
                 <div class="flex-shrink-0">
                     <a href="profile.html" class="d-block">
-                        <img src="assets/images/admin.jpg" class="rounded-circle wh-54" alt="admin">
+                        <img src="{{ auth()->user()->profile }}" class="rounded-circle wh-54" alt="admin">
                     </a>
                 </div>
                 <div class="flex-grow-1 ms-3 info">
@@ -173,7 +173,7 @@
                                         </button>
                                         <div class="dropdown-menu dropdown-lg p-0 border-0 p-4">
                                             <h5 class="m-0 p-0 fw-bold d-flex justify-content-between align-items-center border-bottom pb-3 mb-4">
-                                                <span>Email </span>
+                                                <span>Message </span>
                                                 <button class="p-0 m-0 bg-transparent border-0">Clear All</button>
                                             </h5>
 
@@ -242,12 +242,12 @@
                                     <div class="dropdown admin-profile">
                                         <div class="d-xxl-flex align-items-center bg-transparent border-0 text-start p-0 cursor" data-bs-toggle="dropdown">
                                             <div class="flex-shrink-0">
-                                                <img class="rounded-circle wh-54" src="assets/images/admin.jpg" alt="admin">
+                                                <img class="rounded-circle wh-54" src="{{ auth()->user()->profile }}" alt="admin">
                                             </div>
                                             <div class="flex-grow-1 ms-3">
                                                 <div class="d-flex align-items-center justify-content-between">
                                                     <div class="d-none d-xxl-block">
-                                                        <span class="degeneration">Admin</span>
+                                                        <span class="degeneration">GT USER</span>
                                                         <div class="d-flex align-content-center">
                                                             <h3>{{ auth()->user()->name }}</h3>
                                                             <div class="down">
@@ -303,7 +303,7 @@
 
             <!-- Start Footer Area -->
             <footer class="footer-area bg-white text-center rounded-top-10">
-                <p class="fs-14">© <span class="text-primary">GujjuTicks</span> - Made in <a href="" target="_blank" class="text-decoration-none">Ahmedabad</a></p>
+                <p class="fs-14">© <span class="text-primary">GujjuTicks</span> - Made in <a href="" target="_blank" class="text-decoration-none">Gujarat</a></p>
             </footer>
             <!-- End Footer Area -->
         </div>

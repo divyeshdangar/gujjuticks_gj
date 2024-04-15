@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Middleware\CheckIfLogin;
 
 Route::get('/', function () {
     return view('welcome');
@@ -11,11 +12,13 @@ Route::get('/test', function () {
     return view('test');
 });
 
-Route::get('/dashboard', function () {
-    return view('pages/dashboard/home');
-})-> name('dashboard');
 
 
+Route::middleware([CheckIfLogin::class])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('pages/dashboard/home');
+    })-> name('dashboard');
+});
 
 
 Route::get('login', [LoginController::class, 'authenticate'])-> name('login');

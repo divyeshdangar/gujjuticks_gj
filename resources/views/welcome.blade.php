@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>GujjuTicks - ગુજ્જુટિકસ | Made In Ahmedabad</title>
+        <title>GujjuTicks - ગુજ્જુટિકસ | Made In Gujarat</title>
         
         <meta name="description" content="Discover affordable and free essential services tailored for the Gujarati community at GujjuTicks.com. From education and social media to work management and daily task, access what you need at unbeatable prices or completely free. Join us in empowering the Gujarati community today!">
         <meta name="author" content="Indiastic">
@@ -16,13 +16,13 @@
 
         <meta property="og:type" content="website">
         <meta property="og:url" content="https://www.indiastic.com/">
-        <meta property="og:title" content="GujjuTicks - ગુજ્જુટિકસ | Made In Ahmedabad">
+        <meta property="og:title" content="GujjuTicks - ગુજ્જુટિકસ | Made In Gujarat">
         <meta property="og:description" content="Discover affordable and free essential services tailored for the Gujarati community at GujjuTicks.com. From education and social media to work management and daily task, access what you need at unbeatable prices or completely free. Join us in empowering the Gujarati community today!">
         <meta property="og:image" content="https://www.indiastic.com/files/detail-images/home.png">
 
         <meta property="twitter:card" content="summary_large_image">
         <meta property="twitter:url" content="https://www.indiastic.com/">
-        <meta property="twitter:title" content="GujjuTicks - ગુજ્જુટિકસ | Made In Ahmedabad">
+        <meta property="twitter:title" content="GujjuTicks - ગુજ્જુટિકસ | Made In Gujarat">
         <meta property="twitter:description" content="Discover affordable and free essential services tailored for the Gujarati community at GujjuTicks.com. From education and social media to work management and daily task, access what you need at unbeatable prices or completely free. Join us in empowering the Gujarati community today!">
         <meta property="twitter:image" content="https://www.indiastic.com/files/detail-images/home.png">
     
