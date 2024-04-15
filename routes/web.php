@@ -13,6 +13,13 @@ Route::get('/test', function () {
 
 Route::get('/dashboard', function () {
     return view('pages/dashboard/home');
-});
+})-> name('dashboard');
 
-Route::get('login', [LoginController::class, 'authenticate']);
+
+
+
+Route::get('login', [LoginController::class, 'authenticate'])-> name('login');
+Route::get('logout', [LoginController::class, 'logout'])-> name('logout');
+
+Route::get('/google/redirect', [App\Http\Controllers\Auth\GoogleLoginController::class, 'redirectToGoogle'])->name('google.redirect');
+Route::get('/google/callback', [App\Http\Controllers\Auth\GoogleLoginController::class, 'handleGoogleCallback'])->name('google.callback');

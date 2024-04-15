@@ -36,11 +36,16 @@
     <div class="preloader" id="preloader">
         <div class="preloader">
             <div class="waviy position-relative">
-                <span class="d-inline-block">F</span>
-                <span class="d-inline-block">A</span>
-                <span class="d-inline-block">R</span>
-                <span class="d-inline-block">O</span>
-                <span class="d-inline-block">L</span>
+                <span class="d-inline-block">G</span>
+                <span class="d-inline-block">u</span>
+                <span class="d-inline-block">j</span>
+                <span class="d-inline-block">j</span>
+                <span class="d-inline-block">u</span>
+                <span class="d-inline-block">T</span>
+                <span class="d-inline-block">i</span>
+                <span class="d-inline-block">c</span>
+                <span class="d-inline-block">k</span>
+                <span class="d-inline-block">s</span>
             </div>
         </div>
     </div>

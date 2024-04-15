@@ -83,8 +83,8 @@
                     </a>
                 </div>
                 <div class="flex-grow-1 ms-3 info">
-                    <a href="profile.html" class="d-block name">Divyesh Dangar</a>
-                    <a href="logout.html">Log Out</a>
+                    <a href="profile.html" class="d-block name">{{ auth()->user()->name }}</a>
+                    <a href="{{ route('logout') }}">Log Out</a>
                 </div>
             </div>
         </div>
@@ -249,7 +249,7 @@
                                                     <div class="d-none d-xxl-block">
                                                         <span class="degeneration">Admin</span>
                                                         <div class="d-flex align-content-center">
-                                                            <h3>Divyesh Dangar</h3>
+                                                            <h3>{{ auth()->user()->name }}</h3>
                                                             <div class="down">
                                                                 <i data-feather="chevron-down"></i>
                                                             </div>
@@ -273,7 +273,7 @@
                                                 </a>
                                             </li>
                                             <li>
-                                                <a class="dropdown-item d-flex align-items-center text-body" href="logout.html">
+                                                <a class="dropdown-item d-flex align-items-center text-body" href="{{ route('logout') }}">
                                                     <i data-feather="log-out"></i>
                                                     <span class="ms-2">Logout</span>
                                                 </a>

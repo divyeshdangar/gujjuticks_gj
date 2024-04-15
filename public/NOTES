@@ -10,3 +10,6 @@ php artisan make:component forms.input --view
 
 Create controller
 php artisan make:controller UserController
+
+Run migration
+php artisan migrate
