@@ -7,3 +7,6 @@ https://laravel.com/docs/11.x/blade#passing-data-to-components
 Create component
 php artisan make:component Alert
 php artisan make:component forms.input --view
+
+Create controller
+php artisan make:controller UserController
