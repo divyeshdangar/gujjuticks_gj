@@ -57,7 +57,7 @@
         <div class="logo position-relative">
             <a href="index.html" class="d-block text-decoration-none">
                 <img src="assets/images/logo-icon.png" alt="logo-icon">
-                <span class="logo-text fw-bold text-dark">GujjuTicks</span>
+                <span class="logo-text fw-bold text-dark">{{ __('dashboard.gujjuticks') }}</span>
             </a>
             <button class="sidebar-burger-menu bg-transparent p-0 border-0 opacity-0 z-n1 position-absolute top-50 end-0 translate-middle-y" id="sidebar-burger-menu">
                 <i data-feather="x"></i>
@@ -69,7 +69,7 @@
                 <li class="menu-item">
                     <a href="" class="menu-link">
                         <i data-feather="grid" class="menu-icon tf-icons"></i>
-                        <span class="title">Dashboard</span>
+                        <span class="title">{{ __('dashboard.dashboard') }}</span>
                     </a>
                 </li>
             </ul>
@@ -84,7 +84,7 @@
                 </div>
                 <div class="flex-grow-1 ms-3 info">
                     <a href="profile.html" class="d-block name">{{ auth()->user()->name }}</a>
-                    <a href="{{ route('logout') }}">Log Out</a>
+                    <a href="{{ route('logout') }}">{{ __('dashboard.logout') }}</a>
                 </div>
             </div>
         </div>
@@ -108,7 +108,7 @@
                                 </li>
                                 <li>
                                     <form class="src-form position-relative">
-                                        <input type="text" class="form-control" placeholder="Search here..">
+                                        <input type="text" class="form-control" placeholder="{{ __('dashboard.search_here') }}">
                                         <button type="submit" class="src-btn position-absolute top-50 end-0 translate-middle-y bg-transparent p-0 border-0">
                                             <i data-feather="search"></i>
                                         </button>
@@ -128,7 +128,7 @@
                                         </button>
                                         <div class="dropdown-menu dropdown-lg p-0 border-0 p-4">
                                             <div class="notification-menu">
-                                                <a href="notification.html" class="dropdown-item p-0">
+                                                <a href="{{ route('language', ['locale' => 'en']) }}" class="dropdown-item p-0">
                                                     <div class="d-flex align-items-center">
                                                         <div class="flex-shrink-0">
                                                             <img src="assets/images/india.png" class="wh-22 rounded-circle" alt="English">
@@ -140,7 +140,7 @@
                                                 </a>
                                             </div>
                                             <div class="notification-menu">
-                                                <a href="notification.html" class="dropdown-item p-0">
+                                                <a href="{{ route('language', ['locale' => 'hi']) }}" class="dropdown-item p-0">
                                                     <div class="d-flex align-items-center">
                                                         <div class="flex-shrink-0">
                                                             <img src="assets/images/india.png" class="wh-22 rounded-circle" alt="हिंदी">
@@ -152,7 +152,7 @@
                                                 </a>
                                             </div>
                                             <div class="notification-menu mb-0">
-                                                <a href="notification.html" class="dropdown-item p-0">
+                                                <a href="{{ route('language', ['locale' => 'gj']) }}" class="dropdown-item p-0">
                                                     <div class="d-flex align-items-center">
                                                         <div class="flex-shrink-0">
                                                             <img src="assets/images/india.png" class="wh-22 rounded-circle" alt="ગુજરાતી">
@@ -173,8 +173,8 @@
                                         </button>
                                         <div class="dropdown-menu dropdown-lg p-0 border-0 p-4">
                                             <h5 class="m-0 p-0 fw-bold d-flex justify-content-between align-items-center border-bottom pb-3 mb-4">
-                                                <span>Message </span>
-                                                <button class="p-0 m-0 bg-transparent border-0">Clear All</button>
+                                                <span>{{ __('dashboard.message') }} </span>
+                                                <button class="p-0 m-0 bg-transparent border-0">{{ __('dashboard.clear_all') }}</button>
                                             </h5>
 
                                             <div class="notification-menu">
@@ -192,7 +192,7 @@
                                             </div>
 
                                             <a href="notification.html" class="dropdown-item text-center text-primary d-block view-all pt-3 pb-0 fw-semibold">
-                                                View All
+                                                {{ __('dashboard.view_all') }}
                                                 <i data-feather="chevron-right"></i>
                                             </a>
                                         </div>
@@ -205,8 +205,8 @@
                                         </button>
                                         <div class="dropdown-menu dropdown-lg p-0 border-0 p-4">
                                             <h5 class="m-0 p-0 fw-bold d-flex justify-content-between align-items-center border-bottom pb-3 mb-4">
-                                                <span>Notifications </span>
-                                                <button class="p-0 m-0 bg-transparent border-0">Clear All</button>
+                                                <span>{{ __('dashboard.notification') }} </span>
+                                                <button class="p-0 m-0 bg-transparent border-0">{{ __('dashboard.clear_all') }}</button>
                                             </h5>
 
                                             <div class="notification-menu mb-0">
@@ -226,7 +226,7 @@
                                             </div>
 
                                             <a href="notification.html" class="dropdown-item text-center text-primary d-block view-all pt-3 pb-0 fw-semibold">
-                                                View All
+                                                {{ __('dashboard.view_all') }}
                                                 <i data-feather="chevron-right"></i>
                                             </a>
                                         </div>
@@ -247,7 +247,7 @@
                                             <div class="flex-grow-1 ms-3">
                                                 <div class="d-flex align-items-center justify-content-between">
                                                     <div class="d-none d-xxl-block">
-                                                        <span class="degeneration">GT USER</span>
+                                                        <span class="degeneration">{{ __('dashboard.user') }}</span>
                                                         <div class="d-flex align-content-center">
                                                             <h3>{{ auth()->user()->name }}</h3>
                                                             <div class="down">
@@ -263,19 +263,19 @@
                                             <li>
                                                 <a class="dropdown-item d-flex align-items-center text-body" href="profile.html">
                                                     <i data-feather="user"></i>
-                                                    <span class="ms-2">Profile</span>
+                                                    <span class="ms-2">{{ __('dashboard.profile') }}</span>
                                                 </a>
                                             </li>
                                             <li>
                                                 <a class="dropdown-item d-flex align-items-center text-body" href="account.html">
                                                     <i data-feather="settings"></i>
-                                                    <span class="ms-2">Setting</span>
+                                                    <span class="ms-2">{{ __('dashboard.setting') }}</span>
                                                 </a>
                                             </li>
                                             <li>
                                                 <a class="dropdown-item d-flex align-items-center text-body" href="{{ route('logout') }}">
                                                     <i data-feather="log-out"></i>
-                                                    <span class="ms-2">Logout</span>
+                                                    <span class="ms-2">{{ __('dashboard.logout') }}</span>
                                                 </a>
                                             </li>
                                         </ul>
@@ -303,7 +303,7 @@
 
             <!-- Start Footer Area -->
             <footer class="footer-area bg-white text-center rounded-top-10">
-                <p class="fs-14">© <span class="text-primary">GujjuTicks</span> - Made in <a href="" target="_blank" class="text-decoration-none">Gujarat</a></p>
+                <p class="fs-14">© <span class="text-primary">{{ __('dashboard.gujjuticks') }}</span> - {{ __('dashboard.made_in') }}</a></p>
             </footer>
             <!-- End Footer Area -->
         </div>

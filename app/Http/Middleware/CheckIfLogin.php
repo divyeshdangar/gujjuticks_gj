@@ -6,6 +6,8 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Session;
 
 class CheckIfLogin
 {
@@ -16,6 +18,12 @@ class CheckIfLogin
      */
     public function handle(Request $request, Closure $next): Response
     {
+        // Language logic :Temporary added here
+        if (Session::has('locale')) {
+            App::setLocale(Session::get('locale'));
+        }
+
+
         if (Auth::check()) {
             return $next($request);
         } else {

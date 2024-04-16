@@ -12,12 +12,20 @@ Route::get('/test', function () {
     return view('test');
 });
 
-
+Route::get('language/{locale}', function ($locale) {
+    if (! in_array($locale, ['en', 'hi', 'gj'])) {
+        abort(400);
+    } else {
+        app()->setLocale($locale);
+        session()->put('locale', $locale);
+        return redirect()->back();
+    }
+})->name('language');
 
 Route::middleware([CheckIfLogin::class])->group(function () {
     Route::get('/dashboard', function () {
         return view('pages/dashboard/home');
-    })-> name('dashboard');
+    })->name('dashboard');
 });
 
 
