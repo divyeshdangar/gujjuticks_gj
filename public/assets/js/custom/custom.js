@@ -38,8 +38,13 @@
 
 	})();
 
+
 	// Feather Icons
-	feather.replace();
+	try {
+		feather.replace();		
+	} catch (error) {
+		
+	}
 
 	//  Digital Date
 	function updateDate() {
@@ -50,7 +55,9 @@
 		var month = monthNames[now.getMonth()];
 		var year = now.getFullYear();
 		var digitalDate = document.getElementById("digitalDate");
-		digitalDate.innerHTML = date + " " + month + " " + year;
+		if(digitalDate){
+			digitalDate.innerHTML = date + " " + month + " " + year;
+		}
 	}
 	setInterval(updateDate, 1000);
 
@@ -129,21 +136,29 @@
 	} catch (err) { }
 
 	// Clipboard
-	new ClipboardJS('.copy-btn');
+	try {
+		new ClipboardJS('.copy-btn');		
+	} catch (error) {
+		
+	}
 
 	// Popover
 	const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
 	const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
 
-	// Drag & Drop
-	sortable('.js-grid', {
-		forcePlaceholderSize: true,
-		placeholderClass: 'border'
-	});
-	sortable('.o-sortable', {
-		forcePlaceholderSize: true,
-		placeholderClass: 'border'
-	});
+	try {
+		// Drag & Drop
+		sortable('.js-grid', {
+			forcePlaceholderSize: true,
+			placeholderClass: 'border'
+		});
+		sortable('.o-sortable', {
+			forcePlaceholderSize: true,
+			placeholderClass: 'border'
+		});		
+	} catch (error) {
+		
+	}
 
 	// Multiple Range Sliders
 	try {

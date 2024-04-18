@@ -2,11 +2,12 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\User\NotificationController;
 use App\Http\Middleware\CheckIfLogin;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
 
 Route::get('/test', function () {
     return view('test');
@@ -26,6 +27,7 @@ Route::middleware([CheckIfLogin::class])->group(function () {
     Route::get('/dashboard', function () {
         return view('pages/dashboard/home');
     })->name('dashboard');
+    Route::get('user/notification', [NotificationController::class, 'index'])-> name('user.notification.list');
 });
 
 

@@ -23,5 +23,7 @@ return [
     'notification' => 'अधिसूचना',
     'profile' => 'प्रोफ़ाइल',
     'setting' => 'सेटिंग',
+    'home' => 'घर',
+    'setting_other' => 'सेटिंग और अन्य',
 
 ];

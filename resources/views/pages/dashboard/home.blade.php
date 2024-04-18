@@ -8,7 +8,7 @@
                         <p class="text-white fs-15">{{ __('dashboard.welcome_desc') }}</p>
                     </div>
                 </div>
-                <img src="assets/images/welcome-shape.png" class="position-absolute bottom-0 end-0" style="right: 10px !important; bottom: 10px !important;" alt="welcome-shape">
+                <img src="{{ asset('assets/images/welcome-shape.png') }}" class="position-absolute bottom-0 end-0" style="right: 10px !important; bottom: 10px !important;" alt="welcome-shape">
             </div>
         </div>
     </div>

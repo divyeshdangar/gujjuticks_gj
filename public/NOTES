@@ -9,7 +9,23 @@ php artisan make:component Alert
 php artisan make:component forms.input --view
 
 Create controller
-php artisan make:controller UserController
+php artisan make:controller User/NotificationController
+
+
+Create migration
+php artisan make:migration create_notification_table
 
 Run migration
 php artisan migrate
+
+Create model
+php artisan make:model Flight
+php artisan make:model Flight --migration //create migration as well
+
+
+
+Event
+https://arjunamrutiya.medium.com/a-step-by-step-guide-to-laravel-events-and-listeners-with-examples-634d7a018fa0
+
+php artisan make:event UserCreated
+php artisan make:listener UserCreatedListner --event=UserCreated

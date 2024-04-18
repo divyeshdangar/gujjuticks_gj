@@ -7,16 +7,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Links Of CSS File -->
-    <link rel="stylesheet" href="assets/css/remixicon.css">
-    <link rel="stylesheet" href="assets/css/flaticon.css">
-    <link rel="stylesheet" href="assets/css/sidebar-menu.css">
-    <link rel="stylesheet" href="assets/css/simplebar.css">
-    <link rel="stylesheet" href="assets/css/apexcharts.css">
-    <link rel="stylesheet" href="assets/css/prism.css">
-    <link rel="stylesheet" href="assets/css/rangeslider.css">
-    <link rel="stylesheet" href="assets/css/sweetalert.min.css">
-    <link rel="stylesheet" href="assets/css/quill.snow.css">
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="{{ asset('assets/css/remixicon.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/flaticon.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/sidebar-menu.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/simplebar.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/apexcharts.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/prism.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/rangeslider.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/sweetalert.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/quill.snow.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
 
     <?php
         $metaData = [
@@ -55,8 +55,8 @@
     <!-- Start Sidebar Area -->
     <div class="sidebar-area" id="sidebar-area">
         <div class="logo position-relative">
-            <a href="index.html" class="d-block text-decoration-none">
-                <img src="assets/images/logo-icon.png" alt="logo-icon">
+            <a href="{{ route('dashboard') }}" class="d-block text-decoration-none">
+                <img src="{{ asset('assets/images/logo-icon.png') }}" alt="logo-icon">
                 <span class="logo-text fw-bold text-dark">{{ __('dashboard.gujjuticks') }}</span>
             </a>
             <button class="sidebar-burger-menu bg-transparent p-0 border-0 opacity-0 z-n1 position-absolute top-50 end-0 translate-middle-y" id="sidebar-burger-menu">
@@ -67,9 +67,18 @@
         <aside id="layout-menu" class="layout-menu menu-vertical menu active" data-simplebar>
             <ul class="menu-inner">
                 <li class="menu-item">
-                    <a href="" class="menu-link">
+                    <a href="{{ route('dashboard') }}" class="menu-link">
                         <i data-feather="grid" class="menu-icon tf-icons"></i>
                         <span class="title">{{ __('dashboard.dashboard') }}</span>
+                    </a>
+                </li>
+                <li class="menu-title small text-uppercase">
+                    <span class="menu-title-text">{{ __('dashboard.setting_other') }}</span>
+                </li>
+                <li class="menu-item">
+                    <a href="{{ route('user.notification.list') }}" class="menu-link">
+                        <i data-feather="bell" class="menu-icon tf-icons"></i>
+                        <span class="title">{{ __('dashboard.notification') }}</span>
                     </a>
                 </li>
             </ul>
@@ -78,12 +87,12 @@
         <div class="bg-white z-1 admin">
             <div class="d-flex align-items-center admin-info border-top">
                 <div class="flex-shrink-0">
-                    <a href="profile.html" class="d-block">
+                    <a href="#" class="d-block">
                         <img src="{{ auth()->user()->profile }}" class="rounded-circle wh-54" alt="admin">
                     </a>
                 </div>
                 <div class="flex-grow-1 ms-3 info">
-                    <a href="profile.html" class="d-block name">{{ auth()->user()->name }}</a>
+                    <a href="#" class="d-block name">{{ auth()->user()->name }}</a>
                     <a href="{{ route('logout') }}">{{ __('dashboard.logout') }}</a>
                 </div>
             </div>
@@ -124,14 +133,14 @@
                                 <li class="header-right-item">
                                     <div class="dropdown notifications language">
                                         <button class="btn btn-secondary border-0 p-0 position-relative" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <img src="assets/images/india.png" class="rounded-circle wh-22" alt="English">
+                                            <img src="{{ asset('assets/images/india.png') }}" class="rounded-circle wh-22" alt="English">
                                         </button>
                                         <div class="dropdown-menu dropdown-lg p-0 border-0 p-4">
                                             <div class="notification-menu">
                                                 <a href="{{ route('language', ['locale' => 'en']) }}" class="dropdown-item p-0">
                                                     <div class="d-flex align-items-center">
                                                         <div class="flex-shrink-0">
-                                                            <img src="assets/images/india.png" class="wh-22 rounded-circle" alt="English">
+                                                            <img src="{{ asset('assets/images/india.png') }}" class="wh-22 rounded-circle" alt="English">
                                                         </div>
                                                         <div class="flex-grow-1 ms-3">
                                                             <h4>English</h4>
@@ -143,7 +152,7 @@
                                                 <a href="{{ route('language', ['locale' => 'hi']) }}" class="dropdown-item p-0">
                                                     <div class="d-flex align-items-center">
                                                         <div class="flex-shrink-0">
-                                                            <img src="assets/images/india.png" class="wh-22 rounded-circle" alt="हिंदी">
+                                                            <img src="{{ asset('assets/images/india.png') }}" class="wh-22 rounded-circle" alt="हिंदी">
                                                         </div>
                                                         <div class="flex-grow-1 ms-3">
                                                             <h4>हिंदी</h4>
@@ -155,7 +164,7 @@
                                                 <a href="{{ route('language', ['locale' => 'gj']) }}" class="dropdown-item p-0">
                                                     <div class="d-flex align-items-center">
                                                         <div class="flex-shrink-0">
-                                                            <img src="assets/images/india.png" class="wh-22 rounded-circle" alt="ગુજરાતી">
+                                                            <img src="{{ asset('assets/images/india.png') }}" class="wh-22 rounded-circle" alt="ગુજરાતી">
                                                         </div>
                                                         <div class="flex-grow-1 ms-3">
                                                             <h4>ગુજરાતી</h4>
@@ -166,7 +175,7 @@
                                         </div>
                                     </div>
                                 </li>
-                                <li class="header-right-item">
+                                {{-- <li class="header-right-item">
                                     <div class="dropdown notifications email">
                                         <button class="btn btn-secondary border-0 p-0 position-relative" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                             <i data-feather="mail"></i>
@@ -181,7 +190,7 @@
                                                 <a href="notification.html" class="dropdown-item p-0">
                                                     <div class="d-flex align-items-center">
                                                         <div class="flex-shrink-0">
-                                                            <img src="assets/images/pdf.svg" alt="pdf">
+                                                            <img src="{{ asset('assets/images/pdf.svg') }}" alt="pdf">
                                                         </div>
                                                         <div class="flex-grow-1 ms-3">
                                                             <h4>Help/Support Desk</h4>
@@ -215,7 +224,7 @@
 
                                                     <div class="d-flex align-items-center">
                                                         <div class="flex-shrink-0">
-                                                            <img src="assets/images/notifications-1.jpg" alt="notifications">
+                                                            <img src="{{ asset('assets/images/notifications-1.jpg') }}" alt="notifications">
                                                         </div>
                                                         <div class="flex-grow-1 ms-3">
                                                             <p>Allow users to like products in your WooCommerce</p>
@@ -225,13 +234,13 @@
                                                 </a>
                                             </div>
 
-                                            <a href="notification.html" class="dropdown-item text-center text-primary d-block view-all pt-3 pb-0 fw-semibold">
+                                            <a href="{{ route('user.notification.list') }}" class="dropdown-item text-center text-primary d-block view-all pt-3 pb-0 fw-semibold">
                                                 {{ __('dashboard.view_all') }}
                                                 <i data-feather="chevron-right"></i>
                                             </a>
                                         </div>
                                     </div>
-                                </li>
+                                </li> --}}
                                 <li class="header-right-item d-none d-md-block">
                                     <div class="today-date">
                                         <span id="digitalDate"></span>
@@ -261,13 +270,13 @@
 
                                         <ul class="dropdown-menu border-0 bg-white w-100 admin-link">
                                             <li>
-                                                <a class="dropdown-item d-flex align-items-center text-body" href="profile.html">
+                                                <a class="dropdown-item d-flex align-items-center text-body" href="#">
                                                     <i data-feather="user"></i>
                                                     <span class="ms-2">{{ __('dashboard.profile') }}</span>
                                                 </a>
                                             </li>
                                             <li>
-                                                <a class="dropdown-item d-flex align-items-center text-body" href="account.html">
+                                                <a class="dropdown-item d-flex align-items-center text-body" href="#">
                                                     <i data-feather="settings"></i>
                                                     <span class="ms-2">{{ __('dashboard.setting') }}</span>
                                                 </a>
@@ -314,21 +323,21 @@
     <!-- End Theme Setting Area -->
 
     <!-- Link Of JS File -->
-    <script src="assets/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/sidebar-menu.js"></script>
-    <script src="assets/js/dragdrop.js"></script>
-    <script src="assets/js/rangeslider.min.js"></script>
-    <script src="assets/js/sweetalert.js"></script>
-    <script src="assets/js/quill.min.js"></script>
-    <script src="assets/js/data-table.js"></script>
-    <script src="assets/js/prism.js"></script>
-    <script src="assets/js/clipboard.min.js"></script>
-    <script src="assets/js/feather.min.js"></script>
-    <script src="assets/js/simplebar.min.js"></script>
-    <script src="assets/js/apexcharts.min.js"></script>
-    <script src="assets/js/amcharts.js"></script>
-    <script src="assets/js/custom/ecommerce-chart.js"></script>
-    <script src="assets/js/custom/custom.js"></script>
+    <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('assets/js/sidebar-menu.js') }}"></script>
+    <script src="{{ asset('assets/js/dragdrop.js') }}"></script>
+    <script src="{{ asset('assets/js/rangeslider.min.js') }}"></script>
+    <script src="{{ asset('assets/js/sweetalert.js') }}"></script>
+    <script src="{{ asset('assets/js/quill.min.js') }}"></script>
+    <script src="{{ asset('assets/js/data-table.js') }}"></script>
+    <script src="{{ asset('assets/js/prism.js') }}"></script>
+    <script src="{{ asset('assets/js/clipboard.min.js') }}"></script>
+    <script src="{{ asset('assets/js/feather.min.js') }}"></script>
+    <script src="{{ asset('assets/js/simplebar.min.js') }}"></script>
+    <script src="{{ asset('assets/js/apexcharts.min.js') }}"></script>
+    <script src="{{ asset('assets/js/amcharts.js') }}"></script>
+    <script src="{{ asset('assets/js/custom/ecommerce-chart.js') }}"></script>
+    <script src="{{ asset('assets/js/custom/custom.js') }}"></script>
 </body>
 
 </html>

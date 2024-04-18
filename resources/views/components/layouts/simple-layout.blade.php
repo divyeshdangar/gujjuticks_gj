@@ -60,16 +60,8 @@
     <!-- Start Theme Setting Area -->
     <!-- End Theme Setting Area -->
 
-    <!-- Link Of JS File -->
     <script src="assets/js/bootstrap.bundle.min.js"></script>
-    {{-- <script src="assets/js/quill.min.js"></script>
-    <script src="assets/js/data-table.js"></script>
-    <script src="assets/js/prism.js"></script>
-    <script src="assets/js/clipboard.min.js"></script>
-    <script src="assets/js/feather.min.js"></script>
-    <script src="assets/js/simplebar.min.js"></script>
-    <script src="assets/js/fslightbox.js"></script> --}}
-    <script src="assets/js/custom/custom.js"></script>
+    <script src="assets/js/custom/simple-custom.js"></script>
 </body>
 
 </html>

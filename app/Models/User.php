@@ -48,4 +48,13 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    /**
+     * The event map for the model.
+     *
+     * @var array<string, string>
+     */
+    // protected $dispatchesEvents = [
+    //     'created' => UserSaved::class
+    // ];
 }

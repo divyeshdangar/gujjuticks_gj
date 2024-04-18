@@ -6,17 +6,17 @@
                 <form>
                     <div class="d-flex align-items-center gap-4 mb-3">
                         <h4 class="fs-3 mb-0">Get’s started.</h4>
-                        <a href="index.html">
+                        <a href="{{ route('home') }}">
                             <img src="brand/full-logo-black.png" alt="logo">
                         </a>
                     </div>
                     <p class="fs-18 mb-5">Don’t have an account? Don't worry it will be created!</p>
                     <div class="d-sm-flex gap-3 mb-4">
-                        <a href="{{ route('google.redirect') }}" target="_blank" class="btn btn-outline-primary fs-16 fw-semibold text-dark heading-fornt py-2 py-md-3 px-4 hover-white w-sm-100">
+                        <a href="{{ route('google.redirect') }}" class="btn btn-outline-primary fs-16 fw-semibold text-dark heading-fornt py-2 py-md-3 px-4 hover-white w-sm-100">
                             <img src="assets/images/google.svg" alt="google">
                             <span class="ms-2">Sign In With Google</span>
                         </a>
-                        <a href="#" target="_blank" class="btn btn-primary fs-16 fw-semibold text-dark heading-fornt py-2 py-md-3 px-4 text-white w-sm-100 mt-3 mt-sm-0">
+                        <a href="#" class="btn btn-primary fs-16 fw-semibold text-dark heading-fornt py-2 py-md-3 px-4 text-white w-sm-100 mt-3 mt-sm-0">
                             <img src="assets/images/facebook.svg" alt="google">
                             <span class="ms-2">Sign In With Facebook</span>
                         </a>

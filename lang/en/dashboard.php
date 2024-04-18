@@ -23,5 +23,7 @@ return [
     'notification' => 'Notification',
     'profile' => 'Profile',
     'setting' => 'Setting',
+    'home' => 'Home',
+    'setting_other' => 'Settings & Others',
 
 ];
