@@ -22,6 +22,8 @@ class GoogleLoginController extends Controller
         if (!$user) {
             $data = [
                 'name' => $googleUser->name, 
+                'first_name' => (isset($googleUser->user) && isset($googleUser->user['given_name']) ? $googleUser->user['given_name'] : ''), 
+                'last_name' => (isset($googleUser->user) && isset($googleUser->user['family_name']) ? $googleUser->user['family_name'] : ''), 
                 'email' => $googleUser->email, 
                 'token' => $googleUser->token, 
                 'profile' => $googleUser->avatar, 

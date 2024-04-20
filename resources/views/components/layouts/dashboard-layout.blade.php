@@ -270,7 +270,7 @@
 
                                         <ul class="dropdown-menu border-0 bg-white w-100 admin-link">
                                             <li>
-                                                <a class="dropdown-item d-flex align-items-center text-body" href="#">
+                                                <a class="dropdown-item d-flex align-items-center text-body" href="{{ route('user.profile.edit') }}">
                                                     <i data-feather="user"></i>
                                                     <span class="ms-2">{{ __('dashboard.profile') }}</span>
                                                 </a>

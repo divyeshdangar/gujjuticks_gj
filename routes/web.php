@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\User\NotificationController;
+use App\Http\Controllers\User\ProfileController;
 use App\Http\Middleware\CheckIfLogin;
 
 Route::get('/', function () {
@@ -27,12 +28,16 @@ Route::middleware([CheckIfLogin::class])->group(function () {
     Route::get('/dashboard', function () {
         return view('pages/dashboard/home');
     })->name('dashboard');
-    Route::get('user/notification', [NotificationController::class, 'index'])-> name('user.notification.list');
+    Route::get('user/notification', [NotificationController::class, 'index'])->name('user.notification.list');
+
+    Route::get('user/profile/edit', [ProfileController::class, 'index'])->name('user.profile.edit');
+    Route::post('user/profile/edit', [ProfileController::class, 'store'])->name('user.profile.edit.post');
+
 });
 
 
-Route::get('login', [LoginController::class, 'authenticate'])-> name('login');
-Route::get('logout', [LoginController::class, 'logout'])-> name('logout');
+Route::get('login', [LoginController::class, 'authenticate'])->name('login');
+Route::get('logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::get('/google/redirect', [App\Http\Controllers\Auth\GoogleLoginController::class, 'redirectToGoogle'])->name('google.redirect');
 Route::get('/google/callback', [App\Http\Controllers\Auth\GoogleLoginController::class, 'handleGoogleCallback'])->name('google.callback');

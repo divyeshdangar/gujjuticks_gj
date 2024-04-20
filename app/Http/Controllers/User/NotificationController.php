@@ -6,13 +6,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Notification;
 use Illuminate\Support\Facades\Auth;
-use Lang;
 
 class NotificationController extends Controller
 {
     public function index(Request $request)
     {
-
         $dataList = Notification::where('user_id', Auth::id())->orderBy('id', 'DESC')->paginate(10);
         if($dataList->count() > 0) {
             foreach ($dataList as $key => $value) {
@@ -21,5 +19,4 @@ class NotificationController extends Controller
         }
         return view('pages.user.notification', ['dataList' => $dataList]);
     }
-
 }
