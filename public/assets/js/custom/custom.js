@@ -18,6 +18,12 @@
 				document.querySelector('#header-area').classList.toggle('sticky', scrollTop >= height);
 			});
 		}
+
+		try {
+			if(message){
+				Swal.fire(message.title, message.description, message.type);
+			}
+		} catch (err) { }
 	};
 
 	// Menu JS

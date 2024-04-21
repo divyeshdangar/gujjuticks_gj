@@ -3,7 +3,7 @@
 
 	// Impression Share
 	var options = {
-		series: [45],
+		series: [10],
 		chart: {
 			height: 150,
 			type: 'radialBar',
@@ -54,81 +54,4 @@
 	};
 	var chart = new ApexCharts(document.querySelector("#impression_share"), options);
 	chart.render();
-
-    // Overview
-	var options = {
-		series: [
-			{
-				name: 'Cost',
-				data: [25, 50, 30, 90, 90, 100, 40, 70, 50, 40, 35, 90]
-			}, 
-		],
-		colors: ['#90C6E0'],
-		chart: {
-			type: 'bar',
-			height: 250,
-			stacked: true,
-			toolbar: {
-				show: false,
-			}
-		},
-	  	dataLabels: {
-			enabled: false,
-		},
-		grid: {
-			borderColor: '#EDEFF5', 
-			strokeDashArray: 8,
-			xaxis: {
-				lines: {
-					show: false
-				}
-			},
-			yaxis: {
-				lines: {
-					show: true
-				}
-			},
-		},
-        plotOptions: {
-            bar: {
-                horizontal: false,
-                columnWidth: '30%',
-                endingShape: 'rounded',
-            },
-        },
-		xaxis: {
-			categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-			labels: {
-				style: {
-					colors: ['#A9A9C8', '#A9A9C8', '#A9A9C8', '#A9A9C8', '#A9A9C8', '#A9A9C8', '#A9A9C8', '#A9A9C8', '#A9A9C8', '#A9A9C8', '#A9A9C8', '#A9A9C8',],
-				},
-			},
-			axisBorder: {
-				show: false,
-			},
-			axisTicks: {
-				show: false,
-			}
-		},
-		yaxis: {
-			labels: {
-				style: {
-					colors: ['#A9A9C8', '#A9A9C8', '#A9A9C8', '#A9A9C8', '#A9A9C8', '#A9A9C8', '#A9A9C8', '#A9A9C8', '#A9A9C8', '#A9A9C8', '#A9A9C8', '#A9A9C8',],
-				},
-			}
-		},
-		fill: {
-			opacity: 1
-		},
-		tooltip: {
-			y: {
-				formatter: function (val) {
-					return "$ " + val + " K"
-				}
-			}
-		},
-	};
-	var chart = new ApexCharts(document.querySelector("#overview"), options);
-	chart.render();
-
 })();

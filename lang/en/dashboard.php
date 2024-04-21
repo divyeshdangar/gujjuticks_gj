@@ -12,6 +12,7 @@ return [
     'gujjuticks' => 'GujjuTicks',
     'logout' => 'Log Out',
     'dashboard' => 'Dashboard',
+    'profile' => 'Profile',
     'search_here' => 'Search here...',
     'user' => 'User',
     'made_in' => 'Made in Gujarat',

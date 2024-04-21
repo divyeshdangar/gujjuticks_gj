@@ -92,7 +92,7 @@
                     </a>
                 </div>
                 <div class="flex-grow-1 ms-3 info">
-                    <a href="#" class="d-block name">{{ auth()->user()->name }}</a>
+                    <a href="{{ route('user.profile') }}" class="d-block name">{{ auth()->user()->name }}</a>
                     <a href="{{ route('logout') }}">{{ __('dashboard.logout') }}</a>
                 </div>
             </div>
@@ -337,7 +337,17 @@
     <script src="{{ asset('assets/js/apexcharts.min.js') }}"></script>
     <script src="{{ asset('assets/js/amcharts.js') }}"></script>
     <script src="{{ asset('assets/js/custom/ecommerce-chart.js') }}"></script>
+    <script src="{{ asset('assets/js/custom/profile.js') }}"></script>
     <script src="{{ asset('assets/js/custom/custom.js') }}"></script>
+
+
+    <script>
+        <?php 
+            if(session('message')){ ?>
+                var message = JSON.parse('<?php echo json_encode(session('message')) ?>');
+            <?php }
+        ?>
+    </script>
 </body>
 
 </html>

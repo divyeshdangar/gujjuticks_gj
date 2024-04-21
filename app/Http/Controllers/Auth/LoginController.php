@@ -12,7 +12,14 @@ class LoginController extends Controller
     public function authenticate(Request $request)
     {
         if (Auth::check()) {
-            return redirect()->route('dashboard')->with('message', 'Already logged in!');
+            $message = [
+                "message" => [
+                    "type" => "info",
+                    "title" => "Wait!",
+                    "description" => "Already logged in."
+                ]
+            ];
+            return redirect()->route('dashboard')->with($message);
         } else {
             return view('pages.auth.login');
         }

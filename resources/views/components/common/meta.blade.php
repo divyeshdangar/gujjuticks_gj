@@ -1,6 +1,6 @@
         <title> {{ isset($metaData["title"]) && !empty($metaData["title"]) ? $metaData["title"] : 'GujjuTicks - ગુજ્જુટિકસ | Made In Gujarat' }} </title>
 
-        <link rel="icon" type="image/png" href="assets/images/logo-icon.png">
+        <link rel="icon" type="image/png" href="{{ asset('assets/images/logo-icon.png') }}">
 
         <link rel="canonical" href="https://www.gujjuticks.com/">
 

@@ -19,6 +19,13 @@ class GoogleLoginController extends Controller
     {
         $googleUser = Socialite::driver('google')->stateless()->user();
         $user = User::where('email', $googleUser->email)->first();
+        $message = [
+            "message" => [
+                "type" => "success",
+                "title" => "Woow!",
+                "description" => "Login successfully."
+            ]
+        ];
         if (!$user) {
             $data = [
                 'name' => $googleUser->name, 
@@ -36,6 +43,7 @@ class GoogleLoginController extends Controller
                 'message_tag' => 'msg.welcome_new_user',
                 'user_id' => $user->id
             ];
+            $message['message']['title'] = "New account created successfully.";
             Notification::create($data);
         } else {
             $data = [
@@ -45,6 +53,6 @@ class GoogleLoginController extends Controller
             Notification::create($data);
         }
         Auth::login($user);
-        return redirect()->route('dashboard')->with('message', 'Login successfully!');
+        return redirect()->route('dashboard')->with($message);
     }
 }

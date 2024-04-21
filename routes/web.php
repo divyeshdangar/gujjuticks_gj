@@ -30,6 +30,7 @@ Route::middleware([CheckIfLogin::class])->group(function () {
     })->name('dashboard');
     Route::get('user/notification', [NotificationController::class, 'index'])->name('user.notification.list');
 
+    Route::get('user/profile', [ProfileController::class, 'show'])->name('user.profile');
     Route::get('user/profile/edit', [ProfileController::class, 'index'])->name('user.profile.edit');
     Route::post('user/profile/edit', [ProfileController::class, 'store'])->name('user.profile.edit.post');
 
