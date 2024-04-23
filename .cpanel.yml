@@ -1,7 +1,4 @@
-name: Laravel
-
-on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+---
+deployment:
+      tasks:
+        - export DEPLOYPATH=/home/ccpekiqg/public_html
