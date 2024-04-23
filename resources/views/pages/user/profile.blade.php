@@ -35,11 +35,11 @@
                         <div class="profile-img">
                             <img src="{{ auth()->user()->profile }}" class="rounded-circle border border-2 border-white wh-57 mb-4" alt="user">
                             <h4 class="fs-16 fw-semibold mb-1">{{ ucwords(auth()->user()->name) }}</h4>
-                            <span class="fs-14">User</span>
+                            <span class="fs-14">{{ __('dashboard.user') }}</span>
                         </div>
                         <div class="text-end">
                             <div id="impression_share"></div>
-                            <span class="fs-14 fw-semibold mt-minus d-block">Profile pending</span>
+                            <span class="fs-14 fw-semibold mt-minus d-block">{{ __('dashboard.profile_pending') }}</span>
                         </div>
                     </div>
                 </div>
@@ -47,7 +47,7 @@
             <div class="card bg-white border-0 rounded-10 mb-4">
                 <div class="card-body p-4">
                     <div class="d-flex justify-content-between align-items-center border-bottom pb-20 mb-20">
-                        <h4 class="fw-semibold fs-18 mb-0">Personal Information</h4>
+                        <h4 class="fw-semibold fs-18 mb-0">{{ __('dashboard.personal_information') }}</h4>
                         <div class="dropdown action-opt">
                             <button class="btn bg-transparent p-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i data-feather="more-horizontal"></i>
@@ -56,36 +56,36 @@
                                 <li>
                                     <a class="dropdown-item" href="{{ route('user.profile.edit') }}">
                                         <i data-feather="edit"></i>
-                                        Edit
+                                        {{ __('dashboard.edit') }}
                                     </a>
                                 </li>
                             </ul>
                         </div>
                     </div>
 
-                    <h4 class="fs-15 fw-semibold">About Me:</h4>
+                    <h4 class="fs-15 fw-semibold">{{ __('dashboard.about_me') }} :</h4>
                     <p class="mb-4">
                         {{ auth()->user()->bio }}
                     </p>
                     <ul class="ps-0 mb-0 list-unstyled">
                         <li class="border-bottom border-color-gray mb-3 pb-3">
-                            <span class="fw-semibold text-dark w-130 d-inline-block">Full Name :</span>
+                            <span class="fw-semibold text-dark w-130 d-inline-block">{{ __('dashboard.full_name') }} :</span>
                             <span>{{ auth()->user()->name }}</span>
                         </li>
                         <li class="border-bottom border-color-gray mb-3 pb-3">
-                            <span class="fw-semibold text-dark w-130 d-inline-block">Mobile :</span>
+                            <span class="fw-semibold text-dark w-130 d-inline-block">{{ __('dashboard.mobile') }} :</span>
                             <a href="tel:{{ auth()->user()->phone }}" class="text-decoration-none">{{ auth()->user()->phone }}</a>
                         </li>
                         <li class="border-bottom border-color-gray mb-3 pb-3">
-                            <span class="fw-semibold text-dark w-130 d-inline-block">Email :</span>
+                            <span class="fw-semibold text-dark w-130 d-inline-block">{{ __('dashboard.email') }} :</span>
                             <a href="mailto:{{ auth()->user()->email }}" class="text-decoration-none">{{ auth()->user()->email }}</a>
                         </li>
                         <li class="border-bottom border-color-gray mb-3 pb-3">
-                            <span class="fw-semibold text-dark w-130 d-inline-block">Username :</span>
+                            <span class="fw-semibold text-dark w-130 d-inline-block">{{ __('dashboard.username') }} :</span>
                             <span class="text-success">{{ auth()->user()->username }}</span>
                         </li>
                         <li>
-                            <span class="fw-semibold text-dark w-130 d-inline-block">Joined :</span>
+                            <span class="fw-semibold text-dark w-130 d-inline-block">{{ __('dashboard.joined') }} :</span>
                             <span>{{ auth()->user()->created_at }}</span>
                         </li>
                     </ul>
