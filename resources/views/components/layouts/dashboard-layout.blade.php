@@ -206,41 +206,14 @@
                                             </a>
                                         </div>
                                     </div>
-                                </li>
+                                </li> --}}
                                 <li class="header-right-item">
                                     <div class="dropdown notifications noti">
-                                        <button class="btn btn-secondary border-0 p-0 position-relative badge" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <a href="{{ route('user.notification.list') }}" class="btn btn-secondary border-0 p-0 position-relative badge">
                                             <i data-feather="bell"></i>
-                                        </button>
-                                        <div class="dropdown-menu dropdown-lg p-0 border-0 p-4">
-                                            <h5 class="m-0 p-0 fw-bold d-flex justify-content-between align-items-center border-bottom pb-3 mb-4">
-                                                <span>{{ __('dashboard.notification') }} </span>
-                                                <button class="p-0 m-0 bg-transparent border-0">{{ __('dashboard.clear_all') }}</button>
-                                            </h5>
-
-                                            <div class="notification-menu mb-0">
-                                                <a href="notification.html" class="dropdown-item p-0">
-                                                    <h4>Create a new project for client</h4>
-
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="flex-shrink-0">
-                                                            <img src="{{ asset('assets/images/notifications-1.jpg') }}" alt="notifications">
-                                                        </div>
-                                                        <div class="flex-grow-1 ms-3">
-                                                            <p>Allow users to like products in your WooCommerce</p>
-                                                        </div>
-                                                    </div>
-                                                    <span>April, 18</span>
-                                                </a>
-                                            </div>
-
-                                            <a href="{{ route('user.notification.list') }}" class="dropdown-item text-center text-primary d-block view-all pt-3 pb-0 fw-semibold">
-                                                {{ __('dashboard.view_all') }}
-                                                <i data-feather="chevron-right"></i>
-                                            </a>
-                                        </div>
+                                        </a>
                                     </div>
-                                </li> --}}
+                                </li>
                                 <li class="header-right-item d-none d-md-block">
                                     <div class="today-date">
                                         <span id="digitalDate"></span>
