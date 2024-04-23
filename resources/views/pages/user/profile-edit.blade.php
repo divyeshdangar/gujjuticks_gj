@@ -82,7 +82,7 @@
                                 <div class="form-group mb-4">
                                     <label class="label @error('last_name') text-danger @enderror">{{ __('dashboard.last_name') }}</label>
                                     <div class="form-group position-relative">
-                                        <input type="text" name="last_name"  class="form-control text-dark ps-5 h-58 @error('last_name') border border-danger rounded-3 border-3 @enderror" value="{{ old('last_name', $dataDetail->last_name) }}" placeholder="{{ __('dashboard.last_name') }}Enter Name" readonly>
+                                        <input type="text" name="last_name"  class="form-control text-dark ps-5 h-58 @error('last_name') border border-danger rounded-3 border-3 @enderror" value="{{ old('last_name', $dataDetail->last_name) }}" placeholder="{{ __('dashboard.last_name') }}" readonly>
                                         <i class="ri-user-line position-absolute top-50 start-0 translate-middle-y fs-20 text-gray-light ps-20"></i>
                                     </div>
                                     @error('last_name')
@@ -94,7 +94,7 @@
                                 <div class="form-group mb-4">
                                     <label class="label @error('email') text-danger @enderror">{{ __('dashboard.email') }}</label>
                                     <div class="form-group position-relative">
-                                        <input type="email" name="email"  class="form-control text-dark ps-5 h-58 @error('email') border border-danger rounded-3 border-3 @enderror" value="{{ old('email', $dataDetail->email) }}" placeholder="{{ __('dashboard.email') }}Enter Email Address" readonly>
+                                        <input type="email" name="email"  class="form-control text-dark ps-5 h-58 @error('email') border border-danger rounded-3 border-3 @enderror" value="{{ old('email', $dataDetail->email) }}" placeholder="{{ __('dashboard.email') }}" readonly>
                                         <i class="ri-mail-line position-absolute top-50 start-0 translate-middle-y fs-20 text-gray-light ps-20"></i>
                                     </div>
                                     @error('email')
@@ -106,7 +106,7 @@
                                 <div class="form-group mb-4">
                                     <label class="label @error('phone') text-danger @enderror">{{ __('dashboard.phone') }}</label>
                                     <div class="form-group position-relative">
-                                        <input type="tel" id="phone" name="phone" maxlength="10" class="form-control text-dark ps-5 h-58 @error('phone') border border-danger rounded-3 border-3 @enderror" value="{{ old('phone', $dataDetail->phone) }}" placeholder="{{ __('dashboard.phone') }}Enter Phone Number" required>
+                                        <input type="tel" id="phone" name="phone" maxlength="10" class="form-control text-dark ps-5 h-58 @error('phone') border border-danger rounded-3 border-3 @enderror" value="{{ old('phone', $dataDetail->phone) }}" placeholder="{{ __('dashboard.phone') }}" required>
                                         <i class="ri-phone-line position-absolute top-50 start-0 translate-middle-y fs-20 text-gray-light ps-20"></i>
                                     </div>
                                     @error('phone')
@@ -118,7 +118,7 @@
                                 <div class="form-group mb-4">
                                     <label class="label @error('bio') text-danger @enderror">{{ __('dashboard.bio') }}</label>
                                     <div class="form-group position-relative">
-                                        <textarea id="bio" name="bio" class="form-control ps-5 text-dark @error('bio') border border-danger rounded-3 border-3 @enderror" placeholder="{{ __('dashboard.bio') }}Bio Data ... " cols="30" rows="5" required>{{ old('bio', $dataDetail->bio) }}</textarea>
+                                        <textarea id="bio" name="bio" class="form-control ps-5 text-dark @error('bio') border border-danger rounded-3 border-3 @enderror" placeholder="{{ __('dashboard.bio') }}" cols="30" rows="5" required>{{ old('bio', $dataDetail->bio) }}</textarea>
                                         <i class="ri-information-line position-absolute top-0 start-0 fs-20 text-gray-light ps-20 pt-2"></i>
                                     </div>
                                     @error('bio')
@@ -130,7 +130,7 @@
                                 <div class="form-group mb-4">
                                     <label class="label @error('username') text-danger @enderror">{{ __('dashboard.username') }}</label>
                                     <div class="form-group position-relative">
-                                        <input type="text" id="username" name="username" data-pristine-pattern="/[a-z]+$/i" class="form-control text-dark ps-5 h-58 @error('username') border border-danger rounded-3 border-3 @enderror" value="{{ old('username', $dataDetail->username) }}" placeholder="{{ __('dashboard.username') }}Enter Username" required>
+                                        <input type="text" id="username" name="username" data-pristine-pattern="/[a-z]+$/i" class="form-control text-dark ps-5 h-58 @error('username') border border-danger rounded-3 border-3 @enderror" value="{{ old('username', $dataDetail->username) }}" placeholder="{{ __('dashboard.username') }}" required>
                                         <i class="ri-user-line position-absolute top-50 start-0 translate-middle-y fs-20 text-gray-light ps-20"></i>
                                     </div>
                                     @error('username')
