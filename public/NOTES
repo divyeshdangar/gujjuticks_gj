@@ -29,3 +29,8 @@ https://arjunamrutiya.medium.com/a-step-by-step-guide-to-laravel-events-and-list
 
 php artisan make:event UserCreated
 php artisan make:listener UserCreatedListner --event=UserCreated
+
+git config --global user.name "Divyesh Dangar"
+git config --global user.email "divyeshdangar95@gmail.com"
+git config user.name "Divyesh Dangar"
+git config user.email "divyeshdangar95@gmail.com"
