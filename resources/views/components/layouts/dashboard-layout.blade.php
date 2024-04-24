@@ -207,13 +207,13 @@
                                         </div>
                                     </div>
                                 </li> --}}
-                                {{-- <li class="header-right-item">
+                                <li class="header-right-item">
                                     <div class="dropdown notifications noti">
                                         <a href="{{ route('user.notification.list') }}" class="btn btn-secondary border-0 p-0 position-relative badge">
                                             <i data-feather="bell"></i>
                                         </a>
                                     </div>
-                                </li> --}}
+                                </li>
                                 <li class="header-right-item d-none d-md-block">
                                     <div class="today-date">
                                         <span id="digitalDate"></span>
