@@ -1,5 +1,3 @@
 ---
 deployment:
-  tasks:
-    - export DEPLOYPATH=/home/ccpekiqg/public_html
-    - /usr/local/cpanel/3rdparty/bin/git -C $DEPLOYPATH pull origin main
+  - /usr/local/cpanel/3rdparty/bin/git -C /home/ccpekiqg/public_html pull origin master
