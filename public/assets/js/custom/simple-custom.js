@@ -7,5 +7,13 @@
 		if (getPreloaderId) {
 			getPreloaderId.style.display = 'none';
 		}
+
+		try {
+			console.log(message)
+			if(message){
+				Swal.fire(message.title, message.description, message.type);
+			}
+		} catch (err) { }
+
 	};
 })();

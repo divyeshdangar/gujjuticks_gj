@@ -81,6 +81,12 @@
                         <span class="title">{{ __('dashboard.notification') }}</span>
                     </a>
                 </li>
+                <li class="menu-item">
+                    <a href="{{ route('dashboard.contact') }}" class="menu-link">
+                        <i data-feather="phone" class="menu-icon tf-icons"></i>
+                        <span class="title">{{ __('dashboard.contact') }}</span>
+                    </a>
+                </li>
             </ul>
         </aside>
 
@@ -207,13 +213,13 @@
                                         </div>
                                     </div>
                                 </li> --}}
-                                {{-- <li class="header-right-item">
+                                <li class="header-right-item">
                                     <div class="dropdown notifications noti">
                                         <a href="{{ route('user.notification.list') }}" class="btn btn-secondary border-0 p-0 position-relative badge">
                                             <i data-feather="bell"></i>
                                         </a>
                                     </div>
-                                </li> --}}
+                                </li>
                                 <li class="header-right-item d-none d-md-block">
                                     <div class="today-date">
                                         <span id="digitalDate"></span>
@@ -285,7 +291,7 @@
 
             <!-- Start Footer Area -->
             <footer class="footer-area bg-white text-center rounded-top-10">
-                <p class="fs-14">© <span class="text-primary">{{ __('dashboard.gujjuticks') }}</span> - {{ __('dashboard.made_in') }}</a></p>
+                <p class="fs-14">© <span class="text-primary">{{ __('dashboard.gujjuticks') }}</span> - {{ __('dashboard.made_in') }}</p>
             </footer>
             <!-- End Footer Area -->
         </div>

@@ -4,7 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\User\NotificationController;
 use App\Http\Controllers\User\ProfileController;
+use App\Http\Controllers\Dashboard\ContactController;
 use App\Http\Middleware\CheckIfLogin;
+use App\Http\Controllers\Pages\FormController;
+use App\Http\Controllers\Auth\GoogleLoginController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -34,11 +37,15 @@ Route::middleware([CheckIfLogin::class])->group(function () {
     Route::get('user/profile/edit', [ProfileController::class, 'index'])->name('user.profile.edit');
     Route::post('user/profile/edit', [ProfileController::class, 'store'])->name('user.profile.edit.post');
 
+    Route::get('dashboard/contact', [ContactController::class, 'index'])->name('dashboard.contact');
 });
 
 
 Route::get('login', [LoginController::class, 'authenticate'])->name('login');
 Route::get('logout', [LoginController::class, 'logout'])->name('logout');
 
-Route::get('/google/redirect', [App\Http\Controllers\Auth\GoogleLoginController::class, 'redirectToGoogle'])->name('google.redirect');
-Route::get('/google/callback', [App\Http\Controllers\Auth\GoogleLoginController::class, 'handleGoogleCallback'])->name('google.callback');
+Route::get('contact-us', [FormController::class, 'show'])->name('form.contact');
+Route::post('contact-us', [FormController::class, 'store'])->name('form.contact.post');
+
+Route::get('google/redirect', [GoogleLoginController::class, 'redirectToGoogle'])->name('google.redirect');
+Route::get('google/callback', [GoogleLoginController::class, 'handleGoogleCallback'])->name('google.callback');
