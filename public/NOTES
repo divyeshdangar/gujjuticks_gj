@@ -22,7 +22,8 @@ Create model
 php artisan make:model Flight
 php artisan make:model Flight --migration //create migration as well
 
-
+php artisan db:seed
+php artisan db:seed --class=LocationSeeder
 
 Event
 https://arjunamrutiya.medium.com/a-step-by-step-guide-to-laravel-events-and-listeners-with-examples-634d7a018fa0
