@@ -7,11 +7,10 @@ use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\Dashboard\ContactController;
 use App\Http\Middleware\CheckIfLogin;
 use App\Http\Controllers\Pages\FormController;
+use App\Http\Controllers\Pages\HomeController;
 use App\Http\Controllers\Auth\GoogleLoginController;
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
+Route::get('/', [HomeController::class, 'show'])->name('home');
 
 Route::get('/test', function () {
     return view('test');

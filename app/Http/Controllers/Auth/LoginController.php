@@ -15,8 +15,8 @@ class LoginController extends Controller
             $message = [
                 "message" => [
                     "type" => "info",
-                    "title" => "Wait!",
-                    "description" => "Already logged in."
+                    "title" => __('dashboard.wait'),
+                    "description" => __('dashboard.already_login')    
                 ]
             ];
             return redirect()->route('dashboard')->with($message);

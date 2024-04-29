@@ -30,9 +30,20 @@
     <x-common.meta :metaData="$metaData">
     </x-common.meta>
 
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-TWRDGF8');</script>
+    <!-- End Google Tag Manager -->
 </head>
 
 <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TWRDGF8" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
     <!-- Start Preloader Area -->
     <div class="preloader" id="preloader">
         <div class="preloader">
@@ -83,7 +94,7 @@
                 </li>
                 <li class="menu-item">
                     <a href="{{ route('dashboard.contact') }}" class="menu-link">
-                        <i data-feather="phone" class="menu-icon tf-icons"></i>
+                        <i data-feather="mail" class="menu-icon tf-icons"></i>
                         <span class="title">{{ __('dashboard.contact') }}</span>
                     </a>
                 </li>
@@ -123,7 +134,7 @@
                                 </li>
                                 <li>
                                     <form class="src-form position-relative">
-                                        <input type="text" class="form-control" placeholder="{{ __('dashboard.search_here') }}">
+                                        <input type="text" name="search" class="form-control" placeholder="{{ __('dashboard.search_here') }}">
                                         <button type="submit" class="src-btn position-absolute top-50 end-0 translate-middle-y bg-transparent p-0 border-0">
                                             <i data-feather="search"></i>
                                         </button>
