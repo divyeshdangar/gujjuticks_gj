@@ -22,8 +22,8 @@ class GoogleLoginController extends Controller
         $message = [
             "message" => [
                 "type" => "success",
-                "title" => "Woow!",
-                "description" => "Login successfully."
+                "title" => __('dashboard.woow'),
+                "description" => __('dashboard.login_successfully')
             ]
         ];
         if (!$user) {

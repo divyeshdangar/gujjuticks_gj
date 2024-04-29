@@ -22,8 +22,8 @@ class ProfileController extends Controller
             $message = [
                 "message" => [
                     "type" => "error",
-                    "title" => "Bad move!",
-                    "description" => "No user found."
+                    "title" => __('dashboard.bad'),
+                    "description" => __('dashboard.no_record_found')
                 ]
             ];
             return redirect()->route('dashboard')->with($message);
@@ -39,8 +39,8 @@ class ProfileController extends Controller
             $message = [
                 "message" => [
                     "type" => "error",
-                    "title" => "Bad move!",
-                    "description" => "No user found."
+                    "title" => __('dashboard.bad'),
+                    "description" => __('dashboard.no_record_found')
                 ]
             ];
             return redirect()->route('dashboard')->with($message);
@@ -72,8 +72,8 @@ class ProfileController extends Controller
             $message = [
                 "message" => [
                     "type" => "success",
-                    "title" => "Good job!",
-                    "description" => "Profile updated successfully."
+                    "title" => __('dashboard.great'),
+                    "description" => __('dashboard.details_submitted')
                 ]
             ];
             return redirect()->route('dashboard')->with($message);

@@ -1,4 +1,5 @@
 <?php
+use Illuminate\Support\Facades\Facade;
 
 return [
 
@@ -122,5 +123,13 @@ return [
         'driver' => env('APP_MAINTENANCE_DRIVER', 'file'),
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
+
+    // 'aliases'=> [
+    //     'CommonHelper' => ''
+    // ]
+
+    'aliases' => Facade::defaultAliases()->merge([
+        'CommonHelper' => App\Helpers\CommonHelper::class,
+    ])->toArray(),
 
 ];

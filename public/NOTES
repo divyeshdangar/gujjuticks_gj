@@ -1,3 +1,14 @@
+TO CREATE NEW PAGE
+
+1. Create controller
+php artisan make:controller Pages/FormController
+
+2.
+
+
+
+
+
 Component + Layout
 https://beyondco.de/blog/blade-components-for-your-layout
 
@@ -9,7 +20,7 @@ php artisan make:component Alert
 php artisan make:component forms.input --view
 
 Create controller
-php artisan make:controller User/NotificationController
+php artisan make:controller Pages/HomeController
 
 
 Create migration

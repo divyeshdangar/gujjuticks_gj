@@ -23,8 +23,18 @@ class CheckIfLogin
             App::setLocale(Session::get('locale'));
         }
 
-
         if (Auth::check()) {
+            $adminOnly = ['dashboard/contact'];
+            if(in_array($request->route()->uri(), $adminOnly) && Auth::user()->email!='gujjuticks@gmail.com'){
+                $message = [
+                    "message" => [
+                        "type" => "error",
+                        "title" => __('dashboard.bad'),
+                        "description" => __('dashboard.for_admin_only')
+                    ]
+                ];
+                return redirect()->route('dashboard')->with($message);
+            }
             return $next($request);
         } else {
             return redirect()->route('login');
