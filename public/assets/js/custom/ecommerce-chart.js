@@ -384,7 +384,11 @@
             }
         },
     };
-    document.querySelector("#ratings_chart").innerHTML = " ";
+    try {
+        document.querySelector("#ratings_chart").innerHTML = " ";        
+    } catch (error) {
+        
+    }
     var chart = new ApexCharts(document.querySelector("#ratings_chart"), options);
     chart.render();
     function Candidates() {
@@ -475,7 +479,11 @@
             }
         },
     };
-    document.querySelector("#live_visits_on_our_site").innerHTML = " ";
+    try {
+        document.querySelector("#live_visits_on_our_site").innerHTML = " ";        
+    } catch (error) {
+        
+    }
     var chart = new ApexCharts(document.querySelector("#live_visits_on_our_site"), options);
     chart.render();
     function Candidates() {

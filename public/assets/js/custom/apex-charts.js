@@ -383,7 +383,11 @@
             }
         },
     };
-    document.querySelector("#ratings_chart").innerHTML = " ";
+	try {
+		document.querySelector("#ratings_chart").innerHTML = " ";		
+	} catch (error) {
+		
+	}
     var chart = new ApexCharts(document.querySelector("#ratings_chart"), options);
     chart.render();
     function Candidates() {

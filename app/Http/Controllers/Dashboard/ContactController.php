@@ -10,10 +10,8 @@ class ContactController extends Controller
 {
     public function index(Request $request)
     {
-
         $dataList = ContactUs::orderBy('id', 'DESC');
         $dataList = $dataList->searching()->paginate(10)->withQueryString();
         return view('dashboard.contact.index', ['dataList' => $dataList]);
     }
-
 }

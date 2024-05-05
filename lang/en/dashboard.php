@@ -65,4 +65,14 @@ return [
     'already_login' => 'Already logged in.',
     'details_submitted' => 'Details submited successfully.',
     'no_record_found' => 'No record found.',
+    'image' => 'Image',
+    'title' => 'Title',
+    'description' => 'Description',
+    'action' => 'Action',
+    'dynamic_images' => 'Dynamic Images',
+    'download'=>'Download',
+    'image_content'=>'Image Content',
+    'preview'=>'Preview',
+    'code'=>'Code',
+    'basic_info'=>'Basic Information'
 ];

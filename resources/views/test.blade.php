@@ -5,7 +5,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Bootstrap demo</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
     <style>
@@ -20,16 +21,19 @@
 <body>
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-4">
+            <div class="col-md-10 col-lg-6">
                 <a id="lnkDownload" class="btn btn-primary btn-block">Save image</a>
                 <div id="fabric-canvas-wrapper" class="hd-none">
-                    <canvas id="canvas" width="1080" height="1920" style="border: 1px solid blue; position: absolute !important;"></canvas>
+                    <canvas id="canvas" width="1811" height="2560"
+                        style="border: 1px solid blue; position: absolute !important;"></canvas>
                 </div>
             </div>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
+    </script>
     <script src="http://unpkg.com/fabric/dist/fabric.min.js"></script>
     <script>
         window.addEventListener('load', function(event) {
@@ -38,143 +42,119 @@
 
             var objData = {
                 "objects": [{
-                    "type": "image",
-                    "left": 50,
-                    "top": 305,
-                    "fill": null,
-                    "overlayFill": null,
-                    "stroke": null,
-                    "strokeWidth": 1,
-                    "strokeDashArray": null,
-                    "src":"images/dynamic/demo-user.jpg",
-                    "scaleX": 1,
-                    "scaleY": 1,
-                    "angle": 0,
-                    "flipX": false,
-                    "flipY": false,
-                    "opacity": 1,
-                    "selectable": false,
-                    "hasControls": false,
-                    "hasBorders": false,
-                    "hasRotatingPoint": false,
-                    "transparentCorners": true,
-                    "perPixelTargetFind": false,
-                    "rx": 0,
-                    "ry": 0
-                }, {
-                    "type": "image",
-                    "left": 0,
-                    "top": 0,
-                    "fill": null,
-                    "overlayFill": null,
-                    "stroke": null,
-                    "strokeWidth": 1,
-                    "strokeDashArray": null,
-                    "src":"images/dynamic/happy-birthday-blue-template.png",
-                    "scaleX": 1,
-                    "scaleY": 1,
-                    "angle": 0,
-                    "flipX": false,
-                    "flipY": false,
-                    "opacity": 1,
-                    "selectable": false,
-                    "hasControls": false,
-                    "hasBorders": false,
-                    "hasRotatingPoint": false,
-                    "transparentCorners": true,
-                    "perPixelTargetFind": false,
-                    "rx": 0,
-                    "ry": 0
-                }, {
-                    "type": "image",
-                    "left": 332,
-                    "top": 160,
-                    "fill": null,
-                    "overlayFill": null,
-                    "stroke": null,
-                    "strokeWidth": 1,
-                    "strokeDashArray": null,
-                    "src":"images/dynamic/logo_gujjuticks_white.png",
-                    "scaleX": 1,
-                    "scaleY": 1,
-                    "angle": 0,
-                    "flipX": false,
-                    "flipY": false,
-                    "opacity": 1,
-                    "selectable": false,
-                    "hasControls": false,
-                    "hasBorders": false,
-                    "hasRotatingPoint": false,
-                    "transparentCorners": true,
-                    "perPixelTargetFind": false,
-                    "rx": 0,
-                    "ry": 0
-                }, 
-                // {
-                //     "type": "rect",
-                //     "left": 50,
-                //     "top": 50,
-                //     "width": 200,
-                //     "height": 200,
-                //     "fill": "green",
-                //     "overlayFill": null,
-                //     "stroke": null,
-                //     "strokeWidth": 1,
-                //     "strokeDashArray": null,
-                //     "scaleX": 1,
-                //     "scaleY": 1,
-                //     "angle": 0,
-                //     "flipX": false,
-                //     "flipY": false,
-                //     "opacity": 1,
-                //     "selectable": true,
-                //     "hasControls": false,
-                //     "hasBorders": false,
-                //     "hasRotatingPoint": false,
-                //     "transparentCorners": true,
-                //     "perPixelTargetFind": false,
-                //     "rx": 0,
-                //     "ry": 0
-                // }, {
-                //     "type": "circle",
-                //     "left": 100,
-                //     "top": 150,
-                //     "width": 600,
-                //     "height": 600,
-                //     "fill": "red",
-                //     "overlayFill": null,
-                //     "stroke": null,
-                //     "strokeWidth": 1,
-                //     "strokeDashArray": null,
-                //     "scaleX": 1,
-                //     "scaleY": 1,
-                //     "angle": 0,
-                //     "flipX": false,
-                //     "flipY": false,
-                //     "opacity": 1,
-                //     "selectable": true,
-                //     "hasControls": false,
-                //     "hasBorders": false,
-                //     "hasRotatingPoint": false,
-                //     "transparentCorners": true,
-                //     "perPixelTargetFind": false,
-                //     "radius": 50
-                // }
+                        "rx": 0,
+                        "ry": 0,
+                        "src": "http://127.0.0.1:8000/images/dynamic/GH.jpg",
+                        "top": 0,
+                        "left": 0,
+                        "type": "image",
+                        "angle": 0,
+                        "flipX": false,
+                        "flipY": false,
+                        "scaleX": 1,
+                        "scaleY": 1,
+                        "stroke": null,
+                        "opacity": 1,
+                        "hasBorders": false,
+                        "selectable": false,
+                        "hasControls": false,
+                        "overlayFill": null,
+                        "strokeWidth": 1,
+                        "strokeDashArray": null,
+                        "hasRotatingPoint": false,
+                        "perPixelTargetFind": false,
+                        "transparentCorners": true
+                    },
+                    {
+                        "top": 1000,
+                        "fill": "rgba(0, 0, 0, 1)",
+                        "left": 200,
+                        "text": "यहा लिखे Write Here આહિયા લખો",
+                        "type": "textbox",
+                        "width": 1411,
+                        "height": 1500,
+                        "textAlign": "center",
+                        "fontWeight": "bold",
+                        "hasBorders": true,
+                        "selectable": true,
+                        "hasControls": true,
+                        "overlayFill": null,
+                        "lockMovementX": true,
+                        "backgroundColor": "rgba(255, 255, 255, 0)"
+                    },
+                    {
+                        "top": 850,
+                        "fill": "rgba(0, 0, 0, 1)",
+                        "left": 1150,
+                        "text": "તા - ૪ ફેબ્રુઆરી ૨૦૨૪",
+                        "type": "textbox",
+                        "width": 500,
+                        "textAlign": "left",
+                        "hasBorders": true,
+                        "selectable": true,
+                        "hasControls": true,
+                        "overlayFill": null,
+                        "lockMovementX": true,
+                        "lockMovementY": true,
+                        "backgroundColor": "rgba(255, 255, 255, 0)"
+                    },
+                    {
+                        "top": 850,
+                        "fill": "rgba(0, 0, 0, 1)",
+                        "left": 200,
+                        "text": "#1",
+                        "type": "textbox",
+                        "width": 300,
+                        "textAlign": "left",
+                        "hasBorders": true,
+                        "selectable": true,
+                        "hasControls": true,
+                        "overlayFill": null,
+                        "lockMovementX": true,
+                        "lockMovementY": true,
+                        "backgroundColor": "rgba(255, 255, 255, 0)"
+                    },
+                    {
+                        "rx": 50,
+                        "ry": 50,
+                        "top": 1500,
+                        "src": "http://127.0.0.1:8000/images/dynamic/demo-user.jpg",
+                        "left": 755,
+                        "type": "image",
+                        "hasBorders": true,
+                        "centeredScaling": false,
+                        "scaleX": 0.5,
+                        "scaleY": 0.5,
+                        // "originX": "center",
+                        // "originY": "center"
+                        // "selectable": true,
+                        // "hasControls": true,
+                        // "overlayFill": null,
+                        // "lockMovementX": true,
+                        // "lockMovementY": true
+                    }
                 ],
-                "background": "rgba(255, 150, 10, 1)"
+                "background": "#000000"
             };
-            canvas.loadFromJSON(objData, function() {
-                canvas.renderAll();
-            }, function(o, object) {
-                console.log(o, object)
-            })
+
+            //oCoords, aCoords
+
+            setTimeout(() => {
+                canvas.loadFromJSON(objData, function() {
+                    setTimeout(() => {
+                        canvas.renderAll();                        
+                    }, 100);
+                }, function(o, object) {
+                    console.log(o, object)
+                })
+            }, 1000);
 
 
             var imageSaver = document.getElementById('lnkDownload');
             imageSaver.addEventListener('click', saveImage, false);
 
             function saveImage(e) {
-                resizeCanvas(1080);
+                resizeCanvas(1811);
                 this.href = canvas.toDataURL({
                     format: 'jpeg',
                     quality: 1

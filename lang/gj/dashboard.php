@@ -64,4 +64,14 @@ return [
     'already_login' => 'પહેલેથી લૉગિન ઇન.',
     'details_submitted' => 'વિગતો સફળતાપૂર્વક સબમિટ.',
     'no_record_found' => 'કોઈ રેકોર્ડ મળ્યો નથી.',
+    'image' => 'છબી',
+    'title' => 'શીર્ષક',
+    'description' => 'વર્ણન',
+    'action' => 'પગલાં લ્યો',
+    'dynamic_images' => 'ગતિશીલ છબીઓ',
+    'download'=>'ડાઉનલોડ',
+    'image_content'=>'ચિત્ર સમાવિષ્ટ',
+    'preview'=>'પૂર્વદર્શન',
+    'code'=>'કોડ',
+    'basic_info'=>'મૂળભૂત જાણકારી'
 ];

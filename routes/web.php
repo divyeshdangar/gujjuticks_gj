@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\User\NotificationController;
 use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\Dashboard\ContactController;
+use App\Http\Controllers\Dashboard\ImageController;
 use App\Http\Middleware\CheckIfLogin;
 use App\Http\Controllers\Pages\FormController;
 use App\Http\Controllers\Pages\HomeController;
@@ -37,6 +38,11 @@ Route::middleware([CheckIfLogin::class])->group(function () {
     Route::post('user/profile/edit', [ProfileController::class, 'store'])->name('user.profile.edit.post');
 
     Route::get('dashboard/contact', [ContactController::class, 'index'])->name('dashboard.contact');
+    
+    Route::get('dashboard/image', [ImageController::class, 'index'])->name('dashboard.image');
+    Route::get('dashboard/image/edit/{id}', [ImageController::class, 'edit'])->name('dashboard.image.edit');
+    Route::get('dashboard/image/view/{id}', [ImageController::class, 'view'])->name('dashboard.image.view');
+    Route::get('dashboard/image/delete/{id}', [ImageController::class, 'delete'])->name('dashboard.image.delete');
 });
 
 

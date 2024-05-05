@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/flaticon.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/sidebar-menu.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/simplebar.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/apexcharts.css') }}">
+    {{-- <link rel="stylesheet" href="{{ asset('assets/css/apexcharts.css') }}"> --}}
     <link rel="stylesheet" href="{{ asset('assets/css/prism.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/rangeslider.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/sweetalert.min.css') }}">
@@ -81,6 +81,15 @@
                     <a href="{{ route('dashboard') }}" class="menu-link">
                         <i data-feather="grid" class="menu-icon tf-icons"></i>
                         <span class="title">{{ __('dashboard.dashboard') }}</span>
+                    </a>
+                </li>
+                <li class="menu-title small text-uppercase">
+                    <span class="menu-title-text">{{ __('dashboard.dynamic_images') }}</span>
+                </li>
+                <li class="menu-item">
+                    <a href="{{ route('dashboard.image') }}" class="menu-link">
+                        <i data-feather="image" class="menu-icon tf-icons"></i>
+                        <span class="title">{{ __('dashboard.image') }}</span>
                     </a>
                 </li>
                 <li class="menu-title small text-uppercase">
@@ -324,10 +333,11 @@
     <script src="{{ asset('assets/js/clipboard.min.js') }}"></script>
     <script src="{{ asset('assets/js/feather.min.js') }}"></script>
     <script src="{{ asset('assets/js/simplebar.min.js') }}"></script>
-    <script src="{{ asset('assets/js/apexcharts.min.js') }}"></script>
-    <script src="{{ asset('assets/js/amcharts.js') }}"></script>
-    <script src="{{ asset('assets/js/custom/ecommerce-chart.js') }}"></script>
-    <script src="{{ asset('assets/js/custom/profile.js') }}"></script>
+    {{-- <script src="{{ asset('assets/js/apexcharts.min.js') }}"></script> --}}
+    {{-- <script src="{{ asset('assets/js/amcharts.js') }}"></script> --}}
+    {{-- <script src="{{ asset('assets/js/custom/ecommerce-chart.js') }}"></script> --}}
+    {{-- <script src="{{ asset('assets/js/custom/profile.js') }}"></script> --}}
+    <script src="http://unpkg.com/fabric/dist/fabric.min.js"></script>
     <script src="{{ asset('assets/js/custom/custom.js') }}"></script>
 
 
