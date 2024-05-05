@@ -24,7 +24,7 @@ class CheckIfLogin
         }
 
         if (Auth::check()) {
-            $adminOnly = ['dashboard/contact'];
+            $adminOnly = ['dashboard/contact', 'dashboard/image'];
             if(in_array($request->route()->uri(), $adminOnly) && Auth::user()->email!='gujjuticks@gmail.com'){
                 $message = [
                     "message" => [

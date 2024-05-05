@@ -124,9 +124,9 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
-    // 'aliases'=> [
-    //     'CommonHelper' => ''
-    // ]
+    'paths' => [
+        'dynamic_image' => 'file'
+    ],
 
     'aliases' => Facade::defaultAliases()->merge([
         'CommonHelper' => App\Helpers\CommonHelper::class,

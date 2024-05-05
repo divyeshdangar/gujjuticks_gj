@@ -64,4 +64,14 @@ return [
     'already_login' => 'पहले से लॉग्ड इन।',
     'details_submitted' => 'विवरण सफलतापूर्वक प्रस्तुत किया गया।',
     'no_record_found' => 'कोई रिकॉर्ड नहीं मिला।',
+    'image' => 'छवि',
+    'title' => 'शीर्षक',
+    'description' => 'विवरण',
+    'action' => 'कार्रवाई',
+    'dynamic_images' => 'गतिशील छवियाँ',
+    'download'=>'डाउनलोड',
+    'image_content'=>'छवि सामग्री',
+    'preview'=>'पूर्वसमीक्षा',
+    'code'=>'कोड',
+    'basic_info'=>'बुनियादी जानकारी'
 ];
