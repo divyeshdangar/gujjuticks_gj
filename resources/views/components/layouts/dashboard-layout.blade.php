@@ -15,7 +15,8 @@
     <link rel="stylesheet" href="{{ asset('assets/css/prism.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/rangeslider.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/sweetalert.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/quill.snow.css') }}">
+    {{-- <link rel="stylesheet" href="{{ asset('assets/css/quill.snow.css') }}"> --}}
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.1/dist/quill.snow.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
 
     <?php
@@ -83,6 +84,19 @@
                         <span class="title">{{ __('dashboard.dashboard') }}</span>
                     </a>
                 </li>
+
+
+                <li class="menu-title small text-uppercase">
+                    <span class="menu-title-text">{{ __('dashboard.public_features') }}</span>
+                </li>
+                <li class="menu-item">
+                    <a href="{{ route('dashboard.blog') }}" class="menu-link">
+                        <i data-feather="list" class="menu-icon tf-icons"></i>
+                        <span class="title">{{ __('dashboard.blog') }}</span>
+                    </a>
+                </li>
+
+
                 <li class="menu-title small text-uppercase">
                     <span class="menu-title-text">{{ __('dashboard.dynamic_images') }}</span>
                 </li>
@@ -327,7 +341,8 @@
     <script src="{{ asset('assets/js/dragdrop.js') }}"></script>
     <script src="{{ asset('assets/js/rangeslider.min.js') }}"></script>
     <script src="{{ asset('assets/js/sweetalert.js') }}"></script>
-    <script src="{{ asset('assets/js/quill.min.js') }}"></script>
+    {{-- <script src="{{ asset('assets/js/quill.min.js') }}"></script> --}}
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.1/dist/quill.js"></script>
     <script src="{{ asset('assets/js/data-table.js') }}"></script>
     <script src="{{ asset('assets/js/prism.js') }}"></script>
     <script src="{{ asset('assets/js/clipboard.min.js') }}"></script>

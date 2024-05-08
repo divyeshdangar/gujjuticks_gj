@@ -70,9 +70,12 @@ return [
     'description' => 'Description',
     'action' => 'Action',
     'dynamic_images' => 'Dynamic Images',
-    'download'=>'Download',
-    'image_content'=>'Image Content',
-    'preview'=>'Preview',
-    'code'=>'Code',
-    'basic_info'=>'Basic Information'
+    'download' => 'Download',
+    'image_content' => 'Image Content',
+    'preview' => 'Preview',
+    'code' => 'Code',
+    'basic_info' => 'Basic Information',
+    'public_features' => 'Public Features',
+    'blog' => 'Blog',
+    'slug' => 'Slug',
 ];
