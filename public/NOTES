@@ -20,7 +20,7 @@ php artisan make:component Alert
 php artisan make:component forms.input --view
 
 Create controller
-php artisan make:controller Pages/HomeController
+php artisan make:controller Pages/BlogController
 
 
 Create migration
@@ -31,7 +31,7 @@ php artisan migrate
 
 Create model
 php artisan make:model Flight
-php artisan make:model Flight --migration //create migration as well
+php artisan make:model Blog --migration //create migration as well
 
 php artisan db:seed
 php artisan db:seed --class=LocationSeeder
