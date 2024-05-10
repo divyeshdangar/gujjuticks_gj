@@ -16,4 +16,11 @@
 		} catch (err) { }
 
 	};
+
+	try {
+		feather.replace();		
+	} catch (error) {
+		console.log(error)
+	}
+
 })();

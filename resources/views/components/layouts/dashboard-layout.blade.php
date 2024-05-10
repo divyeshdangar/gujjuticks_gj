@@ -85,7 +85,6 @@
                     </a>
                 </li>
 
-
                 <li class="menu-title small text-uppercase">
                     <span class="menu-title-text">{{ __('dashboard.public_features') }}</span>
                 </li>
@@ -95,7 +94,6 @@
                         <span class="title">{{ __('dashboard.blog') }}</span>
                     </a>
                 </li>
-
 
                 <li class="menu-title small text-uppercase">
                     <span class="menu-title-text">{{ __('dashboard.dynamic_images') }}</span>

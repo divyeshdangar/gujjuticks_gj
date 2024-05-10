@@ -7,6 +7,7 @@ use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\Dashboard\ContactController;
 use App\Http\Controllers\Dashboard\ImageController;
 use App\Http\Controllers\Dashboard\BlogController;
+use App\Http\Controllers\Pages\BlogController as PublicBlogController;
 use App\Http\Middleware\CheckIfLogin;
 use App\Http\Controllers\Pages\FormController;
 use App\Http\Controllers\Pages\HomeController;
@@ -59,6 +60,8 @@ Route::get('logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::get('contact-us', [FormController::class, 'show'])->name('form.contact');
 Route::post('contact-us', [FormController::class, 'store'])->name('form.contact.post');
+
+Route::get('blogs', [PublicBlogController::class, 'index'])->name('pages.blog.list');
 
 Route::get('google/redirect', [GoogleLoginController::class, 'redirectToGoogle'])->name('google.redirect');
 Route::get('google/callback', [GoogleLoginController::class, 'handleGoogleCallback'])->name('google.callback');
