@@ -86,6 +86,17 @@
                 </li>
 
                 <li class="menu-title small text-uppercase">
+                    <span class="menu-title-text">{{ __('dashboard.manage_Work') }}</span>
+                </li>
+                <li class="menu-item">
+                    <a href="{{ route('dashboard.board') }}" class="menu-link">
+                        <i data-feather="list" class="menu-icon tf-icons"></i>
+                        <span class="title">{{ __('dashboard.board') }}</span>
+                    </a>
+                </li>
+
+
+                <li class="menu-title small text-uppercase">
                     <span class="menu-title-text">{{ __('dashboard.public_features') }}</span>
                 </li>
                 <li class="menu-item">

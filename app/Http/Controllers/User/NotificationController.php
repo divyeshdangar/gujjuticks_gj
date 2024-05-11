@@ -17,6 +17,6 @@ class NotificationController extends Controller
                 $value->msg = __($value->message_tag, ['user' => ucwords($value->user->name)]);
             }
         }
-        return view('pages.user.notification', ['dataList' => $dataList]);
+        return view('pages.user.notification', ['dataList' => $dataList, 'metaData' => []]);
     }
 }

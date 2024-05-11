@@ -13,16 +13,17 @@ class BlogController extends Controller
 {
     public function index(Request $request)
     {
+        $metaData = [];
         $dataList = Blog::orderBy('id', 'DESC');
         $dataList = $dataList->searching()->paginate(10)->withQueryString();
-        return view('dashboard.blog.index', ['dataList' => $dataList]);
+        return view('dashboard.blog.index', ['dataList' => $dataList, 'metaData' => $metaData]);
     }
 
     public function view(Request $request, $id)
     {
         $dataDetail = Blog::find($id);
         if($dataDetail) {
-            return view('dashboard.blog.view', ['dataDetail' => $dataDetail]);
+            return view('dashboard.blog.view', ['dataDetail' => $dataDetail, 'metaData' => []]);
         } else {
             $message = [
                 "message" => [
@@ -39,7 +40,7 @@ class BlogController extends Controller
     {
         $dataDetail = Blog::find($id);
         if($dataDetail) {
-            return view('dashboard.blog.edit', ['dataDetail' => $dataDetail]);
+            return view('dashboard.blog.edit', ['dataDetail' => $dataDetail, 'metaData' => []]);
         } else {
             $message = [
                 "message" => [
@@ -86,8 +87,6 @@ class BlogController extends Controller
 
     public function delete(Request $request, $id)
     {
-        $dataList = Blog::orderBy('id', 'DESC');
-        $dataList = $dataList->searching()->paginate(10)->withQueryString();
-        return view('dashboard.blog.index', ['dataList' => $dataList]);
+        //
     }
 }

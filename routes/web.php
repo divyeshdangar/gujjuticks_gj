@@ -7,7 +7,11 @@ use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\Dashboard\ContactController;
 use App\Http\Controllers\Dashboard\ImageController;
 use App\Http\Controllers\Dashboard\BlogController;
+use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Pages\BlogController as PublicBlogController;
+
+use App\Http\Controllers\Dashboard\BoardController;
+
 use App\Http\Middleware\CheckIfLogin;
 use App\Http\Controllers\Pages\FormController;
 use App\Http\Controllers\Pages\HomeController;
@@ -30,9 +34,7 @@ Route::get('language/{locale}', function ($locale) {
 })->name('language');
 
 Route::middleware([CheckIfLogin::class])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('pages/dashboard/home');
-    })->name('dashboard');
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('user/notification', [NotificationController::class, 'index'])->name('user.notification.list');
 
     Route::get('user/profile', [ProfileController::class, 'show'])->name('user.profile');
@@ -52,6 +54,7 @@ Route::middleware([CheckIfLogin::class])->group(function () {
     Route::get('dashboard/blog/view/{id}', [BlogController::class, 'view'])->name('dashboard.blog.view');
     Route::get('dashboard/blog/delete/{id}', [BlogController::class, 'delete'])->name('dashboard.blog.delete');
 
+    Route::get('dashboard/board', [BoardController::class, 'index'])->name('dashboard.board');
 });
 
 

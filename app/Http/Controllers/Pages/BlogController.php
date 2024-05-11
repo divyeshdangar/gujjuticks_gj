@@ -18,6 +18,6 @@ class BlogController extends Controller
             "url" => route('form.contact')
         ];
 
-        return view('pages.blog.list', ['metaData' => $metaData]);
+        return view('pages.blog.list', ['metaData' => $metaData, 'metaData' => []]);
     }
 }

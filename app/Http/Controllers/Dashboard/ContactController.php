@@ -12,6 +12,6 @@ class ContactController extends Controller
     {
         $dataList = ContactUs::orderBy('id', 'DESC');
         $dataList = $dataList->searching()->paginate(10)->withQueryString();
-        return view('dashboard.contact.index', ['dataList' => $dataList]);
+        return view('dashboard.contact.index', ['dataList' => $dataList, 'metaData' => []]);
     }
 }

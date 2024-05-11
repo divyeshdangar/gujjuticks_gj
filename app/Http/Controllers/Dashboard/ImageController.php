@@ -13,14 +13,14 @@ class ImageController extends Controller
     {
         $dataList = Image::orderBy('id', 'DESC');
         $dataList = $dataList->searching()->paginate(10)->withQueryString();
-        return view('dashboard.image.index', ['dataList' => $dataList]);
+        return view('dashboard.image.index', ['dataList' => $dataList, 'metaData' => []]);
     }
 
     public function view(Request $request, $id)
     {
         $dataDetail = Image::find($id);
         if($dataDetail) {
-            return view('dashboard.image.view', ['dataDetail' => $dataDetail]);
+            return view('dashboard.image.view', ['dataDetail' => $dataDetail, 'metaData' => []]);
         } else {
             $message = [
                 "message" => [
@@ -37,14 +37,14 @@ class ImageController extends Controller
     {
         $dataList = Image::orderBy('id', 'DESC');
         $dataList = $dataList->searching()->paginate(10)->withQueryString();
-        return view('dashboard.image.index', ['dataList' => $dataList]);
+        return view('dashboard.image.index', ['dataList' => $dataList, 'metaData' => []]);
     }
 
     public function delete(Request $request, $id)
     {
         $dataList = Image::orderBy('id', 'DESC');
         $dataList = $dataList->searching()->paginate(10)->withQueryString();
-        return view('dashboard.image.index', ['dataList' => $dataList]);
+        return view('dashboard.image.index', ['dataList' => $dataList, 'metaData' => []]);
     }
 
 }

@@ -20,7 +20,7 @@ php artisan make:component Alert
 php artisan make:component forms.input --view
 
 Create controller
-php artisan make:controller Pages/BlogController
+php artisan make:controller Pages/BoardItemController
 
 
 Create migration
