@@ -11,6 +11,7 @@ use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Pages\BlogController as PublicBlogController;
 
 use App\Http\Controllers\Dashboard\BoardController;
+use App\Http\Controllers\Dashboard\BoardItemController;
 
 use App\Http\Middleware\CheckIfLogin;
 use App\Http\Controllers\Pages\FormController;
@@ -55,6 +56,13 @@ Route::middleware([CheckIfLogin::class])->group(function () {
     Route::get('dashboard/blog/delete/{id}', [BlogController::class, 'delete'])->name('dashboard.blog.delete');
 
     Route::get('dashboard/board', [BoardController::class, 'index'])->name('dashboard.board');
+    Route::get('dashboard/board/create', [BoardController::class, 'create'])->name('dashboard.board.create');
+    Route::get('dashboard/board/edit/{id}', [BoardController::class, 'edit'])->name('dashboard.board.edit');
+    Route::post('dashboard/board/edit/{id}', [BoardController::class, 'store'])->name('dashboard.board.edit.post');
+    Route::get('dashboard/board/delete/{id}', [BoardController::class, 'delete'])->name('dashboard.board.delete');
+    Route::get('dashboard/board/{id}', [BoardController::class, 'view'])->name('dashboard.board.items');
+
+    Route::post('dashboard/work-item/edit', [BoardItemController::class, 'updateItem'])->name('dashboard.work_item.edit.post');
 });
 
 

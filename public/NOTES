@@ -16,8 +16,8 @@ Passing Data to Components
 https://laravel.com/docs/11.x/blade#passing-data-to-components
 
 Create component
-php artisan make:component Alert
-php artisan make:component forms.input --view
+php artisan make:component common/Breadcrumb //class and view file will be created
+php artisan make:component common.breadcrumb --view //only view file created
 
 Create controller
 php artisan make:controller Pages/BoardItemController

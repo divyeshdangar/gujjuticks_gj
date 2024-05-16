@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('slug')->index();
             $table->foreignId('user_id')->nullable();
             $table->text('description')->nullable();
+            $table->integer('total_work_items')->default(0);
             $table->timestamps();
         });
 
@@ -42,8 +43,10 @@ return new class extends Migration
         Schema::create('work_item_categories', function (Blueprint $table) {
             $table->id();
             $table->string('title');
+            $table->string('color', length: 8)->default('#000000');
             $table->foreignId('board_id')->nullable();
             $table->foreignId('user_id')->nullable();
+            $table->integer('order')->default(0);
             $table->timestamps();
         });
 

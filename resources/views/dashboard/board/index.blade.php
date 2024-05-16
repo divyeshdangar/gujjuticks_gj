@@ -1,129 +1,117 @@
 <x-layouts.dashboard-layout :metaData="$metaData">
+    @if ($metaData['breadCrumb'])
+        <x-common.breadcrumb :metaData="$metaData"></x-common.breadcrumb>
+    @endif
 
-    
-    <div class="d-sm-flex text-center justify-content-between align-items-center mb-4">
-        <h3 class="mb-sm-0 mb-1 fs-18">{{ __('dashboard.blog') }}</h3>
-        <ul class="ps-0 mb-0 list-unstyled d-flex justify-content-center">
-            <li>
-                <a href="{{ route('dashboard') }}" class="text-decoration-none">
-                    <i class="ri-home-2-line" style="position: relative; top: -1px;"></i>
-                    <span>{{ __('dashboard.home') }}</span>
-                </a>
-            </li>
-            @if ($metaData['breadCrumb'])
-                @foreach ($metaData['breadCrumb'] as $bc)
-                    @if (trim($bc['route']) != '')
-                        <li>
-                            <span class="fw-semibold fs-14 heading-font text-dark dot ms-2">
-                                <a href="{{ route($bc['route']) }}" class="text-decoration-none">
-                                    {{ $bc['title'] }}
-                                </a>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card bg-white border-0 rounded-10 border-bottom border-2 mb-4">
+                <div class="card-body p-4">
+                    <div class="d-sm-flex text-center justify-content-between align-items-center">
+                        <h4 class="fw-semibold fs-20 mb-sm-0"><i class="ri-clipboard-line"></i> Recent Boards</h4>
+                        <a href="{{ route('dashboard.board.create') }}" class="border-0 btn btn-dark py-2 px-3 px-sm-4 text-white fs-14 fw-semibold rounded-3">
+                            <span class="py-sm-1 d-block">
+                                <i class="ri-add-line text-white"></i>
+                                <span>Create New Board</span>
                             </span>
-                        </li>
-                    @else
-                        <li>
-                            <span class="fw-semibold fs-14 heading-font text-dark dot ms-2">{{ $bc['title'] }}</span>
-                        </li>
-                    @endif
-                @endforeach
-            @endif
-        </ul>
-    </div>
-    <div class="card bg-white border-0 rounded-10 mb-4">
-        <div class="card-body p-4">
-            <div class="d-sm-flex text-center justify-content-between align-items-center border-bottom pb-20 mb-20">
-                <h4 class="fw-semibold fs-18 mb-sm-0">{{ __('dashboard.blog') }}</h4>
-            </div>
-            <div class="default-table-area notification-list">
-                <form method="get" id="form">
-                    {{-- {{ csrf_field() }} --}}
-                    <div class="row mb-2">
-                        <div class="col-lg-3">
-                            <div class="form-group mb-2">
-                                <div class="form-group">
-                                    <input type="text" name="search"
-                                        value="{{ old('search', Request::get('search')) }}"
-                                        class="form-control text-dark" placeholder="Search here">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3">
-                            <div class="mb-2">
-                                <button type="submit"
-                                    class="border-0 btn btn-primary py-2 px-3 px-sm-4 text-white fs-16 rounded-3">
-                                    <span class="py-sm-1 d-block">
-                                        <span>{{ __('dashboard.search') }}</span>
-                                    </span>
-                                </button>
-                                <a href="{{ Request::url() }}" type="reset"
-                                    class="btn btn-outline-secondary hover-white py-2 px-3 px-sm-4 fs-16 rounded-3">
-                                    <span class="py-sm-1 d-block">
-                                        <span>{{ __('dashboard.clear') }}</span>
-                                    </span>
-                                </a>
-                            </div>
-                        </div>
+                        </a>
                     </div>
-                </form>
-                <div class="table-responsive">
-                    <table class="table align-middle">
-                        <thead>
-                            <tr>
-                                <th scope="col" class="text-primary">
-                                    <label class="form-check-label ms-2"
-                                        for="flexCheckDefault">#{{ __('dashboard.id') }}</label>
-                                </th>
-                                <th scope="col">{{ __('dashboard.image') }}</th>
-                                <th scope="col">{{ __('dashboard.title') }}</th>
-                                <th scope="col">{{ __('dashboard.date') }}</th>
-                                <th scope="col">{{ __('dashboard.action') }}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($dataList as $data)
-                                <tr>
-                                    <td>
-                                        #{{ $data->id }}
-                                    </td>
-                                    <td>
-                                        <a target="_blank" href="{{ URL::asset('/images/dynamic/' . $data->image) }}">
-                                            <img src="{{ URL::asset('/images/dynamic/' . $data->image) }}"
-                                                class="wh-110 rounded-circle">
-                                        </a>
-                                    </td>
-                                    <td class="ps-0">
-                                        <div class="d-flex align-items-center">
-                                            <span class="fw-semibold position-relative" style="top: 1px;">
-                                                {!! CommonHelper::highLight($data->title) !!}
-                                                <span>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        {{ $data->created_at->format('j F, Y') }}
-                                    </td>
-                                    <td>
-                                        <div class="dropdown action-opt">
-                                            <a class="btn bg p-1"
-                                                href="{{ route('dashboard.blog.view', ['id' => $data->id]) }}">
-                                                <i data-feather="eye"></i>
-                                            </a>
-                                            <a class="btn bg p-1"
-                                                href="{{ route('dashboard.blog.edit', ['id' => $data->id]) }}">
-                                                <i data-feather="edit-3"></i>
-                                            </a>
-                                            <a class="btn bg p-1"
-                                                href="{{ route('dashboard.blog.delete', ['id' => $data->id]) }}">
-                                                <i data-feather="trash-2"></i>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
                 </div>
-                {{ $dataList->links('vendor.pagination.bootstrap-5') }}
             </div>
         </div>
+        <div class="col-md-8">
+            @foreach ($dataList as $data)
+                <div class="card bg-white border-0 rounded-10 mb-4">
+                    <div class="d-flex justify-content-between mb-4 bg-dark p-3 rounded-3">
+                        <div class="">
+                            <h4 class="fs-20 text-light fw-semibold mb-2">{{ $data->title }}</h4>
+                            <p class="text-light">{{ $data->description }}</p>
+                        </div>
+
+                        <div class="dropdown action-opt">
+                            <button class="btn p-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i data-feather="more-horizontal" style="stroke: #ccc;"></i>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end bg-white border box-shadow">
+                                <li>
+                                    <a class="dropdown-item"
+                                        href="{{ route('dashboard.board.items', ['id' => $data->id]) }}">
+                                        <i data-feather="eye"></i>
+                                        Open Board
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('dashboard.board.edit', ['id' => $data->id]) }}">
+                                        <i data-feather="edit-3"></i>
+                                        Edit
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('dashboard.board.delete', ['id' => $data->id]) }}">
+                                        <i data-feather="trash-2"></i>
+                                        Delete
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="d-sm-flex align-items-center justify-content-between mb-4 border-bottom pb-4">
+                            <div class="d-flex align-items-center mb-3 mb-sm-0">
+                                <div class="flex-shrink-0">
+                                    <img src="{{ $data->user->profile }}" class="wh-60 rounded-circle" alt="user">
+                                </div>
+                                <div class="flex-grow-1 ms-3">
+                                    <h4 class="fs-16 fw-semibold mb-1">{{ ucwords($data->user->name) }}</h4>
+                                    <span class="fs-14 text-primary">Creator</span>
+                                </div>
+                            </div>
+
+                            <ul class="ps-0 mb-0 list-unstyled d-flex">
+
+                                @foreach ($data->users as $user)
+                                    <li @if ($loop->index) class="ms-8" @endif>
+                                        <img src="{{ $user->user->profile }}"
+                                            class="wh-38 rounded-circle border border-2 border-color-white"
+                                            alt="user" data-bs-toggle="tooltip" data-bs-placement="top"
+                                            data-bs-title="{{ ucwords($user->user->name) }}">
+                                    </li>
+                                @endforeach
+
+                                @if (count($data->users) > 3)
+                                    <li class="ms-1">
+                                        <a href="{{ route('dashboard.board.items', ['id' => $data->id]) }}" class="wh-38 rounded-circle bg-success bg-opacity-10 text-success text-decoration-none d-inline-block text-center position-relative">
+                                            <span class="position-absolute top-50 start-50 translate-middle">+{{ count($data->users) - 3 }}</span>
+                                        </a>
+                                    </li>
+                                @endif
+                            </ul>
+                        </div>
+
+                        <div class="d-sm-flex align-items-center justify-content-between">
+                            <div class="mb-3 mb-sm-0">
+                                <span
+                                    class="fs-12 mb-1 d-block fw-semibold text-gray-light">{{ $data->created_at->format('j F, Y') }}</span>
+                                <span class="fw-semibold d-block">{{ __('dashboard.date') }}</span>
+                            </div>
+                            <div class="mb-3 mb-sm-0">
+                                <span class="fs-12 mb-1 d-block fw-semibold text-gray-light">{{ $data->categories ? count($data->categories) : 0 }} Processes</span>
+                                <span class="fw-semibold d-block">{{ $data->items ? count($data->items) : 0 }} Items</span>
+                            </div>
+                            <a href="{{ route('dashboard.board.items', ['id' => $data->id]) }}"
+                                class="btn btn-primary bg-primary bg-opacity-10 text-primary border-0 py-2 px-3 mt-2 mt-sm-0">
+                                View Details
+                                <i class="ri-arrow-right-s-line"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+        <div class="col-md-8 mb-4">
+            {{ $dataList->links('vendor.pagination.bootstrap-5') }}
+        </div>
     </div>
+
+
 </x-layouts.dashboard-layout>

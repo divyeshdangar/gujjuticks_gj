@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/prism.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/rangeslider.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/sweetalert.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/plugin/jkanban/jkanban.css') }}">
     {{-- <link rel="stylesheet" href="{{ asset('assets/css/quill.snow.css') }}"> --}}
     <link href="https://cdn.jsdelivr.net/npm/quill@2.0.1/dist/quill.snow.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
@@ -361,6 +362,7 @@
     {{-- <script src="{{ asset('assets/js/amcharts.js') }}"></script> --}}
     {{-- <script src="{{ asset('assets/js/custom/ecommerce-chart.js') }}"></script> --}}
     {{-- <script src="{{ asset('assets/js/custom/profile.js') }}"></script> --}}
+    <script src="{{ asset('assets/plugin/jkanban/jkanban.js') }}"></script>
     <script src="http://unpkg.com/fabric/dist/fabric.min.js"></script>
     <script src="{{ asset('assets/js/custom/custom.js') }}"></script>
 
