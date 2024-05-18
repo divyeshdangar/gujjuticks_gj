@@ -21,6 +21,20 @@ class Notification extends Model
         'user_id2'
     ];
 
+    protected $searchable = [
+        'message_tag'
+    ];
+
+    public function scopeSearching($q)
+    {
+        if (request('search')) {
+            foreach ($this->searchable as $key => $value) {
+                $q->orwhere($value, 'LIKE', '%'.request('search').'%');
+            }
+        }
+        return $q;
+    }
+
     /**
      * Get the user.
      */
@@ -29,5 +43,9 @@ class Notification extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function user2()
+    {
+        return $this->belongsTo(User::class, 'user_id2');
+    }
 
 }

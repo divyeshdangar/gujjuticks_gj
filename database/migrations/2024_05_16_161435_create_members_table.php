@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->nullable();
             $table->foreignId('member_id')->nullable();
+            $table->string('email');
+            $table->integer('total_request')->default(1); // to allow user only few time to request
             $table->enum('status', ['1', '2', '0', '-1'])->default('0'); // 0: pending, 1: confirm, 2: deleted, -1: rejected
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users');

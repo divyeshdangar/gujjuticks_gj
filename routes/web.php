@@ -2,11 +2,12 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\User\NotificationController;
 use App\Http\Controllers\User\ProfileController;
+use App\Http\Controllers\Dashboard\NotificationController;
 use App\Http\Controllers\Dashboard\ContactController;
 use App\Http\Controllers\Dashboard\ImageController;
 use App\Http\Controllers\Dashboard\BlogController;
+use App\Http\Controllers\Dashboard\MemberController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Pages\BlogController as PublicBlogController;
 
@@ -36,7 +37,8 @@ Route::get('language/{locale}', function ($locale) {
 
 Route::middleware([CheckIfLogin::class])->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::get('user/notification', [NotificationController::class, 'index'])->name('user.notification.list');
+    Route::get('dashboard/notification', [NotificationController::class, 'index'])->name('dashboard.notification.list');
+    Route::get('dashboard/notification/action/{action}', [NotificationController::class, 'action'])->name('dashboard.notification.action');
 
     Route::get('user/profile', [ProfileController::class, 'show'])->name('user.profile');
     Route::get('user/profile/edit', [ProfileController::class, 'index'])->name('user.profile.edit');
@@ -63,6 +65,9 @@ Route::middleware([CheckIfLogin::class])->group(function () {
     Route::get('dashboard/board/{id}', [BoardController::class, 'view'])->name('dashboard.board.items');
 
     Route::post('dashboard/work-item/edit', [BoardItemController::class, 'updateItem'])->name('dashboard.work_item.edit.post');
+
+    Route::get('dashboard/member', [MemberController::class, 'index'])->name('dashboard.member');
+    Route::post('dashboard/member/add', [MemberController::class, 'store'])->name('dashboard.member.create');
 });
 
 

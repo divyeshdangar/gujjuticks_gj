@@ -20,7 +20,7 @@ php artisan make:component common/Breadcrumb //class and view file will be creat
 php artisan make:component common.breadcrumb --view //only view file created
 
 Create controller
-php artisan make:controller Pages/BoardItemController
+php artisan make:controller Dashboard/MemberController
 
 
 Create migration
