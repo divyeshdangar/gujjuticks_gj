@@ -17,7 +17,7 @@ class ProfileController extends Controller
     {
         $dataDetail = User::find(Auth::id());
         if($dataDetail) {
-            return view('pages.user.profile', ['dataDetail' => $dataDetail]);
+            return view('pages.user.profile', ['dataDetail' => $dataDetail, 'metaData' => []]);
         } else {
             $message = [
                 "message" => [
@@ -34,7 +34,7 @@ class ProfileController extends Controller
     {
         $dataDetail = User::find(Auth::id());
         if($dataDetail) {
-            return view('pages.user.profile-edit', ['dataDetail' => $dataDetail]);
+            return view('pages.user.profile-edit', ['dataDetail' => $dataDetail, 'metaData' => []]);
         } else {
             $message = [
                 "message" => [

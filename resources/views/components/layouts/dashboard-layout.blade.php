@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/prism.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/rangeslider.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/sweetalert.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/plugin/jkanban/jkanban.css') }}">
     {{-- <link rel="stylesheet" href="{{ asset('assets/css/quill.snow.css') }}"> --}}
     <link href="https://cdn.jsdelivr.net/npm/quill@2.0.1/dist/quill.snow.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
@@ -86,11 +87,28 @@
                 </li>
 
                 <li class="menu-title small text-uppercase">
+                    <span class="menu-title-text">{{ __('dashboard.manage_work') }}</span>
+                </li>
+                <li class="menu-item">
+                    <a href="{{ route('dashboard.board') }}" class="menu-link">
+                        <i data-feather="clipboard" class="menu-icon tf-icons"></i>
+                        <span class="title">{{ __('dashboard.board') }}</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="{{ route('dashboard.member') }}" class="menu-link">
+                        <i data-feather="user" class="menu-icon tf-icons"></i>
+                        <span class="title">{{ __('dashboard.member') }}</span>
+                    </a>
+                </li>
+
+
+                <li class="menu-title small text-uppercase">
                     <span class="menu-title-text">{{ __('dashboard.public_features') }}</span>
                 </li>
                 <li class="menu-item">
                     <a href="{{ route('dashboard.blog') }}" class="menu-link">
-                        <i data-feather="list" class="menu-icon tf-icons"></i>
+                        <i data-feather="file-text" class="menu-icon tf-icons"></i>
                         <span class="title">{{ __('dashboard.blog') }}</span>
                     </a>
                 </li>
@@ -108,7 +126,7 @@
                     <span class="menu-title-text">{{ __('dashboard.setting_other') }}</span>
                 </li>
                 <li class="menu-item">
-                    <a href="{{ route('user.notification.list') }}" class="menu-link">
+                    <a href="{{ route('dashboard.notification.list') }}" class="menu-link">
                         <i data-feather="bell" class="menu-icon tf-icons"></i>
                         <span class="title">{{ __('dashboard.notification') }}</span>
                     </a>
@@ -247,7 +265,7 @@
                                 </li> --}}
                                 <li class="header-right-item">
                                     <div class="dropdown notifications noti">
-                                        <a href="{{ route('user.notification.list') }}" class="btn btn-secondary border-0 p-0 position-relative badge">
+                                        <a href="{{ route('dashboard.notification.list') }}" class="btn btn-secondary border-0 p-0 position-relative badge">
                                             <i data-feather="bell"></i>
                                         </a>
                                     </div>
@@ -350,6 +368,7 @@
     {{-- <script src="{{ asset('assets/js/amcharts.js') }}"></script> --}}
     {{-- <script src="{{ asset('assets/js/custom/ecommerce-chart.js') }}"></script> --}}
     {{-- <script src="{{ asset('assets/js/custom/profile.js') }}"></script> --}}
+    <script src="{{ asset('assets/plugin/jkanban/jkanban.js') }}"></script>
     <script src="http://unpkg.com/fabric/dist/fabric.min.js"></script>
     <script src="{{ asset('assets/js/custom/custom.js') }}"></script>
 

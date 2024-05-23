@@ -2,12 +2,18 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\User\NotificationController;
 use App\Http\Controllers\User\ProfileController;
+use App\Http\Controllers\Dashboard\NotificationController;
 use App\Http\Controllers\Dashboard\ContactController;
 use App\Http\Controllers\Dashboard\ImageController;
 use App\Http\Controllers\Dashboard\BlogController;
+use App\Http\Controllers\Dashboard\MemberController;
+use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Pages\BlogController as PublicBlogController;
+
+use App\Http\Controllers\Dashboard\BoardController;
+use App\Http\Controllers\Dashboard\BoardItemController;
+
 use App\Http\Middleware\CheckIfLogin;
 use App\Http\Controllers\Pages\FormController;
 use App\Http\Controllers\Pages\HomeController;
@@ -30,10 +36,9 @@ Route::get('language/{locale}', function ($locale) {
 })->name('language');
 
 Route::middleware([CheckIfLogin::class])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('pages/dashboard/home');
-    })->name('dashboard');
-    Route::get('user/notification', [NotificationController::class, 'index'])->name('user.notification.list');
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('dashboard/notification', [NotificationController::class, 'index'])->name('dashboard.notification.list');
+    Route::get('dashboard/notification/action/{action}', [NotificationController::class, 'action'])->name('dashboard.notification.action');
 
     Route::get('user/profile', [ProfileController::class, 'show'])->name('user.profile');
     Route::get('user/profile/edit', [ProfileController::class, 'index'])->name('user.profile.edit');
@@ -52,6 +57,17 @@ Route::middleware([CheckIfLogin::class])->group(function () {
     Route::get('dashboard/blog/view/{id}', [BlogController::class, 'view'])->name('dashboard.blog.view');
     Route::get('dashboard/blog/delete/{id}', [BlogController::class, 'delete'])->name('dashboard.blog.delete');
 
+    Route::get('dashboard/board', [BoardController::class, 'index'])->name('dashboard.board');
+    Route::get('dashboard/board/create', [BoardController::class, 'create'])->name('dashboard.board.create');
+    Route::get('dashboard/board/edit/{id}', [BoardController::class, 'edit'])->name('dashboard.board.edit');
+    Route::post('dashboard/board/edit/{id}', [BoardController::class, 'store'])->name('dashboard.board.edit.post');
+    Route::get('dashboard/board/delete/{id}', [BoardController::class, 'delete'])->name('dashboard.board.delete');
+    Route::get('dashboard/board/{id}', [BoardController::class, 'view'])->name('dashboard.board.items');
+
+    Route::post('dashboard/work-item/edit', [BoardItemController::class, 'updateItem'])->name('dashboard.work_item.edit.post');
+
+    Route::get('dashboard/member', [MemberController::class, 'index'])->name('dashboard.member');
+    Route::post('dashboard/member/add', [MemberController::class, 'store'])->name('dashboard.member.create');
 });
 
 

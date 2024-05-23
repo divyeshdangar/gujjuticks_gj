@@ -8,6 +8,21 @@ php artisan make:controller Pages/FormController
 
 
 
+WHATSAPP
+https://developers.facebook.com/docs/whatsapp/cloud-api/get-started
+https://developers.facebook.com/docs/development/register
+
+https://developers.facebook.com/apps/850053326933063/whatsapp-business/wa-dev-quickstart/
+
+App ID: 850053326933063
+App Mode: Development
+
+
+
+
+
+
+
 
 Component + Layout
 https://beyondco.de/blog/blade-components-for-your-layout
@@ -16,11 +31,11 @@ Passing Data to Components
 https://laravel.com/docs/11.x/blade#passing-data-to-components
 
 Create component
-php artisan make:component Alert
-php artisan make:component forms.input --view
+php artisan make:component common/Breadcrumb //class and view file will be created
+php artisan make:component common.breadcrumb --view //only view file created
 
 Create controller
-php artisan make:controller Pages/BlogController
+php artisan make:controller Dashboard/MemberController
 
 
 Create migration
