@@ -369,7 +369,7 @@
     {{-- <script src="{{ asset('assets/js/custom/ecommerce-chart.js') }}"></script> --}}
     {{-- <script src="{{ asset('assets/js/custom/profile.js') }}"></script> --}}
     <script src="{{ asset('assets/plugin/jkanban/jkanban.js') }}"></script>
-    <script src="http://unpkg.com/fabric/dist/fabric.min.js"></script>
+    <script src="https://unpkg.com/fabric/dist/fabric.min.js"></script>
     <script src="{{ asset('assets/js/custom/custom.js') }}"></script>
 
 
