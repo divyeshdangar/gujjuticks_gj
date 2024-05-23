@@ -12,19 +12,21 @@ use Illuminate\Support\Facades\Validator;
 
 class MemberController extends Controller
 {
+    
     public $memberType = [
-        "-1" => "Rejected",
-        "0" => "Pending",
-        "1" => "Confirm",
-        "2" => "Deleted"
+        "-1" => "dashboard.rejected",
+        "0" => "dashboard.pending",
+        "1" => "dashboard.confirm",
+        "2" => "dashboard.deleted"
     ];
+
     public function index(Request $request)
     {
         $metaData = [
             "breadCrumb" => [
-                ["title" => "Member", "route" => ""]
+                ["title" => __('dashboard.member'), "route" => ""]
             ],
-            "title" => "Member"
+            "title" => __('dashboard.member')
         ];
         $dataList = Member::orderBy('id', 'DESC');
         $dataList = $dataList->searching()->where('user_id', Auth::id())->paginate(10)->withQueryString();
@@ -48,7 +50,7 @@ class MemberController extends Controller
                     # code...
                     break;
             }
-            $value->status = '<span class="badge '.$class.' py-1 px-2 text-white rounded-1 fw-semibold fs-12">'.$this->memberType[$value->status].'</span>';
+            $value->status = '<span class="badge '.$class.' py-1 px-2 text-white rounded-1 fw-semibold fs-12">'.__($this->memberType[$value->status]).'</span>';
         }
         return view('dashboard.member.index', ['dataList' => $dataList, 'metaData' => $metaData]);
     }
@@ -57,6 +59,8 @@ class MemberController extends Controller
     {         
         $validator = Validator::make($request->all(), [
             'email' => 'required|max:255|email',
+            'createNew' => 'sometimes',
+            'createAndAccept' => 'bail|required_if:createNew,=,1'
         ]);
         
         if ($validator->fails()) {
@@ -92,6 +96,8 @@ class MemberController extends Controller
                     'user_id2' => Auth::id(),
                 ];
                 Notification::create($data);
+            } else {
+
             }
             $dataDetail->save();
             $message = [

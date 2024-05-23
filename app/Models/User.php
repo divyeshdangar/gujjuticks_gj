@@ -66,4 +66,9 @@ class User extends Authenticatable
         return $this->hasMany(Member::class);
     }
 
+    public function confirmMembers(): HasMany
+    {
+        return $this->hasMany(Member::class)->where(["status"=>"0"]);
+    }
+
 }

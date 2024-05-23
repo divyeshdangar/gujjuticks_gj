@@ -82,5 +82,9 @@ return [
     'member' => 'Member',
     'status' => 'Status',
     'manage_work' => 'Manage Work',
+    "rejected" => "Rejected",
+    "pending" => "Pending",
+    "confirm" => "Confirm",
+    "deleted" => "Deleted",
     'slug' => 'Slug',
 ];
