@@ -76,10 +76,10 @@
                     enabled: false
                 },
                 click: function(el) {
-                    console.log(el.dataset.eid)
+                    //console.log(el.dataset.eid)
                 },
                 context: function(el, e) {
-                    console.log("Trigger on all items right-click!");
+                    //console.log("Trigger on all items right-click!");
                 },
                 dropEl: function(el, target, source, sibling) {
                     let data = {
@@ -95,14 +95,14 @@
             });
 
             function call(data) {
-                fetch("http://127.0.0.1:8000/dashboard/work-item/edit", {
+                fetch("https://www.gujjuticks.com/dashboard/work-item/edit", {
                     method: "POST",
                     headers: {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify(data)
                 }).then(res => {
-                    console.log("Request complete! response:", res);
+                    //console.log("Request complete! response:", res);
                 });
             }
         });

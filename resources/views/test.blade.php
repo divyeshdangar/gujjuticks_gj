@@ -44,7 +44,7 @@
                 "objects": [{
                         "rx": 0,
                         "ry": 0,
-                        "src": "http://127.0.0.1:8000/images/dynamic/GH.jpg",
+                        "src": "https://www.gujjuticks.com/images/dynamic/GH.jpg",
                         "top": 0,
                         "left": 0,
                         "type": "image",
@@ -118,7 +118,7 @@
                         "rx": 50,
                         "ry": 50,
                         "top": 1500,
-                        "src": "http://127.0.0.1:8000/images/dynamic/demo-user.jpg",
+                        "src": "https://www.gujjuticks.com/images/dynamic/demo-user.jpg",
                         "left": 755,
                         "type": "image",
                         "hasBorders": true,
@@ -145,7 +145,7 @@
                         canvas.renderAll();                        
                     }, 100);
                 }, function(o, object) {
-                    console.log(o, object)
+                    //console.log(o, object)
                 })
             }, 1000);
 
@@ -186,13 +186,11 @@
             }
 
             function show() {
-                console.log("show");
                 const element = document.getElementById('fabric-canvas-wrapper');
                 element.classList.remove("d-none");
             }
 
             function hide() {
-                console.log("hide");
                 const element = document.getElementById('fabric-canvas-wrapper');
                 element.classList.add("d-none");
             }

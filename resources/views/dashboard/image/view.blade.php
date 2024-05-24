@@ -198,7 +198,7 @@
                 generateImageDataList(objData);
             }
 
-            console.log(objData)
+            //console.log(objData)
 
             var str = JSON.stringify(objData, undefined, 4);
             document.getElementById('options').innerHTML = str;
@@ -231,7 +231,9 @@
 
                     //dataListContainer.innerHTML = newElement;
                     //dataListContainer.appendChild(newElement)
-                    dataListContainer.insertAdjacentHTML('beforeend', newElement);
+                    if(element.edit) {
+                        dataListContainer.insertAdjacentHTML('beforeend', newElement);
+                    }
                 });
             }
         }
@@ -243,15 +245,16 @@
                 element.classList.add("d-none");
             }
 
-            console.log(this.objData);
-            console.log(objData);
-            console.log(test);
+            // console.log(this.objData);
+            // console.log(objData);
+            // console.log(test);
 
             selectedObj = objData.objects[index];
             selectedIndex = index;
+            // console.log(selectedObj);
             for (var prop in selectedObj) {
                 if (Object.prototype.hasOwnProperty.call(selectedObj, prop)) {
-                    console.log(prop)
+                    // console.log(prop)
                     var element = document.getElementById('canvas_' + prop);
                     var elementContainer = document.getElementById('canvas_' + prop + '_container');
                     switch (prop) {
@@ -302,8 +305,8 @@
             if (!element) {
                 element = document.getElementById('fabric-canvas-wrapper');
             }
-            console.log('show clicked')
-            console.log(element)
+            // console.log('show clicked')
+            // console.log(element)
             element.classList.remove("d-none");
         }
 
@@ -311,8 +314,8 @@
             if (!element) {
                 element = document.getElementById('fabric-canvas-wrapper');
             }
-            console.log('hide clicked')
-            console.log(element)
+            // console.log('hide clicked')
+            // console.log(element)
             element.classList.add("d-none");
         }
 
@@ -345,11 +348,11 @@
 
                     case 'src':
                         const file = obj.target.files[0];
-                        console.log(file);
+                        // console.log(file);
                         let fileReader = new FileReader();
                         fileReader.readAsDataURL(file);
                         fileReader.onload = function() {
-                            console.log(fileReader.result);
+                            // console.log(fileReader.result);
                             selectedObj[type] = fileReader.result;
                             // images[0].setAttribute('src', fileReader.result);
                             // images[0].setAttribute('style', `background-image: url('${fileReader.result}')`);
@@ -365,7 +368,7 @@
             setTimeout(() => {
                 update()                
             }, 200);
-            console.log(objData)
+            // console.log(objData)
 
         }
     </script>

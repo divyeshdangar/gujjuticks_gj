@@ -82,14 +82,14 @@
                     enabled: false
                 },
                 click: function(el) {
-                    console.log("Trigger on all items click!");
+                    //console.log("Trigger on all items click!");
                 },
                 context: function(el, e) {
-                    console.log("Trigger on all items right-click!");
+                    //console.log("Trigger on all items right-click!");
                 },
                 dropEl: function(el, target, source, sibling) {
-                    console.log(target.parentElement.getAttribute('data-id'));
-                    console.log(el.dataset.eid)
+                    //console.log(target.parentElement.getAttribute('data-id'));
+                    //console.log(el.dataset.eid)
                 },
                 dragBoards: false,
                 boards: [
