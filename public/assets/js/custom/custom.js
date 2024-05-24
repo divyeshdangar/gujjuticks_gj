@@ -760,7 +760,7 @@ function confirmAndDelete(link) {
 		}
 	}).then(function (result) {
 		if (result.value) {
-			console.log(link);
+			//console.log(link);
 		} else if (result.dismiss === "cancel") {
 			Swal.fire(
 				"Cancelled",
