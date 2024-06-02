@@ -1,4 +1,4 @@
-<x-layouts.simple-layout :metaData="$metaData">
+<x-layouts.simple-layout :showHeader="false" :metaData="$metaData">
     <div class="container-fluid">
         <div class="main-content d-flex flex-column px-0">
             <!-- Start Authentication Area -->
@@ -16,10 +16,10 @@
                             <img src="assets/images/google.svg" alt="google">
                             <span class="ms-2">Sign In With Google</span>
                         </a>
-                        <a href="#" class="btn btn-primary fs-16 fw-semibold text-dark heading-fornt py-2 py-md-3 px-4 text-white w-sm-100 mt-3 mt-sm-0">
+                        <button data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="It will be available soon!" class="btn btn-primary fs-16 fw-semibold text-dark heading-fornt py-2 py-md-3 px-4 text-white w-sm-100 mt-3 mt-sm-0">
                             <img src="assets/images/facebook.svg" alt="google">
                             <span class="ms-2">Sign In With Facebook</span>
-                        </a>
+                        </button>
                     </div>
                     <!-- <span class="d-block fs-18 fw-semibold text-center or mb-4">
                         <span class="bg-body-bg d-inline-block py-1 px-3">or</span>

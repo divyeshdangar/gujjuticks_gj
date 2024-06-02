@@ -8,6 +8,11 @@ php artisan make:controller Pages/FormController
 
 
 
+ALTER TABLE `users` ADD `user_type` ENUM('1','2','3') NOT NULL DEFAULT '2' AFTER `phone`;
+
+
+
+
 WHATSAPP
 https://developers.facebook.com/docs/whatsapp/cloud-api/get-started
 https://developers.facebook.com/docs/development/register

@@ -52,6 +52,7 @@ Route::middleware([CheckIfLogin::class])->group(function () {
     Route::get('dashboard/image/delete/{id}', [ImageController::class, 'delete'])->name('dashboard.image.delete');
 
     Route::get('dashboard/blog', [BlogController::class, 'index'])->name('dashboard.blog');
+    Route::get('dashboard/blog/create', [BlogController::class, 'create'])->name('dashboard.blog.create');
     Route::get('dashboard/blog/edit/{id}', [BlogController::class, 'edit'])->name('dashboard.blog.edit');
     Route::post('dashboard/blog/edit/{id}', [BlogController::class, 'store'])->name('dashboard.blog.edit.post');
     Route::get('dashboard/blog/view/{id}', [BlogController::class, 'view'])->name('dashboard.blog.view');
@@ -78,6 +79,7 @@ Route::get('contact-us', [FormController::class, 'show'])->name('form.contact');
 Route::post('contact-us', [FormController::class, 'store'])->name('form.contact.post');
 
 Route::get('blogs', [PublicBlogController::class, 'index'])->name('pages.blog.list');
+Route::get('blog/{slug}', [PublicBlogController::class, 'view'])->name('pages.blog.detail');
 
 Route::get('google/redirect', [GoogleLoginController::class, 'redirectToGoogle'])->name('google.redirect');
 Route::get('google/callback', [GoogleLoginController::class, 'handleGoogleCallback'])->name('google.callback');

@@ -16,8 +16,8 @@
     <link rel="stylesheet" href="{{ asset('assets/css/rangeslider.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/sweetalert.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/plugin/jkanban/jkanban.css') }}">
-    {{-- <link rel="stylesheet" href="{{ asset('assets/css/quill.snow.css') }}"> --}}
-    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.1/dist/quill.snow.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('assets/plugin/froala_editor_4.2.0/css/froala_editor.pkgd.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/plugin/croppie/croppie.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
 
     <?php
@@ -352,13 +352,12 @@
     <!-- End Theme Setting Area -->
 
     <!-- Link Of JS File -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('assets/js/sidebar-menu.js') }}"></script>
     <script src="{{ asset('assets/js/dragdrop.js') }}"></script>
     <script src="{{ asset('assets/js/rangeslider.min.js') }}"></script>
     <script src="{{ asset('assets/js/sweetalert.js') }}"></script>
-    {{-- <script src="{{ asset('assets/js/quill.min.js') }}"></script> --}}
-    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.1/dist/quill.js"></script>
     <script src="{{ asset('assets/js/data-table.js') }}"></script>
     <script src="{{ asset('assets/js/prism.js') }}"></script>
     <script src="{{ asset('assets/js/clipboard.min.js') }}"></script>
@@ -370,6 +369,8 @@
     {{-- <script src="{{ asset('assets/js/custom/profile.js') }}"></script> --}}
     <script src="{{ asset('assets/plugin/jkanban/jkanban.js') }}"></script>
     <script src="https://unpkg.com/fabric/dist/fabric.min.js"></script>
+    <script type="text/javascript" src="{{ asset('assets/plugin/froala_editor_4.2.0/js/froala_editor.pkgd.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/plugin/croppie/croppie.js') }}"></script>
     <script src="{{ asset('assets/js/custom/custom.js') }}"></script>
 
 

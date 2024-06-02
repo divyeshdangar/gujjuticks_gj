@@ -36,6 +36,18 @@ class BlogController extends Controller
         }
     }
 
+    public function create(Request $request)
+    {
+        $metaData = [
+            "breadCrumb" => [
+                ["title" => "Board", "Blogs" => "dashboard.blog"],
+                ["title" => "Create", "route" => ""]
+            ],
+            "title" => "Create Board"
+        ];
+        return view('dashboard.blog.create', ['metaData' => $metaData]);
+    }
+    
     public function edit(Request $request, $id)
     {
         $dataDetail = Blog::find($id);
@@ -55,20 +67,38 @@ class BlogController extends Controller
 
     public function store(Request $request, $id): RedirectResponse
     {
+
+        // dd($request->croppedImage);
+
         $dataDetail = Blog::find($id);
         if($dataDetail) {
             $validator = Validator::make($request->all(), [
                 'title' => 'required|max:255',
                 'slug' => ['required','unique:blogs,slug,'.$id, 'min:5','max:255','regex:/^[a-z][a-z0-9]*(-[a-z0-9]+)*$/i'],
+                'meta_description' => 'required',
                 'description' => 'required',
             ]);
     
             if ($validator->fails()) {
                 return redirect('dashboard/blog/edit/'.$id)->withErrors($validator)->withInput();
-            }    
+            }  
+            
+            
             $dataToInsert = $validator->validated();
+
+            if ($request->croppedImage != null) {
+                $croped_image = $request->croppedImage;
+                list($type, $croped_image) = explode(';', $croped_image);
+                list(, $croped_image)      = explode(',', $croped_image);
+                $croped_image = base64_decode($croped_image);
+                $image_name = "123456789.png"; //time() . rand(10000000, 999999999) . '.png';
+                file_put_contents("./images/blog/" . $image_name, $croped_image);
+                $dataDetail->image = $image_name;
+            }
+
             $dataDetail->title = $dataToInsert['title'];
             $dataDetail->description = $dataToInsert['description'];
+            $dataDetail->meta_description = $dataToInsert['meta_description'];            
             $dataDetail->save();
 
             $message = [

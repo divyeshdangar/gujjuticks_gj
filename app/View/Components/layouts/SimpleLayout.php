@@ -13,6 +13,7 @@ class SimpleLayout extends Component
      */
     public function __construct(
         public array $metaData,
+        public bool $showHeader = true
     )
     {
         //

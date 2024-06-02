@@ -66,8 +66,8 @@
                                         #{{ $data->id }}
                                     </td>
                                     <td>
-                                        <a target="_blank" href="{{ URL::asset('/images/dynamic/'.$data->image) }}">
-                                            <img src="{{ URL::asset('/images/dynamic/'.$data->image) }}" class="wh-110 rounded-circle">
+                                        <a target="_blank" href="{{ URL::asset('/images/blog/'.$data->image) }}">
+                                            <img src="{{ URL::asset('/images/blog/'.$data->image) }}" width="250px" class="img-thumbnail">
                                         </a>
                                     </td>
                                     <td class="ps-0">

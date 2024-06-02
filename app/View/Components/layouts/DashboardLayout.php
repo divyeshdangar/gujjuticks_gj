@@ -13,8 +13,7 @@ class DashboardLayout extends Component
      */
     public function __construct(
         public array $metaData,
-    )
-    {
+    ) {
         //
     }
 
@@ -23,6 +22,21 @@ class DashboardLayout extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.layouts.dashboard-layout');
+        $menu = [
+            [
+                "id" => 1,
+                "title" => "",
+                "menu" => [
+                    [
+                        "icon" => "grid",
+                        "route" => "dashboard",
+                        "title" => __('dashboard.dashboard'),
+                    ],
+                ],
+            ]
+        ];
+        print_r($menu);
+        die;
+        return view('components.layouts.dashboard-layout', ["menu" => $menu]);
     }
 }

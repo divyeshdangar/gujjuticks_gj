@@ -50,108 +50,91 @@
     <div class="container-fluid">
         <div class="d-flex flex-column">
 
-            <!-- Start Header Area -->
-            <header class="header-area bg-white mb-4 rounded-bottom-10" id="header-area">
-                <div class="row align-items-center">
-                    <div class="col-lg-4 col-sm-6 col-md-4">
-                        <div class="left-header-content">
-                            <ul class="d-flex align-items-center ps-0 mb-0 list-unstyled justify-content-center justify-content-sm-start">
-                                <li>
-                                    <a href="{{ route('dashboard') }}" class="d-block text-decoration-none">
-                                        <img src="{{ asset('brand/full-logo-black.png') }}" style="max-height: 50px;" alt="logo-icon">                                        
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-8 col-sm-6 col-md-8">
-                        <div class="right-header-content mt-2 mt-sm-0">
-                            {{-- <ul class="d-flex align-items-center justify-content-center justify-content-sm-end ps-0 mb-0 list-unstyled">
-                                <li class="header-right-item">
-                                    <div class="dropdown notifications email">
-                                        <a class="btn btn-secondary border-0 p-0 position-relative" href="{{ route('pages.blog.list') }}" title="Blog">
-                                            <i data-feather="file-text"></i>
+            @if($showHeader)
+                <header class="header-area bg-white mb-4 rounded-bottom-10" id="header-area">
+                    <div class="row align-items-center">
+                        <div class="col-lg-4 col-sm-6 col-md-4">
+                            <div class="left-header-content">
+                                <ul class="d-flex align-items-center ps-0 mb-0 list-unstyled justify-content-center justify-content-sm-start">
+                                    <li>
+                                        <a href="{{ route('dashboard') }}" class="d-block text-decoration-none">
+                                            <img src="{{ asset('brand/full-logo-black.png') }}" style="max-height: 50px;" alt="logo-icon">                                        
                                         </a>
-                                    </div>
-                                </li>
-                                <li class="header-right-item">
-                                    <div class="dropdown notifications language">
-                                        <button class="btn btn-secondary border-0 p-0 position-relative" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <img src="{{ asset('assets/images/india.png') }}" class="rounded-circle wh-22" alt="English">
-                                        </button>
-                                        <div class="dropdown-menu dropdown-lg p-0 border-0 p-4">
-                                            <div class="notification-menu">
-                                                <a href="{{ route('language', ['locale' => 'en']) }}" class="dropdown-item p-0">
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="flex-shrink-0">
-                                                            <img src="{{ asset('assets/images/india.png') }}" class="wh-22 rounded-circle" alt="English">
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-8 col-sm-6 col-md-8">
+                            <div class="right-header-content mt-2 mt-sm-0">
+                                {{-- <ul class="d-flex align-items-center justify-content-center justify-content-sm-end ps-0 mb-0 list-unstyled">
+                                    <li class="header-right-item">
+                                        <div class="dropdown notifications email">
+                                            <a class="btn btn-secondary border-0 p-0 position-relative" href="{{ route('pages.blog.list') }}" title="Blog">
+                                                <i data-feather="file-text"></i>
+                                            </a>
+                                        </div>
+                                    </li>
+                                    <li class="header-right-item">
+                                        <div class="dropdown notifications language">
+                                            <button class="btn btn-secondary border-0 p-0 position-relative" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <img src="{{ asset('assets/images/india.png') }}" class="rounded-circle wh-22" alt="English">
+                                            </button>
+                                            <div class="dropdown-menu dropdown-lg p-0 border-0 p-4">
+                                                <div class="notification-menu">
+                                                    <a href="{{ route('language', ['locale' => 'en']) }}" class="dropdown-item p-0">
+                                                        <div class="d-flex align-items-center">
+                                                            <div class="flex-shrink-0">
+                                                                <img src="{{ asset('assets/images/india.png') }}" class="wh-22 rounded-circle" alt="English">
+                                                            </div>
+                                                            <div class="flex-grow-1 ms-3">
+                                                                <h4>English</h4>
+                                                            </div>
                                                         </div>
-                                                        <div class="flex-grow-1 ms-3">
-                                                            <h4>English</h4>
+                                                    </a>
+                                                </div>
+                                                <div class="notification-menu">
+                                                    <a href="{{ route('language', ['locale' => 'hi']) }}" class="dropdown-item p-0">
+                                                        <div class="d-flex align-items-center">
+                                                            <div class="flex-shrink-0">
+                                                                <img src="{{ asset('assets/images/india.png') }}" class="wh-22 rounded-circle" alt="हिंदी">
+                                                            </div>
+                                                            <div class="flex-grow-1 ms-3">
+                                                                <h4>हिंदी</h4>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                            <div class="notification-menu">
-                                                <a href="{{ route('language', ['locale' => 'hi']) }}" class="dropdown-item p-0">
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="flex-shrink-0">
-                                                            <img src="{{ asset('assets/images/india.png') }}" class="wh-22 rounded-circle" alt="हिंदी">
+                                                    </a>
+                                                </div>
+                                                <div class="notification-menu mb-0">
+                                                    <a href="{{ route('language', ['locale' => 'gj']) }}" class="dropdown-item p-0">
+                                                        <div class="d-flex align-items-center">
+                                                            <div class="flex-shrink-0">
+                                                                <img src="{{ asset('assets/images/india.png') }}" class="wh-22 rounded-circle" alt="ગુજરાતી">
+                                                            </div>
+                                                            <div class="flex-grow-1 ms-3">
+                                                                <h4>ગુજરાતી</h4>
+                                                            </div>
                                                         </div>
-                                                        <div class="flex-grow-1 ms-3">
-                                                            <h4>हिंदी</h4>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                            <div class="notification-menu mb-0">
-                                                <a href="{{ route('language', ['locale' => 'gj']) }}" class="dropdown-item p-0">
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="flex-shrink-0">
-                                                            <img src="{{ asset('assets/images/india.png') }}" class="wh-22 rounded-circle" alt="ગુજરાતી">
-                                                        </div>
-                                                        <div class="flex-grow-1 ms-3">
-                                                            <h4>ગુજરાતી</h4>
-                                                        </div>
-                                                    </div>
-                                                </a>
+                                                    </a>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </li>
-                            </ul> --}}
+                                    </li>
+                                </ul> --}}
+                            </div>
                         </div>
                     </div>
-                </div>
-            </header>
-            <!-- End Header Area -->
-
-            <!-- Start Body Content Area -->
-
-
+                </header>
+            @endif
 
             {{ $slot }}
 
-
-
-
-            <!-- End Body Content Area -->
-
             <div class="flex-grow-1"></div>
-
-            <!-- Start Footer Area -->
             <footer class="footer-area bg-white text-center rounded-top-10">
                 <p class="fs-14">© <span class="text-primary">{{ __('dashboard.gujjuticks') }}</span> - {{ __('dashboard.made_in') }}</p>
             </footer>
-            <!-- End Footer Area -->
         </div>
     </div>
-    <!-- Start Main Content Area -->
-
-    <!-- Start Theme Setting Area -->
-    <!-- End Theme Setting Area -->
-
                 
     <script src="{{ asset('assets/js/sweetalert.js') }}"></script>
     <script src="{{ asset('assets/js/feather.min.js') }}"></script>

@@ -25,7 +25,9 @@ class CheckIfLogin
 
         if (Auth::check()) {
             $adminOnly = ['dashboard/contact', 'dashboard/image', 'dashboard/board', 'dashboard/member', 'dashboard/blog'];
-            if(in_array($request->route()->uri(), $adminOnly) && Auth::user()->email!='gujjuticks@gmail.com'){
+            $allowedAdmin = ['gujjuticks@gmail.com', 'divyeshdangar95@gmail.com'];
+
+            if(in_array($request->route()->uri(), $adminOnly) && !in_array(Auth::user()->email, $allowedAdmin)){
                 $message = [
                     "message" => [
                         "type" => "error",

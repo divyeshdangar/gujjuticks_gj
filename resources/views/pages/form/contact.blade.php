@@ -1,4 +1,4 @@
-<x-layouts.simple-layout :metaData="$metaData">
+<x-layouts.simple-layout :showHeader="false" :metaData="$metaData">
     <div class="container-fluid">
         <div class="main-content d-flex flex-column px-0">
             <!-- Start Authentication Area -->
