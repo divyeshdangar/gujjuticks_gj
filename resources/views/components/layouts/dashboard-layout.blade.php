@@ -79,64 +79,22 @@
 
         <aside id="layout-menu" class="layout-menu menu-vertical menu active" data-simplebar>
             <ul class="menu-inner">
-                <li class="menu-item">
-                    <a href="{{ route('dashboard') }}" class="menu-link">
-                        <i data-feather="grid" class="menu-icon tf-icons"></i>
-                        <span class="title">{{ __('dashboard.dashboard') }}</span>
-                    </a>
-                </li>
-
-                <li class="menu-title small text-uppercase">
-                    <span class="menu-title-text">{{ __('dashboard.manage_work') }}</span>
-                </li>
-                <li class="menu-item">
-                    <a href="{{ route('dashboard.board') }}" class="menu-link">
-                        <i data-feather="clipboard" class="menu-icon tf-icons"></i>
-                        <span class="title">{{ __('dashboard.board') }}</span>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="{{ route('dashboard.member') }}" class="menu-link">
-                        <i data-feather="user" class="menu-icon tf-icons"></i>
-                        <span class="title">{{ __('dashboard.member') }}</span>
-                    </a>
-                </li>
 
 
-                <li class="menu-title small text-uppercase">
-                    <span class="menu-title-text">{{ __('dashboard.public_features') }}</span>
-                </li>
-                <li class="menu-item">
-                    <a href="{{ route('dashboard.blog') }}" class="menu-link">
-                        <i data-feather="file-text" class="menu-icon tf-icons"></i>
-                        <span class="title">{{ __('dashboard.blog') }}</span>
-                    </a>
-                </li>
-
-                <li class="menu-title small text-uppercase">
-                    <span class="menu-title-text">{{ __('dashboard.dynamic_images') }}</span>
-                </li>
-                <li class="menu-item">
-                    <a href="{{ route('dashboard.image') }}" class="menu-link">
-                        <i data-feather="image" class="menu-icon tf-icons"></i>
-                        <span class="title">{{ __('dashboard.image') }}</span>
-                    </a>
-                </li>
-                <li class="menu-title small text-uppercase">
-                    <span class="menu-title-text">{{ __('dashboard.setting_other') }}</span>
-                </li>
-                <li class="menu-item">
-                    <a href="{{ route('dashboard.notification.list') }}" class="menu-link">
-                        <i data-feather="bell" class="menu-icon tf-icons"></i>
-                        <span class="title">{{ __('dashboard.notification') }}</span>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="{{ route('dashboard.contact') }}" class="menu-link">
-                        <i data-feather="mail" class="menu-icon tf-icons"></i>
-                        <span class="title">{{ __('dashboard.contact') }}</span>
-                    </a>
-                </li>
+                @foreach ($menu as $m)
+                    @if($m["title_only"]==1)
+                        <li class="menu-title small text-uppercase">
+                            <span class="menu-title-text">{{ __($m["title"]) }}</span>
+                        </li>    
+                    @else
+                        <li class="menu-item">
+                            <a href="{{ route($m["route"]) }}" class="menu-link">
+                                <i data-feather="{{ $m["icon"] }}" class="menu-icon tf-icons"></i>
+                                <span class="title">{{ __($m["title"]) }}</span>
+                            </a>
+                        </li>
+                    @endif
+                @endforeach
             </ul>
         </aside>
 
@@ -265,7 +223,7 @@
                                 </li> --}}
                                 <li class="header-right-item">
                                     <div class="dropdown notifications noti">
-                                        <a href="{{ route('dashboard.notification.list') }}" class="btn btn-secondary border-0 p-0 position-relative badge">
+                                        <a href="{{ route('dashboard.notification') }}" class="btn btn-secondary border-0 p-0 position-relative badge">
                                             <i data-feather="bell"></i>
                                         </a>
                                     </div>

@@ -37,7 +37,8 @@ Route::get('language/{locale}', function ($locale) {
 
 Route::middleware([CheckIfLogin::class])->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::get('dashboard/notification', [NotificationController::class, 'index'])->name('dashboard.notification.list');
+
+    Route::get('dashboard/notification', [NotificationController::class, 'index'])->name('dashboard.notification');
     Route::get('dashboard/notification/action/{action}', [NotificationController::class, 'action'])->name('dashboard.notification.action');
 
     Route::get('user/profile', [ProfileController::class, 'show'])->name('user.profile');

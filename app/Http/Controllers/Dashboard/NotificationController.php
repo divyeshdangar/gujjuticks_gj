@@ -79,6 +79,6 @@ class NotificationController extends Controller
         } catch (\Throwable $th) {
         }
 
-        return redirect()->route('dashboard.notification.list')->with($message);
+        return redirect()->route('dashboard.notification')->with($message);
     }
 }

@@ -8,6 +8,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Route;
+use App\Models\Menu;
 
 class CheckIfLogin
 {
@@ -24,18 +26,36 @@ class CheckIfLogin
         }
 
         if (Auth::check()) {
-            $adminOnly = ['dashboard/contact', 'dashboard/image', 'dashboard/board', 'dashboard/member', 'dashboard/blog'];
-            $allowedAdmin = ['gujjuticks@gmail.com', 'divyeshdangar95@gmail.com'];
 
-            if(in_array($request->route()->uri(), $adminOnly) && !in_array(Auth::user()->email, $allowedAdmin)){
-                $message = [
-                    "message" => [
-                        "type" => "error",
-                        "title" => __('dashboard.bad'),
-                        "description" => __('dashboard.for_admin_only')
-                    ]
-                ];
-                return redirect()->route('dashboard')->with($message);
+            $message = [
+                "message" => [
+                    "type" => "error",
+                    "title" => __('dashboard.bad'),
+                    "description" => __('dashboard.for_admin_only')
+                ]
+            ];
+            if(Auth::user()->user_type != '1'){
+                $haveAccess = false;
+                if(!empty(Auth::user()->menus)){
+                    $menu = Menu::select('route')
+                        ->where("status", 1)
+                        ->whereIn('id', explode(',',Auth::user()->menus->menuIds))
+                        ->get()->toArray();
+                                           
+                    foreach ($menu as $key => $value) {
+                        // echo $value["route"];
+                        // echo "<br>";                        
+                        if($value["route"] == Route::currentRouteName() || ($value["route"]!="dashboard" && (strpos(Route::currentRouteName(), $value["route"]) === 0))){
+                            $haveAccess = true;
+                            break;
+                        }
+                    }
+                    // echo Route::currentRouteName();
+                    // die;
+                }
+                if($haveAccess == false){
+                    return redirect()->route('dashboard')->with($message);
+                }
             }
             return $next($request);
         } else {
