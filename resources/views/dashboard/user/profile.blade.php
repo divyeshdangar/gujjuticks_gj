@@ -54,7 +54,7 @@
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end bg-white border box-shadow">
                                 <li>
-                                    <a class="dropdown-item" href="{{ route('user.profile.edit') }}">
+                                    <a class="dropdown-item" href="{{ route('dashboard.profile.edit') }}">
                                         <i data-feather="edit"></i>
                                         {{ __('dashboard.edit') }}
                                     </a>

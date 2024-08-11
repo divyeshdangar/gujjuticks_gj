@@ -9,17 +9,24 @@ use App\Models\Blog;
 
 class BlogController extends Controller
 {
+    public $languages = [
+        'e' => 'English',
+        'h' => 'हिन्दी',
+        'g' => 'ગુજરાતી'
+    ];
     public function index(Request $request): View
     {
         // to set meta data of page
         $metaData = [
-            "title" => "Get in Touch: Contact GujjuTicks",
-            "description" => "Reach out to GujjuTicks easily with our contact form or contact information. Whether you have questions, feedback, or inquiries, we're here to assist you promptly. Connect with us now!",
+            "title" => "Discover the Essence of Gujarat: Insights and Stories from GujjuTicks Blogs",
+            "description" => "Explore insightful blogs on Gujju culture, traditions, cuisine, and more. Discover fascinating stories and tips that celebrate the vibrant spirit of Gujarat, brought to you by GujjuTicks.",
             //"image" => "",
             "url" => route('pages.blog.list')
         ];
+        $dataList = Blog::orderBy('id', 'DESC');
+        $dataList = $dataList->searching()->paginate(10)->withQueryString();
 
-        return view('pages.blog.list', ['metaData' => $metaData, 'metaData' => []]);
+        return view('pages.blog.list', ['metaData' => $metaData, 'lang' => $this->languages, 'dataList' => $dataList]);
     }
 
     public function view(Request $request, $slug)
@@ -28,17 +35,18 @@ class BlogController extends Controller
         if ($dataDetail) {
             // to set meta data of page
             $metaData = [
-                "title" => "GujjuTicks - " . $dataDetail->title,
+                "title" => $dataDetail->title." - GujjuTicks",
                 "no_title" => true,
                 "description" => "",
                 //"image" => "",
                 "url" => route('pages.blog.detail', ['slug' => $dataDetail->slug]),
-                "breadCrumb" => [
-                    ["title" => "Board", "route" => "dashboard.board"],
-                    ["title" => "Create", "route" => ""]
-                ]
+                // "breadCrumb" => [
+                //     ["title" => "Board", "route" => "dashboard.board"],
+                //     ["title" => "Create", "route" => ""]
+                // ]
             ];
-            return view('pages.blog.view', ['dataDetail' => $dataDetail, 'metaData' => $metaData]);
+            $dataList = Blog::where("status", "1")->where('id', '<>', $dataDetail->id)->limit(3)->get();
+            return view('pages.blog.view', ['dataDetail' => $dataDetail, 'lang' => $this->languages, 'metaData' => $metaData, 'dataList' => $dataList]);
         } else {
             $message = [
                 "message" => [

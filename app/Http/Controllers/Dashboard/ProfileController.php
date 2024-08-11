@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\User;
+namespace App\Http\Controllers\Dashboard;
 
 use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\Controller;
@@ -17,7 +17,7 @@ class ProfileController extends Controller
     {
         $dataDetail = User::find(Auth::id());
         if($dataDetail) {
-            return view('pages.user.profile', ['dataDetail' => $dataDetail, 'metaData' => []]);
+            return view('dashboard.user.profile', ['dataDetail' => $dataDetail, 'metaData' => []]);
         } else {
             $message = [
                 "message" => [
@@ -34,7 +34,7 @@ class ProfileController extends Controller
     {
         $dataDetail = User::find(Auth::id());
         if($dataDetail) {
-            return view('pages.user.profile-edit', ['dataDetail' => $dataDetail, 'metaData' => []]);
+            return view('dashboard.user.profile-edit', ['dataDetail' => $dataDetail, 'metaData' => []]);
         } else {
             $message = [
                 "message" => [

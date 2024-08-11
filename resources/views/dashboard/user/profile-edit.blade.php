@@ -22,7 +22,7 @@
                     <h4 class="fw-semibold fs-18 border-bottom pb-20 mb-20">{{ __('dashboard.settings') }}</h4>
                     <ul class="ps-0 mb-4 list-unstyled d-sm-flex gap-3">
                         <li>
-                            <a href="{{ route('user.profile.edit') }}" class="btn btn-primary bg-primary text-white py-2 px-3 border-0 fw-semibold w-sm-100 d-inline-block">{{ __('dashboard.account') }}</a>
+                            <a href="{{ route('dashboard.profile.edit') }}" class="btn btn-primary bg-primary text-white py-2 px-3 border-0 fw-semibold w-sm-100 d-inline-block">{{ __('dashboard.account') }}</a>
                         </li>
                         <li>
                             <a href="" class="btn btn-primary bg-primary text-primary py-2 px-3 bg-opacity-10 border-0 fw-semibold w-sm-100 d-inline-block mt-2 mt-sm-0">{{ __('dashboard.security') }}</a>
@@ -47,7 +47,7 @@
                         </div>
                     @endif
 
-                    <form method="post" id="formToValidate" action="{{ route('user.profile.edit.post') }}">
+                    <form method="post" id="formToValidate" action="{{ route('dashboard.profile.edit.post') }}">
                         {{ csrf_field() }}
                         <div class="row">
                             <div class="col-lg-12">

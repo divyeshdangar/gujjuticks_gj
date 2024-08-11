@@ -7,6 +7,7 @@ use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Blog;
+use App\Models\Location;
 use Illuminate\Support\Facades\Validator;
 
 class BlogController extends Controller
@@ -52,7 +53,8 @@ class BlogController extends Controller
     {
         $dataDetail = Blog::find($id);
         if($dataDetail) {
-            return view('dashboard.blog.edit', ['dataDetail' => $dataDetail, 'metaData' => []]);
+            $locationData = Location::where('parent_id', 2)->orderBy('name')->get();
+            return view('dashboard.blog.edit', ['dataDetail' => $dataDetail, 'locationData' => $locationData, 'metaData' => []]);
         } else {
             $message = [
                 "message" => [

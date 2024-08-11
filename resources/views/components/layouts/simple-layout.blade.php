@@ -67,7 +67,7 @@
 
                         <div class="col-lg-8 col-sm-6 col-md-8">
                             <div class="right-header-content mt-2 mt-sm-0">
-                                {{-- <ul class="d-flex align-items-center justify-content-center justify-content-sm-end ps-0 mb-0 list-unstyled">
+                                <ul class="d-flex align-items-center justify-content-center justify-content-sm-end ps-0 mb-0 list-unstyled">
                                     <li class="header-right-item">
                                         <div class="dropdown notifications email">
                                             <a class="btn btn-secondary border-0 p-0 position-relative" href="{{ route('pages.blog.list') }}" title="Blog">
@@ -120,7 +120,7 @@
                                             </div>
                                         </div>
                                     </li>
-                                </ul> --}}
+                                </ul>
                             </div>
                         </div>
                     </div>

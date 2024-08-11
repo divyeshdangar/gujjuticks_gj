@@ -106,7 +106,7 @@
                     </a>
                 </div>
                 <div class="flex-grow-1 ms-3 info">
-                    <a href="{{ route('user.profile') }}" class="d-block name">{{ auth()->user()->name }}</a>
+                    <a href="{{ route('dashboard.profile') }}" class="d-block name">{{ auth()->user()->name }}</a>
                     <a href="{{ route('logout') }}">{{ __('dashboard.logout') }}</a>
                 </div>
             </div>
@@ -257,7 +257,7 @@
 
                                         <ul class="dropdown-menu border-0 bg-white w-100 admin-link">
                                             <li>
-                                                <a class="dropdown-item d-flex align-items-center text-body" href="{{ route('user.profile.edit') }}">
+                                                <a class="dropdown-item d-flex align-items-center text-body" href="{{ route('dashboard.profile.edit') }}">
                                                     <i data-feather="user"></i>
                                                     <span class="ms-2">{{ __('dashboard.profile') }}</span>
                                                 </a>

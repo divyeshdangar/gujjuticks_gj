@@ -40,6 +40,20 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    protected $searchable = [
+        'email', 'name', 'first_name', 'last_name', 'username', 'phone'
+    ];
+
+    public function scopeSearching($q)
+    {
+        if (request('search')) {
+            foreach ($this->searchable as $key => $value) {
+                $q->orwhere($value, 'LIKE', '%'.request('search').'%');
+            }
+        }
+        return $q;
+    }
+
     /**
      * Get the attributes that should be cast.
      *

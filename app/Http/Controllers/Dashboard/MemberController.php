@@ -112,7 +112,6 @@ class MemberController extends Controller
         return redirect()->route('dashboard.member')->with($message);
     }
 
-
     public function status(Request $request, $id, $status)
     {
         $validator = Validator::make($request->all(), [

@@ -2,12 +2,13 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\User\ProfileController;
+use App\Http\Controllers\Dashboard\ProfileController;
 use App\Http\Controllers\Dashboard\NotificationController;
 use App\Http\Controllers\Dashboard\ContactController;
 use App\Http\Controllers\Dashboard\ImageController;
 use App\Http\Controllers\Dashboard\BlogController;
 use App\Http\Controllers\Dashboard\MemberController;
+use App\Http\Controllers\Dashboard\UserController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Pages\BlogController as PublicBlogController;
 
@@ -23,6 +24,9 @@ Route::get('/', [HomeController::class, 'show'])->name('home');
 
 Route::get('/test', function () {
     return view('test');
+});
+Route::get('/google', function () {
+    return view('google');
 });
 
 Route::get('language/{locale}', function ($locale) {
@@ -41,9 +45,9 @@ Route::middleware([CheckIfLogin::class])->group(function () {
     Route::get('dashboard/notification', [NotificationController::class, 'index'])->name('dashboard.notification');
     Route::get('dashboard/notification/action/{action}', [NotificationController::class, 'action'])->name('dashboard.notification.action');
 
-    Route::get('user/profile', [ProfileController::class, 'show'])->name('user.profile');
-    Route::get('user/profile/edit', [ProfileController::class, 'index'])->name('user.profile.edit');
-    Route::post('user/profile/edit', [ProfileController::class, 'store'])->name('user.profile.edit.post');
+    Route::get('dashboard/profile', [ProfileController::class, 'show'])->name('dashboard.profile');
+    Route::get('dashboard/profile/edit', [ProfileController::class, 'index'])->name('dashboard.profile.edit');
+    Route::post('dashboard/profile/edit', [ProfileController::class, 'store'])->name('dashboard.profile.edit.post');
 
     Route::get('dashboard/contact', [ContactController::class, 'index'])->name('dashboard.contact');
     
@@ -69,11 +73,20 @@ Route::middleware([CheckIfLogin::class])->group(function () {
     Route::post('dashboard/work-item/edit', [BoardItemController::class, 'updateItem'])->name('dashboard.work_item.edit.post');
 
     Route::get('dashboard/member', [MemberController::class, 'index'])->name('dashboard.member');
-    Route::post('dashboard/member/add', [MemberController::class, 'store'])->name('dashboard.member.create');
+    Route::post('dashboard/member/add', [MemberController::class, 'store'])->name('dashboard.member.create');  
+
+    Route::get('dashboard/user', [UserController::class, 'index'])->name('dashboard.user');
+    Route::post('dashboard/user/create', [UserController::class, 'store'])->name('dashboard.user.create');
+    Route::get('dashboard/user/edit/{id}', [UserController::class, 'edit'])->name('dashboard.user.edit');
+    Route::post('dashboard/user/edit/{id}', [UserController::class, 'store'])->name('dashboard.user.edit.post');
+    Route::get('dashboard/user/view/{id}', [UserController::class, 'view'])->name('dashboard.user.view');
+    Route::post('dashboard/user/access/{id}', [UserController::class, 'access'])->name('dashboard.user.access');
+    Route::get('dashboard/user/delete/{id}', [UserController::class, 'delete'])->name('dashboard.user.delete');
+
 });
 
-
-Route::get('login', [LoginController::class, 'authenticate'])->name('login');
+Route::get('dashboard/login', [LoginController::class, 'authenticate'])->name('login');
+Route::post('dashboard/login', [LoginController::class, 'login'])->name('login.post');
 Route::get('logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::get('contact-us', [FormController::class, 'show'])->name('form.contact');

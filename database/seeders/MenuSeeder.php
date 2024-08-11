@@ -25,6 +25,7 @@ class MenuSeeder extends Seeder
                 "route" => "dashboard",
                 "order" => 1,
                 "title_only" => "0",
+                "type" => "2",
                 "status" => "1"
             ],
             [
@@ -34,6 +35,7 @@ class MenuSeeder extends Seeder
                 "route" => "",
                 "order" => 2,
                 "title_only" => "1",
+                "type" => "2",
                 "status" => "1"
             ],
             [
@@ -43,6 +45,7 @@ class MenuSeeder extends Seeder
                 "route" => "dashboard.board",
                 "order" => 3,
                 "title_only" => "0",
+                "type" => "2",
                 "status" => "1"
             ],
             [
@@ -52,6 +55,7 @@ class MenuSeeder extends Seeder
                 "route" => "dashboard.member",
                 "order" => 4,
                 "title_only" => "0",
+                "type" => "2",
                 "status" => "1"
             ],
             [
@@ -61,6 +65,7 @@ class MenuSeeder extends Seeder
                 "route" => "",
                 "order" => 5,
                 "title_only" => "1",
+                "type" => "2",
                 "status" => "1"
             ],
             [
@@ -70,6 +75,7 @@ class MenuSeeder extends Seeder
                 "route" => "dashboard.blog",
                 "order" => 6,
                 "title_only" => "0",
+                "type" => "2",
                 "status" => "1"
             ],
             [
@@ -79,6 +85,7 @@ class MenuSeeder extends Seeder
                 "route" => "",
                 "order" => 7,
                 "title_only" => "1",
+                "type" => "2",
                 "status" => "1"
             ],
             [
@@ -88,6 +95,7 @@ class MenuSeeder extends Seeder
                 "route" => "dashboard.image",
                 "order" => 8,
                 "title_only" => "0",
+                "type" => "2",
                 "status" => "1"
             ],
             [
@@ -97,6 +105,7 @@ class MenuSeeder extends Seeder
                 "route" => "",
                 "order" => 9,
                 "title_only" => "1",
+                "type" => "2",
                 "status" => "1"
             ],
             [
@@ -106,6 +115,7 @@ class MenuSeeder extends Seeder
                 "route" => "dashboard.notification",
                 "order" => 10,
                 "title_only" => "0",
+                "type" => "2",
                 "status" => "1"
             ],
             [
@@ -115,6 +125,37 @@ class MenuSeeder extends Seeder
                 "route" => "dashboard.contact",
                 "order" => 11,
                 "title_only" => "0",
+                "type" => "2",
+                "status" => "1"
+            ],
+            [
+                "id" => 12, 
+                "icon" => "user", 
+                "title" => 'dashboard.profile', 
+                "route" => "dashboard.profile",
+                "order" => 1,
+                "title_only" => "0",
+                "type" => "3",
+                "status" => "1"
+            ],
+            [
+                "id" => 13, 
+                "icon" => "", 
+                "title" => 'dashboard.user_manage', 
+                "route" => "",
+                "order" => 12,
+                "title_only" => "1",
+                "type" => "2",
+                "status" => "1"
+            ],
+            [
+                "id" => 14, 
+                "icon" => "user", 
+                "title" => 'dashboard.user', 
+                "route" => "dashboard.user",
+                "order" => 13,
+                "title_only" => "0",
+                "type" => "2",
                 "status" => "1"
             ],
         ];

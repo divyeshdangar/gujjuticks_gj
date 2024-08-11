@@ -24,9 +24,7 @@ class CheckIfLogin
         if (Session::has('locale')) {
             App::setLocale(Session::get('locale'));
         }
-
         if (Auth::check()) {
-
             $message = [
                 "message" => [
                     "type" => "error",
@@ -34,26 +32,26 @@ class CheckIfLogin
                     "description" => __('dashboard.for_admin_only')
                 ]
             ];
-            if(Auth::user()->user_type != '1'){
+            if (Auth::user()->user_type != '1') {
                 $haveAccess = false;
-                if(!empty(Auth::user()->menus)){
+                if (!empty(Auth::user()->menus)) {
                     $menu = Menu::select('route')
                         ->where("status", 1)
-                        ->whereIn('id', explode(',',Auth::user()->menus->menuIds))
+                        ->whereIn('id', explode(',', Auth::user()->menus->menuIds))
                         ->get()->toArray();
-                                           
+
                     foreach ($menu as $key => $value) {
-                        // echo $value["route"];
-                        // echo "<br>";                        
-                        if($value["route"] == Route::currentRouteName() || ($value["route"]!="dashboard" && (strpos(Route::currentRouteName(), $value["route"]) === 0))){
+                        if ($value["route"] == Route::currentRouteName() || ($value["route"] != "dashboard" && (strpos(Route::currentRouteName(), $value["route"]) === 0))) {
                             $haveAccess = true;
                             break;
                         }
                     }
-                    // echo Route::currentRouteName();
-                    // die;
                 }
-                if($haveAccess == false){
+                // Default access to dashboard
+                if (Route::currentRouteName() == "dashboard") {
+                    $haveAccess = true;
+                }
+                if ($haveAccess == false) {
                     return redirect()->route('dashboard')->with($message);
                 }
             }
