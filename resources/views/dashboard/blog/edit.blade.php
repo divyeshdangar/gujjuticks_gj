@@ -131,16 +131,6 @@
                         <div class="col-lg-12">
                             <div class="form-group mb-4">
                                 <label class="label @error('title') text-danger @enderror">{{ __('dashboard.district') }}</label>
-                                {{-- <div class="form-group position-relative">
-                                    <input type="text" name="title"
-                                        class="form-control text-dark ps-5 h-58 @error('title') border border-danger rounded-3 border-3 @enderror"
-                                        value="{{ old('title', $dataDetail->title) }}"
-                                        placeholder="{{ __('dashboard.title') }}" required>
-                                    <i
-                                        class="ri-pencil-line position-absolute top-50 start-0 translate-middle-y fs-20 text-gray-light ps-20"></i>
-                                </div> --}}
-
-
                                 <div class="form-group position-relative">
                                     <select class="form-select form-control ps-5 h-58" aria-label="Default select example">
                                         <option selected class="text-dark">Select District</option>
@@ -150,7 +140,6 @@
                                     </select>
                                     <i class="ri-map-pin-line position-absolute top-50 start-0 translate-middle-y fs-20 text-gray-light ps-20"></i>
                                 </div>
-
                                 @error('title')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
@@ -158,14 +147,17 @@
                         </div>
                         <div class="col-lg-12">
                             <div class="form-group mb-4">
-                                <label
-                                    class="label @error('meta_description') text-danger @enderror">{{ __('dashboard.meta_description') }}</label>
+                                <label class="label @error('title') text-danger @enderror">{{ __('dashboard.category') }}</label>
                                 <div class="form-group position-relative">
-                                    <textarea id="meta_description" name="meta_description"
-                                        class="form-control text-dark @error('meta_description') border border-danger rounded-3 border-3 @enderror"
-                                        placeholder="{{ __('dashboard.meta_description') }}" rows="3" rows="7" required>{{ old('meta_description', $dataDetail->meta_description) }}</textarea>
+                                    <select class="form-select form-control ps-5 h-58" aria-label="Default select example">
+                                        <option selected class="text-dark">Select Category</option>
+                                        @foreach ($categoryData as $data)
+                                            <option value="{{ $data->id }}" class="text-dark">{{ $data->title }}</option>
+                                        @endforeach
+                                    </select>
+                                    <i class="ri-article-line position-absolute top-50 start-0 translate-middle-y fs-20 text-gray-light ps-20"></i>
                                 </div>
-                                @error('meta_description')
+                                @error('title')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>

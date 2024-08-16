@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Blog;
 use App\Models\Location;
+use App\Models\BlogCategories;
 use Illuminate\Support\Facades\Validator;
 
 class BlogController extends Controller
@@ -54,7 +55,8 @@ class BlogController extends Controller
         $dataDetail = Blog::find($id);
         if($dataDetail) {
             $locationData = Location::where('parent_id', 2)->orderBy('name')->get();
-            return view('dashboard.blog.edit', ['dataDetail' => $dataDetail, 'locationData' => $locationData, 'metaData' => []]);
+            $categoryData = BlogCategories::orderBy('title')->get();
+            return view('dashboard.blog.edit', ['dataDetail' => $dataDetail, 'locationData' => $locationData, 'categoryData' => $categoryData, 'metaData' => []]);
         } else {
             $message = [
                 "message" => [

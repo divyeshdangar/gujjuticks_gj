@@ -93,6 +93,7 @@ Route::get('contact-us', [FormController::class, 'show'])->name('form.contact');
 Route::post('contact-us', [FormController::class, 'store'])->name('form.contact.post');
 
 Route::get('blogs', [PublicBlogController::class, 'index'])->name('pages.blog.list');
+Route::get('blog-on-{slug}', [PublicBlogController::class, 'category'])->name('pages.blog.category.detail');
 Route::get('blog/{slug}', [PublicBlogController::class, 'view'])->name('pages.blog.detail');
 
 Route::get('google/redirect', [GoogleLoginController::class, 'redirectToGoogle'])->name('google.redirect');

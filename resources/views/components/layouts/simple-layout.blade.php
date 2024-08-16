@@ -57,7 +57,7 @@
                             <div class="left-header-content">
                                 <ul class="d-flex align-items-center ps-0 mb-0 list-unstyled justify-content-center justify-content-sm-start">
                                     <li>
-                                        <a href="{{ route('dashboard') }}" class="d-block text-decoration-none">
+                                        <a href="{{ route('home') }}" class="d-block text-decoration-none">
                                             <img src="{{ asset('brand/full-logo-black.png') }}" style="max-height: 50px;" alt="logo-icon">                                        
                                         </a>
                                     </li>
