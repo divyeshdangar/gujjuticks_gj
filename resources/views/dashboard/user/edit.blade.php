@@ -214,6 +214,8 @@
         function getImage() {
             $('#upload-image-image').croppie('result', {
                 type: 'base64',
+                format: 'jpeg',
+                quality: 0.7
             }).then(function(resp) {
                 if (resp) {
                     $("#croppedImage").val(resp)

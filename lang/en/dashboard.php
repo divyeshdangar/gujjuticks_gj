@@ -92,4 +92,13 @@ return [
     "confirm" => "Confirm",
     "deleted" => "Deleted",
     'slug' => 'Slug',
+    'blog_category' => 'Blog Category',
+    'select' => 'Select',
+    'add' => 'Add',
+    'detail' => 'Detail',
+    'district' => 'District',
+    'location' => 'Location',
+    'live_soon' => 'WE WILL LIVE SOON',
+    'record_deleted' => 'Record deleted successfully.',
+
 ];

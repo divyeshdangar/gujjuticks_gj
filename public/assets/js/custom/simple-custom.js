@@ -29,4 +29,42 @@
         return new bootstrap.Tooltip(tooltipTriggerEl);
     });
 
+    // Header Burger Button
+    const getHeaderBurgerMenuId = document.getElementById('header-burger-menu');
+    if (getHeaderBurgerMenuId) {
+        const switchtoggle = document.querySelector(".header-burger-menu");
+        const savedTheme = localStorage.getItem("splash_sidebar");
+        if (savedTheme) {
+            document.body.setAttribute("sidebar-data-theme", savedTheme);
+        }
+        switchtoggle.addEventListener("click", function () {
+            if (document.body.getAttribute("sidebar-data-theme") === "sidebar-hide") {
+                document.body.setAttribute("sidebar-data-theme", "sidebar-show");
+                localStorage.setItem("splash_sidebar", "sidebar-show");
+            } else {
+                document.body.setAttribute("sidebar-data-theme", "sidebar-hide");
+                localStorage.setItem("splash_sidebar", "sidebar-hide");
+            }
+        });
+    }
+
+    // Sidebar Burger Button
+    const getSidebarBurgerMenuId = document.getElementById('sidebar-burger-menu');
+    if (getSidebarBurgerMenuId) {
+        const switchtoggle = document.querySelector(".sidebar-burger-menu");
+        const savedTheme = localStorage.getItem("splash_sidebar");
+        if (savedTheme) {
+            document.body.setAttribute("sidebar-data-theme", savedTheme);
+        }
+        switchtoggle.addEventListener("click", function () {
+            if (document.body.getAttribute("sidebar-data-theme") === "sidebar-hide") {
+                document.body.setAttribute("sidebar-data-theme", "sidebar-show");
+                localStorage.setItem("splash_sidebar", "sidebar-show");
+            } else {
+                document.body.setAttribute("sidebar-data-theme", "sidebar-hide");
+                localStorage.setItem("splash_sidebar", "sidebar-hide");
+            }
+        });
+    }
+
 })();

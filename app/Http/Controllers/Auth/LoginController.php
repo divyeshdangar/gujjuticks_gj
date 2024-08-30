@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Validator;
@@ -21,7 +21,7 @@ class LoginController extends Controller
                     "description" => __('dashboard.already_login')    
                 ]
             ];
-            return redirect()->route('dashboard')->with($message);
+            return redirect()->route('home')->with($message);
         } else {
             // to set meta data of page
             $metaData = [
@@ -53,7 +53,7 @@ class LoginController extends Controller
             ];
             $user = User::where($data)->first();
             Auth::login($user);
-            return redirect()->route('dashboard');
+            return redirect()->route('home');
         } else {
             $message = [
                 "message" => [
@@ -71,6 +71,6 @@ class LoginController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect()->route('login');
+        return redirect()->route('home');
     }
 }

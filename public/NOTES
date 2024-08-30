@@ -1,7 +1,7 @@
 TO CREATE NEW PAGE
 
 1. Create controller
-php artisan make:controller Dashboard/UserController
+php artisan make:controller Dashboard/BlogCategoryController
 
 2.
 

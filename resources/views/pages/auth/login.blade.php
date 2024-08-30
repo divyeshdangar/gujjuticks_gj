@@ -6,7 +6,7 @@
                 <form method="post" id="formToValidate" action="{{ route('login.post') }}">
                     {{ csrf_field() }}
                     <div class="d-flex align-items-center gap-4 mb-3">
-                        <h4 class="fs-3 mb-0">Get’s started.</h4>
+                        <h4 class="fs-3 mb-0">{{ __('contact.contact_us') }}</h4>
                         <a href="{{ route('home') }}">
                             <img src="{{ asset('brand/full-logo-black.png') }}" alt="logo">
                         </a>

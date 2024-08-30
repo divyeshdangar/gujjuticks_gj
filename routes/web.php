@@ -7,6 +7,7 @@ use App\Http\Controllers\Dashboard\NotificationController;
 use App\Http\Controllers\Dashboard\ContactController;
 use App\Http\Controllers\Dashboard\ImageController;
 use App\Http\Controllers\Dashboard\BlogController;
+use App\Http\Controllers\Dashboard\BlogCategoryController;
 use App\Http\Controllers\Dashboard\MemberController;
 use App\Http\Controllers\Dashboard\UserController;
 use App\Http\Controllers\Dashboard\DashboardController;
@@ -16,18 +17,27 @@ use App\Http\Controllers\Dashboard\BoardController;
 use App\Http\Controllers\Dashboard\BoardItemController;
 
 use App\Http\Middleware\CheckIfLogin;
+use App\Http\Middleware\CheckLanguage;
+
 use App\Http\Controllers\Pages\FormController;
 use App\Http\Controllers\Pages\HomeController;
 use App\Http\Controllers\Auth\GoogleLoginController;
 
-Route::get('/', [HomeController::class, 'show'])->name('home');
+Route::middleware([CheckLanguage::class])->group(function () {
+    Route::get('/', [HomeController::class, 'show'])->name('home');    
+    Route::get('/test', function () {
+        return view('test');
+    });
+    Route::get('/google', function () {
+        return view('google');
+    });
+    Route::get('login', [LoginController::class, 'authenticate'])->name('login');
+    Route::get('contact-us', [FormController::class, 'show'])->name('form.contact');
+    Route::get('blogs', [PublicBlogController::class, 'index'])->name('pages.blog.list');
+    Route::get('blog-on-{slug}', [PublicBlogController::class, 'category'])->name('pages.blog.category.detail');
+    Route::get('blog/{slug}', [PublicBlogController::class, 'view'])->name('pages.blog.detail');
+});
 
-Route::get('/test', function () {
-    return view('test');
-});
-Route::get('/google', function () {
-    return view('google');
-});
 
 Route::get('language/{locale}', function ($locale) {
     if (! in_array($locale, ['en', 'hi', 'gj'])) {
@@ -39,7 +49,7 @@ Route::get('language/{locale}', function ($locale) {
     }
 })->name('language');
 
-Route::middleware([CheckIfLogin::class])->group(function () {
+Route::middleware([CheckIfLogin::class, CheckLanguage::class])->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::get('dashboard/notification', [NotificationController::class, 'index'])->name('dashboard.notification');
@@ -63,6 +73,13 @@ Route::middleware([CheckIfLogin::class])->group(function () {
     Route::get('dashboard/blog/view/{id}', [BlogController::class, 'view'])->name('dashboard.blog.view');
     Route::get('dashboard/blog/delete/{id}', [BlogController::class, 'delete'])->name('dashboard.blog.delete');
 
+    Route::get('dashboard/blog-category', [BlogCategoryController::class, 'index'])->name('dashboard.blog.category');
+    Route::get('dashboard/blog-category/create', [BlogCategoryController::class, 'create'])->name('dashboard.blog.category.create');
+    Route::get('dashboard/blog-category/edit/{id}', [BlogCategoryController::class, 'edit'])->name('dashboard.blog.category.edit');
+    Route::post('dashboard/blog-category/edit/{id}', [BlogCategoryController::class, 'store'])->name('dashboard.blog.category.edit.post');
+    Route::get('dashboard/blog-category/view/{id}', [BlogCategoryController::class, 'view'])->name('dashboard.blog.category.view');
+    Route::get('dashboard/blog-category/delete/{id}', [BlogCategoryController::class, 'delete'])->name('dashboard.blog.category.delete');
+
     Route::get('dashboard/board', [BoardController::class, 'index'])->name('dashboard.board');
     Route::get('dashboard/board/create', [BoardController::class, 'create'])->name('dashboard.board.create');
     Route::get('dashboard/board/edit/{id}', [BoardController::class, 'edit'])->name('dashboard.board.edit');
@@ -85,16 +102,8 @@ Route::middleware([CheckIfLogin::class])->group(function () {
 
 });
 
-Route::get('dashboard/login', [LoginController::class, 'authenticate'])->name('login');
-Route::post('dashboard/login', [LoginController::class, 'login'])->name('login.post');
+Route::post('login', [LoginController::class, 'login'])->name('login.post');
 Route::get('logout', [LoginController::class, 'logout'])->name('logout');
-
-Route::get('contact-us', [FormController::class, 'show'])->name('form.contact');
 Route::post('contact-us', [FormController::class, 'store'])->name('form.contact.post');
-
-Route::get('blogs', [PublicBlogController::class, 'index'])->name('pages.blog.list');
-Route::get('blog-on-{slug}', [PublicBlogController::class, 'category'])->name('pages.blog.category.detail');
-Route::get('blog/{slug}', [PublicBlogController::class, 'view'])->name('pages.blog.detail');
-
 Route::get('google/redirect', [GoogleLoginController::class, 'redirectToGoogle'])->name('google.redirect');
 Route::get('google/callback', [GoogleLoginController::class, 'handleGoogleCallback'])->name('google.callback');

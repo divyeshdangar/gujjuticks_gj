@@ -1,24 +1,24 @@
-<x-layouts.simple-layout :showHeader="false" :metaData="$metaData">
+<x-layouts.simple-layout :metaData="$metaData">
+    {{-- :showHeader="false" --}}
     <div class="container-fluid">
         <div class="main-content d-flex flex-column px-0">
             <!-- Start Authentication Area -->
             <div class="m-auto mw-510 py-5">
                 <div class="d-flex align-items-center gap-4 mb-3">
-                    <h1 class="fs-3 mb-0">Contact us here.</h1>
+                    <h1 class="fs-3 mb-0">{{ __('contact.contact_us') }}</h1>
                     <a href="{{ route('home') }}">
                         <img src="brand/full-logo-black.png" alt="logo">
                     </a>
                 </div>
 
                 <div class="py-5">
-                    <h2 class="h3 text-center text-danger">WE WILL LIVE SOON</h2>
+                    <h2 class="h3 text-center text-danger">{{ __('dashboard.live_soon') }}</h2>
                 </div>
 
                 <div class="pt-3">
-                    <h2 class="h3 text-black">Get in Touch: Contact GujjuTicks Today!</h2>
-
+                    <h2 class="h3 text-black">{{ __('contact.get_in_touch') }}</h2>
                     <p class="mt-4">
-                        Reach out to GujjuTicks easily with our contact form or contact information. Whether you have questions, feedback, or inquiries, we're here to assist you promptly. Connect with us now!
+                        {{ __('contact.desc_1') }}
                     </p>
                 </div>
 
@@ -99,10 +99,10 @@
 
                 <div class="pt-4 pb-3">
                     <p class="mt-4">
-                        Need assistance or have a question? Don't hesitate to get in touch with GujjuTicks. Our contact page is your gateway to seamless communication with our dedicated team. Whether you prefer filling out a quick form or reaching out via email or phone, we're here to ensure your inquiries are addressed promptly and efficiently. Trust us to provide the support you need, when you need it.
+                        {{ __('contact.desc_2') }}
                     </p>
                     <p class="mt-4">
-                        At GujjuTicks, we value open communication and strive to make it easy for our customers to connect with us. Our contact page is designed to streamline the process, allowing you to reach out with ease. Whether you have feedback, inquiries about our products or services, or simply want to say hello, we look forward to hearing from you and providing the assistance you deserve.
+                        {{ __('contact.desc_3') }}
                     </p>
                 </div>
 

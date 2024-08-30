@@ -11,11 +11,11 @@
             <ul class="ps-0 mb-0 list-unstyled d-flex gap-3">
                 <li>
                     <i class="ri-user-line text-danger"></i>
-                    <a href="#" class="text-decoration-none text-gray-light ms-1">By {{ ucwords($data->user->name) }}</a>
+                    <a class="text-decoration-none text-gray-light ms-1">{{ ucwords($data->user->name) }}</a>
                 </li>
                 <li>
                     <i class="ri-calendar-line text-danger"></i>
-                    <a href="{{ route('pages.blog.detail', ['slug' => $data->slug]) }}" class="text-decoration-none text-gray-light ms-1">{{ $data->created_at->format('j F, Y') }}</a>
+                    <span class="text-decoration-none text-gray-light ms-1">{{ $data->created_at->format('j F, Y') }}</span>
                 </li>
             </ul>
         </div>

@@ -17,9 +17,8 @@
                             <div class="d-flex align-items-start gap-3">
                                 <img src="{{ asset('assets/images/arrow-right.svg') }}" class="bg-white py-1" alt="arrow-right">
                                 <div>
-                                    <h4 class="fs-18 fw-semibold mb-2">First event</h4>
+                                    <h4 class="fs-18 fw-semibold mb-2">{!! $data->msg !!}</h4>
                                     <span class="text-gray-light d-block mb-2">{{ $data->created_at }}</span>
-                                    <p>{!! $data->msg !!}</p>
                                     <x-common.notification :detail="$data"></x-common.notification>
                                 </div>
                             </div>

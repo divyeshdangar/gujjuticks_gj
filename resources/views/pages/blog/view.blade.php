@@ -40,11 +40,11 @@
             <div class="card bg-white border-0 rounded-10 mb-4">
                 <div class="card-body p-4">
                     <div class="d-flex justify-content-between align-items-center border-bottom pb-20 mb-20">
-                        <h4 class="fw-bold fs-18 mb-0">Top Categories</h4>
+                        <h4 class="fw-bold fs-18 mb-0">{{ __('contact.top_categories') }}</h4>
                     </div>
                     <div class="row">
                         @foreach ($categories as $data)
-                            <x-common.blocks.category :data="$data"></x-common.breadcrumb>
+                            <x-common.blocks.category :data="$data" :class="'col-md-12'"></x-common.breadcrumb>
                         @endforeach
                     </div>
                 </div>
@@ -53,7 +53,7 @@
             <div class="card bg-white border-0 rounded-10 mb-4">
                 <div class="card-body p-4 pb-0">
                     <div class="d-flex justify-content-between align-items-center border-bottom pb-20 mb-20">
-                        <h4 class="fw-bold fs-18 mb-0">Recent Blogs</h4>
+                        <h4 class="fw-bold fs-18 mb-0">{{ __('contact.recent_blogs') }}</h4>
                     </div>
                     <div class="row">
                         @foreach ($dataList as $data)

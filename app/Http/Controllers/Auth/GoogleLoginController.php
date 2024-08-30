@@ -54,7 +54,7 @@ class GoogleLoginController extends Controller
                 Notification::create($data);
             }
             Auth::login($user);
-            return redirect()->route('dashboard')->with($message);
+            return redirect()->route('home')->with($message);
         } catch (\Throwable $th) {
             $message = [
                 "message" => [

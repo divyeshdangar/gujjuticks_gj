@@ -73,5 +73,20 @@ return [
     'image_content'=>'ચિત્ર સમાવિષ્ટ',
     'preview'=>'પૂર્વદર્શન',
     'code'=>'કોડ',
-    'basic_info'=>'મૂળભૂત જાણકારી'
+    'basic_info'=>'મૂળભૂત જાણકારી',
+    'public_features' => 'Public Features',
+    'blog' => 'Blog',
+    'board' => 'Board',
+    'member' => 'Member',
+    'user' => 'User',
+    'user_manage' => 'Manage User',
+    'status' => 'Status',
+    'manage_work' => 'Manage Work',
+    "rejected" => "Rejected",
+    "pending" => "Pending",
+    "confirm" => "Confirm",
+    "deleted" => "Deleted",
+    'slug' => 'Slug',
+
+    'live_soon' => 'વેબસાઇટ જલ્દી જ લાઇવ થસે.'
 ];

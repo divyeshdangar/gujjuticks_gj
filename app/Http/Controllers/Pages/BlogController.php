@@ -26,7 +26,7 @@ class BlogController extends Controller
         ];
         $dataList = Blog::orderBy('id', 'DESC');
         $dataList = $dataList->searching()->paginate(5)->withQueryString();
-        $categories = BlogCategories::where("status", "1")->limit(6)->get();
+        $categories = BlogCategories::where("status", "1")->where("parent_id", null)->limit(8)->get();
 
         return view('pages.blog.list', ['metaData' => $metaData, 'lang' => $this->languages, 'dataList' => $dataList, 'categories' => $categories]);
     }
@@ -47,7 +47,7 @@ class BlogController extends Controller
                 //     ["title" => "Create", "route" => ""]
                 // ]
             ];
-            $categories = BlogCategories::where("status", "1")->where('id', '<>', $dataDetail->id)->limit(3)->get();
+            $categories = BlogCategories::where("status", "1")->where("parent_id", null)->where('id', '<>', $dataDetail->id)->limit(3)->get();
             $dataList = Blog::where("status", "1")->where('id', '<>', $dataDetail->id)->limit(3)->get();
             return view('pages.blog.view', ['dataDetail' => $dataDetail, 'lang' => $this->languages, 'metaData' => $metaData, 'dataList' => $dataList, 'categories' => $categories]);
         } else {
@@ -78,11 +78,12 @@ class BlogController extends Controller
                 //     ["title" => "Create", "route" => ""]
                 // ]
             ];
-            $categories = BlogCategories::where("status", "1")->where('id', '<>', $dataDetail->id)->limit(3)->get();
+            $categories = BlogCategories::where("status", "1")->where("parent_id", null)->where('id', '<>', $dataDetail->id)->limit(3)->get();
+            $subCategories = BlogCategories::where("status", "1")->where("parent_id", $dataDetail->id)->get();
             $dataList = Blog::where("status", "1")
                 //->where('id', '<>', $dataDetail->id)
                 ->limit(3)->get();
-            return view('pages.blog.category', ['dataDetail' => $dataDetail, 'lang' => $this->languages, 'metaData' => $metaData, 'dataList' => $dataList, 'categories' => $categories]);
+            return view('pages.blog.category', ['dataDetail' => $dataDetail, 'lang' => $this->languages, 'metaData' => $metaData, 'dataList' => $dataList, 'categories' => $categories, 'subCategories' => $subCategories]);
         } else {
             $message = [
                 "message" => [
