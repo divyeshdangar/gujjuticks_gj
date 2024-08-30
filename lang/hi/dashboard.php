@@ -73,5 +73,20 @@ return [
     'image_content'=>'छवि सामग्री',
     'preview'=>'पूर्वसमीक्षा',
     'code'=>'कोड',
-    'basic_info'=>'बुनियादी जानकारी'
+    'basic_info'=>'बुनियादी जानकारी',
+    'public_features' => 'Public Features',
+    'blog' => 'Blog',
+    'board' => 'Board',
+    'member' => 'Member',
+    'user' => 'User',
+    'user_manage' => 'Manage User',
+    'status' => 'Status',
+    'manage_work' => 'Manage Work',
+    "rejected" => "Rejected",
+    "pending" => "Pending",
+    "confirm" => "Confirm",
+    "deleted" => "Deleted",
+    'slug' => 'Slug',
+
+    'live_soon' => 'वेबसाईट जल्द ही लाइव होगी!'
 ];

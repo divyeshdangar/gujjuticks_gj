@@ -31,7 +31,7 @@ class NotificationController extends Controller
                 $value->msg = __($value->message_tag, $data);
             }
         }
-        return view('pages.user.notification', ['dataList' => $dataList, 'metaData' => $metaData]);
+        return view('dashboard.user.notification', ['dataList' => $dataList, 'metaData' => $metaData]);
     }
 
     public function action(Request $request, $action)
@@ -79,6 +79,6 @@ class NotificationController extends Controller
         } catch (\Throwable $th) {
         }
 
-        return redirect()->route('dashboard.notification.list')->with($message);
+        return redirect()->route('dashboard.notification')->with($message);
     }
 }

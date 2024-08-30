@@ -1,23 +1,19 @@
 <x-layouts.dashboard-layout :metaData="$metaData">
 
-    <div class="d-sm-flex text-center justify-content-between align-items-center mb-4">
-        <h3 class="mb-sm-0 mb-1 fs-18">{{ __('dashboard.blog') }}</h3>
-        <ul class="ps-0 mb-0 list-unstyled d-flex justify-content-center">
-            <li>
-                <a href="{{ route('dashboard') }}" class="text-decoration-none">
-                    <i class="ri-home-2-line" style="position: relative; top: -1px;"></i>
-                    <span>{{ __('dashboard.home') }}</span>
-                </a>
-            </li>
-            <li>
-                <span class="fw-semibold fs-14 heading-font text-dark dot ms-2">{{ __('dashboard.blog') }}</span>
-            </li>
-        </ul>
-    </div>
+    @if ($metaData['breadCrumb'])
+        <x-common.breadcrumb :metaData="$metaData"></x-common.breadcrumb>
+    @endif
+    
     <div class="card bg-white border-0 rounded-10 mb-4">
         <div class="card-body p-4">
             <div class="d-sm-flex text-center justify-content-between align-items-center border-bottom pb-20 mb-20">
                 <h4 class="fw-semibold fs-18 mb-sm-0">{{ __('dashboard.blog') }}</h4>
+                <a href="{{ route('dashboard.blog.create') }}" class="border-0 btn btn-primary py-2 px-4 text-white fs-14 fw-semibold rounded-3">
+                    <span class="py-sm-1 d-block">
+                        <i class="ri-add-line text-white"></i>
+                        <span>{{ __('dashboard.add') }} {{ __('dashboard.blog') }}</span>
+                    </span>
+                </a>
             </div>
             <div class="default-table-area notification-list">
                 <form method="get" id="form">
@@ -66,8 +62,8 @@
                                         #{{ $data->id }}
                                     </td>
                                     <td>
-                                        <a target="_blank" href="{{ URL::asset('/images/dynamic/'.$data->image) }}">
-                                            <img src="{{ URL::asset('/images/dynamic/'.$data->image) }}" class="wh-110 rounded-circle">
+                                        <a target="_blank" href="{{ URL::asset('/images/blog/'.$data->image) }}">
+                                            <img src="{{ URL::asset('/images/blog/'.$data->image) }}" width="250px" class="img-thumbnail">
                                         </a>
                                     </td>
                                     <td class="ps-0">
@@ -88,7 +84,7 @@
                                             <a class="btn bg p-1" href="{{ route('dashboard.blog.edit', ['id' => $data->id]) }}">
                                                 <i data-feather="edit-3"></i>
                                             </a>
-                                            <a class="btn bg p-1" href="{{ route('dashboard.blog.delete', ['id' => $data->id]) }}">
+                                            <a class="btn bg p-1" onclick="confirmAndDelete('{{ route('dashboard.blog.delete', ['id' => $data->id]) }}')">
                                                 <i data-feather="trash-2"></i>
                                             </a>
                                         </div>

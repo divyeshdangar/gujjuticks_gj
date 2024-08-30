@@ -23,4 +23,9 @@ class Blog extends Model
         }
         return $q;
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

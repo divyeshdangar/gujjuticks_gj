@@ -15612,7 +15612,7 @@ a#x__NEXT__X {
   position: sticky;
   top: 0;
   width: 100%;
-  z-index: 1;
+  z-index: 2;
   animation: 500ms ease-in-out 0s normal none 1 running fadeInDown;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }

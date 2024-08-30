@@ -14,10 +14,12 @@
         if (getHeaderId) {
             window.addEventListener('scroll', event => {
                 const height = 150;
-                const {
-                    scrollTop
-                } = event.target.scrollingElement;
-                document.querySelector('#header-area').classList.toggle('sticky', scrollTop >= height);
+                if(event.target.scrollingElement){
+                    const {
+                        scrollTop
+                    } = event.target.scrollingElement;
+                    document.querySelector('#header-area').classList.toggle('sticky', scrollTop >= height);
+                }
             });
         }
 
@@ -27,6 +29,10 @@
                 Swal.fire(message.title, message.description, message.type);
             }
         } catch (err) {}
+
+
+        //const getHeaderId = document.getElementById("header-area");
+        var editor = new FroalaEditor('.example');
 
     };
 
@@ -760,7 +766,7 @@ function confirmAndDelete(link) {
 		}
 	}).then(function (result) {
 		if (result.value) {
-			//console.log(link);
+			location.href = link;
 		} else if (result.dismiss === "cancel") {
 			Swal.fire(
 				"Cancelled",

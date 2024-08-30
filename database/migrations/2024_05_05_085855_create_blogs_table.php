@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignId('user_id')->nullable();
             $table->foreignId('location_id')->nullable();
             $table->text('description')->nullable();
+            $table->text('meta_description')->nullable();
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('location_id')->references('id')->on('locations');

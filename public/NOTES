@@ -1,9 +1,14 @@
 TO CREATE NEW PAGE
 
 1. Create controller
-php artisan make:controller Pages/FormController
+php artisan make:controller Dashboard/BlogCategoryController
 
 2.
+
+
+
+
+ALTER TABLE `users` ADD `user_type` ENUM('1','2','3') NOT NULL DEFAULT '2' AFTER `phone`;
 
 
 
@@ -40,16 +45,18 @@ php artisan make:controller Dashboard/MemberController
 
 Create migration
 php artisan make:migration create_notification_table
+php artisan make:migration multi_table_changes_1
 
 Run migration
 php artisan migrate
 
 Create model
 php artisan make:model Flight
-php artisan make:model Blog --migration //create migration as well
+php artisan make:model BlogCategories --migration //create migration as well
 
+php artisan make:seeder MenuSeeder
 php artisan db:seed
-php artisan db:seed --class=LocationSeeder
+php artisan db:seed --class=MenuSeeder
 
 Event
 https://arjunamrutiya.medium.com/a-step-by-step-guide-to-laravel-events-and-listeners-with-examples-634d7a018fa0

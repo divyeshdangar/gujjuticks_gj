@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('username')->unique()->nullable();
             $table->string('phone', 16)->nullable();
+            $table->enum('user_type', ['1', '2', '3'])->default('2'); // 1 admin, 2 user, 3 company
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('profile')->nullable();

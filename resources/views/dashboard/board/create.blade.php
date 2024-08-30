@@ -7,7 +7,7 @@
         <div class="col-xxl-8">
             <div class="card bg-white border-0 rounded-10 mb-4">
                 <div class="card-body p-4">
-                    <h4 class="fw-semibold fs-18 border-bottom pb-20 mb-20">{{ __('dashboard.blog') }}</h4>
+                    <h4 class="fw-semibold fs-18 border-bottom pb-20 mb-20">{{ __('dashboard.board') }}</h4>
                     @if ($errors->any())
                         <div class="text-danger border border-danger border-4 p-3 rounded-3 mb-3">
                             <b>{{ __('dashboard.error') }}:</b>

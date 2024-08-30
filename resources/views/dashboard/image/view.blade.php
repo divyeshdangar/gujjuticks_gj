@@ -46,7 +46,7 @@
                             <div class="flex-shrink-0 lh-1">
                                 <a target="_blank" href="{{ URL::asset('/images/dynamic/' . $dataDetail->image) }}">
                                     <img src="{{ URL::asset('/images/dynamic/' . $dataDetail->image) }}"
-                                        class="wh-78 rounded-circle">
+                                        class="wh-78 rounded-10">
                                 </a>
                             </div>
                             <div class="flex-grow-1 ms-10">
@@ -107,7 +107,6 @@
                         <h4 class="fw-semibold fs-18 mb-0">{{ __('dashboard.image_content') }}</h4>
                     </div>
                     <div class="mb-4">
-
                         <div class="card bg-white border-0 rounded-10 mb-4">
                             <div class="card-body p-0">
                                 <ul class="nav nav-tabs mb-4" id="myTab3" role="tablist">
@@ -127,6 +126,41 @@
                                         aria-labelledby="preview3-tab" tabindex="0">
                                         <ul class="ps-0 mb-0 list-unstyled o-sortable cursor-move" id="imageDataList">
                                         </ul>
+
+                                        <form>
+                                            <div class="canvasEditableElements form-group mb-4 d-none" id="canvas_image_container">
+                                                <label class="label">You Photo</label>
+                                                <input id="canvas_image" name="canvas_image" type="file" class="form-control text-dark file">
+                                            </div>
+                            
+                                            <div class="canvasEditableElements form-group mb-4 d-none" id="canvas_text_container">
+                                                <label class="label">text</label>
+                                                <textarea onchange="updateRecord('text')" name="canvas_text" id="canvas_text" class="form-control text-dark"
+                                                    placeholder="" rows="3" required></textarea>
+                                            </div>
+                            
+                                            <div class="canvasEditableElements form-group mb-4 d-none" id="canvas_fill_container">
+                                                <label class="label">fill</label>
+                                                <input id="canvas_fill" onchange="updateRecord('fill')" name="canvas_fill" type="color"
+                                                    class="form-control text-dark">
+                                            </div>
+                            
+                                            <div class="canvasEditableElements form-group mb-4 d-none" id="canvas_src_container">
+                                                <label class="label">You Photo</label>
+                                                <input id="canvas_src" onchange="updateRecord('src', event)"
+                                                    name="canvas_src" type="file" accept="image/png, image/jpg, image/jpeg"
+                                                    class="form-control text-dark file">
+                                            </div>
+                            
+                                            <div class="form-group d-flex gap-3 d-none">
+                                                <button class="btn btn-primary text-white fw-semibold py-2 px-2 px-sm-3">
+                                                    <span class="py-sm-1 d-block">
+                                                        <i class="ri-add-line text-white"></i>
+                                                        <span>Refresh</span>
+                                                    </span>
+                                                </button>
+                                            </div>
+                                        </form>
                                     </div>
                                     <div class="tab-pane fade" id="code3-tab-pane" role="tabpanel"
                                         aria-labelledby="code3-tab" tabindex="0">
@@ -154,12 +188,13 @@
             </div>
         </div>
     </div>
+    <script src="https://unpkg.com/fabric/dist/fabric.min.js"></script>
+    {{-- <script src="{{ asset('assets/js/fabric.js') }}"></script> --}}
     <script>
         var canvas;
         var objData;
         var selectedObj;
         var selectedIndex;
-        var test = 2;
         window.addEventListener('load', function(event) {
             canvas = this.__canvas = new fabric.Canvas('canvas');
             // var imageSaver = document.getElementById('lnkDownload');
@@ -169,22 +204,32 @@
 
             var snapZone = 15;
             canvas.on('object:moving', function(options) {
-                // console.log('width', options)
-                // console.log('canvas width', canvas.width)
-                // console.log('left', options.target.left)
-                // console.log('wwwww', options.target.getScaledWidth())
-                // console.log('xxxxx', options.target.scaleY)
                 var objectMiddle = options.target.left + options.target.width / 2;
-                // console.log('middle', objectMiddle)
                 if (objectMiddle > canvas.width / 2 - snapZone &&
                     objectMiddle < canvas.width / 2 + snapZone) {
                     options.target.set({
                         left: canvas.width / 2 - options.target.width / 2,
                     }).setCoords();
-                    // console.log('to be left', canvas.width / 2 - options.target.width / 2);
+                }
+            });
+
+            canvas.on('mouse:up', function(options) {
+                if(options.target.unique && options.target.edit){
+                    const index = findIndexByUnique(options.target.unique);
+                    if(index > -1){
+                        onClickData(index);
+                    } else {
+                        removeAllElements();
+                    }
+                } else {
+                    removeAllElements();
                 }
             });
         });
+
+        const findIndexByUnique = (uniqueValue) => {
+            return objData.objects.findIndex(obj => obj.unique === uniqueValue);
+        };
 
         function update(getFromCode = 0) {
             canvas.clear();
@@ -195,10 +240,7 @@
             if (!objData || getFromCode == 1) {
                 var a = document.getElementById('options').value;
                 objData = JSON.parse(a);
-                generateImageDataList(objData);
             }
-
-            //console.log(objData)
 
             var str = JSON.stringify(objData, undefined, 4);
             document.getElementById('options').innerHTML = str;
@@ -209,52 +251,18 @@
             }, function(o, object) {})
         }
 
-        function generateImageDataList(objData) {
-            if (objData.objects && objData.objects.length > 0) {
-                let dataListContainer = document.getElementById("imageDataList");
-                objData.objects.forEach((element, i) => {
-
-                    let newElement = "";
-                    if (element.type == 'image') {
-                        newElement =
-                            `<img style="max-height:44px" src="`+element.src+`">`;
-                    } else if (element.type == 'textbox') {
-                        newElement = `<span class="fs-16 fw-semibold text-white">` + element.text.toUpperCase() +
-                            `</span>`;
-                    } else {
-                        newElement = `<span class="fs-16 fw-semibold text-white">` + element.type.toUpperCase() +
-                            `</span>`;
-                    }
-                    newElement = `<li onclick="onClickData(` + i +
-                        `)" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" class="bg-primary p-4 rounded-2 mb-3">` +
-                        newElement + `</li>`;
-
-                    //dataListContainer.innerHTML = newElement;
-                    //dataListContainer.appendChild(newElement)
-                    if(element.edit) {
-                        dataListContainer.insertAdjacentHTML('beforeend', newElement);
-                    }
-                });
+        function removeAllElements() {
+            for (let element of document.getElementsByClassName("canvasEditableElements")) {
+                element.classList.add("d-none");
             }
         }
 
         function onClickData(index) {
-
-
-            for (let element of document.getElementsByClassName("canvasEditableElements")) {
-                element.classList.add("d-none");
-            }
-
-            // console.log(this.objData);
-            // console.log(objData);
-            // console.log(test);
-
+            removeAllElements();
             selectedObj = objData.objects[index];
             selectedIndex = index;
-            // console.log(selectedObj);
             for (var prop in selectedObj) {
                 if (Object.prototype.hasOwnProperty.call(selectedObj, prop)) {
-                    // console.log(prop)
                     var element = document.getElementById('canvas_' + prop);
                     var elementContainer = document.getElementById('canvas_' + prop + '_container');
                     switch (prop) {
@@ -278,7 +286,6 @@
                     }
                 }
             }
-
         }
 
         function setResizeCanvas() {
@@ -305,8 +312,6 @@
             if (!element) {
                 element = document.getElementById('fabric-canvas-wrapper');
             }
-            // console.log('show clicked')
-            // console.log(element)
             element.classList.remove("d-none");
         }
 
@@ -314,8 +319,6 @@
             if (!element) {
                 element = document.getElementById('fabric-canvas-wrapper');
             }
-            // console.log('hide clicked')
-            // console.log(element)
             element.classList.add("d-none");
         }
 
@@ -330,7 +333,6 @@
             anchor.setAttribute('href', href);
             anchor.setAttribute('download', '21.jpg');
             anchor.click();
-
             setResizeCanvas()
         }
 
@@ -348,14 +350,10 @@
 
                     case 'src':
                         const file = obj.target.files[0];
-                        // console.log(file);
                         let fileReader = new FileReader();
                         fileReader.readAsDataURL(file);
                         fileReader.onload = function() {
-                            // console.log(fileReader.result);
                             selectedObj[type] = fileReader.result;
-                            // images[0].setAttribute('src', fileReader.result);
-                            // images[0].setAttribute('style', `background-image: url('${fileReader.result}')`);
                         }
                         break;
 
@@ -368,60 +366,6 @@
             setTimeout(() => {
                 update()                
             }, 200);
-            // console.log(objData)
-
         }
     </script>
-
-
-
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-        <div class="offcanvas-header border-bottom p-4">
-            <h5 class="offcanvas-title fs-18 mb-0" id="offcanvasRightLabel">Image Data List</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body p-4">
-            <form>
-                <div class="canvasEditableElements form-group mb-4" id="canvas_image_container">
-                    <label class="label">You Photo</label>
-                    <input id="canvas_image" name="canvas_image" type="file" class="form-control text-dark file">
-                </div>
-
-                <div class="canvasEditableElements form-group mb-4" id="canvas_text_container">
-                    <label class="label">text</label>
-                    <textarea onchange="updateRecord('text')" name="canvas_text" id="canvas_text" class="form-control text-dark"
-                        placeholder="" rows="3" required></textarea>
-                </div>
-
-                <div class="canvasEditableElements form-group mb-4" id="canvas_fill_container">
-                    <label class="label">fill</label>
-                    <input id="canvas_fill" onchange="updateRecord('fill')" name="canvas_fill" type="color"
-                        class="form-control text-dark">
-                </div>
-
-                <div class="canvasEditableElements form-group mb-4" id="canvas_src_container">
-                    <label class="label">You Photo</label>
-                    <input id="canvas_src" onchange="updateRecord('src', event)"
-                        name="canvas_src" type="file" accept="image/png, image/jpg, image/jpeg"
-                        class="form-control text-dark file">
-                </div>
-
-
-                {{-- <div class="___canvasEditableElements form-group mb-4" id="___canvas_text_container">
-                    <label class="label">text</label>
-                    <input id="___canvas_text" onchange="updateRecord('text')" name="canvas_text" type="text" class="form-control text-dark">
-                </div> --}}
-
-                <div class="form-group d-flex gap-3 d-none">
-                    <button class="btn btn-primary text-white fw-semibold py-2 px-2 px-sm-3">
-                        <span class="py-sm-1 d-block">
-                            <i class="ri-add-line text-white"></i>
-                            <span>Refresh</span>
-                        </span>
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
 </x-layouts.dashboard-layout>

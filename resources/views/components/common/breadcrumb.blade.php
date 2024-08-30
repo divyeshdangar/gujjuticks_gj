@@ -1,5 +1,7 @@
 <div class="d-sm-flex text-center justify-content-between align-items-center mb-4">
-    <h3 class="mb-sm-0 mb-1 fs-18">{{ $metaData['title'] }}</h3>
+    @if (!isset($metaData['no_title']))
+        <h3 class="mb-sm-0 mb-1 fs-18">{{ $metaData['title'] }}</h3>
+    @endif
     <ul class="ps-0 mb-0 list-unstyled d-flex justify-content-center">
         <li>
             <a href="{{ route('dashboard') }}" class="text-decoration-none">
