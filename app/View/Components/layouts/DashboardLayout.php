@@ -25,7 +25,6 @@ class DashboardLayout extends Component
     public function render(): View|Closure|string
     {
         $menu = Menu::where("status", 1)->where("type", 2)->where('order', '>', 0);
-        dd($menu);
         if(Auth::user()->user_type == 1) {
             // All Access
         } else {
@@ -37,6 +36,6 @@ class DashboardLayout extends Component
         }
 
         $menu = $menu->orderBy('order', 'ASC')->get();
-        return view('components.layouts.dashboard-layout', ["menu" => $menu]);
+        return view('components.layouts.DashboardLayout', ["menu" => $menu]);
     }
 }
