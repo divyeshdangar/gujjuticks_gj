@@ -10,12 +10,14 @@ use Illuminate\Support\Facades\Auth;
 
 class Dashboard extends Component
 {
+    public $metaData;
+    public $menu = null;
+
     /**
      * Create a new component instance.
      */
     public function __construct(
-        public array $metaData,
-        public $menu = null
+        $metaData, $menu = null
     ) {
     }
     
