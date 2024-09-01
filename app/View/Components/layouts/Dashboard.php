@@ -15,16 +15,9 @@ class Dashboard extends Component
      */
     public function __construct(
         public array $metaData,
+        public $menu = null
     ) {
-        //
-    }
-
-    /**
-     * Get the view / contents that represent the component.
-     */
-    public function render(): View|Closure|string
-    {
-        $menu = Menu::where("status", 1)->where("type", 2)->where('order', '>', 0);
+        $menuList = Menu::where("status", 1)->where("type", 2)->where('order', '>', 0);
         if(Auth::user()->user_type == 1) {
             // All Access
         } else {
@@ -32,10 +25,18 @@ class Dashboard extends Component
             if(!empty(Auth::user()->menus)){
                 $in = explode(',',Auth::user()->menus->menuIds);
             }
-            $menu = $menu->whereIn('id', $in);
+            $menuList = $menuList->whereIn('id', $in);
         }
+    
+        $menuList = $menuList->orderBy('order', 'ASC')->get();
+        $this->menu = $menuList;
+    }
 
-        $menu = $menu->orderBy('order', 'ASC')->get();
-        return view('components.layouts.dashboard', ["menu" => $menu]);
+    /**
+     * Get the view / contents that represent the component.
+     */
+    public function render(): View|Closure|string
+    {
+        return view('components.layouts.dashboard');
     }
 }
