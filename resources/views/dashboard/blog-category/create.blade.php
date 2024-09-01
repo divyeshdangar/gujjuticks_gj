@@ -1,4 +1,4 @@
-<x-layouts.dashboard-layout :showHeader="true" :metaData="$metaData">
+<x-layouts.dashboard :showHeader="true" :metaData="$metaData">
 
     <style>
         .cr-boundary {
@@ -183,4 +183,4 @@
         }
     </script>
 
-</x-layouts.dashboard-layout>
+</x-layouts.dashboard>

@@ -8,7 +8,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 use Illuminate\Support\Facades\Auth;
 
-class DashboardLayout extends Component
+class Dashboard extends Component
 {
     /**
      * Create a new component instance.
@@ -36,6 +36,6 @@ class DashboardLayout extends Component
         }
 
         $menu = $menu->orderBy('order', 'ASC')->get();
-        return view('components.layouts.DashboardLayout', ["menu" => $menu]);
+        return view('components.layouts.dashboard', ["menu" => $menu]);
     }
 }

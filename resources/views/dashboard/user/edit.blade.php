@@ -1,4 +1,4 @@
-<x-layouts.dashboard-layout :showHeader="true" :metaData="$metaData">
+<x-layouts.dashboard :showHeader="true" :metaData="$metaData">
 
     @if ($metaData['breadCrumb'])
         <x-common.breadcrumb :metaData="$metaData"></x-common.breadcrumb>
@@ -254,4 +254,4 @@
         }
     </script>
 
-</x-layouts.dashboard-layout>
+</x-layouts.dashboard>
