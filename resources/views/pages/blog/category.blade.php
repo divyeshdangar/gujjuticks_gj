@@ -1,4 +1,4 @@
-<x-layouts.simple-layout :metaData="$metaData">
+<x-layouts.simple-layout :showHeader="true" :metaData="$metaData">
 
     {{-- @if ($metaData['breadCrumb'])
         <x-common.breadcrumb :isPublicPage="true" :metaData="$metaData"></x-common.breadcrumb>

@@ -1,4 +1,4 @@
-<x-layouts.dashboard-layout :metaData="$metaData">
+<x-layouts.dashboard-layout :showHeader="true" :metaData="$metaData">
 
     <div class="d-sm-flex text-center justify-content-between align-items-center mb-4">
         <h3 class="mb-sm-0 mb-1 fs-18">{{ __('dashboard.contact') }}</h3>

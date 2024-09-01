@@ -1,4 +1,4 @@
-<x-layouts.simple-layout :metaData="$metaData">
+<x-layouts.simple-layout :showHeader="true" :metaData="$metaData">
     <div class="row justify-content-center mb-2">
         <div class="col-md-8 mb-4">
             <div class="card bg-white border-0 rounded-10">

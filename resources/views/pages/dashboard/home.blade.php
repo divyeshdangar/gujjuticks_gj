@@ -1,4 +1,4 @@
-<x-layouts.dashboard-layout :metaData="$metaData">
+<x-layouts.dashboard-layout :showHeader="true" :metaData="$metaData">
     <div class="row justify-content-center">
         <div class="col-xxl-4 col-xl-12 col-lg-5">
             <div class="welcome-farol card bg-primary border-0 rounded-10 position-relative mb-4">

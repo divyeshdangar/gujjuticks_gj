@@ -53,7 +53,7 @@
     <div class="container-fluid">
         <div class="d-flex flex-column">
 
-            @if ($showHeader)
+            @if (isset($showHeader))
                 <header class="header-area bg-white mb-4 rounded-bottom-10" id="header-area">
                     <div class="row align-items-center">
                         <div class="col-lg-4 col-sm-6 col-md-4">

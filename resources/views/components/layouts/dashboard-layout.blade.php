@@ -82,21 +82,23 @@
 
         <aside id="layout-menu" class="layout-menu menu-vertical menu active" data-simplebar>
             <ul class="menu-inner">
-                @foreach ($menu as $m)
-                    @if ($m['title_only'] == 1)
-                        <li class="menu-title small text-uppercase">
-                            <span class="menu-title-text">{{ __($m['title']) }}</span>
-                        </li>
-                    @else
-                        <li class="menu-item {{ Request::routeIs($m['route']) ? 'open' : '' }}">
-                            <a href="{{ route($m['route']) }}"
-                                class="menu-link {{ Request::routeIs($m['route']) ? 'active' : '' }}">
-                                <i data-feather="{{ $m['icon'] }}" class="menu-icon tf-icons"></i>
-                                <span class="title">{{ __($m['title']) }}</span>
-                            </a>
-                        </li>
-                    @endif
-                @endforeach
+                @if(isset($menu))
+                    @foreach ($menu as $m)
+                        @if ($m['title_only'] == 1)
+                            <li class="menu-title small text-uppercase">
+                                <span class="menu-title-text">{{ __($m['title']) }}</span>
+                            </li>
+                        @else
+                            <li class="menu-item {{ Request::routeIs($m['route']) ? 'open' : '' }}">
+                                <a href="{{ route($m['route']) }}"
+                                    class="menu-link {{ Request::routeIs($m['route']) ? 'active' : '' }}">
+                                    <i data-feather="{{ $m['icon'] }}" class="menu-icon tf-icons"></i>
+                                    <span class="title">{{ __($m['title']) }}</span>
+                                </a>
+                            </li>
+                        @endif
+                    @endforeach
+                @endif
             </ul>
         </aside>
 

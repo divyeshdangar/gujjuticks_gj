@@ -1,4 +1,4 @@
-<x-layouts.dashboard-layout :metaData="$metaData">
+<x-layouts.dashboard-layout :showHeader="true" :metaData="$metaData">
     @if ($metaData['breadCrumb'])
         <x-common.breadcrumb :metaData="$metaData"></x-common.breadcrumb>
     @endif
