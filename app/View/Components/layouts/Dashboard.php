@@ -17,6 +17,13 @@ class Dashboard extends Component
         public array $metaData,
         public $menu = null
     ) {
+    }
+    
+    /**
+     * Get the view / contents that represent the component.
+     */
+    public function render(): View|Closure|string
+    {
         $menuList = Menu::where("status", 1)->where("type", 2)->where('order', '>', 0);
         if(Auth::user()->user_type == 1) {
             // All Access
@@ -30,13 +37,6 @@ class Dashboard extends Component
     
         $menuList = $menuList->orderBy('order', 'ASC')->get();
         $this->menu = $menuList;
-    }
-
-    /**
-     * Get the view / contents that represent the component.
-     */
-    public function render(): View|Closure|string
-    {
         return view('components.layouts.dashboard');
     }
 }
