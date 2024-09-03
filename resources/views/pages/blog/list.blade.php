@@ -8,7 +8,7 @@
                     </div>
                     <div class="row">
                         @foreach ($dataList as $data)
-                            <x-common.blocks.blog :lang="$lang" :data="$data" :class="'col-lg-4 col-md-6 col-sm-6'"></x-common.breadcrumb>
+                            <x-common.blocks.blog :lang="$lang" :data="$data" :class="'col-lg-6 col-md-6 col-sm-6'"></x-common.breadcrumb>
                         @endforeach
                     </div>
                     {{ $dataList->links('vendor.pagination.bootstrap-5') }}

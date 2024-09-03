@@ -56,7 +56,7 @@ php artisan make:model BlogCategories --migration //create migration as well
 
 php artisan make:seeder MenuSeeder
 php artisan db:seed
-php artisan db:seed --class=MenuSeeder
+php artisan db:seed --class=LocationSeeder
 
 Event
 https://arjunamrutiya.medium.com/a-step-by-step-guide-to-laravel-events-and-listeners-with-examples-634d7a018fa0

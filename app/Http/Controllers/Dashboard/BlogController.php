@@ -100,7 +100,11 @@ class BlogController extends Controller
             ]);
 
             if ($validator->fails()) {
-                return redirect('dashboard/blog/edit/' . $id)->withErrors($validator)->withInput();
+                if($id > 0) {
+                    return redirect('dashboard/blog/edit/' . $id)->withErrors($validator)->withInput();
+                } else {
+                    return redirect('dashboard/blog/create')->withErrors($validator)->withInput();
+                }
             }
 
             $dataToInsert = $validator->validated();
