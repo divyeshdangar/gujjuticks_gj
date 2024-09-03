@@ -78,7 +78,7 @@
                             <label class="label">Team Lead</label>
                             <div class="form-group position-relative mb-3">
                                 <select class="form-select form-control text-gray-light h-58 ps-5"
-                                    aria-label="Default select example">
+                                    aria-label="Default select">
                                     <option selected>Jordan Stevenson</option>
                                     <option value="1">Easin Arafat</option>
                                     <option value="2">Francis Frank</option>

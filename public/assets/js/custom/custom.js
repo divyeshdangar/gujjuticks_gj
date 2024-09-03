@@ -32,8 +32,6 @@
 
 
         //const getHeaderId = document.getElementById("header-area");
-        var editor = new FroalaEditor('.example');
-
     };
 
     // Menu JS

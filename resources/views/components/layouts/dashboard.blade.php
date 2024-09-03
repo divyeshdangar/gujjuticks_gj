@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zxx">
+<html lang="en">
 
 <head>
     <!-- Required meta tags -->
@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/rangeslider.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/sweetalert.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/plugin/jkanban/jkanban.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/plugin/froala_editor_4.2.0/css/froala_editor.pkgd.min.css') }}">
+    <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.0.0/ckeditor5.css">
     <link rel="stylesheet" href="{{ asset('assets/plugin/croppie/croppie.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
 
@@ -33,11 +33,22 @@
     </x-common.meta>
 
     <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-        })(window,document,'script','dataLayer','GTM-TWRDGF8');</script>
+    <script>
+        (function(w, d, s, l, i) {
+            w[l] = w[l] || [];
+            w[l].push({
+                'gtm.start': new Date().getTime(),
+                event: 'gtm.js'
+            });
+            var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s),
+                dl = l != 'dataLayer' ? '&l=' + l : '';
+            j.async = true;
+            j.src =
+                'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+            f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-TWRDGF8');
+    </script>
     <!-- End Google Tag Manager -->
 </head>
 
@@ -82,7 +93,7 @@
 
         <aside id="layout-menu" class="layout-menu menu-vertical menu active" data-simplebar>
             <ul class="menu-inner">
-                @if(isset($menu))
+                @if (isset($menu))
                     @foreach ($menu as $m)
                         @if ($m['title_only'] == 1)
                             <li class="menu-title small text-uppercase">
@@ -351,7 +362,13 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/2.3.6/fabric.min.js"></script>
 
-    <script type="text/javascript" src="{{ asset('assets/plugin/froala_editor_4.2.0/js/froala_editor.pkgd.min.js') }}">
+    <script type="importmap">
+        {
+            "imports": {
+                "ckeditor5": "https://cdn.ckeditor.com/ckeditor5/43.0.0/ckeditor5.js",
+                "ckeditor5/": "https://cdn.ckeditor.com/ckeditor5/43.0.0/"
+            }
+        }
     </script>
     <script type="text/javascript" src="{{ asset('assets/plugin/croppie/croppie.js') }}"></script>
     <script src="{{ asset('assets/js/custom/custom.js') }}"></script>
@@ -361,6 +378,138 @@
         var message = JSON.parse('<?php echo json_encode(session('message')); ?>');
         <?php }
         ?>
+    </script>
+
+    <script type="module">
+        import {
+            ClassicEditor,
+            DecoupledEditor,
+            Alignment,
+            Autoformat,
+            Bold,
+            Italic,
+            Strikethrough,
+            Subscript,
+            Superscript,
+            Underline,
+            BlockQuote,
+            Base64UploadAdapter,
+            CloudServices,
+            CKBox,
+            Essentials,
+            FindAndReplace,
+            FontBackgroundColor,
+            FontColor,
+            FontFamily,
+            FontSize,
+            Heading,
+            HorizontalLine,
+            Image,
+            ImageCaption,
+            ImageResize,
+            ImageStyle,
+            ImageToolbar,
+            ImageUpload,
+            PictureEditing,
+            Indent,
+            IndentBlock,
+            Link,
+            List,
+            ListProperties,
+            MediaEmbed,
+            Mention,
+            PageBreak,
+            Paragraph,
+            PasteFromOffice,
+            RemoveFormat,
+            SpecialCharacters,
+            SpecialCharactersEssentials,
+            Table,
+            TableCaption,
+            TableCellProperties,
+            TableColumnResize,
+            TableProperties,
+            TableToolbar,
+            TextTransformation,
+
+        } from 'ckeditor5';
+
+        if(document.querySelector('.ckeditor5')){
+            ClassicEditor
+                .create(document.querySelector('.ckeditor5'), {
+                    plugins: [DecoupledEditor,
+                        Alignment,
+                        Autoformat,
+                        Bold,
+                        Italic,
+                        Strikethrough,
+                        Subscript,
+                        Superscript,
+                        Underline,
+                        BlockQuote,
+                        Base64UploadAdapter,
+                        CloudServices,
+                        CKBox,
+                        Essentials,
+                        FindAndReplace,
+                        FontBackgroundColor,
+                        FontColor,
+                        FontFamily,
+                        FontSize,
+                        Heading,
+                        HorizontalLine,
+                        Image,
+                        ImageCaption,
+                        ImageResize,
+                        ImageStyle,
+                        ImageToolbar,
+                        ImageUpload,
+                        PictureEditing,
+                        Indent,
+                        IndentBlock,
+                        Link,
+                        List,
+                        ListProperties,
+                        MediaEmbed,
+                        Mention,
+                        PageBreak,
+                        Paragraph,
+                        PasteFromOffice,
+                        RemoveFormat,
+                        SpecialCharacters,
+                        SpecialCharactersEssentials,
+                        Table,
+                        TableCaption,
+                        TableCellProperties,
+                        TableColumnResize,
+                        TableProperties,
+                        TableToolbar,
+                        TextTransformation,
+                    ],
+                    toolbar: {
+                        items: [
+                            'undo', 'redo',
+                            '|',
+                            'heading',
+                            '|',
+                            'fontfamily', 'fontsize', 'fontColor', 'fontBackgroundColor',
+                            '|',
+                            'bold', 'italic', 'strikethrough', 'subscript', 'superscript', 'code',
+                            '|',
+                            'link', 'uploadImage', 'blockQuote', 'codeBlock',
+                            '|',
+                            'bulletedList', 'numberedList', 'todoList', 'outdent', 'indent'
+                        ],
+    
+                    }
+                })
+                .then(editor => {
+                    window.editor = editor;
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        }
     </script>
 </body>
 
