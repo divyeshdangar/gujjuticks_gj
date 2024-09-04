@@ -9,7 +9,7 @@
             <div class="card bg-white border-0 rounded-10 mb-4">
                 <div class="card-body p-4 pb-0">
                     <h1 class="mb-0 fw-semibold text-dark">{{ $dataDetail->title }}</h1>
-                    <img src="{{ URL::asset('/images/blog/' . $dataDetail->image) }}" class="img-fluid rounded-10 my-4">
+                    <img src="{{ URL::asset('/images/blog/' . $dataDetail->image) }}" alt="{{ $dataDetail->title }} Image" title="{{ $dataDetail->title }} Image" class="img-fluid rounded-10 my-4">
                     <ul class="ps-0 mb-4 list-unstyled chat-list">
                         <li class="d-flex justify-content-between border-bottom border-color-gray pb-3 mb-3">
                             <div class="d-flex align-items-center">

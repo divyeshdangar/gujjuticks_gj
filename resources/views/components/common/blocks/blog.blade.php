@@ -1,7 +1,7 @@
 <div class="{{ $class }}">
     <div class="card bg-white border-0 rounded-10 mb-4">
         <a href="{{ route('pages.blog.detail', ['slug' => $data->slug]) }}">
-            <img src="{{ URL::asset('/images/blog/' . $data->image) }}" class="rounded-2" alt="blog">
+            <img src="{{ URL::asset('/images/blog/' . $data->image) }}" alt="{{ $data->title }} Image" title="{{ $data->title }} Image" class="rounded-2" alt="blog">
         </a>
         <div class="card-body position-relative blog-content m-0 p-3">
             <span class="blog-date two d-inline-block w-auto h-auto lh-1">{{ $lang[$data->lang] }}</span>

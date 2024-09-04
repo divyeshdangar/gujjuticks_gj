@@ -6,8 +6,6 @@ namespace App\Http\Controllers\Dashboard;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Blog;
-use App\Models\Location;
 use App\Models\BlogCategories;
 use Illuminate\Support\Facades\Validator;
 
@@ -126,13 +124,11 @@ class BlogCategoryController extends Controller
             $dataDetail->title = $dataToInsert['title'];
             $dataDetail->description = $dataToInsert['description'];
             $dataDetail->meta_description = $dataToInsert['meta_description'];
-            $dataDetail->parent_id = ($dataToInsert['parent_id']) ? $dataToInsert['parent_id'] : null;
+            //$dataDetail->parent_id = ($dataToInsert['parent_id']) ? $dataToInsert['parent_id'] : null;
             if($id == 0){
                 $dataDetail->slug = $dataToInsert['slug'];
-                $dataDetail->save();
-            } else {
-                $dataDetail->update();
             }
+            $dataDetail->save();
 
             $message = [
                 "message" => [

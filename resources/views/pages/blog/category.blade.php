@@ -10,7 +10,7 @@
                 <div class="card-body p-4 pb-0">
                     <div class="row">
                         <div class="col-md-3 text-center">
-                            <img src="{{ URL::asset('/images/blog-category/' . $dataDetail->image) }}" class="rounded-3 mb-4">
+                            <img src="{{ URL::asset('/images/blog-category/' . $dataDetail->image) }}" alt="{{ $dataDetail->title }} Image" title="{{ $dataDetail->title }} Image" class="rounded-3 mb-4">
                         </div>
                         <div class="col-md-9">
                             <h1 class="mb-0 fw-semibold text-dark">{{ $dataDetail->title }}</h1>
