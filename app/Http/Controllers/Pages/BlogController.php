@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 use App\Models\Blog;
 use App\Models\BlogCategories;
+use URL;
 
 class BlogController extends Controller
 {
@@ -39,13 +40,9 @@ class BlogController extends Controller
             $metaData = [
                 "title" => $dataDetail->title." - GujjuTicks",
                 "no_title" => true,
-                "description" => "",
-                //"image" => "",
+                "description" => $dataDetail->meta_description,
+                "image" => URL::asset('/images/blog/'.$dataDetail->image),
                 "url" => route('pages.blog.detail', ['slug' => $dataDetail->slug]),
-                // "breadCrumb" => [
-                //     ["title" => "Board", "route" => "dashboard.board"],
-                //     ["title" => "Create", "route" => ""]
-                // ]
             ];
             $categories = BlogCategories::where("status", "1")->where("parent_id", null)->where('id', '<>', $dataDetail->id)->limit(3)->get();
             $dataList = Blog::where("status", "1")->where('id', '<>', $dataDetail->id)->limit(3)->get();
@@ -71,12 +68,9 @@ class BlogController extends Controller
                 "title" => $dataDetail->title." - GujjuTicks",
                 "no_title" => true,
                 "description" => $dataDetail->meta_description,
-                //"image" => "",
+                "image" => URL::asset('/images/blog-category/'.$dataDetail->image),
                 "url" => route('pages.blog.category.detail', ['slug' => $dataDetail->slug]),
-                // "breadCrumb" => [
-                //     ["title" => "Board", "route" => "dashboard.board"],
-                //     ["title" => "Create", "route" => ""]
-                // ]
+
             ];
             $categories = BlogCategories::where("status", "1")->where("parent_id", null)->where('id', '<>', $dataDetail->id)->limit(3)->get();
             $subCategories = BlogCategories::where("status", "1")->where("parent_id", $dataDetail->id)->get();
