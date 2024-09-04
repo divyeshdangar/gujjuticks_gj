@@ -10,7 +10,7 @@ use App\Http\Controllers\Dashboard\BlogController;
 use App\Http\Controllers\Dashboard\BlogCategoryController;
 use App\Http\Controllers\Dashboard\MemberController;
 use App\Http\Controllers\Dashboard\UserController;
-use App\Http\Controllers\Dashboard\DashboardController;
+use App\Http\Controllers\Dashboard\DashboardoController;
 use App\Http\Controllers\Pages\BlogController as PublicBlogController;
 
 use App\Http\Controllers\Dashboard\BoardController;
@@ -50,7 +50,7 @@ Route::get('language/{locale}', function ($locale) {
 })->name('language');
 
 Route::middleware([CheckIfLogin::class, CheckLanguage::class])->group(function () {
-    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('dashboard', [DashboardoController::class, 'index'])->name('dashboard');
 
     Route::get('dashboard/notification', [NotificationController::class, 'index'])->name('dashboard.notification');
     Route::get('dashboard/notification/action/{action}', [NotificationController::class, 'action'])->name('dashboard.notification.action');
