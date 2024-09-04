@@ -126,7 +126,7 @@ class BlogCategoryController extends Controller
             $dataDetail->title = $dataToInsert['title'];
             $dataDetail->description = $dataToInsert['description'];
             $dataDetail->meta_description = $dataToInsert['meta_description'];
-            $dataDetail->parent_id = $dataToInsert['parent_id'];
+            $dataDetail->parent_id = ($dataToInsert['parent_id']) ? $dataToInsert['parent_id'] : null;
             if($id == 0){
                 $dataDetail->slug = $dataToInsert['slug'];
             }
