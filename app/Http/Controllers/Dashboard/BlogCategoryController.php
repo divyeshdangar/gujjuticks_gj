@@ -129,8 +129,10 @@ class BlogCategoryController extends Controller
             $dataDetail->parent_id = ($dataToInsert['parent_id']) ? $dataToInsert['parent_id'] : null;
             if($id == 0){
                 $dataDetail->slug = $dataToInsert['slug'];
+                $dataDetail->save();
+            } else {
+                $dataDetail->update();
             }
-            $dataDetail->save();
 
             $message = [
                 "message" => [
