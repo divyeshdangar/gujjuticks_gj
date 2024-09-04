@@ -93,6 +93,22 @@
 
         <aside id="layout-menu" class="layout-menu menu-vertical menu active" data-simplebar>
             <ul class="menu-inner">
+                @use('App\Models\Menu', 'Menu')
+                @php
+                    $menuList = Menu::where('status', 1)->where('type', 2)->where('order', '>', 0);
+                    if (Auth::user()->user_type == 1) {
+                        // All Access
+                    } else {
+                        $in = [];
+                        if (!empty(Auth::user()->menus)) {
+                            $in = explode(',', Auth::user()->menus->menuIds);
+                        }
+                        $menuList = $menuList->whereIn('id', $in);
+                    }
+                    $menuList = $menuList->orderBy('order', 'ASC')->get();
+                    $menu = $menuList;
+                @endphp
+
                 @if (isset($menu))
                     @foreach ($menu as $m)
                         @if ($m['title_only'] == 1)
@@ -434,7 +450,7 @@
 
         } from 'ckeditor5';
 
-        if(document.querySelector('.ckeditor5')){
+        if (document.querySelector('.ckeditor5')) {
             ClassicEditor
                 .create(document.querySelector('.ckeditor5'), {
                     plugins: [DecoupledEditor,
@@ -500,7 +516,7 @@
                             '|',
                             'bulletedList', 'numberedList', 'todoList', 'outdent', 'indent'
                         ],
-    
+
                     }
                 })
                 .then(editor => {
