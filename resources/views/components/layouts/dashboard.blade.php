@@ -95,7 +95,7 @@
             <ul class="menu-inner">
                 @use('App\Models\Menu', 'Menu')
                 @php
-                    $menuList = Menu::where('status', 1)->where('type', 2)->where('order', '>', 0);
+                    $menuList = Menu::where('status', '1')->where('type', '2')->where('order', '>', 0);
                     if (Auth::user()->user_type == 1) {
                         // All Access
                     } else {
