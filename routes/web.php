@@ -12,6 +12,7 @@ use App\Http\Controllers\Dashboard\MemberController;
 use App\Http\Controllers\Dashboard\UserController;
 use App\Http\Controllers\Dashboard\DashboardoController;
 use App\Http\Controllers\Pages\BlogController as PublicBlogController;
+use App\Http\Controllers\Pages\PublicImageController;
 
 use App\Http\Controllers\Dashboard\BoardController;
 use App\Http\Controllers\Dashboard\BoardItemController;
@@ -36,6 +37,8 @@ Route::middleware([CheckLanguage::class])->group(function () {
     Route::get('blogs', [PublicBlogController::class, 'index'])->name('pages.blog.list');
     Route::get('blog-on-{slug}', [PublicBlogController::class, 'category'])->name('pages.blog.category.detail');
     Route::get('blog/{slug}', [PublicBlogController::class, 'view'])->name('pages.blog.detail');
+
+    Route::get('image/{slug}', [PublicImageController::class, 'view'])->name('pages.image.detail');
 });
 
 
@@ -90,7 +93,6 @@ Route::middleware([CheckIfLogin::class, CheckLanguage::class])->group(function (
     Route::get('dashboard/board/delete/{id}', [BoardController::class, 'delete'])->name('dashboard.board.delete');
     Route::get('dashboard/board/{id}', [BoardController::class, 'view'])->name('dashboard.board.items');
     Route::get('dashboard/board/add-item/{id}', [BoardController::class, 'view'])->name('dashboard.board.items.add');
-
     Route::post('dashboard/work-item/edit', [BoardItemController::class, 'updateItem'])->name('dashboard.work_item.edit.post');
 
     Route::get('dashboard/member', [MemberController::class, 'index'])->name('dashboard.member');
