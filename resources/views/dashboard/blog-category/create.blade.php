@@ -107,7 +107,7 @@
                                     <div class="form-group position-relative">
                                         <textarea id="description" name="description"
                                             class="form-control text-dark ckeditor5  @error('description') border border-danger rounded-3 border-3 @enderror"
-                                            placeholder="{{ __('dashboard.description') }}" required>{{ old('description') }}</textarea>
+                                            placeholder="{{ __('dashboard.description') }}">{{ old('description') }}</textarea>
                                     </div>
                                     @error('description')
                                         <div class="text-danger">{{ $message }}</div>

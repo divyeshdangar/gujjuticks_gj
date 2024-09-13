@@ -76,7 +76,7 @@
                                     <td class="ps-0">
                                         <div class="d-flex align-items-center">
                                             <span class="fw-semibold position-relative" style="top: 1px;">
-                                                {!! CommonHelper::highLight($data->description) !!}
+                                                {!! CommonHelper::highLight($data->meta_description) !!}
                                             <span>
                                         </div>
                                     </td>
@@ -99,13 +99,16 @@
                                     </td>
                                     <td>
                                         <div class="dropdown action-opt">
+                                            <a class="btn bg p-1" onclick="confirmAndDelete('{{ route('dashboard.image.copy', ['id' => $data->id]) }}', 'Copy')">
+                                                <i data-feather="copy"></i>
+                                            </a>
                                             <a class="btn bg p-1" href="{{ route('dashboard.image.view', ['id' => $data->id]) }}">
                                                 <i data-feather="eye"></i>
                                             </a>
                                             <a class="btn bg p-1" href="{{ route('dashboard.image.edit', ['id' => $data->id]) }}">
                                                 <i data-feather="edit-3"></i>
                                             </a>
-                                            <a class="btn bg p-1" href="{{ route('dashboard.image.delete', ['id' => $data->id]) }}">
+                                            <a class="btn bg p-1" onclick="confirmAndDelete('{{ route('dashboard.image.delete', ['id' => $data->id]) }}')">
                                                 <i data-feather="trash-2"></i>
                                             </a>
                                         </div>

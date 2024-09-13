@@ -25,9 +25,9 @@ class BlogController extends Controller
             //"image" => "",
             "url" => route('pages.blog.list')
         ];
-        $dataList = Blog::orderBy('id', 'DESC');
+        $dataList = Blog::where('status', '1')->orderBy('id', 'DESC');
         $dataList = $dataList->searching()->paginate(5)->withQueryString();
-        $categories = BlogCategories::where("status", "1")->where("parent_id", null)->limit(8)->get();
+        $categories = BlogCategories::where('status', '1')->where('parent_id', null)->limit(8)->get();
 
         return view('pages.blog.list', ['metaData' => $metaData, 'lang' => $this->languages, 'dataList' => $dataList, 'categories' => $categories]);
     }

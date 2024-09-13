@@ -47,7 +47,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="{{ route('dashboard.board.delete', ['id' => $data->id]) }}">
+                                    <a class="dropdown-item" style="cursor: pointer" onclick="confirmAndDelete('{{ route('dashboard.board.delete', ['id' => $data->id]) }}')">
                                         <i data-feather="trash-2"></i>
                                         Delete
                                     </a>
@@ -57,15 +57,17 @@
                     </div>
                     <div class="card-body p-4">
                         <div class="d-sm-flex align-items-center justify-content-between mb-4 border-bottom pb-4">
-                            <div class="d-flex align-items-center mb-3 mb-sm-0">
-                                <div class="flex-shrink-0">
-                                    <img src="{{ $data->user->profile }}" class="wh-60 rounded-circle" alt="user">
+                            @if($data->user)
+                                <div class="d-flex align-items-center mb-3 mb-sm-0">
+                                    <div class="flex-shrink-0">
+                                        <img src="{{ $data->user->profile }}" class="wh-60 rounded-circle" alt="user">
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <h4 class="fs-16 fw-semibold mb-1">{{ ucwords($data->user->name) }}</h4>
+                                        <span class="fs-14 text-primary">Creator</span>
+                                    </div>
                                 </div>
-                                <div class="flex-grow-1 ms-3">
-                                    <h4 class="fs-16 fw-semibold mb-1">{{ ucwords($data->user->name) }}</h4>
-                                    <span class="fs-14 text-primary">Creator</span>
-                                </div>
-                            </div>
+                            @endif
 
                             <ul class="ps-0 mb-0 list-unstyled d-flex">
 

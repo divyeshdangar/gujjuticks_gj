@@ -27,16 +27,18 @@
         <div class="my-2">
 
             <div class="d-sm-flex align-items-center justify-content-between mb-4 border-bottom pb-4">
-                <div class="d-flex align-items-center mb-3 mb-sm-0">
-                    <div class="flex-shrink-0">
-                        <img src="{{ $dataDetail->user->profile }}" class="wh-60 rounded-circle" alt="user">
-                    </div>
+                @if($dataDetail->user)
+                    <div class="d-flex align-items-center mb-3 mb-sm-0">
+                        <div class="flex-shrink-0">
+                            <img src="{{ $dataDetail->user->profile }}" class="wh-60 rounded-circle" alt="user">
+                        </div>
 
-                    <div class="flex-grow-1 ms-3">
-                        <h4 class="fs-16 fw-semibold mb-1">{{ ucwords($dataDetail->user->name) }}</h4>
-                        <span class="fs-14 text-primary">Creator</span>
+                        <div class="flex-grow-1 ms-3">
+                            <h4 class="fs-16 fw-semibold mb-1">{{ ucwords($dataDetail->user->name) }}</h4>
+                            <span class="fs-14 text-primary">Creator</span>
+                        </div>
                     </div>
-                </div>
+                @endif
                 <div class="d-sm-flex align-items-center justify-content-between">
                     <div class="mb-3 mb-sm-0">
                         <span

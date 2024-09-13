@@ -60,7 +60,9 @@ class MemberController extends Controller
         $validator = Validator::make($request->all(), [
             'email' => 'required|max:255|email',
             'createNew' => 'sometimes',
-            'createAndAccept' => 'bail|required_if:createNew,=,1'
+            'createAndAccept' => 'sometimes',
+            'firstname' => 'bail|required_if:createNew,=,1',
+            'lastname' => 'bail|required_if:createNew,=,1',
         ]);
         
         if ($validator->fails()) {
@@ -98,6 +100,23 @@ class MemberController extends Controller
                 Notification::create($data);
             } else {
 
+                if(isset($dataToInsert['createNew'])){
+                    $data = [
+                        'name' => $dataToInsert['firstname']." ".$dataToInsert['lastname'], 
+                        'first_name' => $dataToInsert['firstname'], 
+                        'last_name' => $dataToInsert['lastname'], 
+                        'email' => $dataToInsert['email'], 
+                        'login_type' => 'SL',
+                        'password' => \Hash::make(rand(100000, 999999))
+                    ];
+                    $user = User::create($data);
+                    dd($user);
+                } else {
+
+                }
+                echo "No user";
+                print_r($dataToInsert);
+                die;
             }
             $dataDetail->save();
             $message = [

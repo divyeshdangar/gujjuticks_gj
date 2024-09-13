@@ -6,12 +6,17 @@
                     <div class="d-flex justify-content-between align-items-center border-bottom pb-20 mb-20">
                         <h4 class="fw-bold fs-18 mb-0">{{ __('contact.blogs_on') }}</h4>
                     </div>
-                    <div class="row">
-                        @foreach ($dataList as $data)
-                            <x-common.blocks.blog :lang="$lang" :data="$data" :class="'col-lg-6 col-md-6 col-sm-6'"></x-common.breadcrumb>
-                        @endforeach
-                    </div>
-                    {{ $dataList->links('vendor.pagination.bootstrap-5') }}
+
+                    @if(count($dataList) > 0)
+                        <div class="row">
+                            @foreach ($dataList as $data)
+                                <x-common.blocks.blog :lang="$lang" :data="$data" :class="'col-lg-6 col-md-6 col-sm-6'"></x-common.breadcrumb>
+                            @endforeach
+                        </div>
+                        {{ $dataList->links('vendor.pagination.bootstrap-5') }}                    
+                    @else
+                        <x-common.empty></x-common.empty>
+                    @endif
                 </div>
             </div>
         </div>

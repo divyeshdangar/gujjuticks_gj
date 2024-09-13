@@ -98,6 +98,9 @@ return [
     'detail' => 'Detail',
     'district' => 'District',
     'location' => 'Location',
+    'data' => 'Data',
+    'height' => 'Height',
+    'width' => 'Width',
     'live_soon' => 'WE WILL LIVE SOON',
     'record_deleted' => 'Record deleted successfully.',
 

@@ -9,10 +9,12 @@
                 <a href="{{ route('pages.blog.detail', ['slug' => $data->slug]) }}" class="text-decoration-none text-dark">{{ $data->title }}</a>
             </h4>
             <ul class="ps-0 mb-0 list-unstyled d-flex gap-3">
-                <li>
-                    <i class="ri-user-line text-danger"></i>
-                    <a class="text-decoration-none text-gray-light ms-1">{{ ucwords($data->user->name) }}</a>
-                </li>
+                @if($data->user)
+                    <li>
+                        <i class="ri-user-line text-danger"></i>
+                        <a class="text-decoration-none text-gray-light ms-1">{{ ucwords($data->user->name) }}</a>
+                    </li>                    
+                @endif
                 <li>
                     <i class="ri-calendar-line text-danger"></i>
                     <span class="text-decoration-none text-gray-light ms-1">{{ $data->created_at->format('j F, Y') }}</span>

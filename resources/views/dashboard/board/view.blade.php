@@ -21,22 +21,30 @@
         <div class="my-2">
 
             <div class="d-sm-flex align-items-center justify-content-between mb-4 border-bottom pb-4">
-                <div class="d-flex align-items-center mb-3 mb-sm-0">
-                    <div class="flex-shrink-0">
-                        <img src="{{ $dataDetail->user->profile }}" class="wh-60 rounded-circle" alt="user">
+                @if($dataDetail->user)
+                    <div class="d-flex align-items-center mb-3 mb-sm-0">
+                        <div class="flex-shrink-0">
+                            <img src="{{ $dataDetail->user->profile }}" class="wh-60 rounded-circle" alt="user">
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h4 class="fs-16 fw-semibold mb-1">{{ ucwords($dataDetail->user->name) }}</h4>
+                            <span class="fs-14 text-primary">Creator</span>
+                        </div>
                     </div>
-
-                    <div class="flex-grow-1 ms-3">
-                        <h4 class="fs-16 fw-semibold mb-1">{{ ucwords($dataDetail->user->name) }}</h4>
-                        <span class="fs-14 text-primary">Creator</span>
-                    </div>
-                </div>
+                @endif
                 <div class="d-sm-flex align-items-center justify-content-between">
                     <div class="mb-3 mb-sm-0">
                         <span
                             class="fs-12 mb-1 d-block fw-semibold text-gray-light">{{ $dataDetail->created_at->format('j F, Y') }}</span>
                         <span class="fw-semibold d-block">{{ $dataDetail->categories ? count($dataDetail->categories) : 0 }} Items</span>
                     </div>
+                </div>
+                <div class="d-sm-flex align-items-right justify-content-end">
+                    <a href="{{ route('dashboard.board.items.add', ['id' => $dataDetail->id]) }}"
+                        class="btn btn-primary bg-primary bg-opacity-10 text-primary border-0 py-2 px-3 mt-2 mt-sm-0">
+                        View Details
+                        <i class="ri-arrow-right-s-line"></i>
+                    </a>
                 </div>
                 <ul class="ps-0 mb-0 list-unstyled d-flex">
                     @foreach ($dataDetail->users as $user)

@@ -12,19 +12,21 @@
                     <img src="{{ URL::asset('/images/blog/' . $dataDetail->image) }}" alt="{{ $dataDetail->title }} Image" title="{{ $dataDetail->title }} Image" class="img-fluid rounded-10 my-4">
                     <ul class="ps-0 mb-4 list-unstyled chat-list">
                         <li class="d-flex justify-content-between border-bottom border-color-gray pb-3 mb-3">
-                            <div class="d-flex align-items-center">
-                                <div class="flex-shrink-0 position-relative">
-                                    <img src="{{ $dataDetail->user->profile }}" class="wh-48 rounded-circle"
-                                        alt="user">
-                                    <div
-                                        class="position-absolute p-1 bg-primary border border-2 border-white rounded-circle status-position2">
+                            @if($dataDetail->user)
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-shrink-0 position-relative">
+                                        <img src="{{ $dataDetail->user->profile }}" class="wh-48 rounded-circle"
+                                            alt="user">
+                                        <div
+                                            class="position-absolute p-1 bg-primary border border-2 border-white rounded-circle status-position2">
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="flex-grow-1 ms-10">
-                                    <h4 class="fs-16 fw-semibold mb-1">{{ ucwords($dataDetail->user->name) }}</h4>
-                                    <span class="fs-14 text-success">{{ $dataDetail->user->username }}</span>
-                                </div>
-                            </div>
+                                    <div class="flex-grow-1 ms-10">
+                                        <h4 class="fs-16 fw-semibold mb-1">{{ ucwords($dataDetail->user->name) }}</h4>
+                                        <span class="fs-14 text-success">{{ $dataDetail->user->username }}</span>
+                                    </div>
+                                </div>                                
+                            @endif
                             <div class="text-end">
                                 <span class="d-block fs-14 text-gray-light">{{ $dataDetail->created_at->format('j F, Y') }}</span>
                                 <span class="d-block fs-14 text-info">1000 views | {{ $lang[$dataDetail->lang] }}</span>

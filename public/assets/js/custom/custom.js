@@ -748,14 +748,14 @@ try {
     })();
 } catch {}
 
-function confirmAndDelete(link) {
+function confirmAndDelete(link, action = 'delete') {
 	Swal.fire({
 		title: "Are you sure?",
 		text: "You won to be able to revert this!",
 		icon: "warning",
 		showCancelButton: true,
 		buttonsStyling: false,
-		confirmButtonText: "Yes, delete it!",
+		confirmButtonText: "Yes, " + action.toLowerCase() + " it!",
 		cancelButtonText: "No, cancel!",
 		reverseButtons: true,
 		customClass: {
@@ -768,9 +768,14 @@ function confirmAndDelete(link) {
 		} else if (result.dismiss === "cancel") {
 			Swal.fire(
 				"Cancelled",
-				"Delete operation cancelled :)",
+				capitalize(action) + " operation cancelled :)",
 				"error"
 			);
 		}
 	});
+}
+
+function capitalize(s)
+{
+    return s && s[0].toUpperCase() + s.slice(1);
 }

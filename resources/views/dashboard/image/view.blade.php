@@ -58,7 +58,7 @@
                     <h4 class="fs-15 fw-semibold">{{ __('dashboard.title') }}:</h4>
                     <p class="mb-4">{{ $dataDetail->title }}</p>
                     <h4 class="fs-15 fw-semibold">{{ __('dashboard.description') }}:</h4>
-                    <p class="mb-4">{{ $dataDetail->description }}</p>
+                    <p class="mb-4">{!! $dataDetail->description !!}</p>
                     <ul class="ps-0 mb-0 list-unstyled">
                         <li class="border-bottom border-color-gray mb-3 pb-3">
                             <span class="fw-semibold text-dark w-130 d-inline-block">{{ __('dashboard.date') }}:</span>

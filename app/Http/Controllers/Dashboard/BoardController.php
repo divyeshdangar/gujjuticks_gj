@@ -72,7 +72,6 @@ class BoardController extends Controller
                     $populatedData[] = (object)$temp;
                 }
             }
-
             return view('dashboard.board.view', ['dataDetail' => $dataDetail, 'populatedData' => $populatedData, 'metaData' => $metaData]);
         } else {
             $message = [
@@ -151,8 +150,7 @@ class BoardController extends Controller
             [ 'title' => 'To Do' ],
             [ 'title' => 'In Progress' ],
             [ 'title' => 'Completed' ]
-        ];
-        
+        ];        
         $timestamp = Carbon::now();        
         foreach ($data as &$record) {            
             $record['board_id'] = $board_id;
@@ -160,11 +158,15 @@ class BoardController extends Controller
             $record['created_at'] = $timestamp;
             $record['updated_at'] = $timestamp;
         }
-
-        echo $board_id;
-        dd($data);
-
         WorkItemCategory::insert($data);
+        $message = [
+            "message" => [
+                "type" => "success",
+                "title" => __('dashboard.great'),
+                "description" => __('dashboard.details_submitted')
+            ]
+        ];
+        return redirect()->route('dashboard.board')->with($message);
     } 
 
 }

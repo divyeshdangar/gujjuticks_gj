@@ -62,9 +62,12 @@ Route::middleware([CheckIfLogin::class, CheckLanguage::class])->group(function (
     Route::get('dashboard/contact', [ContactController::class, 'index'])->name('dashboard.contact');
     
     Route::get('dashboard/image', [ImageController::class, 'index'])->name('dashboard.image');
+    Route::get('dashboard/image/create', [ImageController::class, 'create'])->name('dashboard.image.create');
     Route::get('dashboard/image/edit/{id}', [ImageController::class, 'edit'])->name('dashboard.image.edit');
+    Route::post('dashboard/image/edit/{id}', [ImageController::class, 'store'])->name('dashboard.image.edit.post');
     Route::get('dashboard/image/view/{id}', [ImageController::class, 'view'])->name('dashboard.image.view');
     Route::get('dashboard/image/delete/{id}', [ImageController::class, 'delete'])->name('dashboard.image.delete');
+    Route::get('dashboard/image/copy/{id}', [ImageController::class, 'copy'])->name('dashboard.image.copy');
 
     Route::get('dashboard/blog', [BlogController::class, 'index'])->name('dashboard.blog');
     Route::get('dashboard/blog/create', [BlogController::class, 'create'])->name('dashboard.blog.create');
@@ -86,6 +89,7 @@ Route::middleware([CheckIfLogin::class, CheckLanguage::class])->group(function (
     Route::post('dashboard/board/edit/{id}', [BoardController::class, 'store'])->name('dashboard.board.edit.post');
     Route::get('dashboard/board/delete/{id}', [BoardController::class, 'delete'])->name('dashboard.board.delete');
     Route::get('dashboard/board/{id}', [BoardController::class, 'view'])->name('dashboard.board.items');
+    Route::get('dashboard/board/add-item/{id}', [BoardController::class, 'view'])->name('dashboard.board.items.add');
 
     Route::post('dashboard/work-item/edit', [BoardItemController::class, 'updateItem'])->name('dashboard.work_item.edit.post');
 

@@ -135,8 +135,7 @@
                     <label class="form-check-label text-danger" for="flexCheckDefault">
                         Important Note
                     </label><br>
-                    <span class="text-muted">It must be original google email address, as for now we only support google
-                        login.</span>
+                    <span class="text-muted">It must be original google email address, as for now we only support google login.</span>
                 </div>
                 <div class="form-group mb-4">
                     <label class="label">Email address</label>
