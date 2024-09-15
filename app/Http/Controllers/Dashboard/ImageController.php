@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Image;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class ImageController extends Controller
 {
@@ -15,8 +16,23 @@ class ImageController extends Controller
     public function index(Request $request)
     {
         $dataList = Image::orderBy('id', 'DESC');
+        if(!Auth::user()->is_admin()){
+            $dataList->where('user_id', Auth::id());
+        }
         $dataList = $dataList->searching()->paginate(10)->withQueryString();
         return view('dashboard.image.index', ['dataList' => $dataList, 'metaData' => []]);
+    }
+
+    public function create(Request $request)
+    {
+        $metaData = [
+            "breadCrumb" => [
+                ["title" => "Image", "route" => "dashboard.image"],
+                ["title" => "Create", "route" => ""]
+            ],
+            "title" => "Create Image"
+        ];
+        return view('dashboard.image.create', ['metaData' => $metaData]);
     }
 
     public function view(Request $request, $id)
@@ -94,6 +110,9 @@ class ImageController extends Controller
             $dataDetail->height = $dataToInsert['height'];
             $dataDetail->width = $dataToInsert['width'];
             $dataDetail->options = $dataToInsert['options'];
+            if($id == 0) {
+                $dataDetail->user_id = Auth::id();
+            }
             $dataDetail->save();
 
             $message = [

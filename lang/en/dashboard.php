@@ -101,6 +101,7 @@ return [
     'data' => 'Data',
     'height' => 'Height',
     'width' => 'Width',
+    'download_images' => 'Download image',
     'live_soon' => 'WE WILL LIVE SOON',
     'record_deleted' => 'Record deleted successfully.',
 

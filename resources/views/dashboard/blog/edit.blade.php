@@ -21,7 +21,7 @@
         </ul>
     </div>
 
-    <form method="post" id="formToValidate" action="{{ route('dashboard.blog.edit.post', ['id' => $dataDetail->id]) }}">
+    <form method="post" id="formToValidate" action="{{ route('dashboard.blog.edit.post', ['id' => encrypt($dataDetail->id)]) }}">
         {{ csrf_field() }}
         <div class="row">
             <div class="col-lg-8">

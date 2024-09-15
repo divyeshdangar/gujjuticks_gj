@@ -78,13 +78,13 @@
                                     </td>
                                     <td>
                                         <div class="dropdown action-opt">
-                                            <a class="btn bg p-1" href="{{ route('dashboard.blog.view', ['id' => $data->id]) }}">
+                                            <a class="btn bg p-1" href="{{ route('dashboard.blog.view', ['id' => encrypt($data->id)]) }}">
                                                 <i data-feather="eye"></i>
                                             </a>
-                                            <a class="btn bg p-1" href="{{ route('dashboard.blog.edit', ['id' => $data->id]) }}">
+                                            <a class="btn bg p-1" href="{{ route('dashboard.blog.edit', ['id' => encrypt($data->id)]) }}">
                                                 <i data-feather="edit-3"></i>
                                             </a>
-                                            <a class="btn bg p-1" onclick="confirmAndDelete('{{ route('dashboard.blog.delete', ['id' => $data->id]) }}')">
+                                            <a class="btn bg p-1" onclick="confirmAndDelete('{{ route('dashboard.blog.delete', ['id' => encrypt($data->id)]) }}')">
                                                 <i data-feather="trash-2"></i>
                                             </a>
                                         </div>

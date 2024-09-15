@@ -18,6 +18,12 @@
         <div class="card-body p-4">
             <div class="d-sm-flex text-center justify-content-between align-items-center border-bottom pb-20 mb-20">
                 <h4 class="fw-semibold fs-18 mb-sm-0">{{ __('dashboard.image') }}</h4>
+                <a href="{{ route('dashboard.image.create') }}" class="border-0 btn btn-primary py-2 px-4 text-white fs-14 fw-semibold rounded-3">
+                    <span class="py-sm-1 d-block">
+                        <i class="ri-add-line text-white"></i>
+                        <span>{{ __('dashboard.add') }} {{ __('dashboard.image') }}</span>
+                    </span>
+                </a>
             </div>
             <div class="default-table-area notification-list">
                 <form method="get" id="form">

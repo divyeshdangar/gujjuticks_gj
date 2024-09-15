@@ -22,14 +22,7 @@ class UserController extends Controller
             "title" => __('dashboard.user')
         ];
         $dataList = User::orderBy('id', 'DESC');
-        $dataList = $dataList->searching()->paginate(10)->withQueryString();
-        if ($dataList->count() > 0) {
-            foreach ($dataList as $key => $value) {
-                if (strlen($value->profile) < 20) {
-                    $value->profile = URL::asset('/images/blog/'.$value->profile);
-                }
-            }
-        }
+        $dataList = $dataList->searching()->paginate(10)->withQueryString();        
         return view('dashboard.user.index', ['dataList' => $dataList, 'metaData' => $metaData]);
     }
 

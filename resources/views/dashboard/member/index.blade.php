@@ -8,13 +8,21 @@
         <div class="card-body p-4">
             <div class="d-sm-flex text-center justify-content-between align-items-center border-bottom pb-20 mb-20">
                 <h4 class="fw-semibold fs-18 mb-sm-0">{{ $metaData['title'] }}</h4>
-                <button class="border-0 btn btn-primary py-2 px-4 text-white fs-14 fw-semibold rounded-3"
-                    data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
-                    <span class="py-sm-1 d-block">
-                        <i class="ri-add-line text-white"></i>
-                        <span>Request Member</span>
-                    </span>
-                </button>
+                <div>
+                    <a href="{{ route('dashboard.member.import') }}" class="border-0 btn btn-primary py-2 px-4 text-white fs-14 fw-semibold rounded-3">
+                        <span class="py-sm-1 d-block">
+                            <i class="ri-add-line text-white"></i>
+                            <span>Import</span>
+                        </span>
+                    </a>
+                    <button class="border-0 btn btn-primary py-2 px-4 text-white fs-14 fw-semibold rounded-3"
+                        data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                        <span class="py-sm-1 d-block">
+                            <i class="ri-add-line text-white"></i>
+                            <span>Request Member</span>
+                        </span>
+                    </button>
+                </div>
             </div>
             <div class="default-table-area notification-list">
                 <form method="get" id="form">
@@ -74,8 +82,8 @@
                                     </td>
                                     <td>
                                         @if ($data->member)
-                                            <a target="_blank" href="{{ $data->member->profile }}">
-                                                <img src="{{ $data->member->profile }}" class="wh-60 rounded-circle">
+                                            <a target="_blank" href="{{ $data->member->profile() }}">
+                                                <img src="{{ $data->member->profile() }}" class="wh-60 rounded-circle">
                                             </a>
                                         @endif
                                     </td>
@@ -129,7 +137,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body p-4">
-            <form method="post" action="{{ route('dashboard.member.create') }}">
+            <form method="post" action="{{ route('dashboard.member.add') }}">
                 {{ csrf_field() }}
                 <div class="form-group mb-4">
                     <label class="form-check-label text-danger" for="flexCheckDefault">

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use URL;
 
 class User extends Authenticatable
 {
@@ -30,6 +31,10 @@ class User extends Authenticatable
         'social_id',
     ];
 
+    const Admin = 1;
+    const User = 2;
+    const Company = 3;
+
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -41,14 +46,19 @@ class User extends Authenticatable
     ];
 
     protected $searchable = [
-        'email', 'name', 'first_name', 'last_name', 'username', 'phone'
+        'email',
+        'name',
+        'first_name',
+        'last_name',
+        'username',
+        'phone'
     ];
 
     public function scopeSearching($q)
     {
         if (request('search')) {
             foreach ($this->searchable as $key => $value) {
-                $q->orwhere($value, 'LIKE', '%'.request('search').'%');
+                $q->orwhere($value, 'LIKE', '%' . request('search') . '%');
             }
         }
         return $q;
@@ -88,7 +98,29 @@ class User extends Authenticatable
 
     public function confirmMembers(): HasMany
     {
-        return $this->hasMany(Member::class)->where(["status"=>"0"]);
+        return $this->hasMany(Member::class)->where(["status" => "0"]);
     }
 
+    public function profile()
+    {
+        if (strlen($this->profile) < 20) {
+            $this->profile = URL::asset('/images/user/' . $this->profile);
+        } else if ($this->profile == null) {
+            $this->profile = URL::asset('/images/user/default.png');
+        }
+        return $this->profile;
+    }
+
+    public function is_user()
+    {
+        return $this->user_type == User::User ? true : false;
+    }
+    public function is_admin()
+    {
+        return $this->user_type == User::Admin ? true : false;
+    }
+    public function is_company()
+    {
+        return $this->user_type == User::Company ? true : false;
+    }
 }

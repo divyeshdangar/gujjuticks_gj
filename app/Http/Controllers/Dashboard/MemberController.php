@@ -28,8 +28,8 @@ class MemberController extends Controller
             ],
             "title" => __('dashboard.member')
         ];
-        $dataList = Member::orderBy('id', 'DESC');
-        $dataList = $dataList->searching()->where('user_id', Auth::id())->paginate(10)->withQueryString();
+        $dataList = Member::orderBy('id', 'DESC')->where('user_id', Auth::id());
+        $dataList = $dataList->searching()->paginate(10)->withQueryString();
         foreach ($dataList as $key => $value) {
             $class = "text-bg-primary";
             switch ($value->status) {
@@ -53,6 +53,18 @@ class MemberController extends Controller
             $value->status = '<span class="badge '.$class.' py-1 px-2 text-white rounded-1 fw-semibold fs-12">'.__($this->memberType[$value->status]).'</span>';
         }
         return view('dashboard.member.index', ['dataList' => $dataList, 'metaData' => $metaData]);
+    }
+
+    public function import(Request $request)
+    {
+        $metaData = [
+            "breadCrumb" => [
+                ["title" => "Member", "route" => "dashboard.member"],
+                ["title" => "Import", "route" => ""]
+            ],
+            "title" => "Import member"
+        ];
+        return view('dashboard.member.import', ['metaData' => $metaData]);
     }
 
     public function store(Request $request)
@@ -88,7 +100,6 @@ class MemberController extends Controller
         } else {
             $dataDetail->email = $dataToInsert['email'];
             $dataDetail->user_id = Auth::id();
-    
             $user = User::whereEmail($dataToInsert['email'])->first();
             if($user){
                 $dataDetail->member_id = $user->id;
@@ -99,24 +110,30 @@ class MemberController extends Controller
                 ];
                 Notification::create($data);
             } else {
-
-                if(isset($dataToInsert['createNew'])){
+                if (array_key_exists("createNew", $dataToInsert)) {
                     $data = [
                         'name' => $dataToInsert['firstname']." ".$dataToInsert['lastname'], 
                         'first_name' => $dataToInsert['firstname'], 
                         'last_name' => $dataToInsert['lastname'], 
                         'email' => $dataToInsert['email'], 
                         'login_type' => 'SL',
+                        'profile' => 'default.png',
                         'password' => \Hash::make(rand(100000, 999999))
                     ];
                     $user = User::create($data);
-                    dd($user);
-                } else {
-
+                    if(isset($user->id)){
+                        $dataDetail->member_id = $user->id;
+                        if (array_key_exists("createAndAccept", $dataToInsert)) {
+                            $dataDetail->status = 1;
+                        }
+                        $data = [
+                            'message_tag' => 'msg.new_member_request',
+                            'user_id' => $user->id,
+                            'user_id2' => Auth::id(),
+                        ];
+                        Notification::create($data);
+                    }
                 }
-                echo "No user";
-                print_r($dataToInsert);
-                die;
             }
             $dataDetail->save();
             $message = [

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Helpers;
+use Illuminate\Support\Facades\Crypt;
 
 class CommonHelper
 {
@@ -15,6 +16,28 @@ class CommonHelper
             return preg_replace('#('.$search.')#i', $replace, $text);
         }
     }
+
+    static function encUrlParam($slug)
+    {
+        return Crypt::encrypt($slug);
+    }
+
+    static function decUrlParam($slug)
+    {
+        try {
+            return Crypt::decrypt($slug);
+        } catch (\Throwable $th) {
+            $message = [
+                "message" => [
+                    "type" => "error",
+                    "title" => __('dashboard.bad'),
+                    "description" => __('dashboard.no_record_found')
+                ]
+            ];
+            return redirect()->route('dashboard')->with($message);
+        }
+    }
+
 }
 
 

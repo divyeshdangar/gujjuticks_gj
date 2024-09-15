@@ -73,8 +73,8 @@
                                         {!! CommonHelper::highLight($data->email) !!}
                                     </td>
                                     <td>
-                                        <a target="_blank" href="{{ $data->profile }}">
-                                            <img src="{{ $data->profile }}" class="wh-60 rounded-circle">
+                                        <a target="_blank" href="{{ $data->profile() }}">
+                                            <img src="{{ $data->profile() }}" class="wh-60 rounded-circle">
                                         </a>
                                     </td>
                                     <td class="ps-0">
