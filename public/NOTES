@@ -52,7 +52,7 @@ php artisan migrate
 
 Create model
 php artisan make:model Flight
-php artisan make:model BlogCategories --migration //create migration as well
+php artisan make:model ImportRecord --migration //create migration as well
 
 php artisan make:seeder MenuSeeder
 php artisan db:seed

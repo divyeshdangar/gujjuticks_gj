@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Notification;
 use App\Models\Member;
 use App\Models\User;
+use App\Models\ImportRecord;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
@@ -64,7 +65,31 @@ class MemberController extends Controller
             ],
             "title" => "Import member"
         ];
-        return view('dashboard.member.import', ['metaData' => $metaData]);
+        $dataList = ImportRecord::orderBy('id', 'DESC')->where('user_id', Auth::id());
+        $dataList = $dataList->searching()->paginate(10)->withQueryString();
+        foreach ($dataList as $key => $value) {
+            $class = "text-bg-primary";
+            switch ($value->status) {
+                case '-1':
+                    $class = "text-bg-warning";
+                    break;
+                case '0':
+                    $class = "text-bg-info";
+                    break;
+                case '1':
+                    $class = "text-bg-success";
+                    break;
+                case '2':
+                    $class = "text-bg-danger";
+                    break;
+                                                            
+                default:
+                    # code...
+                    break;
+            }
+            $value->status = '<span class="badge '.$class.' py-1 px-2 text-white rounded-1 fw-semibold fs-12">'.__($this->memberType[$value->status]).'</span>';
+        }
+        return view('dashboard.member.import', ['dataList' => $dataList, 'metaData' => $metaData]);
     }
 
     public function store(Request $request)
@@ -199,6 +224,40 @@ class MemberController extends Controller
         }
 
         return redirect()->route('dashboard.member')->with($message);
+    }
+
+    public function import_file(Request $request)
+    {         
+        $validator = Validator::make($request->all(), [
+            'excel_file' => 'required|mimes:xlsx'
+        ]);
+        
+        if ($validator->fails()) {
+            return redirect('dashboard/member/import')->withErrors($validator)->withInput();
+        }    
+
+        $dataDetail = new ImportRecord;
+
+        $fileName = time().'.xlsx';
+        $request->excel_file->storeAs('import/member', $fileName, 'public');
+
+        $dataDetail->model = 'Member';
+        $dataDetail->user_id = Auth::id();
+        $dataDetail->file = $fileName;
+        $dataDetail->file_original_name = $request->excel_file->getClientOriginalName();
+        $dataDetail->status = '0';
+        $dataDetail->notes = '';
+
+        $dataDetail->save();
+        $message = [
+            "message" => [
+                "type" => "success",
+                "title" => __('dashboard.great'),
+                "description" => __('dashboard.details_submitted')
+            ]
+        ];
+
+        return redirect()->route('dashboard.member.import')->with($message);
     }
 
 }

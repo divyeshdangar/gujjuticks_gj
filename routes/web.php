@@ -97,6 +97,7 @@ Route::middleware([CheckIfLogin::class, CheckLanguage::class])->group(function (
 
     Route::get('dashboard/member', [MemberController::class, 'index'])->name('dashboard.member');
     Route::get('dashboard/member/import', [MemberController::class, 'import'])->name('dashboard.member.import');
+    Route::post('dashboard/member/import', [MemberController::class, 'import_file'])->name('dashboard.member.import.post');
     Route::post('dashboard/member/add', [MemberController::class, 'store'])->name('dashboard.member.add');  
 
     Route::get('dashboard/user', [UserController::class, 'index'])->name('dashboard.user');
