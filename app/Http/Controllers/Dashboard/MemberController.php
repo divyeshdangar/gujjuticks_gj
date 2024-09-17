@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Notification;
 use App\Models\Member;
 use App\Models\User;
+use App\Jobs\ProcessMemberImport;
 use App\Models\ImportRecord;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -238,7 +239,7 @@ class MemberController extends Controller
 
         $dataDetail = new ImportRecord;
 
-        $fileName = time().'.xlsx';
+        $fileName = time().'-'.rand(0, time()).'.xlsx';
         $request->excel_file->storeAs('import/member', $fileName, 'public');
 
         $dataDetail->model = 'Member';
@@ -247,8 +248,11 @@ class MemberController extends Controller
         $dataDetail->file_original_name = $request->excel_file->getClientOriginalName();
         $dataDetail->status = '0';
         $dataDetail->notes = '';
-
         $dataDetail->save();
+
+        if(isset($dataDetail->id)){
+            dispatch(new ProcessMemberImport($dataDetail, Auth::id()));
+        }
         $message = [
             "message" => [
                 "type" => "success",
