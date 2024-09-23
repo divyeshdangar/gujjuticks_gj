@@ -52,8 +52,9 @@
                                         </th>
                                         <th scope="col">{{ __('dashboard.file') }}</th>
                                         <th scope="col">{{ __('dashboard.status') }}</th>
+                                        <th scope="col">{{ __('dashboard.report') }}</th>
                                         <th scope="col">{{ __('dashboard.date') }}</th>
-                                        <th scope="col">{{ __('dashboard.action') }}</th>
+                                        {{-- <th scope="col">{{ __('dashboard.action') }}</th> --}}
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -71,16 +72,20 @@
                                                 {!! $data->status !!}
                                             </td>
                                             <td>
-                                                {{ $data->created_at->format('j F, Y') }}
+                                                <span class="text-success">{{ __('dashboard.success') }}: {{ $data->success_count }}</span><br>
+                                                <span class="text-danger">{{ __('dashboard.failed') }}: {{ $data->failed_count }}</span>
                                             </td>
                                             <td>
+                                                {{ $data->created_at->format('j F, Y') }}
+                                            </td>
+                                            {{-- <td>
                                                 <div class="dropdown action-opt">
                                                     <a class="btn bg p-1"
                                                         href="{{ route('dashboard.blog.view', ['id' => $data->id]) }}">
                                                         <i data-feather="eye"></i>
                                                     </a>
                                                 </div>
-                                            </td>
+                                            </td> --}}
                                         </tr>
                                     @endforeach
                                 </tbody>

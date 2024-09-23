@@ -30,7 +30,7 @@
                 @if($dataDetail->user)
                     <div class="d-flex align-items-center mb-3 mb-sm-0">
                         <div class="flex-shrink-0">
-                            <img src="{{ $dataDetail->user->profile }}" class="wh-60 rounded-circle" alt="user">
+                            <img src="{{ $dataDetail->user->profile() }}" class="wh-60 rounded-circle" alt="user">
                         </div>
 
                         <div class="flex-grow-1 ms-3">
@@ -49,7 +49,7 @@
                 <ul class="ps-0 mb-0 list-unstyled d-flex">
                     @foreach ($dataDetail->users as $user)
                         <li @if ($loop->index) class="ms-8" @endif>
-                            <img src="{{ $user->user->profile }}"
+                            <img src="{{ $user->user->profile() }}"
                                 class="wh-38 rounded-circle border border-2 border-color-white" alt="user"
                                 data-bs-toggle="tooltip" data-bs-placement="top"
                                 data-bs-title="{{ ucwords($user->user->name) }}">

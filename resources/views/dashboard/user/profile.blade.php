@@ -33,7 +33,7 @@
                 <div class="card-body p-4 pt-0">
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="profile-img">
-                            <img src="{{ auth()->user()->profile }}" class="rounded-circle border border-2 border-white wh-57 mb-4" alt="user">
+                            <img src="{{ auth()->user()->profile() }}" class="rounded-circle border border-2 border-white wh-57 mb-4" alt="user">
                             <h4 class="fs-16 fw-semibold mb-1">{{ ucwords(auth()->user()->name) }}</h4>
                             <span class="fs-14">{{ __('dashboard.user') }}</span>
                         </div>

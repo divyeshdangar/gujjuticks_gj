@@ -5,10 +5,10 @@
         <span class="text-muted">{{ $item->created_at->format('j F, Y') }}</span>
         <ul class="ps-0 mb-0 list-unstyled d-flex">
             <li>
-                <img src="{{ $item->reporter->profile }}" class="wh-25 rounded-circle border border-dark" alt="{{ $item->reporter->name }}">
+                <img src="{{ $item->reporter->profile() }}" class="wh-25 rounded-circle border border-dark" alt="{{ $item->reporter->name }}">
             </li>
             <li class="ms-8">
-                <img src="{{ $item->assignee->profile }}" class="wh-25 rounded-circle border border-dark" alt="{{ $item->assignee->name }}">
+                <img src="{{ $item->assignee->profile() }}" class="wh-25 rounded-circle border border-dark" alt="{{ $item->assignee->name }}">
             </li>
         </ul>
     </div>

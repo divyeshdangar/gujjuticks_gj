@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\UserMenu;
 use App\Models\Menu;
 use App\Models\Notification;
 use Illuminate\Support\Facades\Auth;
@@ -109,23 +110,19 @@ class UserController extends Controller
         }
 
         $dataToInsert = $validator->validated();
-        $data = [
-            'menuIds' => $dataToInsert['menuIds'],
-        ];
 
-        dd($data);
-        die;
-
-
-        $user = User::create($data);
-        if (!empty($user) && isset($user->id)) {
-            $data = [
-                'message_tag' => 'msg.your_account_created_by',
-                'user_id' => $user->id,
-                'user_id2' => Auth::id(),
-            ];
-            Notification::create($data);
+        $dataDetail = UserMenu::where('user_id', $id)->first();        
+        if(!$dataDetail) {
+            $dataDetail = new UserMenu();
+            $dataDetail->user_id = $id;
         }
+        
+        if(isset($dataToInsert['menuIds'])) {
+            $dataDetail->menuIds = implode(",", $dataToInsert['menuIds']);
+        } else {
+            $dataDetail->menuIds = "";
+        }
+        $dataDetail->save();
 
         $message = [
             "message" => [
@@ -134,7 +131,7 @@ class UserController extends Controller
                 "description" => __('dashboard.details_submitted')
             ]
         ];
-        return redirect()->route('dashboard.user')->with($message);
+        return redirect()->route('dashboard.user.edit', ['id' => $id])->with($message);
     }
 
 

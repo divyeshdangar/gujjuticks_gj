@@ -24,7 +24,7 @@
                 @if($dataDetail->user)
                     <div class="d-flex align-items-center mb-3 mb-sm-0">
                         <div class="flex-shrink-0">
-                            <img src="{{ $dataDetail->user->profile }}" class="wh-60 rounded-circle" alt="user">
+                            <img src="{{ $dataDetail->user->profile() }}" class="wh-60 rounded-circle" alt="user">
                         </div>
                         <div class="flex-grow-1 ms-3">
                             <h4 class="fs-16 fw-semibold mb-1">{{ ucwords($dataDetail->user->name) }}</h4>

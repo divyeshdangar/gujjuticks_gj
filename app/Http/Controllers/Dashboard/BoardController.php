@@ -21,7 +21,7 @@ class BoardController extends Controller
             ],
             "title" => "Board"
         ];
-        $dataList = Board::orderBy('id', 'DESC');
+        $dataList = Board::orderBy('id', 'DESC')->where('user_id', Auth::id());
         $dataList = $dataList->searching()->paginate(3)->withQueryString();
         return view('dashboard.board.index', ['dataList' => $dataList, 'metaData' => $metaData]);
     }

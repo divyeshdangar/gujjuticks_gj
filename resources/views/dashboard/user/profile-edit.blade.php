@@ -57,7 +57,7 @@
                                             <h4 class="body-font fs-15 fw-semibold text-body">{{ __('dashboard.your_photo') }}</h4>
                                             <p>{{ __('dashboard.your_photo_msg') }}</p>
                                         </div>
-                                        <img src="{{ auth()->user()->profile }}" class="rounded-4 wh-78 ms-3 ms-lg-0 rounded-circle" alt="product">
+                                        <img src="{{ auth()->user()->profile() }}" class="rounded-4 wh-78 ms-3 ms-lg-0 rounded-circle" alt="product">
                                     </div>
                                     
                                     <div class="d-flex ms-sm-3 ms-md-0">

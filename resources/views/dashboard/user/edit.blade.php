@@ -21,8 +21,7 @@
                         </div>
                     @endif
 
-                    <form method="post" id="formToValidate"
-                        action="{{ route('dashboard.blog.edit.post', ['id' => $dataDetail->id]) }}">
+                    <form method="post" id="formToValidate" action="{{ route('dashboard.user.edit.post', ['id' => $dataDetail->id]) }}">
                         {{ csrf_field() }}
                         <div class="row">
                             <div class="col-lg-12">
@@ -34,7 +33,7 @@
                                                 {{ __('dashboard.your_photo') }}</h4>
                                             <p>{{ __('dashboard.your_photo_msg') }}</p>
                                         </div>
-                                        <img src="{{ auth()->user()->profile }}"
+                                        <img src="{{ auth()->user()->profile() }}"
                                             class="rounded-4 wh-78 ms-3 ms-lg-0 rounded-circle" alt="product">
                                     </div>
 

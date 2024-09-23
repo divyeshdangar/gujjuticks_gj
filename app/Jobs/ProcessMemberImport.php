@@ -5,8 +5,6 @@ namespace App\Jobs;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use App\Imports\MemberImport;
-use App\Imports\Member;
-use Illuminate\Container\Attributes\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ProcessMemberImport implements ShouldQueue
@@ -30,7 +28,15 @@ class ProcessMemberImport implements ShouldQueue
     public function handle(): void
     {
         try {
-            Excel::import(new MemberImport($this->userId), base_path().'\public\import\member\\'.$this->importMember->file);
+            $import = new MemberImport($this->userId);
+            Excel::import($import, base_path().'\public\import\member\\'.$this->importMember->file);
+            $count = $import->getCounts();
+            
+            $this->importMember->notes = $count["message"];
+            $this->importMember->success_count = $count["success"];
+            $this->importMember->failed_count = $count["failed"];
+            $this->importMember->status = '1';
+            $this->importMember->update();
         } catch (\Throwable $th) {
             print_r($th->getMessage());
         }

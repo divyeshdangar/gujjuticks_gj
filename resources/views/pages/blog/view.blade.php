@@ -15,7 +15,7 @@
                             @if($dataDetail->user)
                                 <div class="d-flex align-items-center">
                                     <div class="flex-shrink-0 position-relative">
-                                        <img src="{{ $dataDetail->user->profile }}" class="wh-48 rounded-circle"
+                                        <img src="{{ $dataDetail->user->profile() }}" class="wh-48 rounded-circle"
                                             alt="user">
                                         <div
                                             class="position-absolute p-1 bg-primary border border-2 border-white rounded-circle status-position2">

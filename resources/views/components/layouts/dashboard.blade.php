@@ -143,7 +143,7 @@
             <div class="d-flex align-items-center admin-info border-top">
                 <div class="flex-shrink-0">
                     <a href="#" class="d-block">
-                        <img src="{{ auth()->user()->profile }}" class="rounded-circle wh-54" alt="admin">
+                        <img src="{{ auth()->user()->profile() }}" class="rounded-circle wh-54" alt="admin">
                     </a>
                 </div>
                 <div class="flex-grow-1 ms-3 info">
@@ -300,8 +300,7 @@
                                         <div class="d-xxl-flex align-items-center bg-transparent border-0 text-start p-0 cursor"
                                             data-bs-toggle="dropdown">
                                             <div class="flex-shrink-0">
-                                                <img class="rounded-circle wh-54" src="{{ auth()->user()->profile }}"
-                                                    alt="admin">
+                                                <img class="rounded-circle wh-54" src="{{ auth()->user()->profile() }}" alt="admin">
                                             </div>
                                             <div class="flex-grow-1 ms-3">
                                                 <div class="d-flex align-items-center justify-content-between">

@@ -60,7 +60,7 @@
                             @if($data->user)
                                 <div class="d-flex align-items-center mb-3 mb-sm-0">
                                     <div class="flex-shrink-0">
-                                        <img src="{{ $data->user->profile }}" class="wh-60 rounded-circle" alt="user">
+                                        <img src="{{ $data->user->profile() }}" class="wh-60 rounded-circle" alt="user">
                                     </div>
                                     <div class="flex-grow-1 ms-3">
                                         <h4 class="fs-16 fw-semibold mb-1">{{ ucwords($data->user->name) }}</h4>
@@ -73,7 +73,7 @@
 
                                 @foreach ($data->users as $user)
                                     <li @if ($loop->index) class="ms-8" @endif>
-                                        <img src="{{ $user->user->profile }}"
+                                        <img src="{{ $user->user->profile() }}"
                                             class="wh-38 rounded-circle border border-2 border-color-white"
                                             alt="user" data-bs-toggle="tooltip" data-bs-placement="top"
                                             data-bs-title="{{ ucwords($user->user->name) }}">

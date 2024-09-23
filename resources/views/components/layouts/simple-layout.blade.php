@@ -159,7 +159,7 @@
                                                     data-bs-toggle="dropdown">
                                                     <div class="flex-shrink-0">
                                                         <img class="rounded-circle wh-54"
-                                                            src="{{ auth()->user()->profile }}" alt="admin">
+                                                            src="{{ auth()->user()->profile() }}" alt="admin">
                                                     </div>
                                                     <div class="flex-grow-1 ms-3">
                                                         <div class="d-flex align-items-center justify-content-between">
