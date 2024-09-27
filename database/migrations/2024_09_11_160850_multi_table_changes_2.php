@@ -29,10 +29,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('members', function($table) {
+        Schema::table('images', function($table) {
             $table->dropColumn('meta_description');
         });
-        Schema::table('images', function($table) {
+        Schema::table('members', function($table) {
             $table->dropColumn('create_new');
             $table->dropColumn('first_name');
             $table->dropColumn('last_name');

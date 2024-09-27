@@ -115,7 +115,7 @@ class BlogController extends Controller
                 list($type, $croped_image) = explode(';', $croped_image);
                 list(, $croped_image)      = explode(',', $croped_image);
                 $croped_image = base64_decode($croped_image);
-                $image_name = "123456789.png"; //time() . rand(10000000, 999999999) . '.png';
+                $image_name = $dataToInsert['slug'].".png"; //time() . rand(10000000, 999999999) . '.png';
                 file_put_contents("./images/blog/" . $image_name, $croped_image);
                 $dataDetail->image = $image_name;
             }
