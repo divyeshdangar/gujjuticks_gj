@@ -10,13 +10,13 @@
         <x-common.breadcrumb :metaData="$metaData"></x-common.breadcrumb>
     @endif
 
-    <form method="post" id="formToValidate" action="{{ route('dashboard.image.edit.post', ['id' => 0]) }}">
+    <form method="post" id="formToValidate" action="{{ route('dashboard.blog.edit.post', ['id' => encrypt(0)]) }}">
         {{ csrf_field() }}
         <div class="row">
             <div class="col-lg-8">
                 <div class="card bg-white border-0 rounded-10 mb-4">
                     <div class="card-body p-4">
-                        <h4 class="fw-semibold fs-18 border-bottom pb-20 mb-20">{{ __('dashboard.image') }}</h4>
+                        <h4 class="fw-semibold fs-18 border-bottom pb-20 mb-20">{{ __('dashboard.blog') }}</h4>
                         @if ($errors->any())
                             <div class="text-danger border border-danger border-4 p-3 rounded-3 mb-3">
                                 <b>{{ __('dashboard.error') }}:</b>
@@ -66,51 +66,12 @@
                             <div class="col-lg-6">
                                 <div class="form-group mb-4" id="imageFormGroup">
                                     <label
-                                        class="label @error('image') text-danger @enderror">{{ __('dashboard.image') }}</label>
-                                    <input type="file" class="form-control h-58" id="image" name="image"
+                                        class="label @error('slug') text-danger @enderror">{{ __('dashboard.image') }}</label>
+                                    <input type="file" class="form-control" id="image" name="image"
                                         accept="image/*">
-                                    @error('slug')
-                                        <div class="text-danger">{{ $message }}</div>
-                                    @enderror
+                                    <input type="hidden" id="croppedImage" name="croppedImage" value="">
                                 </div>
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div class="form-group mb-4">
-                                            <label
-                                                class="label @error('height') text-danger @enderror">{{ __('dashboard.height') }}</label>
-                                            <div class="form-group position-relative">
-                                                <input type="number" name="height"
-                                                    class="form-control text-dark ps-5 h-58 @error('height') border border-danger rounded-3 border-3 @enderror"
-                                                    data-pristine-pattern="/[a-z]+$/i"
-                                                    value="{{ old('height') }}"
-                                                    placeholder="{{ __('dashboard.height') }}" required>
-                                                <i
-                                                    class="ri-link position-absolute top-50 start-0 translate-middle-y fs-20 text-gray-light ps-20"></i>
-                                            </div>
-                                            @error('height')
-                                                <div class="text-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="form-group mb-4">
-                                            <label
-                                                class="label @error('width') text-danger @enderror">{{ __('dashboard.width') }}</label>
-                                            <div class="form-group position-relative">
-                                                <input type="number" name="width"
-                                                    class="form-control text-dark ps-5 h-58 @error('width') border border-danger rounded-3 border-3 @enderror"
-                                                    data-pristine-pattern="/[a-z]+$/i"
-                                                    value="{{ old('width') }}"
-                                                    placeholder="{{ __('dashboard.width') }}" required>
-                                                <i class="ri-link position-absolute top-50 start-0 translate-middle-y fs-20 text-gray-light ps-20"></i>
-                                            </div>
-                                            @error('width')
-                                                <div class="text-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>        
-                                    </div>
-                                </div>
-
+                                <div id="upload-image-image"></div>
                             </div>
                             <div class="col-lg-12">
                                 <div class="form-group mb-4">
@@ -155,17 +116,52 @@
             <div class="col-lg-4">
                 <div class="card bg-white border-0 rounded-10 mb-4">
                     <div class="card-body p-4">
-                        <h4 class="fw-semibold fs-18 border-bottom pb-20 mb-20">{{ __('dashboard.data') }}</h4>
-                        <div class="form-group position-relative">
-                            <textarea onchange="update(1)" id="options" name="options"
-                                class="form-control ps-5 text-dark @error('options') border border-danger rounded-3 border-3 @enderror"
-                                placeholder="{{ __('dashboard.options') }}" rows="25" required>{{ old('options') }}</textarea>
-                            <i
-                                class="ri-information-line position-absolute top-0 start-0 fs-20 text-gray-light ps-20 pt-2"></i>
+                        <h4 class="fw-semibold fs-18 border-bottom pb-20 mb-20">{{ __('dashboard.location') }}</h4>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group mb-4">
+                                    <label
+                                        class="label @error('location_id') text-danger @enderror">{{ __('dashboard.district') }}</label>
+                                    <div class="form-group position-relative">
+                                        <select class="form-select form-control ps-5 h-58" name="location_id"
+                                            aria-label="Parent category selection">
+                                            <option class="text-dark">{{ __('dashboard.select') }}
+                                                {{ __('dashboard.district') }}</option>
+                                            @foreach ($locationData as $data)
+                                                <option value="{{ $data->id }}" class="text-dark"
+                                                    @if ($data->id == old('location_id')) selected="selected" @endif>
+                                                    {{ $data->name }}</option>
+                                            @endforeach
+                                        </select>
+                                        <i
+                                            class="ri-map-pin-line position-absolute top-50 start-0 translate-middle-y fs-20 text-gray-light ps-20"></i>
+                                    </div>
+                                    @error('location_id')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="form-group mb-4">
+                                    <label class="label @error('category_id') text-danger @enderror">{{ __('dashboard.blog_category') }}</label>
+                                    <div class="form-group position-relative">
+                                        <select class="form-select form-control ps-5 h-58" name="category_id" required aria-label="Parent category selection">
+                                            <option class="text-dark">{{ __('dashboard.select') }}
+                                                {{ __('dashboard.blog_category') }}</option>
+                                            @foreach ($categoryData as $data)
+                                                <option value="{{ $data->id }}" class="text-dark"
+                                                    @if ($data->id == old('category_id')) selected="selected" @endif>
+                                                    {{ $data->title }}</option>
+                                            @endforeach
+                                        </select>
+                                        <i class="ri-article-line position-absolute top-50 start-0 translate-middle-y fs-20 text-gray-light ps-20"></i>
+                                    </div>
+                                    @error('category_id')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
                         </div>
-                        @error('options')
-                            <div class="text-danger">{{ $options }}</div>
-                        @enderror
                     </div>
                 </div>
             </div>
@@ -173,16 +169,57 @@
     </form>
 
     <script>
-        var objData;
+        var $image_crop;
+        var $banner_crop;
+        var isImageSelected = false;
         window.addEventListener('load', function(event) {
+            addCropperImage();
             $("#formToValidate").submit(function(eventObj) {
+                getImage();
                 return true;
             });
-            var a = document.getElementById('options').value;
-            objData = JSON.parse(a);
-            var str = JSON.stringify(objData, undefined, 4);
-            document.getElementById('options').innerHTML = str;
         });
 
+        function getImage() {
+            $('#upload-image-image').croppie('result', {
+                type: 'base64',
+                format: 'jpeg',
+                quality: 0.7
+            }).then(function(resp) {
+                if (resp && isImageSelected) {
+                    $("#croppedImage").val(resp)
+                } else {
+                    $("#croppedImage").val("")
+                }
+            });
+        }
+
+        function addCropperImage() {
+            $image_crop = $('#upload-image-image').croppie({
+                //enableExif: true,
+                enableResize: true,
+                viewport: {
+                    width: 192,
+                    height: 108,
+                    type: 'square'
+                },
+                boundary: {
+                    width: $("#imageFormGroup").width(),
+                    height: $("#imageFormGroup").width() / 2
+                },
+            });
+            $('#image').on('change', function() {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    $image_crop.croppie('bind', {
+                        url: e.target.result
+                    }).then(function() {
+                        isImageSelected = true;
+                    });
+                }
+                reader.readAsDataURL(this.files[0]);
+            });
+        }
     </script>
+
 </x-layouts.dashboard>

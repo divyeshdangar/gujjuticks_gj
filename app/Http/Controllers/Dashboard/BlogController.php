@@ -10,7 +10,6 @@ use App\Models\Blog;
 use App\Models\Location;
 use App\Models\BlogCategories;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Crypt;
 
 class BlogController extends Controller
 {

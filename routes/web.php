@@ -16,6 +16,7 @@ use App\Http\Controllers\Pages\PublicImageController;
 
 use App\Http\Controllers\Dashboard\BoardController;
 use App\Http\Controllers\Dashboard\BoardItemController;
+use App\Http\Controllers\Dashboard\PostsController;
 
 use App\Http\Middleware\CheckIfLogin;
 use App\Http\Middleware\CheckLanguage;
@@ -78,6 +79,13 @@ Route::middleware([CheckIfLogin::class, CheckLanguage::class])->group(function (
     Route::post('dashboard/blog/edit/{id}', [BlogController::class, 'store'])->name('dashboard.blog.edit.post');
     Route::get('dashboard/blog/view/{id}', [BlogController::class, 'view'])->name('dashboard.blog.view');
     Route::get('dashboard/blog/delete/{id}', [BlogController::class, 'delete'])->name('dashboard.blog.delete');
+
+    Route::get('dashboard/posts', [PostsController::class, 'index'])->name('dashboard.posts');
+    Route::get('dashboard/posts/create', [PostsController::class, 'create'])->name('dashboard.posts.create');
+    Route::get('dashboard/posts/edit/{id}', [PostsController::class, 'edit'])->name('dashboard.posts.edit');
+    Route::post('dashboard/posts/edit/{id}', [PostsController::class, 'store'])->name('dashboard.posts.edit.post');
+    Route::get('dashboard/posts/view/{id}', [PostsController::class, 'view'])->name('dashboard.posts.view');
+    Route::get('dashboard/posts/delete/{id}', [PostsController::class, 'delete'])->name('dashboard.posts.delete');
 
     Route::get('dashboard/blog-category', [BlogCategoryController::class, 'index'])->name('dashboard.blog.category');
     Route::get('dashboard/blog-category/create', [BlogCategoryController::class, 'create'])->name('dashboard.blog.category.create');

@@ -59,6 +59,16 @@ class MenuSeeder extends Seeder
                 "status" => "1"
             ],
             [
+                "id" => 16, 
+                "icon" => "square", 
+                "title" => 'dashboard.posts', 
+                "route" => "dashboard.posts",
+                "order" => 4,
+                "title_only" => "0",
+                "type" => "2",
+                "status" => "1"
+            ],
+            [
                 "id" => 5, 
                 "icon" => "", 
                 "title" => 'dashboard.public_features', 

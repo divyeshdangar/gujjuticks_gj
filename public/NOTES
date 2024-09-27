@@ -1,7 +1,7 @@
 TO CREATE NEW PAGE
 
 1. Create controller
-php artisan make:controller Pages/PublicImageController
+php artisan make:controller Dashboard/PostsController
 
 2.
 
@@ -56,7 +56,7 @@ php artisan make:model ImportRecord --migration //create migration as well
 
 php artisan make:seeder MenuSeeder
 php artisan db:seed
-php artisan db:seed --class=LocationSeeder
+php artisan db:seed --class=MenuSeeder
 
 Event
 https://arjunamrutiya.medium.com/a-step-by-step-guide-to-laravel-events-and-listeners-with-examples-634d7a018fa0
