@@ -28,7 +28,7 @@
                     </div>
                     <div class="row">
                         @foreach ($categories as $data)
-                            <x-common.blocks.category :data="$data" :class="'col-md-12'"></x-common.breadcrumb>
+                            <x-common.blocks.category :data="$data" :class="'col-md-12'"></x-common.blocks.category>
                         @endforeach
                     </div>
                 </div>

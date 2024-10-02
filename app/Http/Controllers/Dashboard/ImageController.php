@@ -6,6 +6,7 @@ use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Image;
+use App\Models\Uploads;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -39,7 +40,8 @@ class ImageController extends Controller
     {
         $dataDetail = Image::find($id);
         if($dataDetail) {
-            return view('dashboard.image.view', ['dataDetail' => $dataDetail, 'metaData' => []]);
+            $dataUploads = Uploads::where("image_id", $id)->get();
+            return view('dashboard.image.view', ['dataDetail' => $dataDetail, 'metaData' => [], 'dataUploads' => $dataUploads]);
         } else {
             $message = [
                 "message" => [
@@ -128,6 +130,34 @@ class ImageController extends Controller
         }
     }
 
+    public function update(Request $request, $id): RedirectResponse
+    {
+        $dataDetail = Image::find($id);
+        if ($dataDetail) {
+            $validator = Validator::make($request->all(), [
+                'options' => 'required',
+            ]);
+
+            if ($validator->fails()) {
+                return redirect('dashboard/image/view/' . $id)->withErrors($validator)->withInput();
+            }
+            $dataToInsert = $validator->validated();
+            $dataDetail->options = $dataToInsert['options'];
+            $dataDetail->save();
+
+            $message = [
+                "message" => [
+                    "type" => "success",
+                    "title" => __('dashboard.great'),
+                    "description" => __('dashboard.details_submitted')
+                ]
+            ];
+            return redirect()->route('dashboard.image.view', ['id' => $id])->with($message);
+        } else {
+            return redirect()->route('dashboard.image');
+        }
+    }
+
     public function delete(Request $request, $id)
     {
         $dataDetail = Image::find($id);
@@ -172,4 +202,41 @@ class ImageController extends Controller
             return redirect()->route('dashboard.image')->with($message);
         }
     }
+
+    public function upload(Request $request, $id): RedirectResponse
+    {
+        $dataDetail = Image::find($id);
+        if ($dataDetail) {
+            $validator = Validator::make($request->all(), [
+                'image' => 'sometimes|file|mimes:jpg,jpeg,png|max:4048',
+            ]);
+
+            if ($validator->fails()) {
+                return redirect('dashboard/image/view/'.$id)->withErrors($validator)->withInput();
+            }
+            if ($request->file('image')) {
+                $dataDetail = new Uploads();
+                $dataDetail->user_id = Auth::id();
+                $dataDetail->image_id = $id;
+                $dataDetail->original_name = $request->file('image')->getClientOriginalName(); 
+                $temp = explode(".", $dataDetail->original_name);
+                $fileName = time().'-'.rand(0, time()).'.'. end($temp);
+                $request->image->storeAs('images/dynamic', $fileName, 'public');
+                $dataDetail->image = $fileName;
+                $dataDetail->save();
+            }
+
+            $message = [
+                "message" => [
+                    "type" => "success",
+                    "title" => __('dashboard.great'),
+                    "description" => __('dashboard.details_submitted')
+                ]
+            ];
+            return redirect()->route('dashboard.image.view', ["id" => $id])->with($message);
+        } else {
+            return redirect()->route('dashboard.image');
+        }
+    }
+
 }

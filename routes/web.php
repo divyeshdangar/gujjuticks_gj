@@ -13,10 +13,12 @@ use App\Http\Controllers\Dashboard\UserController;
 use App\Http\Controllers\Dashboard\DashboardoController;
 use App\Http\Controllers\Pages\BlogController as PublicBlogController;
 use App\Http\Controllers\Pages\PublicImageController;
+use App\Http\Controllers\Pages\GujaratController;
 
 use App\Http\Controllers\Dashboard\BoardController;
 use App\Http\Controllers\Dashboard\BoardItemController;
 use App\Http\Controllers\Dashboard\PostsController;
+use App\Http\Controllers\Dashboard\LocationController;
 
 use App\Http\Middleware\CheckIfLogin;
 use App\Http\Middleware\CheckLanguage;
@@ -40,6 +42,9 @@ Route::middleware([CheckLanguage::class])->group(function () {
     Route::get('blog/{slug}', [PublicBlogController::class, 'view'])->name('pages.blog.detail');
 
     Route::get('image/{slug}', [PublicImageController::class, 'view'])->name('pages.image.detail');
+
+    Route::get('gujarat', [GujaratController::class, 'index'])->name('pages.gujarat');
+    Route::get('gujarat/{slug}', [GujaratController::class, 'district'])->name('pages.gujarat.district');
 });
 
 
@@ -69,6 +74,8 @@ Route::middleware([CheckIfLogin::class, CheckLanguage::class])->group(function (
     Route::get('dashboard/image/create', [ImageController::class, 'create'])->name('dashboard.image.create');
     Route::get('dashboard/image/edit/{id}', [ImageController::class, 'edit'])->name('dashboard.image.edit');
     Route::post('dashboard/image/edit/{id}', [ImageController::class, 'store'])->name('dashboard.image.edit.post');
+    Route::post('dashboard/image/update/{id}', [ImageController::class, 'update'])->name('dashboard.image.update.post');
+    Route::post('dashboard/image/upload/{id}', [ImageController::class, 'upload'])->name('dashboard.image.image.post');
     Route::get('dashboard/image/view/{id}', [ImageController::class, 'view'])->name('dashboard.image.view');
     Route::get('dashboard/image/delete/{id}', [ImageController::class, 'delete'])->name('dashboard.image.delete');
     Route::get('dashboard/image/copy/{id}', [ImageController::class, 'copy'])->name('dashboard.image.copy');
@@ -79,6 +86,13 @@ Route::middleware([CheckIfLogin::class, CheckLanguage::class])->group(function (
     Route::post('dashboard/blog/edit/{id}', [BlogController::class, 'store'])->name('dashboard.blog.edit.post');
     Route::get('dashboard/blog/view/{id}', [BlogController::class, 'view'])->name('dashboard.blog.view');
     Route::get('dashboard/blog/delete/{id}', [BlogController::class, 'delete'])->name('dashboard.blog.delete');
+
+    Route::get('dashboard/location', [LocationController::class, 'index'])->name('dashboard.location');
+    Route::get('dashboard/location/create', [LocationController::class, 'create'])->name('dashboard.location.create');
+    Route::get('dashboard/location/edit/{id}', [LocationController::class, 'edit'])->name('dashboard.location.edit');
+    Route::post('dashboard/location/edit/{id}', [LocationController::class, 'store'])->name('dashboard.location.edit.post');
+    Route::get('dashboard/location/view/{id}', [LocationController::class, 'view'])->name('dashboard.location.view');
+    Route::get('dashboard/location/delete/{id}', [LocationController::class, 'delete'])->name('dashboard.location.delete');
 
     Route::get('dashboard/posts', [PostsController::class, 'index'])->name('dashboard.posts');
     Route::get('dashboard/posts/create', [PostsController::class, 'create'])->name('dashboard.posts.create');

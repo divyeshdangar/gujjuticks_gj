@@ -40,23 +40,23 @@ php artisan make:component common/Breadcrumb //class and view file will be creat
 php artisan make:component common.breadcrumb --view //only view file created
 
 Create controller
-php artisan make:controller Dashboard/MemberController
+php artisan make:controller Dashboard/LocationController
 
 
 Create migration
 php artisan make:migration create_notification_table
-php artisan make:migration multi_table_changes_1
+php artisan make:migration multi_table_changes_3
 
 Run migration
 php artisan migrate
 
 Create model
 php artisan make:model Flight
-php artisan make:model ImportRecord --migration //create migration as well
+php artisan make:model Uploads --migration //create migration as well
 
 php artisan make:seeder MenuSeeder
 php artisan db:seed
-php artisan db:seed --class=MenuSeeder
+php artisan db:seed --class=LocationSeeder
 
 Event
 https://arjunamrutiya.medium.com/a-step-by-step-guide-to-laravel-events-and-listeners-with-examples-634d7a018fa0

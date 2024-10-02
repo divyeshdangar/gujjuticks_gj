@@ -32,6 +32,7 @@ return [
     'email' => 'Email',
     'mobile' => 'Mobile',
     'name' => 'Name',
+    'name_gj' => 'Name in gujarati',
     'full_name' => 'Full Name',
     'about_me' => 'About Me',
     'edit' => 'Edit',
@@ -40,6 +41,7 @@ return [
     'save' => 'Save',
     'bio' => 'Bio',
     'phone' => 'Phone',
+    'parent' => 'Parent',
     'last_name' => 'Last Name',
     'first_name' => 'First Name',
     'password' => 'Password',
@@ -58,6 +60,8 @@ return [
     'id' => 'ID',
     'date' => 'Date',
     'wait' => 'Wait!',
+    'latitude' => 'Latitude',
+    'longitude' => 'Longitude',
     'woow' => 'Woow!',
     'great' => 'Great!',
     'bad' => 'Bad move!',
@@ -71,6 +75,8 @@ return [
     'image' => 'Image',
     'title' => 'Title',
     'description' => 'Description',
+    'meta_keywords' => 'Meta keywords',
+    'description_gj' => 'Description in gujarati',
     'meta_description' => 'Meta Description',
     'action' => 'Action',
     'dynamic_images' => 'Dynamic Images',
@@ -119,5 +125,5 @@ return [
     'download_images' => 'Download image',
     'live_soon' => 'WE WILL LIVE SOON',
     'record_deleted' => 'Record deleted successfully.',
-
+    'canvas_to_json' => 'Canvas to JSON'
 ];

@@ -460,80 +460,86 @@
         } from 'ckeditor5';
 
         if (document.querySelector('.ckeditor5')) {
-            ClassicEditor
-                .create(document.querySelector('.ckeditor5'), {
-                    plugins: [DecoupledEditor,
-                        Alignment,
-                        Autoformat,
-                        Bold,
-                        Italic,
-                        Strikethrough,
-                        Subscript,
-                        Superscript,
-                        Underline,
-                        BlockQuote,
-                        Base64UploadAdapter,
-                        CloudServices,
-                        CKBox,
-                        Essentials,
-                        FindAndReplace,
-                        FontBackgroundColor,
-                        FontColor,
-                        FontFamily,
-                        FontSize,
-                        Heading,
-                        HorizontalLine,
-                        Image,
-                        ImageCaption,
-                        ImageResize,
-                        ImageStyle,
-                        ImageToolbar,
-                        ImageUpload,
-                        PictureEditing,
-                        Indent,
-                        IndentBlock,
-                        Link,
-                        List,
-                        ListProperties,
-                        MediaEmbed,
-                        Mention,
-                        PageBreak,
-                        Paragraph,
-                        PasteFromOffice,
-                        RemoveFormat,
-                        SpecialCharacters,
-                        SpecialCharactersEssentials,
-                        Table,
-                        TableCaption,
-                        TableCellProperties,
-                        TableColumnResize,
-                        TableProperties,
-                        TableToolbar,
-                        TextTransformation,
-                    ],
-                    toolbar: {
-                        items: [
-                            'undo', 'redo',
-                            '|',
-                            'heading',
-                            '|',
-                            'fontfamily', 'fontsize', 'fontColor', 'fontBackgroundColor',
-                            '|',
-                            'bold', 'italic', 'strikethrough', 'subscript', 'superscript', 'code',
-                            '|',
-                            'link', 'uploadImage', 'blockQuote', 'codeBlock',
-                            '|',
-                            'bulletedList', 'numberedList', 'todoList', 'outdent', 'indent'
+            
+            var cke_list = document.querySelectorAll('.ckeditor5'); // returns NodeList
+            var ck_array = [...cke_list]; // converts NodeList to Array
+            ck_array.forEach(ck => {
+                ClassicEditor
+                    .create(ck, {
+                        plugins: [DecoupledEditor,
+                            Alignment,
+                            Autoformat,
+                            Bold,
+                            Italic,
+                            Strikethrough,
+                            Subscript,
+                            Superscript,
+                            Underline,
+                            BlockQuote,
+                            Base64UploadAdapter,
+                            CloudServices,
+                            CKBox,
+                            Essentials,
+                            FindAndReplace,
+                            FontBackgroundColor,
+                            FontColor,
+                            FontFamily,
+                            FontSize,
+                            Heading,
+                            HorizontalLine,
+                            Image,
+                            ImageCaption,
+                            ImageResize,
+                            ImageStyle,
+                            ImageToolbar,
+                            ImageUpload,
+                            PictureEditing,
+                            Indent,
+                            IndentBlock,
+                            Link,
+                            List,
+                            ListProperties,
+                            MediaEmbed,
+                            Mention,
+                            PageBreak,
+                            Paragraph,
+                            PasteFromOffice,
+                            RemoveFormat,
+                            SpecialCharacters,
+                            SpecialCharactersEssentials,
+                            Table,
+                            TableCaption,
+                            TableCellProperties,
+                            TableColumnResize,
+                            TableProperties,
+                            TableToolbar,
+                            TextTransformation,
                         ],
+                        toolbar: {
+                            items: [
+                                'undo', 'redo',
+                                '|',
+                                'heading',
+                                '|',
+                                'fontfamily', 'fontsize', 'fontColor', 'fontBackgroundColor',
+                                '|',
+                                'bold', 'italic', 'strikethrough', 'subscript', 'superscript', 'code',
+                                '|',
+                                'link', 'uploadImage', 'blockQuote', 'codeBlock',
+                                '|',
+                                'bulletedList', 'numberedList', 'todoList', 'outdent', 'indent'
+                            ],
 
-                    }
-                })
-                .then(editor => {
-                    window.editor = editor;
-                })
-                .catch(error => {
-                    console.error(error);
-                });
+                        }
+                    })
+                    .then(editor => {
+                        window.editor = editor;
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+            });
+
         }
     </script>
 </body>

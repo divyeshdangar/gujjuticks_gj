@@ -20,7 +20,7 @@
         </ul>
     </div>
     <div class="row">
-        <div class="col-xxl-4 col-sm-12">
+        <div class="col-xxl-4 col-sm-12 d-none">
             <div class="card bg-white border-0 rounded-10 mb-4">
                 <div class="card-body p-4">
                     <div class="d-flex justify-content-between align-items-center border-bottom pb-20 mb-20">
@@ -50,7 +50,8 @@
                                 </a>
                             </div>
                             <div class="flex-grow-1 ms-10">
-                                <h4 class="fw-semibold fs-16 mb-0">{{ $dataDetail->width }} x {{ $dataDetail->height }}
+                                <h4 class="fw-semibold fs-16 mb-0">{{ $dataDetail->width }} x
+                                    {{ $dataDetail->height }}
                                 </h4>
                             </div>
                         </div>
@@ -80,7 +81,7 @@
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end bg-white border box-shadow">
                                 <li>
-                                    <a class="dropdown-item" onclick="saveImage()">
+                                    <a class="dropdown-item" id="lnkDownload">
                                         <i data-feather="download"></i>
                                         {{ __('dashboard.download') }}
                                     </a>
@@ -94,7 +95,7 @@
                     <div class="mb-4">
                         <div id="fabric-canvas-wrapper" class="hd-none">
                             <canvas id="canvas" width="{{ $dataDetail->width }}" height="{{ $dataDetail->height }}"
-                                style="position: absolute !important;" class="rounded-10"></canvas>
+                                style="position: absolute !important;" class="border border-2 rounded-10"></canvas>
                         </div>
                     </div>
                 </div>
@@ -113,12 +114,14 @@
                                     <li class="nav-item" role="presentation">
                                         <button class="nav-link active" id="preview3-tab" data-bs-toggle="tab"
                                             data-bs-target="#preview3-tab-pane" type="button" role="tab"
-                                            aria-controls="preview3-tab-pane" aria-selected="true">{{ __('dashboard.preview') }}</button>
+                                            aria-controls="preview3-tab-pane"
+                                            aria-selected="true">{{ __('dashboard.preview') }}</button>
                                     </li>
                                     <li class="nav-item" role="presentation">
                                         <button class="nav-link" id="code3-tab" data-bs-toggle="tab"
                                             data-bs-target="#code3-tab-pane" type="button" role="tab"
-                                            aria-controls="code3-tab-pane" aria-selected="false">{{ __('dashboard.code') }}</button>
+                                            aria-controls="code3-tab-pane"
+                                            aria-selected="false">{{ __('dashboard.code') }}</button>
                                     </li>
                                 </ul>
                                 <div class="tab-content" id="myTabContent3">
@@ -128,32 +131,39 @@
                                         </ul>
 
                                         <form>
-                                            <div class="canvasEditableElements form-group mb-4 d-none" id="canvas_image_container">
+                                            <div class="canvasEditableElements form-group mb-4 d-none"
+                                                id="canvas_image_container">
                                                 <label class="label">You Photo</label>
-                                                <input id="canvas_image" name="canvas_image" type="file" class="form-control text-dark file">
+                                                <input id="canvas_image" name="canvas_image" type="file"
+                                                    class="form-control text-dark file">
                                             </div>
-                            
-                                            <div class="canvasEditableElements form-group mb-4 d-none" id="canvas_text_container">
+
+                                            <div class="canvasEditableElements form-group mb-4 d-none"
+                                                id="canvas_text_container">
                                                 <label class="label">text</label>
                                                 <textarea onchange="updateRecord('text')" name="canvas_text" id="canvas_text" class="form-control text-dark"
                                                     placeholder="" rows="3" required></textarea>
                                             </div>
-                            
-                                            <div class="canvasEditableElements form-group mb-4 d-none" id="canvas_fill_container">
+
+                                            <div class="canvasEditableElements form-group mb-4 d-none"
+                                                id="canvas_fill_container">
                                                 <label class="label">fill</label>
-                                                <input id="canvas_fill" onchange="updateRecord('fill')" name="canvas_fill" type="color"
-                                                    class="form-control text-dark">
+                                                <input id="canvas_fill" onchange="updateRecord('fill')"
+                                                    name="canvas_fill" type="color" class="form-control text-dark">
                                             </div>
-                            
-                                            <div class="canvasEditableElements form-group mb-4 d-none" id="canvas_src_container">
+
+                                            <div class="canvasEditableElements form-group mb-4 d-none"
+                                                id="canvas_src_container">
                                                 <label class="label">You Photo</label>
                                                 <input id="canvas_src" onchange="updateRecord('src', event)"
-                                                    name="canvas_src" type="file" accept="image/png, image/jpg, image/jpeg"
+                                                    name="canvas_src" type="file"
+                                                    accept="image/png, image/jpg, image/jpeg"
                                                     class="form-control text-dark file">
                                             </div>
-                            
+
                                             <div class="form-group d-flex gap-3 d-none">
-                                                <button class="btn btn-primary text-white fw-semibold py-2 px-2 px-sm-3">
+                                                <button
+                                                    class="btn btn-primary text-white fw-semibold py-2 px-2 px-sm-3">
                                                     <span class="py-sm-1 d-block">
                                                         <i class="ri-add-line text-white"></i>
                                                         <span>Refresh</span>
@@ -165,7 +175,13 @@
                                     <div class="tab-pane fade" id="code3-tab-pane" role="tabpanel"
                                         aria-labelledby="code3-tab" tabindex="0">
                                         <div class="form-group mb-4">
-                                            <form>
+                                            <form method="post" id="formToValidate"
+                                                action="{{ route('dashboard.image.update.post', ['id' => $dataDetail->id]) }}">
+                                                {{ csrf_field() }}
+                                                <button
+                                                    class="btn btn-primary text-white mb-2">{{ __('dashboard.save') }}</button>
+                                                <button type="button" onclick="canvasToJSON()"
+                                                    class="btn btn-primary text-white mb-2">{{ __('dashboard.canvas_to_json') }}</button>
                                                 <div class="form-group position-relative">
                                                     <textarea onchange="update(1)" id="options" name="options"
                                                         class="form-control ps-5 text-dark @error('options') border border-danger rounded-3 border-3 @enderror"
@@ -187,6 +203,74 @@
                 </div>
             </div>
         </div>
+        <div class="col-xxl-4 col-sm-12">
+            <div class="card bg-white border-0 v mb-4">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center border-bottom pb-20 mb-20">
+                        <h4 class="fw-semibold fs-18 mb-0">{{ __('dashboard.image_content') }}</h4>
+                    </div>
+                    <div class="card bg-white border-0 rounded-10">
+                        <div class="card-body p-0">
+                            <ul class="list-unstyled activity-timeline max-h-554" data-simplebar>
+                                <li class="activity-item">
+                                    <h4>Add Text</h4>
+                                    <div class="row">
+                                        <div class="col-8">
+                                            <div class="form-group mb-4">
+                                                <input type="text" class="form-control h-58" id="add-text"
+                                                    name="add-text">
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="form-group">
+                                                <button type="submit" onclick="addText(this)"
+                                                    class="btn btn-primary d-block py-3 px-4 fw-semibold text-white">+</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <h4>Add Image</h4>
+                                    <p>Upload image first, than you can use it in image</p>
+                                    <form method="post" id="formToValidate"
+                                        action="{{ route('dashboard.image.image.post', ['id' => $dataDetail->id]) }}"
+                                        enctype="multipart/form-data">
+                                        {{ csrf_field() }}
+                                        <div class="row">
+                                            <div class="col-8">
+                                                <div class="form-group" id="imageFormGroup">
+                                                    <input type="file" class="form-control h-58" id="image"
+                                                        name="image" accept="image/*" required>
+                                                    @error('image')
+                                                        <div class="text-danger">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                            <div class="col-4">
+                                                <div class="form-group">
+                                                    <button type="submit"
+                                                        class="btn btn-primary d-block py-3 px-4 fw-semibold text-white">+</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </li>
+
+                                <li class="activity-item">
+                                    <div class="row">
+                                        @foreach ($dataUploads as $key => $value)
+                                            <div class="col-4 mb-4">
+                                                <img src="{{ URL::asset('/images/dynamic/' . $value->image) }}"
+                                                    onclick="addImage(this)" style="cursor: pointer" class="rounded">
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <script src="https://unpkg.com/fabric/dist/fabric.min.js"></script>
     {{-- <script src="{{ asset('assets/js/fabric.js') }}"></script> --}}
@@ -197,8 +281,10 @@
         var selectedIndex;
         window.addEventListener('load', function(event) {
             canvas = this.__canvas = new fabric.Canvas('canvas');
-            // var imageSaver = document.getElementById('lnkDownload');
-            // imageSaver.addEventListener('click', saveImage, false);            
+
+            var imageSaver = document.getElementById('lnkDownload');
+            imageSaver.addEventListener('click', saveImage, false);            
+            
             window.onresize = setResizeCanvas();
             loadFromJson();
 
@@ -214,10 +300,10 @@
             });
 
             canvas.on('mouse:up', function(options) {
-                if(options.target.unique && options.target.edit){
+                if (options.target) { // && options.target.unique && options.target.edit){ //Remove to test
                     const index = findIndexByUnique(options.target.unique);
-                    if(index > -1){
-                        onClickData(index);
+                    if (index > -1) {
+                        onClickData(index, options.target);
                     } else {
                         removeAllElements();
                     }
@@ -233,6 +319,7 @@
 
         function update(getFromCode = 0) {
             canvas.clear();
+            console.log(6)
             loadFromJson(getFromCode);
         }
 
@@ -241,12 +328,11 @@
                 var a = document.getElementById('options').value;
                 objData = JSON.parse(a);
             }
-
             var str = JSON.stringify(objData, undefined, 4);
             document.getElementById('options').innerHTML = str;
             canvas.loadFromJSON(objData, function() {
                 setTimeout(() => {
-                    canvas.renderAll();                    
+                    canvas.renderAll();
                 }, 100);
             }, function(o, object) {})
         }
@@ -257,10 +343,22 @@
             }
         }
 
-        function onClickData(index) {
+        function onClickData(index, selectedObjDirect = undefined) {
             removeAllElements();
-            selectedObj = objData.objects[index];
-            selectedIndex = index;
+            if (!selectedObjDirect) {
+                selectedObj = objData.objects[index];
+                selectedIndex = index;
+            } else {
+                selectedObj = selectedObjDirect;
+                selectedIndex = objData.objects.findIndex(obj =>
+                    obj.type === selectedObj.type &&
+                    obj.left === selectedObj.left &&
+                    obj.top === selectedObj.top &&
+                    obj.fill === selectedObj.fill &&
+                    obj.text === selectedObj.text
+                );
+            }
+
             for (var prop in selectedObj) {
                 if (Object.prototype.hasOwnProperty.call(selectedObj, prop)) {
                     var element = document.getElementById('canvas_' + prop);
@@ -323,6 +421,7 @@
         }
 
         function saveImage(e) {
+
             resizeCanvas({{ $dataDetail->width }});
             let href = canvas.toDataURL({
                 format: 'jpeg',
@@ -336,8 +435,68 @@
             setResizeCanvas()
         }
 
+        function addImage(obj) {
+            var url = $(obj).attr('src');
+            var data = {
+                "src": url,
+                "edit": true,
+                "unique": Date.now(),
+                "type": "image"
+            };
+            if (objData) {
+                if (objData.objects) {
+                    objData.objects.push(data);
+                } else {
+                    objData.objects = [];
+                    objData.objects.push(data);
+                }
+
+                var str = JSON.stringify(objData, undefined, 4);
+                document.getElementById('options').innerHTML = str;
+                update(0);
+            }
+        }
+
+        function addText(obj) {
+            var text = $("#add-text").val();
+            var data = {
+                "top": 100,
+                "edit": true,
+                "unique": Date.now(),
+                "fill": "rgba(0, 0, 0, 1)",
+                "left": 100,
+                "text": text,
+                "type": "textbox",
+                "angle": 0,
+                "fontSize": 55,
+                "fontStyle": "normal",
+                "textAlign": "right",
+                "fontWeight": "bold",
+                "backgroundColor": "rgba(255, 255, 255, 0)"
+            };
+            if (objData) {
+                if (objData.objects) {
+                    objData.objects.push(data);
+                } else {
+                    objData.objects = [];
+                    objData.objects.push(data);
+                }
+
+                var str = JSON.stringify(objData, undefined, 4);
+                document.getElementById('options').innerHTML = str;
+                update(0);
+            }
+        }
+
+        function canvasToJSON() {
+            var str = JSON.stringify(canvas.toJSON(), undefined, 4);
+            document.getElementById('options').innerHTML = str;
+        }
+
         function updateRecord(type, obj = null) {
+            console.log(type);
             var element = document.getElementById('canvas_' + type);
+            var src;
             if (element) {
                 switch (type) {
                     case 'text':
@@ -353,7 +512,7 @@
                         let fileReader = new FileReader();
                         fileReader.readAsDataURL(file);
                         fileReader.onload = function() {
-                            selectedObj[type] = fileReader.result;
+                            src = fileReader.result;
                         }
                         break;
 
@@ -361,10 +520,14 @@
                         break;
                 }
             }
+            console.log(3)
+            setTimeout(() => {                
+                selectedObj = selectedObj.toJSON()
 
-            objData.objects[selectedIndex] = selectedObj;
-            setTimeout(() => {
-                update()                
+                selectedObj['src'] = src;
+
+                objData.objects[selectedIndex] = selectedObj;
+                update()
             }, 200);
         }
     </script>
