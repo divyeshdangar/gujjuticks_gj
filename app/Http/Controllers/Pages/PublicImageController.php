@@ -34,4 +34,17 @@ class PublicImageController extends Controller
         }
     }
 
+    public function store(Request $request)
+    {
+        if ($request->data != null) {
+            $croped_image = $request->data;
+            list($type, $croped_image) = explode(';', $croped_image);
+            list(, $croped_image)      = explode(',', $croped_image);
+            $croped_image = base64_decode($croped_image);
+            $image_name = time() . rand(10000000, 999999999) . '.png';
+            file_put_contents("./images/blog/" . $image_name, $croped_image);
+        }
+    }
+
+
 }

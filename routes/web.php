@@ -42,6 +42,7 @@ Route::middleware([CheckLanguage::class])->group(function () {
     Route::get('blog/{slug}', [PublicBlogController::class, 'view'])->name('pages.blog.detail');
 
     Route::get('image/{slug}', [PublicImageController::class, 'view'])->name('pages.image.detail');
+    Route::post('image/save', [PublicImageController::class, 'store'])->name('pages.image.detail.save');
 
     Route::get('gujarat', [GujaratController::class, 'index'])->name('pages.gujarat');
     Route::get('gujarat/{slug}', [GujaratController::class, 'district'])->name('pages.gujarat.district');
