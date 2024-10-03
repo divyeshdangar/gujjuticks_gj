@@ -161,8 +161,8 @@
                         width: containerWidth, // Set boundary equal to container width
                         height: viewportHeight // Same height as viewport to match 9:16 ratio
                     },
-                    //url: 'https://www.gujjuticks.com/images/dynamic/1727962910-1175287700.png'
-                    url: 'http://127.0.0.1:8000/images/dynamic/1727961421-1649729557.png'
+                    url: 'https://www.gujjuticks.com/images/dynamic/1727962910-1175287700.png'
+                    //url: 'http://127.0.0.1:8000/images/dynamic/1727961421-1649729557.png'
                 });
             }
         }
