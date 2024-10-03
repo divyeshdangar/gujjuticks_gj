@@ -18,7 +18,7 @@ class PublicImageController extends Controller
                 "title" => $dataDetail->title." - GujjuTicks",
                 "no_title" => true,
                 "description" => $dataDetail->meta_description,
-                "image" => URL::asset('/images/image/'.$dataDetail->image),
+                "image" => URL::asset('/images/dynamic/'.$dataDetail->image),
                 "url" => route('pages.image.detail', ['slug' => $dataDetail->slug]),
             ];
             return view('pages.image.view', ['dataDetail' => $dataDetail, 'metaData' => $metaData]);
