@@ -42,7 +42,7 @@ class PublicImageController extends Controller
             list(, $croped_image)      = explode(',', $croped_image);
             $croped_image = base64_decode($croped_image);
             $image_name = time() . rand(10000000, 999999999) . '.png';
-            file_put_contents("./images/blog/" . $image_name, $croped_image);
+            file_put_contents("./images/dynamic/" . $image_name, $croped_image);
         }
     }
 
