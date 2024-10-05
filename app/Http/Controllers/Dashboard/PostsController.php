@@ -114,9 +114,9 @@ class PostsController extends Controller
                 'description_h' => 'sometimes',
 
                 'extra' => 'sometimes',
-                'image' => 'sometimes|file|mimes:jpg,jpeg,png|max:4048',
-                'image_g' => 'sometimes|file|mimes:jpg,jpeg,png|max:4048',
-                'image_h' => 'sometimes|file|mimes:jpg,jpeg,png|max:4048',
+                //'image' => 'sometimes|file|mimes:jpg,jpeg,png|max:4048',
+                //'image_g' => 'sometimes|file|mimes:jpg,jpeg,png|max:4048',
+                //'image_h' => 'sometimes|file|mimes:jpg,jpeg,png|max:4048',
             ]);
 
             if ($validator->fails()) {

@@ -14863,10 +14863,6 @@ a#x__NEXT__X {
   background-color: transparent;
 }
 
-.theme-settings-btn svg {
-  animation: rotation 2s infinite linear;
-}
-
 @keyframes rotation {
   from {
     transform: rotate(0deg);

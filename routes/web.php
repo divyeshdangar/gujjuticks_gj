@@ -14,6 +14,7 @@ use App\Http\Controllers\Dashboard\DashboardoController;
 use App\Http\Controllers\Pages\BlogController as PublicBlogController;
 use App\Http\Controllers\Pages\PublicImageController;
 use App\Http\Controllers\Pages\GujaratController;
+use App\Http\Controllers\Pages\PagesController;
 
 use App\Http\Controllers\Dashboard\BoardController;
 use App\Http\Controllers\Dashboard\BoardItemController;
@@ -26,6 +27,7 @@ use App\Http\Middleware\CheckLanguage;
 use App\Http\Controllers\Pages\FormController;
 use App\Http\Controllers\Pages\HomeController;
 use App\Http\Controllers\Auth\GoogleLoginController;
+use App\Http\Controllers\Auth\InstagramController;
 
 Route::middleware([CheckLanguage::class])->group(function () {
     Route::get('/', [HomeController::class, 'show'])->name('home');    
@@ -46,6 +48,8 @@ Route::middleware([CheckLanguage::class])->group(function () {
 
     Route::get('gujarat', [GujaratController::class, 'index'])->name('pages.gujarat');
     Route::get('gujarat/{slug}', [GujaratController::class, 'district'])->name('pages.gujarat.district');
+
+    Route::get('p/privacy-policy', [PagesController::class, 'privacy'])->name('p.privacy-policy');
 });
 
 
@@ -138,3 +142,8 @@ Route::get('logout', [LoginController::class, 'logout'])->name('logout');
 Route::post('contact-us', [FormController::class, 'store'])->name('form.contact.post');
 Route::get('google/redirect', [GoogleLoginController::class, 'redirectToGoogle'])->name('google.redirect');
 Route::get('google/callback', [GoogleLoginController::class, 'handleGoogleCallback'])->name('google.callback');
+Route::get('instagram/handle-callback', [InstagramController::class, 'handleInstagramCallback'])->name('instagram.callback');
+Route::get('instagram/handle-login-callback', [InstagramController::class, 'handleInstagramAfterLoginCallback'])->name('instagram.login.callback');
+
+Route::get('instagram/handle-deauthorize-callback', [InstagramController::class, 'handleInstagramDeauthorizeCallback'])->name('instagram.deauthorize.callback');
+Route::get('instagram/handle-deletion-callback', [InstagramController::class, 'handleInstagramDeletionCallback'])->name('instagram.deletion.callback');
