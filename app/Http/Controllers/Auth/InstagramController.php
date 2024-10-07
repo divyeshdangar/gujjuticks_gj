@@ -57,9 +57,14 @@ class InstagramController extends Controller
                     $profile->media = $response["media_count"];
                     $profile->account_type = $response["account_type"];
                 }
-                
-                $profile->last_update_time = time();
-                $profile->save();
+
+                try {
+                    $profile->last_update_time = time();
+                    $profile->save();
+                } catch (\Throwable $th) {
+                    Log::error($th);
+                }
+
                 echo "SUCCESS";
             } else {
                 echo "NOUSERDETAIL";
