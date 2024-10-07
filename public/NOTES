@@ -1,7 +1,7 @@
 TO CREATE NEW PAGE
 
 1. Create controller
-php artisan make:controller Auth/InstagramController
+php artisan make:controller Dashboard/SocialInstagramController
 
 2.
 
@@ -52,11 +52,13 @@ php artisan migrate
 
 Create model
 php artisan make:model Flight
-php artisan make:model Uploads --migration //create migration as well
+php artisan make:model Profile --migration //create migration as well
 
 php artisan make:seeder MenuSeeder
 php artisan db:seed
-php artisan db:seed --class=LocationSeeder
+php artisan db:seed --class=MenuSeeder
+
+php artisan make:trait InstagramTrait
 
 Event
 https://arjunamrutiya.medium.com/a-step-by-step-guide-to-laravel-events-and-listeners-with-examples-634d7a018fa0

@@ -63,6 +63,7 @@ return [
     'latitude' => 'Latitude',
     'longitude' => 'Longitude',
     'woow' => 'Woow!',
+    'social_media' => 'Social media',
     'great' => 'Great!',
     'bad' => 'Bad move!',
     'for_admin_only' => 'For admin eyes only.',
