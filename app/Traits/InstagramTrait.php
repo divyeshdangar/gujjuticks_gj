@@ -46,7 +46,9 @@ trait InstagramTrait
             "redirect_uri" => config('services.instagram.INSTAGRAM_REDIRECT_URL'),
             "code" => $code
         ];
+        Log::warning($data);
         $response = $this->request("post", $url, $data, []);
+        Log::error($response);
         if ($response) {
             return $response;
         } else {
@@ -61,7 +63,9 @@ trait InstagramTrait
             "fields" => "id,user_id,username,name,profile_picture_url,followers_count,follows_count,media_count,account_type",
             "domain" => $profile->access_token
         ];
+        Log::warning($data);
         $response = $this->request("get", $url, $data, []);
+        Log::error($response);
         if ($response) {
             return $response;
         } else {
