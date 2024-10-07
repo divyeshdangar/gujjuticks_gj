@@ -21,9 +21,8 @@ trait InstagramTrait
                 'Accept' => 'application/json',
             ])->get($url, $params);
         } else if ($type == "post") {
-            $response = Http::withHeaders([
-                'Accept' => 'application/json',
-            ])->post($url, $params);
+            Log::alert($params);
+            $response = Http::asForm()->post($url, $params);
         } else {
             return false;
         }
