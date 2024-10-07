@@ -35,7 +35,8 @@ class InstagramController extends Controller
             $response = $this->getUserDetail($request->query('code'));
             if($response) {
 
-                $profile = Profile::where("profile_user_id", $response["user_id"])->first();
+                $profile = Profile::where("profile_id", $response["user_id"])->first();
+                Log::debug($profile);
                 if(!$profile) {
                     $profile = new Profile();
                     $profile->user_id = Auth::id();
