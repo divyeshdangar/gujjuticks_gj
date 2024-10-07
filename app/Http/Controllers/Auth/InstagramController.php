@@ -21,7 +21,7 @@ class InstagramController extends Controller
         } catch (\Throwable $th) {
             Log::alert($th);
         }
-        if ($_REQUEST['hub_verify_token'] && ($_REQUEST['hub_verify_token'] == '5076065b123775a2a4496fa60c823cdc6a16d9271cb8e643f37e3de7121b8921')) {
+        if ($_REQUEST['hub_verify_token'] && ($_REQUEST['hub_verify_token'] == '')) {
             echo $_REQUEST['hub_challenge'];
         } else {
             echo 'Invalid Verify Token';

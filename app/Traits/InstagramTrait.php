@@ -40,8 +40,8 @@ trait InstagramTrait
     {
         $url = $this->domain_access_token;
         $data = [
-            "client_id" => "398693843116874",
-            "client_secret" => "78475fdf71f7085226b74e2dffa1530e",
+            "client_id" => "",
+            "client_secret" => "",
             "grant_type" => "authorization_code",
             "redirect_uri" => "https://gujjuticks.com/instagram/handle-login-callback", //route("instagram.login.callback"),
             "code" => $code
