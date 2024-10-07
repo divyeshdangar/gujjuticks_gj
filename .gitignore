@@ -20,4 +20,3 @@ yarn-error.log
 /.vscode
 error_log
 /public/error_log
-.env.local

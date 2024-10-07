@@ -16,7 +16,7 @@
                         </div>
                         <div class="flex-grow-1 ms-3">
                             <h3 class="body-font fw-bold fs-3 mb-2">NA</h3>
-                            <a href="https://www.instagram.com/oauth/authorize?enable_fb_login=0&force_authentication=1&client_id=398693843116874&redirect_uri=https://gujjuticks.com/instagram/handle-login-callback&response_type=code&scope=instagram_business_basic%2Cinstagram_business_manage_messages%2Cinstagram_business_manage_comments%2Cinstagram_business_content_publish">Connect now</a>
+                            <a href="https://www.instagram.com/oauth/authorize?enable_fb_login=0&force_authentication=1&client_id=398693843116874&redirect_uri=https://www.gujjuticks.com/instagram/handle-login-callback&response_type=code&scope=instagram_business_basic%2Cinstagram_business_manage_messages%2Cinstagram_business_manage_comments%2Cinstagram_business_content_publish">Connect now</a>
                         </div>
                     </div>
                 </div>
