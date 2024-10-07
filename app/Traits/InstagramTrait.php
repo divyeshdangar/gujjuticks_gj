@@ -60,7 +60,7 @@ trait InstagramTrait
         $url = $this->domain . $this->version . $this->method["me"];
         $data = [
             "fields" => "id,user_id,username,name,profile_picture_url,followers_count,follows_count,media_count,account_type",
-            "domain" => $profile->access_token
+            "access_token" => $profile->access_token
         ];
         Log::warning($data);
         $response = $this->request("get", $url, $data, []);
