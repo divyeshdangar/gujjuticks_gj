@@ -20,4 +20,11 @@ return [
         'redirect' => env('GOOGLE_REDIRECT_URL')
     ],
 
+    'instagram' => [
+        'INSTAGRAM_CLIENT_ID' => env('INSTAGRAM_CLIENT_ID'),
+        'INSTAGRAM_CLIENT_SECRET' => env('INSTAGRAM_CLIENT_SECRET'),
+        'INSTAGRAM_REDIRECT_URL' => env('INSTAGRAM_REDIRECT_URL'),
+        'INSTAGRAM_HUB_VERIFY_TOKEN' => env('INSTAGRAM_HUB_VERIFY_TOKEN')
+    ],
+
 ];

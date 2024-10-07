@@ -21,7 +21,7 @@ class InstagramController extends Controller
         } catch (\Throwable $th) {
             Log::alert($th);
         }
-        if ($_REQUEST['hub_verify_token'] && ($_REQUEST['hub_verify_token'] == '')) {
+        if ($_REQUEST['hub_verify_token'] && ($_REQUEST['hub_verify_token'] == config('services.instagram.INSTAGRAM_HUB_VERIFY_TOKEN'))) {
             echo $_REQUEST['hub_challenge'];
         } else {
             echo 'Invalid Verify Token';

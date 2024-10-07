@@ -40,10 +40,10 @@ trait InstagramTrait
     {
         $url = $this->domain_access_token;
         $data = [
-            "client_id" => "",
-            "client_secret" => "",
+            "client_id" => config('services.instagram.INSTAGRAM_CLIENT_ID'),
+            "client_secret" => config('services.instagram.INSTAGRAM_CLIENT_SECRET'),
             "grant_type" => "authorization_code",
-            "redirect_uri" => "https://gujjuticks.com/instagram/handle-login-callback", //route("instagram.login.callback"),
+            "redirect_uri" => config('services.instagram.INSTAGRAM_REDIRECT_URL'),
             "code" => $code
         ];
         $response = $this->request("post", $url, $data, []);
