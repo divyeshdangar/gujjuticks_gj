@@ -43,8 +43,6 @@ class InstagramController extends Controller
                     $profile->access_token = $response["access_token"];
                     $profile->profile_id = $response["user_id"];
                     $profile->permissions = implode(', ', $response["permissions"]);
-                    $profile->last_update_time = time();
-                    $profile->save();
                 }
                 
                 //get instagram account details
@@ -58,9 +56,10 @@ class InstagramController extends Controller
                     $profile->follows = $response["follows_count"];
                     $profile->media = $response["media_count"];
                     $profile->account_type = $response["account_type"];
-                    $profile->last_update_time = time();
-                    $profile->save();
                 }
+                
+                $profile->last_update_time = time();
+                $profile->save();
                 echo "SUCCESS";
             } else {
                 echo "NOUSERDETAIL";
