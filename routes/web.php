@@ -137,6 +137,7 @@ Route::middleware([CheckIfLogin::class, CheckLanguage::class])->group(function (
     Route::get('dashboard/user/delete/{id}', [UserController::class, 'delete'])->name('dashboard.user.delete');
 
     Route::get('dashboard/social-media', [SocialMediaController::class, 'index'])->name('dashboard.social');
+    Route::get('instagram/handle-login-callback', [SocialMediaController::class, 'handleInstagramAfterLoginCallback'])->name('instagram.login.callback');
 });
 
 Route::post('login', [LoginController::class, 'login'])->name('login.post');
@@ -145,6 +146,5 @@ Route::post('contact-us', [FormController::class, 'store'])->name('form.contact.
 Route::get('google/redirect', [GoogleLoginController::class, 'redirectToGoogle'])->name('google.redirect');
 Route::get('google/callback', [GoogleLoginController::class, 'handleGoogleCallback'])->name('google.callback');
 Route::get('instagram/handle-callback', [InstagramController::class, 'handleInstagramCallback'])->name('instagram.callback');
-Route::get('instagram/handle-login-callback', [InstagramController::class, 'handleInstagramAfterLoginCallback'])->name('instagram.login.callback');
 Route::get('instagram/handle-deauthorize-callback', [InstagramController::class, 'handleInstagramDeauthorizeCallback'])->name('instagram.deauthorize.callback');
 Route::get('instagram/handle-deletion-callback', [InstagramController::class, 'handleInstagramDeletionCallback'])->name('instagram.deletion.callback');

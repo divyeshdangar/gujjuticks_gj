@@ -6,8 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Traits\InstagramTrait;
-use App\Models\Profile;
-use Illuminate\Support\Facades\Auth;
 
 class InstagramController extends Controller
 {
@@ -25,52 +23,6 @@ class InstagramController extends Controller
             echo $_REQUEST['hub_challenge'];
         } else {
             echo 'Invalid Verify Token';
-        }
-    }
-
-    // In order to set up business login, please provide a redirect URL. This is the location that users will be redirected to after completing the login flow.
-    public function handleInstagramAfterLoginCallback(Request $request)
-    {
-        if($request->query('code') && $request->query('code')!=""){
-            $response = $this->getUserDetail($request->query('code'));
-            if($response) {
-
-                $profile = Profile::where("profile_id", $response["user_id"])->first();
-                Log::debug($profile);
-                if(!$profile) {
-                    $profile = new Profile();
-                    $profile->user_id = Auth::id();
-                    $profile->access_token = $response["access_token"];
-                    $profile->profile_id = $response["user_id"];
-                    $profile->permissions = implode(', ', $response["permissions"]);
-                }
-                
-                //get instagram account details
-                $response = $this->getInstagramAccountDetail($profile);
-                if($response) {
-                    $profile->profile_user_id = $response["user_id"];
-                    $profile->username = $response["username"];
-                    $profile->name = $response["name"];
-                    $profile->profile_pic = $response["profile_picture_url"];
-                    $profile->followers = $response["followers_count"];
-                    $profile->follows = $response["follows_count"];
-                    $profile->media = $response["media_count"];
-                    $profile->account_type = $response["account_type"];
-                }
-
-                try {
-                    $profile->last_update_time = time();
-                    $profile->save();
-                } catch (\Throwable $th) {
-                    Log::error($th);
-                }
-
-                echo "SUCCESS";
-            } else {
-                echo "NOUSERDETAIL";
-            }
-        } else {
-            echo "NOCODE";
         }
     }
 
