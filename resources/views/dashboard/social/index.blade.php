@@ -69,6 +69,17 @@
             opacity: 0.5;
         }
 
+        .c_badge {
+            position: absolute;
+            background: #d63384;
+            color: rgba(0,0,0,0);
+            max-height: 4px;
+            max-width: 4px;
+            border-radius: 100%;
+            margin-left: 30px;
+            margin-top: -30px;
+        }
+
         .current-date {
             background-color: var(--accent);
             color: var(--white);
@@ -129,8 +140,7 @@
                     <div class="d-flex justify-content-between align-items-center border-bottom pb-20 mb-20">
                         <h4 class="fw-semibold fs-18 mb-0">{{ __('dashboard.connected_accounts') }}</h4>
                         <div class="dropdown action-opt">
-                            <button class="btn bg-transparent p-0" type="button" data-bs-toggle="dropdown"
-                                aria-expanded="false">
+                            <button class="btn bg-transparent p-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i data-feather="more-horizontal"></i>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end bg-white border box-shadow">
@@ -206,7 +216,7 @@
 
                 div.dataset.date = currentDate.toDateString();
 
-                div.innerHTML += i + '';
+                div.innerHTML = '<span data-num="'+i+'" class="c_badge">.</span>' + i;
                 days.appendChild(div);
                 if (
                     currentDate.getFullYear() === new Date().getFullYear() &&
