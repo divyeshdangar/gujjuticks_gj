@@ -10,12 +10,15 @@
 
         } */
         .logo-bg {
-            /* background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab); */
-            background-image: url('brand/dark-map.png');
+            background-image: url('brand/dark-map-2.png');
             background-size: 200% 200%;
-            animation: gradient 12s ease infinite;
-            border: none;
-            outline: none;
+            animation: gradient 30s ease infinite;
+            box-shadow: inset #000000 0px 0px 100px -12px;
+        }
+        .logo-word-bg {
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 200% 200%;
+            animation: gradient 3s ease infinite;
         }
         @keyframes gradient {
             0% {
@@ -38,8 +41,9 @@
                     <img src="brand/map.png" alt="logo">
                 </div> --}}
 
-                <div class="d-flex align-items-center gap-4 mb-3">
-                    <img class="logo-bg" src="brand/gujjuticks-frame.png" alt="logo">
+                <div class="mb-3">
+                    <img class="logo-bg" src="brand/gujjuticks-logo-only-frame.png" alt="logo">
+                    <img class="logo-word-bg" src="brand/gujjuticks-word-only-frame.png" alt="logo">
                 </div>
 
                 <div class="py-5">
