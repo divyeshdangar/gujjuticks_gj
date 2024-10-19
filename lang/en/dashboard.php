@@ -126,6 +126,7 @@ return [
     'year' => 'Year',
     'success' => 'Success',
     'failed' => 'Failed',
+    'pages' => 'Pages',
     'download_images' => 'Download image',
     'live_soon' => 'WE WILL LIVE SOON',
     'record_deleted' => 'Record deleted successfully.',

@@ -1,7 +1,7 @@
 TO CREATE NEW PAGE
 
 1. Create controller
-php artisan make:controller Dashboard/SocialInstagramController
+php artisan make:controller Dashboard/PagesController
 
 2.
 
@@ -52,9 +52,9 @@ php artisan migrate
 
 Create model
 php artisan make:model Flight
-php artisan make:model Profile --migration //create migration as well
+php artisan make:model Pages --migration //create migration as well
 
-php artisan make:seeder MenuSeeder
+php artisan make:seeder DaysSeeder
 php artisan db:seed
 php artisan db:seed --class=MenuSeeder
 

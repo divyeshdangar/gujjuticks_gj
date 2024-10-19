@@ -169,6 +169,16 @@ class MenuSeeder extends Seeder
                 "status" => "1"
             ],
             [
+                "id" => 19, 
+                "icon" => "file", 
+                "title" => 'dashboard.pages', 
+                "route" => "dashboard.pages",
+                "order" => 11,
+                "title_only" => "0",
+                "type" => "2",
+                "status" => "1"
+            ],
+            [
                 "id" => 12, 
                 "icon" => "user", 
                 "title" => 'dashboard.profile', 

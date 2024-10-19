@@ -5,18 +5,31 @@ namespace App\Http\Controllers\Pages;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use App\Models\Pages;
 
 class PagesController extends Controller
 {
-    public function privacy(Request $request): View
+    public function view(Request $request, $slug)
     {
-        // to set meta data of page
-        $metaData = [
-            "title" => "Privacy Policy for GujjuTicks.com",
-            "description" => "At GujjuTicks.com, we respect your privacy and are committed to protecting your personal information. This Privacy Policy outlines how we collect, use, and safeguard your data when you visit our website.",
-            //"image" => "",
-            "url" => route('p.privacy-policy')
-        ];     
-        return view('pages.p.privacy', ['metaData' => $metaData]);
+        $dataDetail = Pages::where("slug", $slug)->first();
+        if ($dataDetail) {
+            // to set meta data of page
+            $metaData = [
+                "title" => $dataDetail["title"],
+                "description" => $dataDetail["meta_description"],
+                //"image" => "",
+                "url" => route('p.pages',["slug" => $dataDetail["slug"]])
+            ];  
+            return view('pages.p.view', ['dataDetail' => $dataDetail, 'metaData' => $metaData]);
+        } else {
+            $message = [
+                "message" => [
+                    "type" => "error",
+                    "title" => __('dashboard.bad'),
+                    "description" => __('dashboard.no_record_found')
+                ]
+            ];
+            return redirect()->route('home')->with($message);
+        }
     }
 }

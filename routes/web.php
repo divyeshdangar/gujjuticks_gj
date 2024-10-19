@@ -14,12 +14,13 @@ use App\Http\Controllers\Dashboard\DashboardoController;
 use App\Http\Controllers\Pages\BlogController as PublicBlogController;
 use App\Http\Controllers\Pages\PublicImageController;
 use App\Http\Controllers\Pages\GujaratController;
-use App\Http\Controllers\Pages\PagesController;
+use App\Http\Controllers\Pages\PagesController as PublicPagesController;
 
 use App\Http\Controllers\Dashboard\BoardController;
 use App\Http\Controllers\Dashboard\BoardItemController;
 use App\Http\Controllers\Dashboard\PostsController;
 use App\Http\Controllers\Dashboard\LocationController;
+use App\Http\Controllers\Dashboard\PagesController;
 
 use App\Http\Middleware\CheckIfLogin;
 use App\Http\Middleware\CheckLanguage;
@@ -50,7 +51,7 @@ Route::middleware([CheckLanguage::class])->group(function () {
     Route::get('gujarat', [GujaratController::class, 'index'])->name('pages.gujarat');
     Route::get('gujarat/{slug}', [GujaratController::class, 'district'])->name('pages.gujarat.district');
 
-    Route::get('p/privacy-policy', [PagesController::class, 'privacy'])->name('p.privacy-policy');
+    Route::get('p/{slug}', [PublicPagesController::class, 'view'])->name('p.pages');
 });
 
 
@@ -92,6 +93,13 @@ Route::middleware([CheckIfLogin::class, CheckLanguage::class])->group(function (
     Route::post('dashboard/blog/edit/{id}', [BlogController::class, 'store'])->name('dashboard.blog.edit.post');
     Route::get('dashboard/blog/view/{id}', [BlogController::class, 'view'])->name('dashboard.blog.view');
     Route::get('dashboard/blog/delete/{id}', [BlogController::class, 'delete'])->name('dashboard.blog.delete');
+
+    Route::get('dashboard/pages', [PagesController::class, 'index'])->name('dashboard.pages');
+    Route::get('dashboard/pages/create', [PagesController::class, 'create'])->name('dashboard.pages.create');
+    Route::get('dashboard/pages/edit/{id}', [PagesController::class, 'edit'])->name('dashboard.pages.edit');
+    Route::post('dashboard/pages/edit/{id}', [PagesController::class, 'store'])->name('dashboard.pages.edit.post');
+    Route::get('dashboard/pages/view/{id}', [PagesController::class, 'view'])->name('dashboard.pages.view');
+    Route::get('dashboard/pages/delete/{id}', [PagesController::class, 'delete'])->name('dashboard.pages.delete');
 
     Route::get('dashboard/location', [LocationController::class, 'index'])->name('dashboard.location');
     Route::get('dashboard/location/create', [LocationController::class, 'create'])->name('dashboard.location.create');

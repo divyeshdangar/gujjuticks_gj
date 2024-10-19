@@ -7,11 +7,11 @@
     <div class="card bg-white border-0 rounded-10 mb-4">
         <div class="card-body p-4">
             <div class="d-sm-flex text-center justify-content-between align-items-center border-bottom pb-20 mb-20">
-                <h4 class="fw-semibold fs-18 mb-sm-0">{{ __('dashboard.posts') }}</h4>
-                <a href="{{ route('dashboard.posts.create') }}" class="border-0 btn btn-primary py-2 px-4 text-white fs-14 fw-semibold rounded-3">
+                <h4 class="fw-semibold fs-18 mb-sm-0">{{ __('dashboard.pages') }}</h4>
+                <a href="{{ route('dashboard.pages.create') }}" class="border-0 btn btn-primary py-2 px-4 text-white fs-14 fw-semibold rounded-3">
                     <span class="py-sm-1 d-block">
                         <i class="ri-add-line text-white"></i>
-                        <span>{{ __('dashboard.add') }} {{ __('dashboard.post') }}</span>
+                        <span>{{ __('dashboard.add') }} {{ __('dashboard.pages') }}</span>
                     </span>
                 </a>
             </div>
@@ -62,8 +62,8 @@
                                         #{{ $data->id }}
                                     </td>
                                     <td>
-                                        <a target="_blank" href="{{ URL::asset('/images/posts/'.$data->image) }}">
-                                            <img src="{{ URL::asset('/images/posts/'.$data->image) }}" width="250px" class="img-thumbnail">
+                                        <a target="_blank" href="{{ URL::asset('/images/pages/'.$data->image) }}">
+                                            <img src="{{ URL::asset('/images/pages/'.$data->image) }}" width="250px" class="img-thumbnail">
                                         </a>
                                     </td>
                                     <td class="ps-0">
@@ -72,23 +72,23 @@
                                                 {!! CommonHelper::highLight($data->title) !!}
                                             <span>
                                             <br>
-                                            D{{ $data->day }} M{{ $data->month }} Y{{ $data->year }}
+                                            <a target="_BLANK" class="btn bg p-1" href="{{ route('p.pages', ['slug' => $data->slug]) }}">
+                                                Link <i data-feather="eye"></i>
+                                            </a>
                                         </div>
                                     </td>
                                     <td>
-                                        @if($data->created_at)
-                                            {{ $data->created_at->format('j F, Y') }}                                            
-                                        @endif
+                                        {{ $data->created_at->format('j F, Y') }}
                                     </td>
                                     <td>
                                         <div class="dropdown action-opt">
-                                            <a class="btn bg p-1" href="{{ route('dashboard.posts.view', ['id' => $data->id]) }}">
+                                            <a class="btn bg p-1" href="{{ route('dashboard.pages.view', ['id' => $data->id]) }}">
                                                 <i data-feather="eye"></i>
                                             </a>
-                                            <a class="btn bg p-1" href="{{ route('dashboard.posts.edit', ['id' => $data->id]) }}">
+                                            <a class="btn bg p-1" href="{{ route('dashboard.pages.edit', ['id' => $data->id]) }}">
                                                 <i data-feather="edit-3"></i>
                                             </a>
-                                            <a class="btn bg p-1" onclick="confirmAndDelete('{{ route('dashboard.posts.delete', ['id' => $data->id]) }}')">
+                                            <a class="btn bg p-1" onclick="confirmAndDelete('{{ route('dashboard.pages.delete', ['id' => $data->id]) }}')">
                                                 <i data-feather="trash-2"></i>
                                             </a>
                                         </div>
