@@ -24,9 +24,11 @@ class NotificationController extends Controller
         
         if($dataList->count() > 0) {
             foreach ($dataList as $key => $value) {
+
                 $data = [
                     "user" => ($value->user) ? ucwords($value->user->name) : "",
-                    "user2" => ($value->user2) ? ucwords($value->user2->name) : ""
+                    "user2" => ($value->user2) ? ucwords($value->user2->name) : "",
+                    "extra" => ($value->extra($value->message_tag)) ? $value->extra($value->message_tag)->title : "",
                 ];
                 $value->msg = __($value->message_tag, $data);
             }

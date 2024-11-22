@@ -127,8 +127,12 @@ return [
     'success' => 'Success',
     'failed' => 'Failed',
     'pages' => 'Pages',
+    'webpage' => 'Webpage',
+    'links' => 'Links',
+    'link' => 'Link',
     'download_images' => 'Download image',
     'live_soon' => 'WE WILL LIVE SOON',
     'record_deleted' => 'Record deleted successfully.',
+    'record_restored' => 'Record restored successfully.',
     'canvas_to_json' => 'Canvas to JSON'
 ];

@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\LoginController;
+
 use App\Http\Controllers\Dashboard\ProfileController;
 use App\Http\Controllers\Dashboard\NotificationController;
 use App\Http\Controllers\Dashboard\ContactController;
@@ -11,25 +11,27 @@ use App\Http\Controllers\Dashboard\BlogCategoryController;
 use App\Http\Controllers\Dashboard\MemberController;
 use App\Http\Controllers\Dashboard\UserController;
 use App\Http\Controllers\Dashboard\DashboardoController;
-use App\Http\Controllers\Pages\BlogController as PublicBlogController;
-use App\Http\Controllers\Pages\PublicImageController;
-use App\Http\Controllers\Pages\GujaratController;
-use App\Http\Controllers\Pages\PagesController as PublicPagesController;
-
 use App\Http\Controllers\Dashboard\BoardController;
 use App\Http\Controllers\Dashboard\BoardItemController;
 use App\Http\Controllers\Dashboard\PostsController;
 use App\Http\Controllers\Dashboard\LocationController;
 use App\Http\Controllers\Dashboard\PagesController;
+use App\Http\Controllers\Dashboard\SocialMediaController;
+use App\Http\Controllers\Dashboard\WebpageController;
 
 use App\Http\Middleware\CheckIfLogin;
 use App\Http\Middleware\CheckLanguage;
 
+use App\Http\Controllers\Pages\BlogController as PublicBlogController;
+use App\Http\Controllers\Pages\PublicImageController;
+use App\Http\Controllers\Pages\GujaratController;
+use App\Http\Controllers\Pages\PagesController as PublicPagesController;
 use App\Http\Controllers\Pages\FormController;
 use App\Http\Controllers\Pages\HomeController;
+
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\GoogleLoginController;
 use App\Http\Controllers\Auth\InstagramController;
-use App\Http\Controllers\Dashboard\SocialMediaController;
 
 Route::middleware([CheckLanguage::class])->group(function () {
     Route::get('/', [HomeController::class, 'show'])->name('home');    
@@ -143,6 +145,13 @@ Route::middleware([CheckIfLogin::class, CheckLanguage::class])->group(function (
     Route::get('dashboard/user/view/{id}', [UserController::class, 'view'])->name('dashboard.user.view');
     Route::post('dashboard/user/access/{id}', [UserController::class, 'access'])->name('dashboard.user.access');
     Route::get('dashboard/user/delete/{id}', [UserController::class, 'delete'])->name('dashboard.user.delete');
+
+    Route::get('dashboard/webpage', [WebpageController::class, 'index'])->name('dashboard.webpage');
+    Route::post('dashboard/webpage/create', [WebpageController::class, 'store'])->name('dashboard.webpage.create');
+    Route::get('dashboard/webpage/delete/{id}', [WebpageController::class, 'delete'])->name('dashboard.webpage.delete');
+    Route::get('dashboard/webpage/restore/{id}', [WebpageController::class, 'restore'])->name('dashboard.webpage.restore');
+    Route::get('dashboard/webpage/edit/{id}', [WebpageController::class, 'edit'])->name('dashboard.webpage.edit');
+    Route::post('dashboard/webpage/edit/{id}', [WebpageController::class, 'store'])->name('dashboard.webpage.edit.post');
 
     Route::get('dashboard/social-media', [SocialMediaController::class, 'index'])->name('dashboard.social');
     Route::get('instagram/handle-login-callback', [SocialMediaController::class, 'handleInstagramAfterLoginCallback'])->name('instagram.login.callback');
