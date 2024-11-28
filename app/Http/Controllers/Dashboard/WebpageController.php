@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\Helpers\CommonHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Notification;
 use App\Models\Webpage;
+use App\Models\WebpageLink;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
@@ -25,18 +27,38 @@ class WebpageController extends Controller
         return view('dashboard.webpage.index', ['dataList' => $dataList, 'metaData' => $metaData]);
     }
 
-    public function edit(Request $request, $id)
+    public function edit(Request $request, $id, $section = 'basic')
     {
-        $dataDetail = Webpage::find($id);
-        if($dataDetail) {
-            $metaData = [
-                "breadCrumb" => [
-                    ["title" => "Webpage", "route" => "dashboard.webpage"],
-                    ["title" => "Edit", "route" => ""]
-                ],
-                "title" => "Edit Webpage"
-            ];
-            return view('dashboard.webpage.edit', ['dataDetail' => $dataDetail, 'metaData' => $metaData]);
+        $sections = ['basic', 'links', 'products', 'template', 'setting'];
+        if (in_array($section, $sections)) {
+            $dataDetail = Webpage::find($id);
+            if ($dataDetail) {
+                $metaData = [
+                    "breadCrumb" => [
+                        ["title" => "Webpage", "route" => "dashboard.webpage"],
+                        ["title" => "Edit", "route" => ""]
+                    ],
+                    "title" => "Edit Webpage"
+                ];
+
+                $links = [];
+                switch ($section) {
+                    case 'links':
+                        $links = WebpageLink::where('webpage_id', $dataDetail->id)->get();
+                        break;
+                }
+
+                return view('dashboard.webpage.edit', ['section' => $section, 'links' => $links, 'dataDetail' => $dataDetail, 'metaData' => $metaData]);
+            } else {
+                $message = [
+                    "message" => [
+                        "type" => "error",
+                        "title" => __('dashboard.bad'),
+                        "description" => __('dashboard.no_record_found')
+                    ]
+                ];
+                return redirect()->route('dashboard.webpage')->with($message);
+            }
         } else {
             $message = [
                 "message" => [
@@ -89,8 +111,126 @@ class WebpageController extends Controller
         return redirect()->route('dashboard.webpage')->with($message);
     }
 
+    public function store_edit(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'record_type' => 'required|in:basic,links,products,template,setting'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect('dashboard/webpage/edit/' . $id)->withErrors($validator)->withInput();
+        }
+
+        $dataDetail = Webpage::where('user_id', Auth::id())->find($id);
+        if ($dataDetail && $dataDetail->id > 0) {
+        } else {
+            $message = [
+                "message" => [
+                    "type" => "error",
+                    "title" => __('dashboard.bad'),
+                    "description" => __('dashboard.no_record_found')
+                ]
+            ];
+            return redirect()->route('dashboard.webpage')->with($message);
+        }
+
+        $dataToInsert = $validator->validated();
+        $record_type = $dataToInsert['record_type'];
+
+        switch ($record_type) {
+            case 'basic':
+
+                $validator = Validator::make($request->all(), [
+                    'title' => 'required|max:255',
+                    'description' => 'sometimes'
+                ]);
+
+                if ($validator->fails()) {
+                    return redirect('dashboard/webpage/edit/' . $id)->withErrors($validator)->withInput();
+                }
+
+                $dataToInsert = $validator->validated();
+                $dataDetail->title = $dataToInsert['title'];
+                $dataDetail->description = $dataToInsert['description'];
+                $dataDetail->save();
+
+                $message = [
+                    "message" => [
+                        "type" => "success",
+                        "title" => __('dashboard.great'),
+                        "description" => __('dashboard.details_submitted')
+                    ]
+                ];
+                return redirect()->route('dashboard.webpage.edit', ['id' => $id, 'section' => $record_type])->with($message);
+                break;
+
+            case 'links':
+                $validator = Validator::make($request->all(), [
+                    'title' => 'required|max:255',
+                    'link' => 'required|url'
+                ]);
+
+                if ($validator->fails()) {
+                    return redirect('dashboard/webpage/edit/' . $id)->withErrors($validator)->withInput();
+                }
+
+                $dataToInsert = $validator->validated();
+
+                $return = false;
+                if(!empty($request->link_sub_id)){
+                    $subRecordId = CommonHelper::decUrlParam($request->link_sub_id);
+                    if($subRecordId && $subRecordId > 0) {
+                        $dataDetailLink = WebpageLink::find($subRecordId);
+                        if(!$dataDetailLink){
+                            $return = true;
+                        }
+                    } else {
+                        $return = true;
+                    }
+                } else {
+                    $dataDetailLink = new WebpageLink();
+                    $dataDetailLink->user_id = Auth::id();
+                    $dataDetailLink->webpage_id = $id;
+                    $dataDetailLink->type = 'simple';
+                    $dataDetailLink->icon = '';
+                    $dataDetailLink->template_id = $dataDetail->template_id;                    
+                }
+
+                if($return == false){
+                    $dataDetailLink->title = $dataToInsert['title'];
+                    $dataDetailLink->link = $dataToInsert['link'];
+
+                    if ($request->croppedImage != null) {
+                        $croped_image = $request->croppedImage;
+                        list($type, $croped_image) = explode(';', $croped_image);
+                        list(, $croped_image)      = explode(',', $croped_image);
+                        $croped_image = base64_decode($croped_image);
+                        $image_name = time() . rand(10000000, 999999999) . '.png';
+                        file_put_contents("./images/link/" . $image_name, $croped_image);
+                        $dataDetailLink->image = $image_name;
+                    }
+
+                    $dataDetailLink->save();
+                    $message = [
+                        "message" => [
+                            "type" => "success",
+                            "title" => __('dashboard.great'),
+                            "description" => __('dashboard.details_submitted')
+                        ]
+                    ];
+                    return redirect()->route('dashboard.webpage.edit', ['id' => $id, 'section' => $record_type])->with($message);
+                }
+                break;
+
+            default:
+                # code...
+                break;
+        }
+        return redirect('dashboard');
+    }
+
     public function delete(Request $request, $id)
-    {        
+    {
         $dataDetail = Webpage::find($id);
         if ($dataDetail) {
             $dataDetail->delete();
@@ -115,7 +255,7 @@ class WebpageController extends Controller
     }
 
     public function restore(Request $request, $id)
-    {        
+    {
         $dataDetail = Webpage::withTrashed()->find($id);
         if ($dataDetail) {
             $dataDetail->deleted_at = Null;
@@ -128,6 +268,49 @@ class WebpageController extends Controller
                 ]
             ];
             return redirect()->route('dashboard.webpage')->with($message);
+        } else {
+            $message = [
+                "message" => [
+                    "type" => "error",
+                    "title" => __('dashboard.bad'),
+                    "description" => __('dashboard.no_record_found')
+                ]
+            ];
+            return redirect()->route('dashboard.webpage')->with($message);
+        }
+    }
+
+    public function delete_main(Request $request, $id, $section, $sub_id)
+    {
+        $sections = ['links', 'products'];
+        if (in_array($section, $sections)) {
+            $dataDetail = Webpage::find($id);
+            if ($dataDetail) {
+                switch ($section) {
+                    case 'links':
+                        $link = WebpageLink::where('id', 4)->first();
+                        if($link) {
+                            $link->delete();
+                        }
+                        $message = [
+                            "message" => [
+                                "type" => "success",
+                                "title" => __('dashboard.great'),
+                                "description" => __('dashboard.record_deleted')
+                            ]
+                        ];
+                        return redirect()->route('dashboard.webpage.edit', ['id' => $id, 'section' => $section])->with($message);                        
+                }
+            } else {
+                $message = [
+                    "message" => [
+                        "type" => "error",
+                        "title" => __('dashboard.bad'),
+                        "description" => __('dashboard.no_record_found')
+                    ]
+                ];
+                return redirect()->route('dashboard.webpage')->with($message);
+            }
         } else {
             $message = [
                 "message" => [

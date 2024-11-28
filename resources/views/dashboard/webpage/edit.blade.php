@@ -8,120 +8,220 @@
         <div class="col-lg-8">
             <div class="card bg-white border-0 rounded-10 mb-4">
                 <div class="card-body p-4">
-                    <h4 class="fw-semibold fs-18 border-bottom text-muted pb-20 mb-20">https://gujju.me/<span class="text-primary">{{ $dataDetail->link }}</span></h4>
-                    <div class="tab-pane fade show active" id="preview3-tab-pane" role="tabpanel"
-                        aria-labelledby="preview3-tab" tabindex="0">
-                        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                    <h4 class="fw-semibold fs-18 border-bottom text-muted pb-20 mb-20">https://gujju.me/<span
+                            class="text-primary">{{ $dataDetail->link }}</span></h4>
+                    <div class="tab-pane fade show active" role="tabpanel" tabindex="0">
+                        <ul class="nav nav-pills mb-3" role="tablist">
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link active" id="pills-basic-tab" data-bs-toggle="pill"
-                                    data-bs-target="#pills-basic" type="button" role="tab"
-                                    aria-controls="pills-basic" aria-selected="true">Basic Info</button>
+                                <a href="{{ route('dashboard.webpage.edit', ['id' => $dataDetail->id, 'section' => 'basic']) }}"
+                                    class="nav-link @if ($section == 'basic') active @endif">Basic Info</a>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="pills-links-tab" data-bs-toggle="pill"
-                                    data-bs-target="#pills-links" type="button" role="tab"
-                                    aria-controls="pills-links" aria-selected="false">Links</button>
+                                <a href="{{ route('dashboard.webpage.edit', ['id' => $dataDetail->id, 'section' => 'links']) }}"
+                                    class="nav-link @if ($section == 'links') active @endif">Links</a>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="pills-products-tab" data-bs-toggle="pill"
-                                    data-bs-target="#pills-products" type="button" role="tab"
-                                    aria-controls="pills-products" aria-selected="false">Products</button>
+                                <a href="{{ route('dashboard.webpage.edit', ['id' => $dataDetail->id, 'section' => 'products']) }}"
+                                    class="nav-link @if ($section == 'products') active @endif">Products</a>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="pills-templates-tab" data-bs-toggle="pill"
-                                    data-bs-target="#pills-templates" type="button" role="tab"
-                                    aria-controls="pills-templates" aria-selected="false">Template</button>
+                                <a href="{{ route('dashboard.webpage.edit', ['id' => $dataDetail->id, 'section' => 'template']) }}"
+                                    class="nav-link @if ($section == 'template') active @endif">Template</a>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="pills-settings-tab" data-bs-toggle="pill"
-                                    data-bs-target="#pills-settings" type="button" role="tab"
-                                    aria-controls="pills-settings" aria-selected="false">Settings</button>
+                                <a href="{{ route('dashboard.webpage.edit', ['id' => $dataDetail->id, 'section' => 'setting']) }}"
+                                    class="nav-link @if ($section == 'setting') active @endif">Setting</a>
                             </li>
                         </ul>
-                        <div class="tab-content" id="pills-tabContent">
-                            <div class="tab-pane fade show active" id="pills-basic" role="tabpanel"
-                                aria-labelledby="pills-basic-tab" tabindex="0">
-                                <div class="bg-light px-2 py-3 rounded">
-                                    Basic
-                                </div>
-                            </div>
-                            <div class="tab-pane fade" id="pills-links" role="tabpanel"
-                                aria-labelledby="pills-links-tab" tabindex="0">
-                                
-                                <div class="py-2">
-                                    <div class="accordion accordion-flush faq-wrapper" id="accordionFlushExample3">
-                                        <div class="accordion-item border-0 rounded mb-3">
-                                            <h2 class="accordion-header">
-                                                <button class="accordion-button collapsed fs-16 fw-semibold text-dark rounded" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne1" aria-expanded="false" aria-controls="flush-collapseOne1">
-                                                    Dynamically procrastinate B2C users after installed.
-                                                </button>
-                                            </h2>
-                                            <div id="flush-collapseOne1" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample3">
-                                                <div class="accordion-body pt-1">Lorem ipsum dolor sit amet, vix an natum labitur eleifd, mel am laoreet menandri. Ei justo complectitur duo. Ei mundi solet utos soletu possit quo. Sea cu justo laudem. An utinam consulatu eos, est facilis.</div>
-                                            </div>
-                                        </div>
-                                        <div class="accordion-item border-0 mb-3">
-                                            <h2 class="accordion-header">
-                                                <button class="accordion-button collapsed fs-16 fw-semibold text-dark rounded" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo2" aria-expanded="false" aria-controls="flush-collapseTwo2">
-                                                    Efficiently unleash cross-media information without cross-media value.
-                                                </button>
-                                            </h2>
-                                            <div id="flush-collapseTwo2" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample3">
-                                                <div class="accordion-body pt-1">Lorem ipsum dolor sit amet, vix an natum labitur eleifd, mel am laoreet menandri. Ei justo complectitur duo. Ei mundi solet utos soletu possit quo. Sea cu justo laudem. An utinam consulatu eos, est facilis.</div>
-                                            </div>
-                                        </div>
-                                        <div class="accordion-item border-0 mb-3">
-                                            <h2 class="accordion-header">
-                                                <button class="accordion-button collapsed fs-16 fw-semibold text-dark rounded" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree3" aria-expanded="false" aria-controls="flush-collapseThree3">
-                                                    Relationships via premier niche markets.
-                                                </button>
-                                            </h2>
-                                            <div id="flush-collapseThree3" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample3">
-                                                <div class="accordion-body pt-1">Lorem ipsum dolor sit amet, vix an natum labitur eleifd, mel am laoreet menandri. Ei justo complectitur duo. Ei mundi solet utos soletu possit quo. Sea cu justo laudem. An utinam consulatu eos, est facilis.</div>
-                                            </div>
-                                        </div>
-                                        <div class="accordion-item border-0 mb-3">
-                                            <h2 class="accordion-header">
-                                                <button class="accordion-button collapsed fs-16 fw-semibold text-dark rounded" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFive5" aria-expanded="false" aria-controls="flush-collapseFive5">
-                                                    It has roots in a piece of classical
-                                                </button>
-                                            </h2>
-                                            <div id="flush-collapseFive5" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample3">
-                                                <div class="accordion-body pt-1">Lorem ipsum dolor sit amet, vix an natum labitur eleifd, mel am laoreet menandri. Ei justo complectitur duo. Ei mundi solet utos soletu possit quo. Sea cu justo laudem. An utinam consulatu eos, est facilis.</div>
-                                            </div>
-                                        </div>
-                                        <div class="accordion-item border-0 mb-0">
-                                            <h2 class="accordion-header">
-                                                <button class="accordion-button collapsed fs-16 fw-semibold text-dark rounded" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseSix6" aria-expanded="false" aria-controls="flush-collapseSix6">
-                                                    Sed do eiusmod tempor incididunt dolore magna.
-                                                </button>
-                                            </h2>
-                                            <div id="flush-collapseSix6" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample3">
-                                                <div class="accordion-body pt-1">Lorem ipsum dolor sit amet, vix an natum labitur eleifd, mel am laoreet menandri. Ei justo complectitur duo. Ei mundi solet utos soletu possit quo. Sea cu justo laudem. An utinam consulatu eos, est facilis.</div>
-                                            </div>
+                        <div class="tab-content">
+                            @switch($section)
+                                @case('basic')
+                                    <div class="tab-pane fade show active" role="tabpanel" tabindex="0">
+                                        <div class="bg-body px-2 py-3 rounded">
+                                            <form method="post"
+                                                action="{{ route('dashboard.webpage.edit.post', ['id' => $dataDetail->id]) }}">
+                                                {{ csrf_field() }}
+                                                <input type="hidden" name="record_type" value="basic">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group mb-4">
+                                                            <label class="form-check-label text-danger" for="flexCheckDefault">
+                                                                Important Note
+                                                            </label><br>
+                                                            <span class="text-muted">Careful to add details here as details will
+                                                                be directly accessible to anyone with internet.</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group mb-4">
+                                                            <label class="label">{{ __('dashboard.title') }}</label>
+                                                            <div class="form-group position-relative">
+                                                                <input type="text" name="title" maxlength="255"
+                                                                    minlength="3"
+                                                                    class="form-control text-dark h-58 @error('title') border border-danger rounded-3 border-3 @enderror"
+                                                                    value="{{ old('title', $dataDetail->title) }}"
+                                                                    placeholder="{{ __('dashboard.title') }}" required>
+                                                            </div>
+                                                            @error('title')
+                                                                <div class="text-danger">{{ $message }}</div>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group mb-4">
+                                                            <label class="label">{{ __('dashboard.link') }}</label><br>
+                                                            <div class="form-group position-relative">
+                                                                <input type="text" name="link" maxlength="255"
+                                                                    minlength="3"
+                                                                    class="form-control text-dark h-58 @error('link') border border-danger rounded-3 border-3 @enderror"
+                                                                    value="{{ old('link', $dataDetail->link) }}"
+                                                                    placeholder="{{ __('dashboard.link') }}" disabled>
+                                                            </div>
+                                                            @error('link')
+                                                                <div class="text-danger">{{ $message }}</div>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="form-group mb-4">
+                                                            <label
+                                                                class="label @error('description') text-danger @enderror">{{ __('dashboard.description') }}</label>
+                                                            <div class="form-group position-relative">
+                                                                <textarea id="description" name="description"
+                                                                    class="form-control text-dark  @error('description') border border-danger rounded-3 border-3 @enderror"
+                                                                    placeholder="{{ __('dashboard.description') }}" cols="30" rows="4">{{ old('description', $dataDetail->description) }}</textarea>
+                                                            </div>
+                                                            @error('description')
+                                                                <div class="text-danger">{{ $message }}</div>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group d-flex gap-3">
+                                                    <button type="submit" id="subBut"
+                                                        class="btn btn-primary text-white fw-semibold py-2 px-2 px-sm-3">
+                                                        <span class="py-sm-1 d-block">
+                                                            <i class="ri-add-line text-white"></i>
+                                                            <span>Update</span>
+                                                        </span>
+                                                    </button>
+                                                </div>
+                                            </form>
                                         </div>
                                     </div>
-                                </div>
+                                @break
 
-                            </div>
-                            <div class="tab-pane fade" id="pills-products" role="tabpanel"
-                                aria-labelledby="pills-products-tab" tabindex="0">
-                                <p>
-                                    Products
-                                </p>
-                            </div>
-                            <div class="tab-pane fade" id="pills-templates" role="tabpanel"
-                                aria-labelledby="pills-templates-tab" tabindex="0">
-                                <p>
-                                    Templates
-                                </p>
-                            </div>
-                            <div class="tab-pane fade" id="pills-settings" role="tabpanel"
-                                aria-labelledby="pills-settings-tab" tabindex="0">
-                                <p>
-                                    Settings
-                                </p>
-                            </div>
+                                @case('links')
+                                    <div class="bg-body px-2 py-3 rounded mb-3">
+                                        <form method="post"
+                                            action="{{ route('dashboard.webpage.edit.post', ['id' => $dataDetail->id]) }}">
+                                            {{ csrf_field() }}
+                                            <input type="hidden" name="record_type" value="links">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group mb-4">
+                                                        <label class="form-check-label text-primary" for="flexCheckDefault">
+                                                            Add new link
+                                                        </label><br>
+                                                        <span class="text-muted">Add new link from here, later you can update
+                                                            more settings from below list.</span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group mb-4">
+                                                        <label class="label">{{ __('dashboard.title') }}</label>
+                                                        <div class="form-group position-relative">
+                                                            <input type="text" name="title" maxlength="255"
+                                                                minlength="3"
+                                                                class="form-control text-dark h-58 @error('title') border border-danger rounded-3 border-3 @enderror"
+                                                                value="{{ old('title') }}"
+                                                                placeholder="{{ __('dashboard.title') }}" required>
+                                                        </div>
+                                                        @error('title')
+                                                            <div class="text-danger">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group mb-4">
+                                                        <label class="label">{{ __('dashboard.link') }}</label><br>
+                                                        <div class="form-group position-relative">
+                                                            <input type="url" name="link" maxlength="255"
+                                                                minlength="3"
+                                                                class="form-control text-dark h-58 @error('link') border border-danger rounded-3 border-3 @enderror"
+                                                                value="{{ old('link') }}"
+                                                                placeholder="{{ __('dashboard.link') }}" required>
+                                                        </div>
+                                                        @error('link')
+                                                            <div class="text-danger">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group d-flex gap-3">
+                                                <button type="submit" id="subBut"
+                                                    class="btn btn-primary text-white fw-semibold py-2 px-2 px-sm-3">
+                                                    <span class="py-sm-1 d-block">
+                                                        <i class="ri-add-line text-white"></i>
+                                                        <span>Add link</span>
+                                                    </span>
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                    <ul class="ps-0 mb-0 list-unstyled o-sortable cursor-move chat-list">
+                                        @foreach ($links as $key => $value)
+                                            <li class="bg-body p-2 rounded-2 mb-3">
+                                                <div class="d-flex justify-content-between">
+                                                    <div class="d-flex align-items-center" style="overflow: hidden">
+                                                        <div class="flex-shrink-0 position-relative">
+                                                            <img src="{{ $value->image() }}"
+                                                                class="wh-48 rounded" alt="user">
+                                                        </div>
+                                                        <div class="flex-grow-1 ms-10">
+                                                            <h4 class="fs-16 fw-semibold mb-1">{{ $value->title }}</h4>
+                                                            <span class="fs-14 text-primary">{{ $value->link }}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="text-end">
+                                                        <span class="d-block">
+                                                            <a class="p-1" style="cursor: pointer;" id="Btn_Add_User"
+                                                                onclick="updateLink(this)" data-bs-toggle="offcanvas"
+                                                                data-bs-target="#offcanvasRight"
+                                                                data-link-id="{{ encrypt($value->id) }}"
+                                                                data-link-link="{{ $value->link }}"
+                                                                data-link-title="{{ $value->title }}"
+                                                                aria-controls="offcanvasRight">
+                                                                <i height="20" data-feather="edit-3"></i>
+                                                            </a><br>
+                                                            <a class="p-1" style="cursor: pointer;"
+                                                                onclick="confirmAndDelete('{{ route('dashboard.webpage.delete.main', ['id' => $value->id, 'section' => 'links', 'sub_id' => $value->id]) }}')">
+                                                                <i height="20" data-feather="trash-2"></i>
+                                                            </a>
+                                                        </span>
+                                                        @if (false)
+                                                            <span
+                                                                class="fs-12 fw-semibold bg-warning text-white rounded px-1">1220</span>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                @break
+
+                                @case('products')
+                                @break
+
+                                @case('template')
+                                @break
+
+                                @case('setting')
+                                @break
+
+                                @default
+                            @endswitch
                         </div>
                     </div>
                 </div>
@@ -137,11 +237,87 @@
         </div>
     </div>
 
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+        <div class="offcanvas-header border-bottom p-4">
+            <h5 class="offcanvas-title fs-18 mb-0" id="offcanvasRightLabel">Update link</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body p-4">
+            <form method="post" id="webPageSectionForm" action="{{ route('dashboard.webpage.edit.post', ['id' => $dataDetail->id]) }}">
+                {{ csrf_field() }}
+                <input type="hidden" id="record_type" name="record_type" value="links">
+                <input type="hidden" id="link-sub-id" name="link_sub_id" value="">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group mb-4">
+                            <label class="form-check-label text-primary" for="flexCheckDefault">
+                                Important
+                            </label><br>
+                            <span class="text-muted">Keep in mind that once you update record, it will be available
+                                over internet in short time.</span>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group mb-4">
+                            <label class="label">{{ __('dashboard.title') }}</label>
+                            <div class="form-group position-relative">
+                                <input type="text" id="link-title" name="title" maxlength="255" minlength="3"
+                                    class="form-control text-dark h-58 @error('title') border border-danger rounded-3 border-3 @enderror"
+                                    value="{{ old('title') }}" placeholder="{{ __('dashboard.title') }}" required>
+                            </div>
+                            @error('title')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group mb-4">
+                            <label class="label">{{ __('dashboard.link') }}</label><br>
+                            <div class="form-group position-relative">
+                                <input type="url" id="link-link" name="link" maxlength="255" minlength="3"
+                                    class="form-control text-dark h-58 @error('link') border border-danger rounded-3 border-3 @enderror"
+                                    value="{{ old('link') }}" placeholder="{{ __('dashboard.link') }}" required>
+                            </div>
+                            @error('link')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group mb-4" id="imageFormGroup">
+                            <label
+                                class="label @error('slug') text-danger @enderror">{{ __('dashboard.image') }}</label>
+                            <input type="file" class="form-control" id="image" name="image"
+                                accept="image/*">
+                            <input type="hidden" id="croppedImage" name="croppedImage" value="">
+                        </div>
+                        <div id="upload-image-image"></div>
+                    </div>
+                </div>
+                <div class="form-group d-flex gap-3">
+                    <button type="submit" id="subBut"
+                        class="btn btn-primary text-white fw-semibold py-2 px-2 px-sm-3">
+                        <span class="py-sm-1 d-block">
+                            <i class="ri-add-line text-white"></i>
+                            <span>Update link</span>
+                        </span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script>
         var $image_crop;
         window.addEventListener('load', function(event) {
+
+            @if ($errors->any())
+                var Btn_Add_User = document.getElementById('Btn_Add_User');
+                Btn_Add_User.click();
+            @endif
+
             addCropperImage();
-            $("#formToValidate").submit(function(eventObj) {
+            $("#webPageSectionForm").submit(function(eventObj) {
                 getImage();
                 return true;
             });
@@ -166,15 +342,14 @@
                 //enableExif: true,
                 enableResize: true,
                 viewport: {
-                    width: 240,
-                    height: 80,
+                    width: 120,
+                    height: 120,
                     type: 'square'
                 },
                 boundary: {
                     width: $("#imageFormGroup").width(),
                     height: $("#imageFormGroup").width() / 2
-                },
-                url: '{{ URL::asset('/images/blog/' . $dataDetail->image) }}'
+                }
             });
             $('#image').on('change', function() {
                 var reader = new FileReader();
@@ -187,6 +362,17 @@
                 }
                 reader.readAsDataURL(this.files[0]);
             });
+        }
+
+        function updateLink(obj) {
+            var linkObj = $(obj);
+            if (linkObj) {
+                $('#link-sub-id').val(linkObj.data("link-id"));
+                $('#link-title').val(linkObj.data("link-title"));
+                $('#link-link').val(linkObj.data("link-link"));
+            } else {
+
+            }
         }
     </script>
 
