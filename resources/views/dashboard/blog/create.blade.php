@@ -120,8 +120,7 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="form-group mb-4">
-                                    <label
-                                        class="label @error('location_id') text-danger @enderror">{{ __('dashboard.district') }}</label>
+                                    <label class="label @error('location_id') text-danger @enderror">{{ __('dashboard.district') }}</label>
                                     <div class="form-group position-relative">
                                         <select class="form-select form-control ps-5 h-58" name="location_id"
                                             aria-label="Parent category selection">

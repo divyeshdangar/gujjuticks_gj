@@ -1,4 +1,9 @@
 <x-layouts.dashboard :showHeader="true" :metaData="$metaData">
+    <style>
+        .cr-boundary {
+            border-radius: 10px;
+        }
+    </style>
 
     @if ($metaData['breadCrumb'])
         <x-common.breadcrumb :metaData="$metaData"></x-common.breadcrumb>
@@ -38,7 +43,7 @@
                                 @case('basic')
                                     <div class="tab-pane fade show active" role="tabpanel" tabindex="0">
                                         <div class="bg-body px-2 py-3 rounded">
-                                            <form method="post"
+                                            <form method="post" class="formToSubmit"
                                                 action="{{ route('dashboard.webpage.edit.post', ['id' => $dataDetail->id]) }}">
                                                 {{ csrf_field() }}
                                                 <input type="hidden" name="record_type" value="basic">
@@ -48,23 +53,7 @@
                                                             <label class="form-check-label text-danger" for="flexCheckDefault">
                                                                 Important Note
                                                             </label><br>
-                                                            <span class="text-muted">Careful to add details here as details will
-                                                                be directly accessible to anyone with internet.</span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="form-group mb-4">
-                                                            <label class="label">{{ __('dashboard.title') }}</label>
-                                                            <div class="form-group position-relative">
-                                                                <input type="text" name="title" maxlength="255"
-                                                                    minlength="3"
-                                                                    class="form-control text-dark h-58 @error('title') border border-danger rounded-3 border-3 @enderror"
-                                                                    value="{{ old('title', $dataDetail->title) }}"
-                                                                    placeholder="{{ __('dashboard.title') }}" required>
-                                                            </div>
-                                                            @error('title')
-                                                                <div class="text-danger">{{ $message }}</div>
-                                                            @enderror
+                                                            <span class="text-muted">Careful to add details here as details will be directly accessible to anyone with internet.</span>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
@@ -81,8 +70,19 @@
                                                                 <div class="text-danger">{{ $message }}</div>
                                                             @enderror
                                                         </div>
-                                                    </div>
-                                                    <div class="col-md-12">
+                                                        <div class="form-group mb-4">
+                                                            <label class="label">{{ __('dashboard.title') }}</label>
+                                                            <div class="form-group position-relative">
+                                                                <input type="text" name="title" maxlength="255"
+                                                                    minlength="3"
+                                                                    class="form-control text-dark h-58 @error('title') border border-danger rounded-3 border-3 @enderror"
+                                                                    value="{{ old('title', $dataDetail->title) }}"
+                                                                    placeholder="{{ __('dashboard.title') }}" required>
+                                                            </div>
+                                                            @error('title')
+                                                                <div class="text-danger">{{ $message }}</div>
+                                                            @enderror
+                                                        </div>
                                                         <div class="form-group mb-4">
                                                             <label
                                                                 class="label @error('description') text-danger @enderror">{{ __('dashboard.description') }}</label>
@@ -96,6 +96,16 @@
                                                             @enderror
                                                         </div>
                                                     </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group mb-4" id="imageFormGroup">
+                                                            <label
+                                                                class="label @error('slug') text-danger @enderror">{{ __('dashboard.image') }}</label>
+                                                            <input type="file" class="form-control" id="image" name="image"
+                                                                accept="image/*">
+                                                            <input type="hidden" id="croppedImage" name="croppedImage" value="">
+                                                        </div>
+                                                        <div id="upload-image-image"></div>
+                                                    </div>                                
                                                 </div>
                                                 <div class="form-group d-flex gap-3">
                                                     <button type="submit" id="subBut"
@@ -176,8 +186,8 @@
                                                 <div class="d-flex justify-content-between">
                                                     <div class="d-flex align-items-center" style="overflow: hidden">
                                                         <div class="flex-shrink-0 position-relative">
-                                                            <img src="{{ $value->image() }}"
-                                                                class="wh-48 rounded" alt="user">
+                                                            <img src="{{ $value->image() }}" class="wh-48 rounded"
+                                                                alt="user">
                                                         </div>
                                                         <div class="flex-grow-1 ms-10">
                                                             <h4 class="fs-16 fw-semibold mb-1">{{ $value->title }}</h4>
@@ -212,12 +222,98 @@
                                 @break
 
                                 @case('products')
+                                    <div class="text-center">
+                                        <x-common.empty></x-common.empty>
+                                        <h1 class="h2 text-muted">Feature not available!</h1>
+                                        <h2 class="h4 mb-5 text-warning">Check after some time.</h2>
+                                    </div>
                                 @break
 
                                 @case('template')
+                                    <div class="text-center">
+                                        <x-common.empty></x-common.empty>
+                                        <h1 class="h2 text-muted">Template not available!</h1>
+                                        <h2 class="h4 mb-5 text-warning">It will be available soon.</h2>
+                                    </div>
                                 @break
 
                                 @case('setting')
+                                    <div class="tab-pane fade show active" role="tabpanel" tabindex="0">
+                                        <div class="bg-body px-2 py-3 rounded">
+                                            <form method="post" class="formToSubmit"
+                                                action="{{ route('dashboard.webpage.edit.post', ['id' => $dataDetail->id]) }}">
+                                                {{ csrf_field() }}
+                                                <input type="hidden" name="record_type" value="setting">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group mb-4">
+                                                            <label class="form-check-label text-danger" for="flexCheckDefault">
+                                                                SEO details
+                                                            </label><br>
+                                                            <span class="text-muted">It will be helpful to rank on serch engines like (google, bing etc.)</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group mb-4">
+                                                            <label class="label">{{ __('dashboard.meta_title') }}</label>
+                                                            <div class="form-group position-relative">
+                                                                <input type="text" name="meta_title" maxlength="255"
+                                                                    minlength="3"
+                                                                    class="form-control text-dark h-58 @error('meta_title') border border-danger rounded-3 border-3 @enderror"
+                                                                    value="{{ old('meta_title', $dataDetail->meta_title) }}"
+                                                                    placeholder="{{ __('dashboard.meta_title') }}" required>
+                                                            </div>
+                                                            @error('meta_title')
+                                                                <div class="text-danger">{{ $message }}</div>
+                                                            @enderror
+                                                        </div>
+                                                        <div class="form-group mb-4">
+                                                            <label
+                                                                class="label @error('meta_description') text-danger @enderror">{{ __('dashboard.meta_description') }}</label>
+                                                            <div class="form-group position-relative">
+                                                                <textarea id="meta_description" name="meta_description"
+                                                                    class="form-control text-dark @error('meta_description') border border-danger rounded-3 border-3 @enderror"
+                                                                    placeholder="{{ __('dashboard.meta_description') }}" cols="30" rows="3">{{ old('meta_description', $dataDetail->meta_description) }}</textarea>
+                                                            </div>
+                                                            @error('meta_description')
+                                                                <div class="text-danger">{{ $message }}</div>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group mb-4">
+                                                            <label class="label @error('industry_type_id') text-danger @enderror">{{ __('dashboard.industry') }}</label>
+                                                            <div class="form-group position-relative">
+                                                                <select class="form-select form-control ps-5 h-58" name="industry_type_id"
+                                                                    aria-label="Parent category selection">
+                                                                    <option class="text-dark">{{ __('dashboard.select') }}
+                                                                        {{ __('dashboard.industry') }}</option>
+                                                                    @foreach ($industries as $data)
+                                                                        <option value="{{ $data->id }}" class="text-dark"
+                                                                            @if ($data->id == old('industry_type_id', $dataDetail->industry_type_id)) selected="selected" @endif>
+                                                                            {{ $data->title }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                                <i class="ri-map-pin-line position-absolute top-50 start-0 translate-middle-y fs-20 text-gray-light ps-20"></i>
+                                                            </div>
+                                                            @error('industry_type_id')
+                                                                <div class="text-danger">{{ $message }}</div>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group d-flex gap-3">
+                                                    <button type="submit" id="subBut"
+                                                        class="btn btn-primary text-white fw-semibold py-2 px-2 px-sm-3">
+                                                        <span class="py-sm-1 d-block">
+                                                            <i class="ri-add-line text-white"></i>
+                                                            <span>Update</span>
+                                                        </span>
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
                                 @break
 
                                 @default
@@ -230,82 +326,86 @@
         <div class="col-lg-4">
             <div class="card bg-white border-0 rounded-10 mb-4">
                 <div class="card-body p-4">
-                    <h4 class="fw-semibold fs-18 border-bottom pb-20 mb-20">{{ __('dashboard.user') }}</h4>
-
+                    <h4 class="fw-semibold fs-18 border-bottom pb-20 mb-20">{{ __('dashboard.site') }}</h4>
+                    {{-- <iframe src="https://gujju.me/{{ $dataDetail->link }}" width="100%" class="rounded border" height="580" style="border: none;">
+                    </iframe> --}}
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-        <div class="offcanvas-header border-bottom p-4">
-            <h5 class="offcanvas-title fs-18 mb-0" id="offcanvasRightLabel">Update link</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body p-4">
-            <form method="post" id="webPageSectionForm" action="{{ route('dashboard.webpage.edit.post', ['id' => $dataDetail->id]) }}">
-                {{ csrf_field() }}
-                <input type="hidden" id="record_type" name="record_type" value="links">
-                <input type="hidden" id="link-sub-id" name="link_sub_id" value="">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group mb-4">
-                            <label class="form-check-label text-primary" for="flexCheckDefault">
-                                Important
-                            </label><br>
-                            <span class="text-muted">Keep in mind that once you update record, it will be available
-                                over internet in short time.</span>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="form-group mb-4">
-                            <label class="label">{{ __('dashboard.title') }}</label>
-                            <div class="form-group position-relative">
-                                <input type="text" id="link-title" name="title" maxlength="255" minlength="3"
-                                    class="form-control text-dark h-58 @error('title') border border-danger rounded-3 border-3 @enderror"
-                                    value="{{ old('title') }}" placeholder="{{ __('dashboard.title') }}" required>
+    @if(in_array($section, ['links']))
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+            <div class="offcanvas-header border-bottom p-4">
+                <h5 class="offcanvas-title fs-18 mb-0" id="offcanvasRightLabel">Update link</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body p-4">
+                <form method="post" class="formToSubmit"
+                    action="{{ route('dashboard.webpage.edit.post', ['id' => $dataDetail->id]) }}">
+                    {{ csrf_field() }}
+                    <input type="hidden" id="record_type" name="record_type" value="links">
+                    <input type="hidden" id="link-sub-id" name="link_sub_id" value="">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group mb-4">
+                                <label class="form-check-label text-primary" for="flexCheckDefault">
+                                    Important
+                                </label><br>
+                                <span class="text-muted">Keep in mind that once you update record, it will be available
+                                    over internet in short time.</span>
                             </div>
-                            @error('title')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
                         </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="form-group mb-4">
-                            <label class="label">{{ __('dashboard.link') }}</label><br>
-                            <div class="form-group position-relative">
-                                <input type="url" id="link-link" name="link" maxlength="255" minlength="3"
-                                    class="form-control text-dark h-58 @error('link') border border-danger rounded-3 border-3 @enderror"
-                                    value="{{ old('link') }}" placeholder="{{ __('dashboard.link') }}" required>
+                        <div class="col-md-12">
+                            <div class="form-group mb-4">
+                                <label class="label">{{ __('dashboard.title') }}</label>
+                                <div class="form-group position-relative">
+                                    <input type="text" id="link-title" name="title" maxlength="255" minlength="3"
+                                        class="form-control text-dark h-58 @error('title') border border-danger rounded-3 border-3 @enderror"
+                                        value="{{ old('title') }}" placeholder="{{ __('dashboard.title') }}" required>
+                                </div>
+                                @error('title')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
                             </div>
-                            @error('link')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group mb-4">
+                                <label class="label">{{ __('dashboard.link') }}</label><br>
+                                <div class="form-group position-relative">
+                                    <input type="url" id="link-link" name="link" maxlength="255" minlength="3"
+                                        class="form-control text-dark h-58 @error('link') border border-danger rounded-3 border-3 @enderror"
+                                        value="{{ old('link') }}" placeholder="{{ __('dashboard.link') }}" required>
+                                </div>
+                                @error('link')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group mb-4" id="imageFormGroup">
+                                <label
+                                    class="label @error('slug') text-danger @enderror">{{ __('dashboard.image') }}</label>
+                                <input type="file" class="form-control" id="image" name="image"
+                                    accept="image/*">
+                                <input type="hidden" id="croppedImage" name="croppedImage" value="">
+                            </div>
+                            <div id="upload-image-image"></div>
                         </div>
                     </div>
-                    <div class="col-md-12">
-                        <div class="form-group mb-4" id="imageFormGroup">
-                            <label
-                                class="label @error('slug') text-danger @enderror">{{ __('dashboard.image') }}</label>
-                            <input type="file" class="form-control" id="image" name="image"
-                                accept="image/*">
-                            <input type="hidden" id="croppedImage" name="croppedImage" value="">
-                        </div>
-                        <div id="upload-image-image"></div>
+                    <div class="form-group d-flex gap-3">
+                        <button type="submit" id="subBut"
+                            class="btn btn-primary text-white fw-semibold py-2 px-2 px-sm-3">
+                            <span class="py-sm-1 d-block">
+                                <i class="ri-add-line text-white"></i>
+                                <span>Update link</span>
+                            </span>
+                        </button>
                     </div>
-                </div>
-                <div class="form-group d-flex gap-3">
-                    <button type="submit" id="subBut"
-                        class="btn btn-primary text-white fw-semibold py-2 px-2 px-sm-3">
-                        <span class="py-sm-1 d-block">
-                            <i class="ri-add-line text-white"></i>
-                            <span>Update link</span>
-                        </span>
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
+                </form>
+            </div>
+        </div>        
+    @endif
 
     <script>
         var $image_crop;
@@ -317,7 +417,7 @@
             @endif
 
             addCropperImage();
-            $("#webPageSectionForm").submit(function(eventObj) {
+            $(".formToSubmit").submit(function(eventObj) {
                 getImage();
                 return true;
             });

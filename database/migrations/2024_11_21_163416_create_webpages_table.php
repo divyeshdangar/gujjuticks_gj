@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('indusry_types', function (Blueprint $table) {
+        Schema::create('industry_types', function (Blueprint $table) {
             $table->id();
             $table->string('title');
             $table->string('image')->nullable()->default('default.png');
+            $table->enum('status', ['1', '0'])->default('1');
             $table->softDeletes();
             $table->timestamps();
         });
@@ -34,7 +35,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->nullable();
             $table->foreignId('template_id')->nullable();
-            $table->foreignId('indusry_type_id')->nullable();
+            $table->foreignId('industry_type_id')->nullable();
             $table->string('title');
             $table->string('link')->index();
             $table->string('profile')->nullable()->default('default.png');
@@ -42,9 +43,13 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->enum('status', ['1', '0'])->default('1');
             $table->json('options')->nullable();
+
+            $table->string('meta_title')->nullable();
+            $table->text('meta_description')->nullable();
+
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('template_id')->references('id')->on('template');
-            $table->foreign('indusry_type_id')->references('id')->on('indusry_types');
+            $table->foreign('industry_type_id')->references('id')->on('industry_types');
             $table->softDeletes();
             $table->timestamps();
         });
@@ -76,6 +81,6 @@ return new class extends Migration
         Schema::dropIfExists('webpage_links');
         Schema::dropIfExists('webpages');
         Schema::dropIfExists('template');
-        Schema::dropIfExists('indusry_types');
+        Schema::dropIfExists('industry_types');
     }
 };

@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\IndusryType;
+use App\Models\IndustryType;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Schema;
 
@@ -14,7 +14,7 @@ class IndustrySeeder extends Seeder
     public function run(): void
     {
         Schema::disableForeignKeyConstraints();
-        IndusryType::truncate();
+        IndustryType::truncate();
         Schema::enableForeignKeyConstraints();
 
         $data = [
@@ -442,7 +442,7 @@ class IndustrySeeder extends Seeder
         ];
 
         foreach (array_chunk($data, 1000) as $t) {
-            IndusryType::insert($t);
+            IndustryType::insert($t);
         }
     }
 }
