@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -39,5 +40,8 @@ class Webpage extends Model
         return $profile;
     }
 
-
+    public function links()
+    {
+        return $this->hasMany(WebpageLink::class);
+    }
 }

@@ -11,6 +11,7 @@ use App\Models\IndustryType;
 use App\Models\WebpageLink;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Http;
 
 class WebpageController extends Controller
 {
@@ -332,7 +333,7 @@ class WebpageController extends Controller
             if ($dataDetail) {
                 switch ($section) {
                     case 'links':
-                        $link = WebpageLink::where('id', 4)->first();
+                        $link = WebpageLink::where('id', $sub_id)->first();
                         if ($link) {
                             $link->delete();
                         }
@@ -366,4 +367,49 @@ class WebpageController extends Controller
             return redirect()->route('dashboard.webpage')->with($message);
         }
     }
+
+    public function refresh(Request $request, $id)
+    {
+        $wp = Webpage::find($id);
+        if ($wp) {
+            $dataLink = $wp->links()->get()->toArray();
+            $data = $wp->toArray();
+            $data['child_links'] = $dataLink;
+
+            //dd($data);
+
+            $response = Http::post('http://127.0.0.1:8001/api/laN4xIRHpDfdcMg76Gu8xo5M5anVn2Am', $data);
+            if ($response->successful()) {
+                //return "Data sent successfully!" . $response->body();
+                $message = [
+                    "message" => [
+                        "type" => "success",
+                        "title" => __('dashboard.great'),
+                        "description" => __('dashboard.sync_success')
+                    ]
+                ];
+                return redirect()->route('dashboard.webpage')->with($message);
+            } else {                
+                return "Error sending data: " . $response->body();
+                $message = [
+                    "message" => [
+                        "type" => "error",
+                        "title" => __('dashboard.bad'),
+                        "description" => __('dashboard.sync_error')
+                    ]
+                ];
+                return redirect()->route('dashboard.webpage')->with($message);
+            }
+        } else {
+            $message = [
+                "message" => [
+                    "type" => "error",
+                    "title" => __('dashboard.bad'),
+                    "description" => __('dashboard.no_record_found')
+                ]
+            ];
+            return redirect()->route('dashboard.webpage')->with($message);
+        }
+    }
+
 }

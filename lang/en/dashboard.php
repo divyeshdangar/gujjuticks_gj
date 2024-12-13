@@ -135,6 +135,8 @@ return [
     'industry' => 'Industry',
     'download_images' => 'Download image',
     'live_soon' => 'WE WILL LIVE SOON',
+    'sync_error' => 'Error in syncing data',
+    'sync_success' => 'Sync completed successfully.',
     'record_deleted' => 'Record deleted successfully.',
     'record_restored' => 'Record restored successfully.',
     'canvas_to_json' => 'Canvas to JSON'

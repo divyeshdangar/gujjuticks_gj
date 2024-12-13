@@ -83,12 +83,13 @@
                                         <div class="dropdown action-opt">
                                             
                                             @if($data->deleted_at == null)
-                                                <a class="btn bg p-1"
-                                                    href="{{ route('dashboard.webpage.edit', ['id' => $data->id]) }}">
+                                                <a class="btn bg p-1" href="{{ route('dashboard.webpage.refresh', ['id' => $data->id]) }}">
+                                                    <i data-feather="refresh-cw"></i>
+                                                </a>
+                                                <a class="btn bg p-1" href="{{ route('dashboard.webpage.edit', ['id' => $data->id]) }}">
                                                     <i data-feather="edit-3"></i>
                                                 </a>
-                                                <a class="btn bg p-1"
-                                                    onclick="confirmAndDelete('{{ route('dashboard.webpage.delete', ['id' => $data->id]) }}')">
+                                                <a class="btn bg p-1" onclick="confirmAndDelete('{{ route('dashboard.webpage.delete', ['id' => $data->id]) }}')">
                                                     <i data-feather="trash-2"></i>
                                                 </a>
                                             @else

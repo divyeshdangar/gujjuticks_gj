@@ -154,6 +154,7 @@ Route::middleware([CheckIfLogin::class, CheckLanguage::class])->group(function (
     //Route::post('dashboard/webpage/section-edit/{id}', [WebpageController::class, 'store_edit'])->name('dashboard.webpage.edit.section.post');
     Route::get('dashboard/webpage/delete-sub/{id}/{section}/{sub_id}', [WebpageController::class, 'delete_main'])->name('dashboard.webpage.delete.main');
     Route::post('dashboard/webpage/edit/{id}', [WebpageController::class, 'store_edit'])->name('dashboard.webpage.edit.post');
+    Route::get('dashboard/webpage/refresh/{id}', [WebpageController::class, 'refresh'])->name('dashboard.webpage.refresh');
 
     Route::get('dashboard/social-media', [SocialMediaController::class, 'index'])->name('dashboard.social');
     Route::get('instagram/handle-login-callback', [SocialMediaController::class, 'handleInstagramAfterLoginCallback'])->name('instagram.login.callback');

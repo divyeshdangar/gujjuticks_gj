@@ -11,5 +11,4 @@ class DashboardoController extends Controller
     {
         return view('pages.dashboard.home', ['metaData' => []]);
     }
-
 }

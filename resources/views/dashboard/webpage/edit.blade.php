@@ -123,7 +123,7 @@
 
                                 @case('links')
                                     <div class="bg-body px-2 py-3 rounded mb-3">
-                                        <form method="post"
+                                        <form method="post" class="formToSubmit"
                                             action="{{ route('dashboard.webpage.edit.post', ['id' => $dataDetail->id]) }}">
                                             {{ csrf_field() }}
                                             <input type="hidden" name="record_type" value="links">
@@ -151,8 +151,6 @@
                                                             <div class="text-danger">{{ $message }}</div>
                                                         @enderror
                                                     </div>
-                                                </div>
-                                                <div class="col-md-6">
                                                     <div class="form-group mb-4">
                                                         <label class="label">{{ __('dashboard.link') }}</label><br>
                                                         <div class="form-group position-relative">
@@ -166,6 +164,16 @@
                                                             <div class="text-danger">{{ $message }}</div>
                                                         @enderror
                                                     </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group mb-4" id="imageFormGroup">
+                                                        <label
+                                                            class="label @error('slug') text-danger @enderror">{{ __('dashboard.image') }}</label>
+                                                        <input type="file" class="form-control" id="image" name="image"
+                                                            accept="image/*">
+                                                        <input type="hidden" id="croppedImage" name="croppedImage" value="">
+                                                    </div>
+                                                    <div id="upload-image-image"></div>
                                                 </div>
                                             </div>
                                             <div class="form-group d-flex gap-3">
@@ -196,17 +204,19 @@
                                                     </div>
                                                     <div class="text-end">
                                                         <span class="d-block">
-                                                            <a class="p-1" style="cursor: pointer;" id="Btn_Add_User"
-                                                                onclick="updateLink(this)" data-bs-toggle="offcanvas"
-                                                                data-bs-target="#offcanvasRight"
-                                                                data-link-id="{{ encrypt($value->id) }}"
-                                                                data-link-link="{{ $value->link }}"
-                                                                data-link-title="{{ $value->title }}"
-                                                                aria-controls="offcanvasRight">
-                                                                <i height="20" data-feather="edit-3"></i>
-                                                            </a><br>
+                                                            @if(false)                                                                                                                                
+                                                                <a class="p-1" style="cursor: pointer;" id="Btn_Add_User"
+                                                                    onclick="updateLink(this)" data-bs-toggle="offcanvas"
+                                                                    data-bs-target="#offcanvasRight"
+                                                                    data-link-id="{{ encrypt($value->id) }}"
+                                                                    data-link-link="{{ $value->link }}"
+                                                                    data-link-title="{{ $value->title }}"
+                                                                    aria-controls="offcanvasRight">
+                                                                    <i height="20" data-feather="edit-3"></i>
+                                                                </a><br>
+                                                            @endif
                                                             <a class="p-1" style="cursor: pointer;"
-                                                                onclick="confirmAndDelete('{{ route('dashboard.webpage.delete.main', ['id' => $value->id, 'section' => 'links', 'sub_id' => $value->id]) }}')">
+                                                                onclick="confirmAndDelete('{{ route('dashboard.webpage.delete.main', ['id' => $value->webpage_id, 'section' => 'links', 'sub_id' => $value->id]) }}')">
                                                                 <i height="20" data-feather="trash-2"></i>
                                                             </a>
                                                         </span>
@@ -327,8 +337,8 @@
             <div class="card bg-white border-0 rounded-10 mb-4">
                 <div class="card-body p-4">
                     <h4 class="fw-semibold fs-18 border-bottom pb-20 mb-20">{{ __('dashboard.site') }}</h4>
-                    {{-- <iframe src="https://gujju.me/{{ $dataDetail->link }}" width="100%" class="rounded border" height="580" style="border: none;">
-                    </iframe> --}}
+                    <iframe src="http://localhost:8001/{{ $dataDetail->link }}" width="100%" class="rounded border" height="580" style="border: none;">
+                    </iframe>
                 </div>
             </div>
         </div>
@@ -409,6 +419,7 @@
 
     <script>
         var $image_crop;
+        var isImageSelected = false;
         window.addEventListener('load', function(event) {
 
             @if ($errors->any())
@@ -429,7 +440,7 @@
                 format: 'jpeg',
                 quality: 0.7
             }).then(function(resp) {
-                if (resp) {
+                if (resp && isImageSelected) {
                     $("#croppedImage").val(resp)
                 } else {
                     $("#croppedImage").val("")
@@ -449,7 +460,10 @@
                 boundary: {
                     width: $("#imageFormGroup").width(),
                     height: $("#imageFormGroup").width() / 2
-                }
+                },
+                @if($section == 'basic') 
+                    url: '{{ $dataDetail->profile() }}'                    
+                @endif
             });
             $('#image').on('change', function() {
                 var reader = new FileReader();
@@ -457,7 +471,8 @@
                     $image_crop.croppie('bind', {
                         url: e.target.result
                     }).then(function() {
-                        console.log('jQuery bind complete');
+                        isImageSelected = true;
+                        console.log('here');
                     });
                 }
                 reader.readAsDataURL(this.files[0]);

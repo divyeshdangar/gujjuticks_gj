@@ -62,7 +62,7 @@ return new class extends Migration
             $table->string('type');
             $table->string('title');
             $table->string('link')->index();
-            $table->string('icon');
+            $table->string('icon')->nullable();
             $table->string('image')->nullable()->default('default.png');
             $table->json('options')->nullable();
             $table->foreign('user_id')->references('id')->on('users');

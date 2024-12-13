@@ -39,5 +39,8 @@ class WebpageLink extends Model
         return $image;
     }
 
-
+    public function webpage()
+    {
+        return $this->belongsTo(Webpage::class);
+    }
 }
