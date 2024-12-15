@@ -12,7 +12,8 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->validateCsrfTokens(except: [
-            'image/save'
+            'image/save',
+            'instagram/handle-callback'
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

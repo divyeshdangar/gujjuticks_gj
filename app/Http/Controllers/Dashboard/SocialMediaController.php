@@ -42,6 +42,11 @@ class SocialMediaController extends Controller
                     $profile->follows = $response["follows_count"];
                     $profile->media = $response["media_count"];
                     $profile->account_type = $response["account_type"];
+
+                    $response2 = $this->getInstagramLongLivedToken($profile);
+                    if ($response2) {
+                        $profile->access_token = $response2["access_token"];
+                    }
                 }
 
                 try {
@@ -94,5 +99,37 @@ class SocialMediaController extends Controller
             "title" => "Social media"
         ];
         return view('dashboard.social.index', ['dataList' => $dataList, 'metaData' => $metaData]);
+    }
+
+    public function detail(Request $request, $id)
+    {
+        $dataDetail = Profile::find($id);
+        if ($dataDetail) {
+            $metaData = [
+                "breadCrumb" => [
+                    ["title" => "Blog", "route" => "dashboard.blog"],
+                    ["title" => "Detail", "route" => ""]
+                ],
+                "title" => "Blog Detail"
+            ];
+            
+            
+            $response = $this->getInstagramAccountPostList($dataDetail);
+            echo "<pre>";
+            print_r($response);
+
+            die;
+            
+            return view('dashboard.blog.view', ['dataDetail' => $dataDetail, 'metaData' => $metaData]);
+        } else {
+            $message = [
+                "message" => [
+                    "type" => "error",
+                    "title" => __('dashboard.bad'),
+                    "description" => __('dashboard.no_record_found')
+                ]
+            ];
+            return redirect()->route('dashboard')->with($message);
+        }
     }
 }

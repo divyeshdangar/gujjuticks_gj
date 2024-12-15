@@ -11,7 +11,10 @@ trait InstagramTrait
     private $domain_access_token = 'https://api.instagram.com/oauth/access_token';
     private $version = '/v21.0';
     private $method = [
-        'me' => '/me'
+        'me' => '/me',
+        'access_token' => '/access_token',
+        'refresh_access_token' => '/refresh_access_token',
+        'media' => '/media'
     ];
 
     private function request($type = 'get', $url, $params = [], $headers = [])
@@ -62,6 +65,59 @@ trait InstagramTrait
             "fields" => "id,user_id,username,name,profile_picture_url,followers_count,follows_count,media_count,account_type",
             "access_token" => $profile->access_token
         ];
+        Log::warning($data);
+        $response = $this->request("get", $url, $data, []);
+        Log::error($response);
+        if ($response) {
+            return $response;
+        } else {
+            return false;
+        }
+    }
+
+    public function getInstagramLongLivedToken($profile)
+    {
+        $url = $this->domain . $this->method["access_token"];
+        $data = [
+            "grant_type" => "ig_exchange_token",
+            "client_secret" => config('services.instagram.INSTAGRAM_CLIENT_SECRET'),
+            "access_token" => $profile->access_token
+        ];
+        Log::warning($data);
+        $response = $this->request("get", $url, $data, []);
+        Log::error($response);
+        if ($response) {
+            return $response;
+        } else {
+            return false;
+        }
+    }
+
+    public function refreshInstagramLongLivedToken($profile)
+    {
+        $url = $this->domain . $this->method["refresh_access_token"];
+        $data = [
+            "grant_type" => "ig_refresh_token",
+            "access_token" => $profile->access_token
+        ];
+        Log::warning($data);
+        $response = $this->request("get", $url, $data, []);
+        Log::error($response);
+        if ($response) {
+            return $response;
+        } else {
+            return false;
+        }
+    }
+
+    public function getInstagramAccountPostList($profile)
+    {
+        $url = $this->domain . $this->version . '/' . $profile->profile_user_id . $this->method["media"];
+        $data = [
+            "fields" => "id,caption,media_type,media_url,thumbnail_url,timestamp,permalink,username,like_count,comments_count,is_comment_enabled,children",
+            "access_token" => $profile->access_token
+        ];
+        Log::warning($url);
         Log::warning($data);
         $response = $this->request("get", $url, $data, []);
         Log::error($response);
