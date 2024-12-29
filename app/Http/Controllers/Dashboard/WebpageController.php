@@ -31,7 +31,7 @@ class WebpageController extends Controller
 
     public function edit(Request $request, $id, $section = 'basic')
     {
-        $sections = ['basic', 'links', 'products', 'template', 'setting'];
+        $sections = ['basic', 'social', 'links', 'products', 'template', 'setting'];
         if (in_array($section, $sections)) {
             $dataDetail = Webpage::find($id);
             if ($dataDetail) {
@@ -45,9 +45,57 @@ class WebpageController extends Controller
 
                 $links = [];
                 $industries = [];
+                $social = [];
                 switch ($section) {
                     case 'links':
-                        $links = WebpageLink::where('webpage_id', $dataDetail->id)->orderBy('id', 'DESC')->get();
+                        $links = WebpageLink::where('webpage_id', $dataDetail->id)->where('type', 'simple')->orderBy('id', 'DESC')->get();
+                        break;
+
+                    case 'social':
+                        $links = WebpageLink::where('webpage_id', $dataDetail->id)->where('type', 'social')->orderBy('id', 'DESC')->get();
+                        $social = [
+                            "Amazon" => "bi bi-amazon",
+                            "Android" => "bi bi-android2",
+                            "Apple" => "bi bi-apple",
+                            "Behance" => "bi bi-behance",
+                            "Discord" => "bi-discord",
+                            "Dribbble" => "bi bi-dribbble",
+                            "Dropbox" => "bi bi-dropbox",
+                            "Facebook" => "bi-facebook",
+                            "GitHub" => "bi bi-github",
+                            "Gitlab" => "bi bi-gitlab",
+                            "Google" => "bi bi-google",
+                            "Google Play" => "bi bi-google-play",
+                            "Instagram" => "bi bi-instagram",
+                            "Linkedin" => "bi bi-linkedin",
+                            "Mastodon" => "bi bi-mastodon",
+                            "Medium" => "bi bi-medium",
+                            "Messenger" => "bi bi-messenger",
+                            "Paypal" => "bi bi-paypal",
+                            "Phone" => "bi bi-telephone-fill",
+                            "Pinterest" => "bi bi-pinterest",
+                            "Reddit" => "bi bi-reddit",
+                            "RSS" => "bi bi-rss",
+                            "Signal" => "bi bi-signal",
+                            "Skype" => "bi bi-skype",
+                            "Slack" => "bi bi-slack",
+                            "Snapchat" => "bi bi-snapchat",
+                            "Spotify" => "bi bi-spotify",
+                            "Stack overflow" => "bi bi-stack-overflow",
+                            "Stripe" => "bi bi-stripe",
+                            "Telegram" => "bi bi-telegram",
+                            "Threads" => "bi bi-threads",
+                            "Tiktok" => "bi bi-tiktok",
+                            "Twitch" => "bi bi-twitch",
+                            "Twitter" => "bi bi-twitter",
+                            "Twitter X" => "bi bi-twitter-x",
+                            "Vimeo" => "bi bi-vimeo",
+                            "Wechat" => "bi bi-wechat",
+                            "Whatsapp" => "bi bi-whatsapp",
+                            "Wikipedia" => "bi bi-wikipedia",
+                            "Wordpress" => "bi bi-wordpress",
+                            "Youtube" => "bi bi-youtube",
+                        ];
                         break;
 
                     case 'setting':
@@ -55,7 +103,7 @@ class WebpageController extends Controller
                         break;
                 }
 
-                return view('dashboard.webpage.edit', ['section' => $section, 'links' => $links, 'industries' => $industries, 'dataDetail' => $dataDetail, 'metaData' => $metaData]);
+                return view('dashboard.webpage.edit', ['section' => $section, 'links' => $links, 'social' => $social, 'industries' => $industries, 'dataDetail' => $dataDetail, 'metaData' => $metaData]);
             } else {
                 $message = [
                     "message" => [
@@ -92,6 +140,7 @@ class WebpageController extends Controller
 
         $dataToInsert = $validator->validated();
         $data = [
+            'template_id' => 1,
             'title' => $dataToInsert['title'],
             'link' => $dataToInsert['link'],
             'description' => $dataToInsert['description'],
@@ -121,7 +170,7 @@ class WebpageController extends Controller
     public function store_edit(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'record_type' => 'required|in:basic,links,products,template,setting'
+            'record_type' => 'required|in:basic,social,links,products,template,setting'
         ]);
 
         if ($validator->fails()) {
@@ -180,6 +229,54 @@ class WebpageController extends Controller
                     ]
                 ];
                 return redirect()->route('dashboard.webpage.edit', ['id' => $id, 'section' => $record_type])->with($message);
+                break;
+
+            case 'social':
+                $validator = Validator::make($request->all(), [
+                    'icon' => 'required|max:255',
+                    'link' => 'required|url'
+                ]);
+
+                if ($validator->fails()) {
+                    return redirect('dashboard/webpage/edit/' . $id)->withErrors($validator)->withInput();
+                }
+
+                $dataToInsert = $validator->validated();
+
+                $return = false;
+                if (!empty($request->link_sub_id)) {
+                    $subRecordId = CommonHelper::decUrlParam($request->link_sub_id);
+                    if ($subRecordId && $subRecordId > 0) {
+                        $dataDetailLink = WebpageLink::find($subRecordId);
+                        if (!$dataDetailLink) {
+                            $return = true;
+                        }
+                    } else {
+                        $return = true;
+                    }
+                } else {
+                    $dataDetailLink = new WebpageLink();
+                    $dataDetailLink->user_id = Auth::id();
+                    $dataDetailLink->webpage_id = $id;
+                    $dataDetailLink->type = 'social';
+                    $dataDetailLink->title = '';
+                    $dataDetailLink->template_id = $dataDetail->template_id;
+                }
+
+                if ($return == false) {
+                    $dataDetailLink->icon = $dataToInsert['icon'];
+                    $dataDetailLink->link = $dataToInsert['link'];
+
+                    $dataDetailLink->save();
+                    $message = [
+                        "message" => [
+                            "type" => "success",
+                            "title" => __('dashboard.great'),
+                            "description" => __('dashboard.details_submitted')
+                        ]
+                    ];
+                    return redirect()->route('dashboard.webpage.edit', ['id' => $id, 'section' => $record_type])->with($message);
+                }
                 break;
 
             case 'links':
@@ -244,7 +341,7 @@ class WebpageController extends Controller
                 $validator = Validator::make($request->all(), [
                     'meta_title' => 'nullable|max:160',
                     'meta_description' => 'nullable|max:160',
-                    'industry_type_id' => 'nullable|exists:industry_types,id'
+                    'industry_type_id' => 'sometimes', //|exists:industry_types,id'
                 ]);
 
                 if ($validator->fails()) {
@@ -327,7 +424,7 @@ class WebpageController extends Controller
 
     public function delete_main(Request $request, $id, $section, $sub_id)
     {
-        $sections = ['links', 'products'];
+        $sections = ['social', 'links', 'products'];
         if (in_array($section, $sections)) {
             $dataDetail = Webpage::find($id);
             if ($dataDetail) {
@@ -345,6 +442,21 @@ class WebpageController extends Controller
                             ]
                         ];
                         return redirect()->route('dashboard.webpage.edit', ['id' => $id, 'section' => $section])->with($message);
+
+                    case 'social':
+                        $link = WebpageLink::where('id', $sub_id)->first();
+                        if ($link) {
+                            $link->delete();
+                        }
+                        $message = [
+                            "message" => [
+                                "type" => "success",
+                                "title" => __('dashboard.great'),
+                                "description" => __('dashboard.record_deleted')
+                            ]
+                        ];
+                        return redirect()->route('dashboard.webpage.edit', ['id' => $id, 'section' => $section])->with($message);
+    
                 }
             } else {
                 $message = [
@@ -389,7 +501,7 @@ class WebpageController extends Controller
                     ]
                 ];
                 return redirect()->route('dashboard.webpage')->with($message);
-            } else {                
+            } else {
                 return "Error sending data: " . $response->body();
                 $message = [
                     "message" => [
@@ -411,5 +523,4 @@ class WebpageController extends Controller
             return redirect()->route('dashboard.webpage')->with($message);
         }
     }
-
 }

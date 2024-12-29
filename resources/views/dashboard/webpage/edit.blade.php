@@ -3,6 +3,16 @@
         .cr-boundary {
             border-radius: 10px;
         }
+
+        .w48 {
+            display: inline-block;
+            height: 48px;
+            width: 48px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
     </style>
 
     @if ($metaData['breadCrumb'])
@@ -20,6 +30,10 @@
                             <li class="nav-item" role="presentation">
                                 <a href="{{ route('dashboard.webpage.edit', ['id' => $dataDetail->id, 'section' => 'basic']) }}"
                                     class="nav-link @if ($section == 'basic') active @endif">Basic Info</a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <a href="{{ route('dashboard.webpage.edit', ['id' => $dataDetail->id, 'section' => 'social']) }}"
+                                    class="nav-link @if ($section == 'social') active @endif">Social</a>
                             </li>
                             <li class="nav-item" role="presentation">
                                 <a href="{{ route('dashboard.webpage.edit', ['id' => $dataDetail->id, 'section' => 'links']) }}"
@@ -53,7 +67,8 @@
                                                             <label class="form-check-label text-danger" for="flexCheckDefault">
                                                                 Important Note
                                                             </label><br>
-                                                            <span class="text-muted">Careful to add details here as details will be directly accessible to anyone with internet.</span>
+                                                            <span class="text-muted">Careful to add details here as details will
+                                                                be directly accessible to anyone with internet.</span>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
@@ -100,12 +115,13 @@
                                                         <div class="form-group mb-4" id="imageFormGroup">
                                                             <label
                                                                 class="label @error('slug') text-danger @enderror">{{ __('dashboard.image') }}</label>
-                                                            <input type="file" class="form-control" id="image" name="image"
-                                                                accept="image/*">
-                                                            <input type="hidden" id="croppedImage" name="croppedImage" value="">
+                                                            <input type="file" class="form-control" id="image"
+                                                                name="image" accept="image/*">
+                                                            <input type="hidden" id="croppedImage" name="croppedImage"
+                                                                value="">
                                                         </div>
                                                         <div id="upload-image-image"></div>
-                                                    </div>                                
+                                                    </div>
                                                 </div>
                                                 <div class="form-group d-flex gap-3">
                                                     <button type="submit" id="subBut"
@@ -119,6 +135,104 @@
                                             </form>
                                         </div>
                                     </div>
+                                @break
+
+                                @case('social')
+                                    <div class="bg-body px-2 py-3 rounded mb-3">
+                                        <form method="post" class="formToSubmit"
+                                            action="{{ route('dashboard.webpage.edit.post', ['id' => $dataDetail->id]) }}">
+                                            {{ csrf_field() }}
+                                            <input type="hidden" name="record_type" value="social">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group mb-4">
+                                                        <label class="form-check-label text-primary" for="flexCheckDefault">
+                                                            Add new link
+                                                        </label><br>
+                                                        <span class="text-muted">Add new link from here, later you can update
+                                                            more settings from below list.</span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group mb-4">
+                                                        <label
+                                                            class="label @error('icon') text-danger @enderror">{{ __('dashboard.district') }}</label>
+                                                        <div class="form-group position-relative">
+                                                            <select class="form-select form-control h-58" name="icon"
+                                                                aria-label="Parent category selection">
+                                                                <option class="text-dark">{{ __('dashboard.select') }}
+                                                                    {{ __('dashboard.icon') }}</option>
+
+                                                                @foreach ($social as $key => $value)
+                                                                    <option value="{{ $value }}" class="text-dark"
+                                                                        @if ($value == old('icon')) selected="selected" @endif>
+                                                                        {{ $key }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                            <i
+                                                                class="position-absolute top-50 start-0 translate-middle-y text-gray-light"></i>
+                                                        </div>
+                                                        @error('icon')
+                                                            <div class="text-danger">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group mb-4">
+                                                        <label class="label">{{ __('dashboard.link') }}</label><br>
+                                                        <div class="form-group position-relative">
+                                                            <input type="url" name="link" maxlength="255"
+                                                                minlength="3"
+                                                                class="form-control text-dark h-58 @error('link') border border-danger rounded-3 border-3 @enderror"
+                                                                value="{{ old('link') }}"
+                                                                placeholder="{{ __('dashboard.link') }}" required>
+                                                        </div>
+                                                        @error('link')
+                                                            <div class="text-danger">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group d-flex gap-3">
+                                                <button type="submit" id="subBut"
+                                                    class="btn btn-primary text-white fw-semibold py-2 px-2 px-sm-3">
+                                                    <span class="py-sm-1 d-block">
+                                                        <i class="ri-add-line text-white"></i>
+                                                        <span>Add link</span>
+                                                    </span>
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                    <ul class="ps-0 mb-0 list-unstyled o-sortable cursor-move chat-list">
+                                        @foreach ($links as $key => $value)
+                                            <li class="bg-body p-2 rounded-2 mb-3">
+                                                <div class="d-flex justify-content-between">
+                                                    <div class="d-flex align-items-center" style="overflow: hidden">
+                                                        <div class="flex-shrink-0 position-relative">
+                                                            <div class="rounded bg-dark w48">
+                                                                <div class="text-light pt-2 h4 {{ $value->icon }}"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex-grow-1 ms-10">
+                                                            <h4 class="fs-16 fw-semibold mb-1">{{ $value->title }}</h4>
+                                                            <span class="fs-14 text-primary">{{ $value->link }}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="text-end">
+                                                        <span class="d-block">
+                                                            <a style="cursor: pointer;" onclick="confirmAndDelete('{{ route('dashboard.webpage.delete.main', ['id' => $value->webpage_id, 'section' => 'social', 'sub_id' => $value->id]) }}')">
+                                                                <div class="rounded w48">
+                                                                    <div class="text-dark pt-2 h4 bi bi-trash"></div>
+                                                                </div>
+                                                            </a>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        @endforeach
+                                    </ul>
                                 @break
 
                                 @case('links')
@@ -151,6 +265,8 @@
                                                             <div class="text-danger">{{ $message }}</div>
                                                         @enderror
                                                     </div>
+                                                </div>
+                                                <div class="col-md-6">
                                                     <div class="form-group mb-4">
                                                         <label class="label">{{ __('dashboard.link') }}</label><br>
                                                         <div class="form-group position-relative">
@@ -165,16 +281,19 @@
                                                         @enderror
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group mb-4" id="imageFormGroup">
-                                                        <label
-                                                            class="label @error('slug') text-danger @enderror">{{ __('dashboard.image') }}</label>
-                                                        <input type="file" class="form-control" id="image" name="image"
-                                                            accept="image/*">
-                                                        <input type="hidden" id="croppedImage" name="croppedImage" value="">
+                                                @if (false)
+                                                    <div class="col-md-6">
+                                                        <div class="form-group mb-4" id="imageFormGroup">
+                                                            <label
+                                                                class="label @error('slug') text-danger @enderror">{{ __('dashboard.image') }}</label>
+                                                            <input type="file" class="form-control" id="image"
+                                                                name="image" accept="image/*">
+                                                            <input type="hidden" id="croppedImage" name="croppedImage"
+                                                                value="">
+                                                        </div>
+                                                        <div id="upload-image-image"></div>
                                                     </div>
-                                                    <div id="upload-image-image"></div>
-                                                </div>
+                                                @endif
                                             </div>
                                             <div class="form-group d-flex gap-3">
                                                 <button type="submit" id="subBut"
@@ -204,7 +323,7 @@
                                                     </div>
                                                     <div class="text-end">
                                                         <span class="d-block">
-                                                            @if(false)                                                                                                                                
+                                                            @if (true)
                                                                 <a class="p-1" style="cursor: pointer;" id="Btn_Add_User"
                                                                     onclick="updateLink(this)" data-bs-toggle="offcanvas"
                                                                     data-bs-target="#offcanvasRight"
@@ -257,10 +376,12 @@
                                                 <div class="row">
                                                     <div class="col-md-12">
                                                         <div class="form-group mb-4">
-                                                            <label class="form-check-label text-danger" for="flexCheckDefault">
+                                                            <label class="form-check-label text-danger"
+                                                                for="flexCheckDefault">
                                                                 SEO details
                                                             </label><br>
-                                                            <span class="text-muted">It will be helpful to rank on serch engines like (google, bing etc.)</span>
+                                                            <span class="text-muted">It will be helpful to rank on serch
+                                                                engines like (google, bing etc.)</span>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
@@ -271,7 +392,7 @@
                                                                     minlength="3"
                                                                     class="form-control text-dark h-58 @error('meta_title') border border-danger rounded-3 border-3 @enderror"
                                                                     value="{{ old('meta_title', $dataDetail->meta_title) }}"
-                                                                    placeholder="{{ __('dashboard.meta_title') }}" required>
+                                                                    placeholder="{{ __('dashboard.meta_title') }}">
                                                             </div>
                                                             @error('meta_title')
                                                                 <div class="text-danger">{{ $message }}</div>
@@ -292,11 +413,13 @@
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group mb-4">
-                                                            <label class="label @error('industry_type_id') text-danger @enderror">{{ __('dashboard.industry') }}</label>
+                                                            <label
+                                                                class="label @error('industry_type_id') text-danger @enderror">{{ __('dashboard.industry') }}</label>
                                                             <div class="form-group position-relative">
-                                                                <select class="form-select form-control ps-5 h-58" name="industry_type_id"
+                                                                <select class="form-select form-control h-58"
+                                                                    name="industry_type_id"
                                                                     aria-label="Parent category selection">
-                                                                    <option class="text-dark">{{ __('dashboard.select') }}
+                                                                    <option value="" class="text-dark">{{ __('dashboard.select') }}
                                                                         {{ __('dashboard.industry') }}</option>
                                                                     @foreach ($industries as $data)
                                                                         <option value="{{ $data->id }}" class="text-dark"
@@ -304,7 +427,6 @@
                                                                             {{ $data->title }}</option>
                                                                     @endforeach
                                                                 </select>
-                                                                <i class="ri-map-pin-line position-absolute top-50 start-0 translate-middle-y fs-20 text-gray-light ps-20"></i>
                                                             </div>
                                                             @error('industry_type_id')
                                                                 <div class="text-danger">{{ $message }}</div>
@@ -337,15 +459,17 @@
             <div class="card bg-white border-0 rounded-10 mb-4">
                 <div class="card-body p-4">
                     <h4 class="fw-semibold fs-18 border-bottom pb-20 mb-20">{{ __('dashboard.site') }}</h4>
-                    <iframe src="http://localhost:8001/{{ $dataDetail->link }}" width="100%" class="rounded border" height="580" style="border: none;">
+                    <iframe src="https://gujju.me/{{ $dataDetail->link }}" width="100%"
+                        class="rounded border" height="580" style="border: none;">
                     </iframe>
                 </div>
             </div>
         </div>
     </div>
 
-    @if(in_array($section, ['links']))
-        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+    @if (in_array($section, ['links']))
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight"
+            aria-labelledby="offcanvasRightLabel">
             <div class="offcanvas-header border-bottom p-4">
                 <h5 class="offcanvas-title fs-18 mb-0" id="offcanvasRightLabel">Update link</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -370,9 +494,11 @@
                             <div class="form-group mb-4">
                                 <label class="label">{{ __('dashboard.title') }}</label>
                                 <div class="form-group position-relative">
-                                    <input type="text" id="link-title" name="title" maxlength="255" minlength="3"
+                                    <input type="text" id="link-title" name="title" maxlength="255"
+                                        minlength="3"
                                         class="form-control text-dark h-58 @error('title') border border-danger rounded-3 border-3 @enderror"
-                                        value="{{ old('title') }}" placeholder="{{ __('dashboard.title') }}" required>
+                                        value="{{ old('title') }}" placeholder="{{ __('dashboard.title') }}"
+                                        required>
                                 </div>
                                 @error('title')
                                     <div class="text-danger">{{ $message }}</div>
@@ -383,9 +509,11 @@
                             <div class="form-group mb-4">
                                 <label class="label">{{ __('dashboard.link') }}</label><br>
                                 <div class="form-group position-relative">
-                                    <input type="url" id="link-link" name="link" maxlength="255" minlength="3"
+                                    <input type="url" id="link-link" name="link" maxlength="255"
+                                        minlength="3"
                                         class="form-control text-dark h-58 @error('link') border border-danger rounded-3 border-3 @enderror"
-                                        value="{{ old('link') }}" placeholder="{{ __('dashboard.link') }}" required>
+                                        value="{{ old('link') }}" placeholder="{{ __('dashboard.link') }}"
+                                        required>
                                 </div>
                                 @error('link')
                                     <div class="text-danger">{{ $message }}</div>
@@ -414,7 +542,7 @@
                     </div>
                 </form>
             </div>
-        </div>        
+        </div>
     @endif
 
     <script>
@@ -461,8 +589,8 @@
                     width: $("#imageFormGroup").width(),
                     height: $("#imageFormGroup").width() / 2
                 },
-                @if($section == 'basic') 
-                    url: '{{ $dataDetail->profile() }}'                    
+                @if ($section == 'basic')
+                    url: '{{ $dataDetail->profile() }}'
                 @endif
             });
             $('#image').on('change', function() {

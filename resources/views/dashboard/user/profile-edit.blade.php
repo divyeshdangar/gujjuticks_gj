@@ -24,12 +24,12 @@
                         <li>
                             <a href="{{ route('dashboard.profile.edit') }}" class="btn btn-primary bg-primary text-white py-2 px-3 border-0 fw-semibold w-sm-100 d-inline-block">{{ __('dashboard.account') }}</a>
                         </li>
-                        <li>
+                        {{-- <li>
                             <a href="" class="btn btn-primary bg-primary text-primary py-2 px-3 bg-opacity-10 border-0 fw-semibold w-sm-100 d-inline-block mt-2 mt-sm-0">{{ __('dashboard.security') }}</a>
                         </li>
                         <li>
                             <a href="" class="btn btn-primary bg-primary text-primary py-2 px-3 bg-opacity-10 border-0 fw-semibold w-sm-100 d-inline-block mt-2 mt-sm-0">{{ __('dashboard.connections') }}</a>
-                        </li>
+                        </li> --}}
                     </ul>
                     <div class="border-bottom pb-3 mb-3">
                         <h4 class="fs-18 fw-semibold mb-1">{{ __('dashboard.profile') }}</h4>
@@ -61,8 +61,8 @@
                                     </div>
                                     
                                     <div class="d-flex ms-sm-3 ms-md-0">
-                                       <button type="button" class="btn bg-danger bg-opacity-10 text-danger fw-semibold">{{ __('dashboard.delete') }}</button>
-                                       <button type="button" class="btn bg-primary bg-opacity-10 text-primary fw-semibold ms-3">{{ __('dashboard.update') }}</button>
+                                       {{-- <button type="button" class="btn bg-danger bg-opacity-10 text-danger fw-semibold">{{ __('dashboard.delete') }}</button>
+                                       <button type="button" class="btn bg-primary bg-opacity-10 text-primary fw-semibold ms-3">{{ __('dashboard.update') }}</button> --}}
                                     </div>
                                 </div>
                             </div>

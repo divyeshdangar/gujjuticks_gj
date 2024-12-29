@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\UserMenu;
 use App\Models\Notification;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Auth;
@@ -46,6 +47,12 @@ class GoogleLoginController extends Controller
                 ];
                 $message['message']['title'] = "New account created successfully.";
                 Notification::create($data);
+
+                $dataDetail = new UserMenu();
+                $dataDetail->user_id = $user->id;
+                $dataDetail->menuIds = implode(",", [5,9,10,12,20]); // default menus
+                $dataDetail->save();
+
             } else {
                 $data = [
                     'message_tag' => 'msg.user_login_success',

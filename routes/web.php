@@ -157,7 +157,11 @@ Route::middleware([CheckIfLogin::class, CheckLanguage::class])->group(function (
     Route::get('dashboard/webpage/refresh/{id}', [WebpageController::class, 'refresh'])->name('dashboard.webpage.refresh');
 
     Route::get('dashboard/social-media', [SocialMediaController::class, 'index'])->name('dashboard.social');
+    Route::get('dashboard/social-media/view/{id}', [SocialMediaController::class, 'view'])->name('dashboard.social.view');
     Route::get('dashboard/social-media/detail/{id}', [SocialMediaController::class, 'detail'])->name('dashboard.social.detail');
+    Route::get('dashboard/social-media/delete/{id}', [SocialMediaController::class, 'delete'])->name('dashboard.social.delete');
+    Route::get('dashboard/social-media/restore/{id}', [SocialMediaController::class, 'restore'])->name('dashboard.social.restore');
+    Route::get('dashboard/social-media/edit/{id}/{section?}', [SocialMediaController::class, 'edit'])->name('dashboard.social.edit');
     Route::get('instagram/handle-login-callback', [SocialMediaController::class, 'handleInstagramAfterLoginCallback'])->name('instagram.login.callback');
 });
 

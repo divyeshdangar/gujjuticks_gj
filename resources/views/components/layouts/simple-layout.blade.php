@@ -190,7 +190,7 @@
                                                             <span class="ms-2">{{ __('dashboard.profile') }}</span>
                                                         </a>
                                                     </li>
-                                                    @if(auth()->user()->is_admin())
+                                                    {{-- @if(auth()->user()->is_admin()) --}}
                                                         <li>
                                                             <a class="dropdown-item d-flex align-items-center text-body"
                                                                 href="{{ route('dashboard') }}">
@@ -198,7 +198,7 @@
                                                                 <span class="ms-2">{{ __('dashboard.dashboard') }}</span>
                                                             </a>
                                                         </li>                                                        
-                                                    @endif
+                                                    {{-- @endif --}}
                                                     <li>
                                                         <a class="dropdown-item d-flex align-items-center text-body"
                                                             href="{{ route('logout') }}">

@@ -21,12 +21,10 @@ class SocialMediaController extends Controller
             $response = $this->getUserDetail($request->query('code'));
             if ($response) {
                 $profile = Profile::where("profile_id", $response["user_id"])->first();
-                Log::debug($profile);
                 if (!$profile) {
                     $profile = new Profile();
                     $profile->user_id = Auth::id();
                     $profile->access_token = $response["access_token"];
-                    //$profile->profile_id = $response["user_id"];
                     $profile->permissions = implode(', ', $response["permissions"]);
                 }
 
@@ -91,7 +89,9 @@ class SocialMediaController extends Controller
 
     public function index(Request $request)
     {
-        $dataList = Profile::where('user_id', Auth::id())->get();
+        $dataList = Profile::orderBy('id', 'DESC')->where('user_id', Auth::id());
+        $dataList = $dataList->searching()->paginate(10)->withQueryString();        
+
         $metaData = [
             "breadCrumb" => [
                 ["title" => "Social media", "route" => ""],
@@ -104,23 +104,12 @@ class SocialMediaController extends Controller
     public function detail(Request $request, $id)
     {
         $dataDetail = Profile::find($id);
-        if ($dataDetail) {
-            $metaData = [
-                "breadCrumb" => [
-                    ["title" => "Blog", "route" => "dashboard.blog"],
-                    ["title" => "Detail", "route" => ""]
-                ],
-                "title" => "Blog Detail"
-            ];
-            
-            
+        if ($dataDetail) {            
             $response = $this->getInstagramAccountPostList($dataDetail);
             echo "<pre>";
             print_r($response);
 
             die;
-            
-            return view('dashboard.blog.view', ['dataDetail' => $dataDetail, 'metaData' => $metaData]);
         } else {
             $message = [
                 "message" => [
@@ -132,4 +121,29 @@ class SocialMediaController extends Controller
             return redirect()->route('dashboard')->with($message);
         }
     }
+
+    public function view(Request $request, $id)
+    {
+        $dataDetail = Profile::find($id);
+        if ($dataDetail) {
+            $metaData = [
+                "breadCrumb" => [
+                    ["title" => "Social media", "route" => "dashboard.social"],
+                    ["title" => "Detail", "route" => ""]
+                ],
+                "title" => "Social media Detail"
+            ];
+            return view('dashboard.social.view', ['dataDetail' => $dataDetail, 'metaData' => $metaData]);
+        } else {
+            $message = [
+                "message" => [
+                    "type" => "error",
+                    "title" => __('dashboard.bad'),
+                    "description" => __('dashboard.no_record_found')
+                ]
+            ];
+            return redirect()->route('dashboard')->with($message);
+        }
+    }
+
 }

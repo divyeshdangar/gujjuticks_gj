@@ -17,6 +17,7 @@ class Webpage extends Model
         'link',
         'description',
         'user_id',
+        'template_id'
     ];
 
     protected $searchable = [
