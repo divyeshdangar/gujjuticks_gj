@@ -133,6 +133,7 @@ return [
     'success' => 'Success',
     'failed' => 'Failed',
     'pages' => 'Pages',
+    'template' => 'Template',
     'webpage' => 'Webpage',
     'links' => 'Links',
     'link' => 'Link',

@@ -16,6 +16,7 @@ use App\Http\Controllers\Dashboard\BoardItemController;
 use App\Http\Controllers\Dashboard\PostsController;
 use App\Http\Controllers\Dashboard\LocationController;
 use App\Http\Controllers\Dashboard\PagesController;
+use App\Http\Controllers\Dashboard\TemplateController;
 use App\Http\Controllers\Dashboard\SocialMediaController;
 use App\Http\Controllers\Dashboard\WebpageController;
 
@@ -102,6 +103,13 @@ Route::middleware([CheckIfLogin::class, CheckLanguage::class])->group(function (
     Route::post('dashboard/pages/edit/{id}', [PagesController::class, 'store'])->name('dashboard.pages.edit.post');
     Route::get('dashboard/pages/view/{id}', [PagesController::class, 'view'])->name('dashboard.pages.view');
     Route::get('dashboard/pages/delete/{id}', [PagesController::class, 'delete'])->name('dashboard.pages.delete');
+
+    Route::get('dashboard/template', [TemplateController::class, 'index'])->name('dashboard.template');
+    Route::get('dashboard/template/create', [TemplateController::class, 'create'])->name('dashboard.template.create');
+    Route::get('dashboard/template/edit/{id}', [TemplateController::class, 'edit'])->name('dashboard.template.edit');
+    Route::post('dashboard/template/edit/{id}', [TemplateController::class, 'store'])->name('dashboard.template.edit.post');
+    Route::get('dashboard/template/view/{id}', [TemplateController::class, 'view'])->name('dashboard.template.view');
+    Route::get('dashboard/template/delete/{id}', [TemplateController::class, 'delete'])->name('dashboard.template.delete');
 
     Route::get('dashboard/location', [LocationController::class, 'index'])->name('dashboard.location');
     Route::get('dashboard/location/create', [LocationController::class, 'create'])->name('dashboard.location.create');

@@ -156,7 +156,7 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group mb-4">
                                                         <label
-                                                            class="label @error('icon') text-danger @enderror">{{ __('dashboard.district') }}</label>
+                                                            class="label @error('icon') text-danger @enderror">{{ __('dashboard.icon') }}</label>
                                                         <div class="form-group position-relative">
                                                             <select class="form-select form-control h-58" name="icon"
                                                                 aria-label="Parent category selection">
@@ -222,7 +222,8 @@
                                                     </div>
                                                     <div class="text-end">
                                                         <span class="d-block">
-                                                            <a style="cursor: pointer;" onclick="confirmAndDelete('{{ route('dashboard.webpage.delete.main', ['id' => $value->webpage_id, 'section' => 'social', 'sub_id' => $value->id]) }}')">
+                                                            <a style="cursor: pointer;"
+                                                                onclick="confirmAndDelete('{{ route('dashboard.webpage.delete.main', ['id' => $value->webpage_id, 'section' => 'social', 'sub_id' => $value->id]) }}')">
                                                                 <div class="rounded w48">
                                                                     <div class="text-dark pt-2 h4 bi bi-trash"></div>
                                                                 </div>
@@ -359,11 +360,89 @@
                                 @break
 
                                 @case('template')
-                                    <div class="text-center">
-                                        <x-common.empty></x-common.empty>
-                                        <h1 class="h2 text-muted">Template not available!</h1>
-                                        <h2 class="h4 mb-5 text-warning">It will be available soon.</h2>
-                                    </div>
+                                    @if ($templates)
+                                        <div class="bg-body px-2 py-3 rounded mb-3">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group mb-4">
+                                                        <label class="form-check-label text-primary" for="flexCheckDefault">
+                                                            Add new link
+                                                        </label><br>
+                                                        <span class="text-muted">Add new link from here, later you can update
+                                                            more settings from below list.</span>
+                                                    </div>
+                                                    <form method="get" id="form">
+                                                        {{-- {{ csrf_field() }} --}}
+                                                        <div class="row mb-2">
+                                                            <div class="col-md-4">
+                                                                <div class="form-group mb-2">
+                                                                    <div class="form-group">
+                                                                        <input type="text" name="search"
+                                                                            value="{{ old('search', Request::get('search')) }}"
+                                                                            class="form-control text-dark"
+                                                                            placeholder="Search here">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-4 col-8">
+                                                                <div class="mb-2">
+                                                                    <button type="submit"
+                                                                        class="border-0 btn btn-primary py-2 px-3 px-sm-4 text-white fs-16 rounded-3">
+                                                                        <span class="py-sm-1 d-block">
+                                                                            <span>{{ __('dashboard.search') }}</span>
+                                                                        </span>
+                                                                    </button>
+                                                                    <a href="{{ Request::url() }}" type="reset"
+                                                                        class="btn btn-outline-secondary hover-white py-2 px-3 px-sm-4 fs-16 rounded-3">
+                                                                        <span class="py-sm-1 d-block">
+                                                                            <span>{{ __('dashboard.clear') }}</span>
+                                                                        </span>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-4 col-4 text-end">
+                                                                <div class="mb-2">
+                                                                    <button type="button" id="templateSelectionFormButton"
+                                                                        class="border-0 btn btn-primary py-2 px-3 px-sm-4 text-white fs-16 rounded-3">
+                                                                        <span class="py-sm-1 d-block">
+                                                                            <span>{{ __('dashboard.save') }}</span>
+                                                                        </span>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+
+                                            <form method="post" id="templateSelectionForm" class="formToSubmit"
+                                                action="{{ route('dashboard.webpage.edit.post', ['id' => $dataDetail->id]) }}">
+                                                {{ csrf_field() }}
+                                                <input type="hidden" name="record_type" value="template">
+                                                <input type="hidden" name="template_id" id="template_id"
+                                                    value="{{ $dataDetail->template_id }}">
+
+                                                <div class="row">
+                                                    @foreach ($templates as $data)
+                                                        <div class="col-md-3 col-6">
+                                                            <div class="pointer rounded-4 p-1 pb-2 templateSingle @if($data->id == $dataDetail->template_id) bg-dark @endif"                                                                
+                                                                onclick="selectTemplate(this, {{ $data->id }})">
+                                                                <img src="{{ $data->image() }}"
+                                                                    class="rounded-4 border border-primary border-3">
+                                                                <div class="h6 fw-bold my-2 text-primary">{!! CommonHelper::highLight($data->title) !!}</div>
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            </form>
+                                        </div>
+                                    @else
+                                        <div class="text-center">
+                                            <x-common.empty></x-common.empty>
+                                            <h1 class="h2 text-muted">Template not available!</h1>
+                                            <h2 class="h4 mb-5 text-warning">Try to search different name.</h2>
+                                        </div>
+                                    @endif
                                 @break
 
                                 @case('setting')
@@ -419,7 +498,8 @@
                                                                 <select class="form-select form-control h-58"
                                                                     name="industry_type_id"
                                                                     aria-label="Parent category selection">
-                                                                    <option value="" class="text-dark">{{ __('dashboard.select') }}
+                                                                    <option value="" class="text-dark">
+                                                                        {{ __('dashboard.select') }}
                                                                         {{ __('dashboard.industry') }}</option>
                                                                     @foreach ($industries as $data)
                                                                         <option value="{{ $data->id }}" class="text-dark"
@@ -459,7 +539,7 @@
             <div class="card bg-white border-0 rounded-10 mb-4">
                 <div class="card-body p-4">
                     <h4 class="fw-semibold fs-18 border-bottom pb-20 mb-20">{{ __('dashboard.site') }}</h4>
-                    <iframe src="https://gujju.me/{{ $dataDetail->link }}" width="100%"
+                    <iframe src="{{ env('LINK_APP_URL') . '/' . $dataDetail->link }}" width="100%"
                         class="rounded border" height="580" style="border: none;">
                     </iframe>
                 </div>
@@ -616,6 +696,23 @@
             } else {
 
             }
+        }
+
+        document.getElementById('templateSelectionFormButton').addEventListener('click', function() {
+            const form = document.getElementById('templateSelectionForm');
+            form.submit();
+        });
+
+
+        function selectTemplate(elementRef, template_id) {
+            const hiddenInput = document.getElementById('template_id');
+            hiddenInput.value = template_id;
+
+            const elements = document.querySelectorAll('.templateSingle');
+            elements.forEach(element => {
+                element.classList.remove('bg-dark');
+            });
+            elementRef.classList.add('bg-dark')
         }
     </script>
 

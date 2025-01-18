@@ -210,7 +210,7 @@
                                             </div>
                                         </li>
                                     @else
-                                        <li class="header-right-item d-none">
+                                        <li class="header-right-item">
                                             <div class="dropdown notifications email">
                                                 <a class="btn btn-secondary border-0 p-0 position-relative"
                                                     href="{{ route('login') }}" title="Blog">

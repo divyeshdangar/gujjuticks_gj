@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Notification;
 use App\Models\Webpage;
+use App\Models\Template;
 use App\Models\IndustryType;
 use App\Models\WebpageLink;
 use Illuminate\Support\Facades\Auth;
@@ -46,6 +47,7 @@ class WebpageController extends Controller
                 $links = [];
                 $industries = [];
                 $social = [];
+                $templates = [];
                 switch ($section) {
                     case 'links':
                         $links = WebpageLink::where('webpage_id', $dataDetail->id)->where('type', 'simple')->orderBy('id', 'DESC')->get();
@@ -101,9 +103,14 @@ class WebpageController extends Controller
                     case 'setting':
                         $industries = IndustryType::where('status', '1')->orderBy('title', 'ASC')->get();
                         break;
+
+                    case 'template':
+                        $templates = Template::orderBy('id', 'ASC');
+                        $templates = $templates->searching()->paginate(10)->withQueryString();
+                        break;
                 }
 
-                return view('dashboard.webpage.edit', ['section' => $section, 'links' => $links, 'social' => $social, 'industries' => $industries, 'dataDetail' => $dataDetail, 'metaData' => $metaData]);
+                return view('dashboard.webpage.edit', ['section' => $section, 'links' => $links, 'social' => $social, 'templates' => $templates, 'industries' => $industries, 'dataDetail' => $dataDetail, 'metaData' => $metaData]);
             } else {
                 $message = [
                     "message" => [
@@ -335,6 +342,29 @@ class WebpageController extends Controller
                     ];
                     return redirect()->route('dashboard.webpage.edit', ['id' => $id, 'section' => $record_type])->with($message);
                 }
+                break;
+
+            case 'template':
+                $validator = Validator::make($request->all(), [
+                    'template_id' => 'exists:template,id'
+                ]);
+
+                if ($validator->fails()) {
+                    return redirect('dashboard/webpage/edit/' . $id)->withErrors($validator)->withInput();
+                }
+
+                $dataToInsert = $validator->validated();
+                $dataDetail->template_id = $dataToInsert['template_id'];
+                $dataDetail->save();
+
+                $message = [
+                    "message" => [
+                        "type" => "success",
+                        "title" => __('dashboard.great'),
+                        "description" => __('dashboard.details_submitted')
+                    ]
+                ];
+                return redirect()->route('dashboard.webpage.edit', ['id' => $id, 'section' => $record_type])->with($message);
                 break;
 
             case 'setting':

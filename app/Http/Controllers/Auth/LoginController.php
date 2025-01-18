@@ -21,7 +21,7 @@ class LoginController extends Controller
                     "description" => __('dashboard.already_login')    
                 ]
             ];
-            return redirect()->route('home')->with($message);
+            return redirect()->route('dashboard')->with($message);
         } else {
             // to set meta data of page
             $metaData = [
@@ -53,7 +53,7 @@ class LoginController extends Controller
             ];
             $user = User::where($data)->first();
             Auth::login($user);
-            return redirect()->route('home');
+            return redirect()->route('dashboard');
         } else {
             $message = [
                 "message" => [
