@@ -40,7 +40,7 @@ class FormController extends Controller
         }    
         $dataToInsert = $validator->validated();
         $dataDetail = new ContactUs;
-        $dataDetail->message = Auth::id();
+        $dataDetail->user_id = Auth::id();
         $dataDetail->message = $dataToInsert['message'];
         $dataDetail->phone = $dataToInsert['phone'];
         $dataDetail->email = $dataToInsert['email'];

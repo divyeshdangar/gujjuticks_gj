@@ -49,7 +49,7 @@ return new class extends Migration
             $table->dropColumn('is_verified');
         });
 
-        Schema::table('webpages', function($table) {
+        Schema::table('template', function($table) {
             $table->dropColun('user_id');
             $table->dropColun('slug');
             $table->dropColun('meta_description');
