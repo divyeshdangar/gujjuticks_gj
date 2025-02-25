@@ -50,7 +50,7 @@ class WebpageController extends Controller
                 $templates = [];
                 switch ($section) {
                     case 'links':
-                        $links = WebpageLink::where('webpage_id', $dataDetail->id)->where('type', 'simple')->orderBy('id', 'DESC')->get();
+                        $links = $dataDetail->links;
                         break;
 
                     case 'social':
@@ -177,7 +177,7 @@ class WebpageController extends Controller
     public function store_edit(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'record_type' => 'required|in:basic,social,links,products,template,setting'
+            'record_type' => 'required|in:basic,social,links,products,template,setting,links_order'
         ]);
 
         if ($validator->fails()) {
@@ -394,6 +394,40 @@ class WebpageController extends Controller
                 return redirect()->route('dashboard.webpage.edit', ['id' => $id, 'section' => $record_type])->with($message);
                 break;
 
+            case 'links_order':
+
+
+                echo "<pre>";
+                print_r($request->all());
+                die;
+
+                $validator = Validator::make($request->all(), [
+                    'meta_title' => 'nullable|max:160',
+                    'meta_description' => 'nullable|max:160',
+                    'industry_type_id' => 'sometimes', //|exists:industry_types,id'
+                ]);
+
+                if ($validator->fails()) {
+                    return redirect('dashboard/webpage/edit/' . $id)->withErrors($validator)->withInput();
+                }
+
+                $dataToInsert = $validator->validated();
+                $dataDetail->meta_title = $dataToInsert['meta_title'];
+                $dataDetail->meta_description = $dataToInsert['meta_description'];
+                $dataDetail->industry_type_id = $dataToInsert['industry_type_id'];
+                $dataDetail->save();
+
+                $message = [
+                    "message" => [
+                        "type" => "success",
+                        "title" => __('dashboard.great'),
+                        "description" => __('dashboard.details_submitted')
+                    ]
+                ];
+                return redirect()->route('dashboard.webpage.edit', ['id' => $id, 'section' => 'links'])->with($message);
+                break;
+    
+            
             default:
                 # code...
                 break;

@@ -43,6 +43,16 @@ class Webpage extends Model
 
     public function links()
     {
-        return $this->hasMany(WebpageLink::class);
+        return $this->hasMany(WebpageLink::class)->where('type', 'simple')->orderBy('order');
+    }
+
+    public function social_links()
+    {
+        return $this->hasMany(WebpageLink::class)->where('type', 'social');
+    }
+
+    public function industry()
+    {
+        return $this->hasOne(IndustryType::class, 'id', 'industry_type_id');
     }
 }

@@ -308,47 +308,62 @@
                                         </form>
                                     </div>
 
-                                    <ul class="ps-0 mb-0 list-unstyled o-sortable cursor-move chat-list">
-                                        @foreach ($links as $key => $value)
-                                            <li class="bg-body p-2 rounded-2 mb-3">
-                                                <div class="d-flex justify-content-between">
-                                                    <div class="d-flex align-items-center" style="overflow: hidden">
-                                                        <div class="flex-shrink-0 position-relative">
-                                                            <img src="{{ $value->image() }}" class="wh-48 rounded"
-                                                                alt="user">
+                                    <form method="post" class="formToSubmit" action="{{ route('dashboard.webpage.edit.post', ['id' => $dataDetail->id]) }}">
+                                        {{ csrf_field() }}
+                                        <input type="hidden" name="record_type" value="links_order">
+                                        <ul class="ps-0 mb-0 list-unstyled o-sortable cursor-move chat-list">
+                                            @foreach ($links as $key => $value)
+                                                <li class="bg-body p-2 rounded-2 mb-3">
+                                                    <input type="hidden" name="order[]" value="{{ $value->id }}">
+                                                    <div class="d-flex justify-content-between">
+                                                        <div class="d-flex align-items-center" style="overflow: hidden">
+                                                            <div class="flex-shrink-0 position-relative">
+                                                                <img src="{{ $value->image() }}" class="wh-48 rounded"
+                                                                    alt="user">
+                                                            </div>
+                                                            <div class="flex-grow-1 ms-10">
+                                                                <h4 class="fs-16 fw-semibold mb-1">{{ $value->title }}</h4>
+                                                                <span class="fs-14 text-primary">{{ $value->link }}</span>
+                                                            </div>
                                                         </div>
-                                                        <div class="flex-grow-1 ms-10">
-                                                            <h4 class="fs-16 fw-semibold mb-1">{{ $value->title }}</h4>
-                                                            <span class="fs-14 text-primary">{{ $value->link }}</span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="text-end">
-                                                        <span class="d-block">
-                                                            @if (true)
-                                                                <a class="p-1" style="cursor: pointer;" id="Btn_Add_User"
-                                                                    onclick="updateLink(this)" data-bs-toggle="offcanvas"
-                                                                    data-bs-target="#offcanvasRight"
-                                                                    data-link-id="{{ encrypt($value->id) }}"
-                                                                    data-link-link="{{ $value->link }}"
-                                                                    data-link-title="{{ $value->title }}"
-                                                                    aria-controls="offcanvasRight">
-                                                                    <i height="20" data-feather="edit-3"></i>
-                                                                </a><br>
+                                                        <div class="text-end">
+                                                            <span class="d-block">
+                                                                @if (true)
+                                                                    <a class="p-1" style="cursor: pointer;" id="Btn_Add_User"
+                                                                        onclick="updateLink(this)" data-bs-toggle="offcanvas"
+                                                                        data-bs-target="#offcanvasRight"
+                                                                        data-link-id="{{ encrypt($value->id) }}"
+                                                                        data-link-link="{{ $value->link }}"
+                                                                        data-link-title="{{ $value->title }}"
+                                                                        aria-controls="offcanvasRight">
+                                                                        <i height="20" data-feather="edit-3"></i>
+                                                                    </a><br>
+                                                                @endif
+                                                                <a class="p-1" style="cursor: pointer;"
+                                                                    onclick="confirmAndDelete('{{ route('dashboard.webpage.delete.main', ['id' => $value->webpage_id, 'section' => 'links', 'sub_id' => $value->id]) }}')">
+                                                                    <i height="20" data-feather="trash-2"></i>
+                                                                </a>
+                                                            </span>
+                                                            @if (false)
+                                                                <span
+                                                                    class="fs-12 fw-semibold bg-warning text-white rounded px-1">1220</span>
                                                             @endif
-                                                            <a class="p-1" style="cursor: pointer;"
-                                                                onclick="confirmAndDelete('{{ route('dashboard.webpage.delete.main', ['id' => $value->webpage_id, 'section' => 'links', 'sub_id' => $value->id]) }}')">
-                                                                <i height="20" data-feather="trash-2"></i>
-                                                            </a>
-                                                        </span>
-                                                        @if (false)
-                                                            <span
-                                                                class="fs-12 fw-semibold bg-warning text-white rounded px-1">1220</span>
-                                                        @endif
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </li>
-                                        @endforeach
-                                    </ul>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+
+                                        <div class="form-group text-center">
+                                            <button type="submit" id="subBut"
+                                                class="btn btn-primary text-white fw-semibold py-2 px-2 px-sm-3">
+                                                <span class="py-sm-1 d-block">
+                                                    <i class="ri-add-line text-white"></i>
+                                                    <span>Save Order</span>
+                                                </span>
+                                            </button>
+                                        </div>
+                                    </form>
                                 @break
 
                                 @case('products')
