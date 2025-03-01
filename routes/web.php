@@ -110,6 +110,8 @@ Route::middleware([CheckIfLogin::class, CheckLanguage::class])->group(function (
     Route::post('dashboard/template/edit/{id}', [TemplateController::class, 'store'])->name('dashboard.template.edit.post');
     Route::get('dashboard/template/view/{id}', [TemplateController::class, 'view'])->name('dashboard.template.view');
     Route::get('dashboard/template/delete/{id}', [TemplateController::class, 'delete'])->name('dashboard.template.delete');
+    Route::get('dashboard/template/form/{id}', [TemplateController::class, 'form'])->name('dashboard.template.form');
+    Route::post('dashboard/template/form/{id}', [TemplateController::class, 'form_store'])->name('dashboard.template.form.post');
 
     Route::get('dashboard/location', [LocationController::class, 'index'])->name('dashboard.location');
     Route::get('dashboard/location/create', [LocationController::class, 'create'])->name('dashboard.location.create');

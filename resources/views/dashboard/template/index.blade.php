@@ -50,6 +50,7 @@
                                     <label class="form-check-label ms-2" for="flexCheckDefault">#{{ __('dashboard.id') }}</label>
                                 </th>
                                 <th scope="col">{{ __('dashboard.image') }}</th>
+                                <th scope="col">{{ __('dashboard.type') }}</th>
                                 <th scope="col">{{ __('dashboard.title') }}</th>
                                 <th scope="col">{{ __('dashboard.date') }}</th>
                                 <th scope="col">{{ __('dashboard.action') }}</th>
@@ -66,6 +67,9 @@
                                             <img src="{{ URL::asset('/images/template/'.$data->image) }}" width="120px" class="img-thumbnail">
                                         </a>
                                     </td>
+                                    <td>
+                                        <span class="text-primary">{{ $data->getType() }}</span>
+                                    </td>
                                     <td class="ps-0">
                                         <div class="d-flex align-items-center">
                                             <span class="fw-semibold position-relative" style="top: 1px;">
@@ -81,6 +85,13 @@
                                             <a class="btn bg p-1" href="{{ route('dashboard.template.view', ['id' => $data->id]) }}">
                                                 <i data-feather="eye"></i>
                                             </a>
+
+                                            @if($data->type == 2)
+                                                <a class="btn bg p-1" href="{{ route('dashboard.template.form', ['id' => $data->id]) }}">
+                                                    <i data-feather="table"></i>
+                                                </a>                                                
+                                            @endif
+
                                             <a class="btn bg p-1" href="{{ route('dashboard.template.edit', ['id' => $data->id]) }}">
                                                 <i data-feather="edit-3"></i>
                                             </a>

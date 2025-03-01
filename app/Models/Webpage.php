@@ -48,7 +48,7 @@ class Webpage extends Model
 
     public function social_links()
     {
-        return $this->hasMany(WebpageLink::class)->where('type', 'social');
+        return $this->hasMany(WebpageLink::class)->where('type', 'social')->orderBy('order');
     }
 
     public function industry()

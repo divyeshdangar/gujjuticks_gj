@@ -205,35 +205,52 @@
                                         </form>
                                     </div>
 
-                                    <ul class="ps-0 mb-0 list-unstyled o-sortable cursor-move chat-list">
-                                        @foreach ($links as $key => $value)
-                                            <li class="bg-body p-2 rounded-2 mb-3">
-                                                <div class="d-flex justify-content-between">
-                                                    <div class="d-flex align-items-center" style="overflow: hidden">
-                                                        <div class="flex-shrink-0 position-relative">
-                                                            <div class="rounded bg-dark w48">
-                                                                <div class="text-light pt-2 h4 {{ $value->icon }}"></div>
+                                    <form method="post" class="formToSubmit" action="{{ route('dashboard.webpage.edit.post', ['id' => $dataDetail->id]) }}">
+                                        {{ csrf_field() }}
+                                        <input type="hidden" name="record_type" value="links_order">
+                                        <input type="hidden" name="record_return_type" value="social">
+                                        <ul class="ps-0 mb-0 list-unstyled o-sortable cursor-move chat-list">
+                                            @foreach ($links as $key => $value)
+                                                <li class="bg-body p-2 rounded-2 mb-3">
+                                                    <input type="hidden" name="order[]" value="{{ $value->id }}">
+                                                    <div class="d-flex justify-content-between">
+                                                        <div class="d-flex align-items-center" style="overflow: hidden">
+                                                            <div class="flex-shrink-0 position-relative">
+                                                                <div class="rounded bg-dark w48">
+                                                                    <div class="text-light pt-2 h4 {{ $value->icon }}"></div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="flex-grow-1 ms-10">
+                                                                <h4 class="fs-16 fw-semibold mb-1">{{ $value->title }}</h4>
+                                                                <span class="fs-14 text-primary">{{ $value->link }}</span>
                                                             </div>
                                                         </div>
-                                                        <div class="flex-grow-1 ms-10">
-                                                            <h4 class="fs-16 fw-semibold mb-1">{{ $value->title }}</h4>
-                                                            <span class="fs-14 text-primary">{{ $value->link }}</span>
+                                                        <div class="text-end">
+                                                            <span class="d-block">
+                                                                <a style="cursor: pointer;"
+                                                                    onclick="confirmAndDelete('{{ route('dashboard.webpage.delete.main', ['id' => $value->webpage_id, 'section' => 'social', 'sub_id' => $value->id]) }}')">
+                                                                    <div class="rounded w48">
+                                                                        <div class="text-dark pt-2 h4 bi bi-trash"></div>
+                                                                    </div>
+                                                                </a>
+                                                            </span>
                                                         </div>
                                                     </div>
-                                                    <div class="text-end">
-                                                        <span class="d-block">
-                                                            <a style="cursor: pointer;"
-                                                                onclick="confirmAndDelete('{{ route('dashboard.webpage.delete.main', ['id' => $value->webpage_id, 'section' => 'social', 'sub_id' => $value->id]) }}')">
-                                                                <div class="rounded w48">
-                                                                    <div class="text-dark pt-2 h4 bi bi-trash"></div>
-                                                                </div>
-                                                            </a>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        @endforeach
-                                    </ul>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                        @if(count($links) > 1)
+                                            <div class="form-group text-center">
+                                                <button type="submit" id="subBut"
+                                                    class="btn btn-primary text-white fw-semibold py-2 px-2 px-sm-3">
+                                                    <span class="py-sm-1 d-block">
+                                                        <i class="ri-add-line text-white"></i>
+                                                        <span>Save Order</span>
+                                                    </span>
+                                                </button>
+                                            </div>
+                                        @endif
+                                    </form>
                                 @break
 
                                 @case('links')
@@ -311,6 +328,7 @@
                                     <form method="post" class="formToSubmit" action="{{ route('dashboard.webpage.edit.post', ['id' => $dataDetail->id]) }}">
                                         {{ csrf_field() }}
                                         <input type="hidden" name="record_type" value="links_order">
+                                        <input type="hidden" name="record_return_type" value="links">
                                         <ul class="ps-0 mb-0 list-unstyled o-sortable cursor-move chat-list">
                                             @foreach ($links as $key => $value)
                                                 <li class="bg-body p-2 rounded-2 mb-3">
@@ -354,15 +372,17 @@
                                             @endforeach
                                         </ul>
 
-                                        <div class="form-group text-center">
-                                            <button type="submit" id="subBut"
-                                                class="btn btn-primary text-white fw-semibold py-2 px-2 px-sm-3">
-                                                <span class="py-sm-1 d-block">
-                                                    <i class="ri-add-line text-white"></i>
-                                                    <span>Save Order</span>
-                                                </span>
-                                            </button>
-                                        </div>
+                                        @if(count($links) > 1)
+                                            <div class="form-group text-center">
+                                                <button type="submit" id="subBut"
+                                                    class="btn btn-primary text-white fw-semibold py-2 px-2 px-sm-3">
+                                                    <span class="py-sm-1 d-block">
+                                                        <i class="ri-add-line text-white"></i>
+                                                        <span>Save Order</span>
+                                                    </span>
+                                                </button>
+                                            </div>
+                                        @endif
                                     </form>
                                 @break
 

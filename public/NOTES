@@ -52,7 +52,7 @@ php artisan migrate
 
 Create model
 php artisan make:model IndustryType
-php artisan make:model WebpageProduct --migration //create migration as well
+php artisan make:model TemplateData --migration //create migration as well
 
 php artisan make:seeder DaysSeeder
 php artisan db:seed

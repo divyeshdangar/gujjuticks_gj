@@ -11,11 +11,25 @@ class Template extends Model
     use HasFactory;
 
     protected $table = 'template';
+    protected $types = [
+        "1" => "Link Page",
+        "2" => "Wish/One Page"
+    ];
 
     protected $searchable = [
         'title',
         'description'
     ];
+
+    public function getType()
+    {
+        return ($this->type) ? $this->types[$this->type] : "";
+    }
+
+    public function getTypes()
+    {
+        return $this->types;
+    }
 
     public function scopeSearching($q)
     {

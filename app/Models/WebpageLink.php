@@ -14,7 +14,8 @@ class WebpageLink extends Model
     protected $fillable = [
         'type',
         'link',
-        'title'
+        'title',
+        'order'
     ];
 
     protected $searchable = [

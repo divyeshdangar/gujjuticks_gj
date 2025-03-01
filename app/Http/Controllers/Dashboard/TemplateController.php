@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Dashboard;
 
-use App\Helpers\CommonHelper;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -36,7 +35,7 @@ class TemplateController extends Controller
                 ],
                 "title" => "Template Detail"
             ];
-            return view('dashboard.template.view', ['dataDetail' => $dataDetail, 'metaData' => $metaData]);
+            return view('dashboard.template.view', ['types' => $dataDetail->getTypes(), 'dataDetail' => $dataDetail, 'metaData' => $metaData]);
         } else {
             $message = [
                 "message" => [
@@ -65,7 +64,38 @@ class TemplateController extends Controller
     {
         $dataDetail = Template::find($id);
         if ($dataDetail) {
-            return view('dashboard.template.edit', ['dataDetail' => $dataDetail, 'metaData' => []]);
+            $metaData = [
+                "breadCrumb" => [
+                    ["title" => "Template", "route" => "dashboard.template"],
+                    ["title" => "Edit", "route" => ""]
+                ],
+                "title" => "Edit Template"
+            ];    
+            return view('dashboard.template.edit', ['types' => $dataDetail->getTypes(), 'dataDetail' => $dataDetail, 'metaData' => $metaData]);
+        } else {
+            $message = [
+                "message" => [
+                    "type" => "error",
+                    "title" => __('dashboard.bad'),
+                    "description" => __('dashboard.no_record_found')
+                ]
+            ];
+            return redirect()->route('dashboard')->with($message);
+        }
+    }
+
+    public function form(Request $request, $id)
+    {
+        $dataDetail = Template::find($id);
+        if ($dataDetail) {
+            $metaData = [
+                "breadCrumb" => [
+                    ["title" => "Template", "route" => "dashboard.template"],
+                    ["title" => "Form", "route" => ""]
+                ],
+                "title" => "Template Form"
+            ];    
+            return view('dashboard.template.form', ['types' => $dataDetail->getTypes(), 'dataDetail' => $dataDetail, 'metaData' => $metaData]);
         } else {
             $message = [
                 "message" => [
@@ -88,6 +118,7 @@ class TemplateController extends Controller
             }
             $validator = Validator::make($request->all(), [
                 'title' => 'required|max:255',
+                'type' => 'required',
                 'slug' => ['required', 'unique:Template,slug,' . $id, 'min:5', 'max:255', 'regex:/^[a-z][a-z0-9]*(-[a-z0-9]+)*$/i'],
                 'meta_description' => 'required',
                 'description' => 'required',
@@ -103,17 +134,18 @@ class TemplateController extends Controller
 
             $dataToInsert = $validator->validated();
 
-            if ($request->croppedImage != null) {
-                $croped_image = $request->croppedImage;
-                list($type, $croped_image) = explode(';', $croped_image);
-                list(, $croped_image)      = explode(',', $croped_image);
-                $croped_image = base64_decode($croped_image);
-                $image_name = $dataToInsert['slug'].".png"; //time() . rand(10000000, 999999999) . '.png';
-                file_put_contents("./images/template/" . $image_name, $croped_image);
-                $dataDetail->image = $image_name;
+            if ($request->file('image')) {
+                $file = $request->file('image');
+                $extension = $file->getClientOriginalExtension(); // Get the original file extension
+                $fileName = time() . '-' . rand(0, time()) . '.' . $extension; // Use the original extension
+                $file->storeAs('images/template', $fileName, 'public');
+                $dataDetail->image = $fileName;
+            } else {
+                dd($request);
             }
 
             $dataDetail->title = $dataToInsert['title'];
+            $dataDetail->type = $dataToInsert['type'];
             $dataDetail->description = $dataToInsert['description'];
             $dataDetail->slug = $dataToInsert['slug'];
             $dataDetail->meta_description = $dataToInsert['meta_description'];

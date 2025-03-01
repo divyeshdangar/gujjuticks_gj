@@ -6,22 +6,11 @@
         }
     </style>
 
-    <div class="d-sm-flex text-center justify-content-between align-items-center mb-4">
-        <h3 class="mb-sm-0 mb-1 fs-18">{{ __('dashboard.template') }}</h3>
-        <ul class="ps-0 mb-0 list-unstyled d-flex justify-content-center">
-            <li>
-                <a href="{{ route('dashboard') }}" class="text-decoration-none">
-                    <i class="ri-home-2-line" style="position: relative; top: -1px;"></i>
-                    <span>{{ __('dashboard.home') }}</span>
-                </a>
-            </li>
-            <li>
-                <span class="fw-semibold fs-14 heading-font text-dark dot ms-2">{{ __('dashboard.template') }}</span>
-            </li>
-        </ul>
-    </div>
+    @if ($metaData['breadCrumb'])
+        <x-common.breadcrumb :metaData="$metaData"></x-common.breadcrumb>
+    @endif
 
-    <form method="post" id="formToValidate" action="{{ route('dashboard.template.edit.post', ['id' => $dataDetail->id]) }}">
+    <form method="post" id="formToValidate" enctype="multipart/form-data" action="{{ route('dashboard.template.edit.post', ['id' => $dataDetail->id]) }}">
         {{ csrf_field() }}
         <div class="row justify-content-center">
             <div class="col-lg-8">
@@ -44,6 +33,30 @@
                             <div class="col-lg-6">
                                 <div class="form-group mb-4">
                                     <label
+                                        class="label @error('type') text-danger @enderror">{{ __('dashboard.type') }}</label>
+                                    <div class="form-group position-relative">
+                                        <select class="form-select form-control ps-5 h-58" name="type"
+                                            aria-label="Parent category selection">
+                                            <option class="text-dark">{{ __('dashboard.select') }}
+                                                {{ __('dashboard.type') }}</option>
+
+                                            @foreach ($types as $key => $data)
+                                                <option value="{{ $key }}" class="text-dark"
+                                                    @if ($key == old('type', $dataDetail->type)) selected="selected" @endif>
+                                                    {{ $data }}</option>
+                                            @endforeach
+                                        </select>
+                                        <i
+                                            class="ri-map-pin-line position-absolute top-50 start-0 translate-middle-y fs-20 text-gray-light ps-20"></i>
+                                    </div>
+                                    @error('type')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group mb-4">
+                                    <label
                                         class="label @error('title') text-danger @enderror">{{ __('dashboard.title') }}</label>
                                     <div class="form-group position-relative">
                                         <input type="text" name="title"
@@ -57,6 +70,8 @@
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
+                            </div>
+                            <div class="col-lg-6">
                                 <div class="form-group mb-4">
                                     <label
                                         class="label @error('slug') text-danger @enderror">{{ __('dashboard.slug') }}</label>
@@ -78,7 +93,7 @@
                                 <div class="form-group mb-4" id="imageFormGroup">
                                     <label
                                         class="label @error('slug') text-danger @enderror">{{ __('dashboard.image') }}</label>
-                                    <input type="file" class="form-control" id="image" name="image"
+                                    <input type="file" class="form-control h-58" id="image" name="image"
                                         accept="image/*">
                                     <input type="hidden" id="croppedImage" name="croppedImage" value="">
                                 </div>
@@ -126,60 +141,4 @@
             </div>
         </div>
     </form>
-
-    <script>
-        var $image_crop;
-        var $banner_crop;
-        var isImageSelected = false;
-        window.addEventListener('load', function(event) {
-            addCropperImage();
-            $("#formToValidate").submit(function(eventObj) {
-                getImage();
-                return true;
-            });
-        });
-
-        function getImage() {
-            $('#upload-image-image').croppie('result', {
-                type: 'base64',
-                format: 'jpeg',
-                quality: 0.7
-            }).then(function(resp) {
-                if (resp && isImageSelected) {
-                    $("#croppedImage").val(resp)
-                } else {
-                    $("#croppedImage").val("")
-                }
-            });
-        }
-
-        function addCropperImage() {
-            $image_crop = $('#upload-image-image').croppie({
-                //enableExif: true,
-                enableResize: true,
-                viewport: {
-                    width: 108,
-                    height: 192,
-                    type: 'square'
-                },
-                boundary: {
-                    width: $("#imageFormGroup").width(),
-                    height: $("#imageFormGroup").width() / 1.7
-                },
-                //url: '{{ URL::asset('/images/template/' . $dataDetail->image) }}'
-            });
-            $('#image').on('change', function() {
-                var reader = new FileReader();
-                reader.onload = function(e) {
-                    $image_crop.croppie('bind', {
-                        url: e.target.result
-                    }).then(function() {
-                        isImageSelected = true;
-                    });
-                }
-                reader.readAsDataURL(this.files[0]);
-            });
-        }
-    </script>
-
 </x-layouts.dashboard>

@@ -13,6 +13,7 @@ use App\Models\WebpageLink;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\DB;
 
 class WebpageController extends Controller
 {
@@ -54,7 +55,7 @@ class WebpageController extends Controller
                         break;
 
                     case 'social':
-                        $links = WebpageLink::where('webpage_id', $dataDetail->id)->where('type', 'social')->orderBy('id', 'DESC')->get();
+                        $links = $dataDetail->social_links;
                         $social = [
                             "Amazon" => "bi bi-amazon",
                             "Android" => "bi bi-android2",
@@ -105,7 +106,7 @@ class WebpageController extends Controller
                         break;
 
                     case 'template':
-                        $templates = Template::orderBy('id', 'ASC');
+                        $templates = Template::orderBy('id', 'ASC')->where('type','1');
                         $templates = $templates->searching()->paginate(10)->withQueryString();
                         break;
                 }
@@ -395,28 +396,32 @@ class WebpageController extends Controller
                 break;
 
             case 'links_order':
-
-
-                echo "<pre>";
-                print_r($request->all());
-                die;
-
                 $validator = Validator::make($request->all(), [
-                    'meta_title' => 'nullable|max:160',
-                    'meta_description' => 'nullable|max:160',
-                    'industry_type_id' => 'sometimes', //|exists:industry_types,id'
+                    'order' => 'required'
                 ]);
 
                 if ($validator->fails()) {
                     return redirect('dashboard/webpage/edit/' . $id)->withErrors($validator)->withInput();
                 }
 
-                $dataToInsert = $validator->validated();
-                $dataDetail->meta_title = $dataToInsert['meta_title'];
-                $dataDetail->meta_description = $dataToInsert['meta_description'];
-                $dataDetail->industry_type_id = $dataToInsert['industry_type_id'];
-                $dataDetail->save();
+                $record_return_type = $request->input('record_return_type');
+                $orderData = $request->input('order');
 
+                
+                if (empty($orderData)) {
+                    //return response()->json(['message' => 'No data provided'], 400);
+                }
+
+                $ids = implode(',', array_values($orderData)); // Get all IDs for WHERE condition
+                $caseSql = "CASE id ";
+                
+                foreach ($orderData as $order => $id_record) {
+                    $caseSql .= "WHEN $id_record THEN $order ";
+                }
+                $caseSql .= "END";
+                
+                DB::statement("UPDATE webpage_links SET `order` = $caseSql WHERE id IN ($ids)");
+                
                 $message = [
                     "message" => [
                         "type" => "success",
@@ -424,10 +429,10 @@ class WebpageController extends Controller
                         "description" => __('dashboard.details_submitted')
                     ]
                 ];
-                return redirect()->route('dashboard.webpage.edit', ['id' => $id, 'section' => 'links'])->with($message);
+                return redirect()->route('dashboard.webpage.edit', ['id' => $id, 'section' => $record_return_type])->with($message);
                 break;
-    
-            
+
+
             default:
                 # code...
                 break;
@@ -520,7 +525,6 @@ class WebpageController extends Controller
                             ]
                         ];
                         return redirect()->route('dashboard.webpage.edit', ['id' => $id, 'section' => $section])->with($message);
-    
                 }
             } else {
                 $message = [

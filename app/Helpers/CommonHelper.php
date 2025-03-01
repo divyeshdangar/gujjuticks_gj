@@ -1,19 +1,21 @@
 <?php
 
 namespace App\Helpers;
+
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\DB;
 
 class CommonHelper
 {
     static function highLight($text)
     {
         $search = $_GET['search'] ?? '';
-        $search = trim($search);        
+        $search = trim($search);
         $replace = '<span class="text-dark bg-warning rounded-1">\1</span>';
         if (empty($search) || $search == "") {
             return $text;
         } else {
-            return preg_replace('#('.$search.')#i', $replace, $text);
+            return preg_replace('#(' . $search . ')#i', $replace, $text);
         }
     }
 
@@ -38,15 +40,13 @@ class CommonHelper
         }
     }
 
+    public static function generateUniqueCode($table, $column, $length = 6)
+    {
+        $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        do {
+            $code = substr(str_shuffle(str_repeat($characters, ceil($length / strlen($characters)))), 0, $length);
+            $exists = DB::table($table)->where($column, $code)->exists();
+        } while ($exists);
+        return $code;
+    }
 }
-
-
-
-// if (! function_exists('get_month_name')) {
-//     function get_month_name(int $month)
-//     {
-//         return date('F', mktime(0, 0, 0, $month, 1));
-//     }
-// }
-
-// https://medium.com/@maulanayusupp/how-to-create-helper-in-laravel-10-laravel-helper-creation-7fb7824ce67c

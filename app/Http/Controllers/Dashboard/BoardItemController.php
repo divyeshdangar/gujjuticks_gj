@@ -4,9 +4,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Board;
 use App\Models\WorkItem;
-use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Validator;
 
 class BoardItemController extends Controller
