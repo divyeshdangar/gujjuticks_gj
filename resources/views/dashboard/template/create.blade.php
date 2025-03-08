@@ -10,7 +10,7 @@
         <x-common.breadcrumb :metaData="$metaData"></x-common.breadcrumb>
     @endif
 
-    <form method="post" id="formToValidate" action="{{ route('dashboard.template.edit.post', ['id' => 0]) }}">
+    <form method="post" id="formToValidate" enctype="multipart/form-data" action="{{ route('dashboard.template.edit.post', ['id' => 0]) }}">
         {{ csrf_field() }}
         <div class="row justify-content-center">
             <div class="col-lg-8">
@@ -33,6 +33,29 @@
                             <div class="col-lg-6">
                                 <div class="form-group mb-4">
                                     <label
+                                        class="label @error('type') text-danger @enderror">{{ __('dashboard.type') }}</label>
+                                    <div class="form-group position-relative">
+                                        <select class="form-select form-control ps-5 h-58" name="type"
+                                            aria-label="Parent category selection">
+                                            <option class="text-dark">{{ __('dashboard.select') }}
+                                                {{ __('dashboard.type') }}</option>
+
+                                            @foreach ($types as $key => $data)
+                                                <option value="{{ $key }}" class="text-dark">
+                                                    {{ $data }}</option>
+                                            @endforeach
+                                        </select>
+                                        <i
+                                            class="ri-map-pin-line position-absolute top-50 start-0 translate-middle-y fs-20 text-gray-light ps-20"></i>
+                                    </div>
+                                    @error('type')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group mb-4">
+                                    <label
                                         class="label @error('title') text-danger @enderror">{{ __('dashboard.title') }}</label>
                                     <div class="form-group position-relative">
                                         <input type="text" name="title"
@@ -46,6 +69,8 @@
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
+                            </div>
+                            <div class="col-lg-6">
                                 <div class="form-group mb-4">
                                     <label
                                         class="label @error('slug') text-danger @enderror">{{ __('dashboard.slug') }}</label>
@@ -67,11 +92,10 @@
                                 <div class="form-group mb-4" id="imageFormGroup">
                                     <label
                                         class="label @error('slug') text-danger @enderror">{{ __('dashboard.image') }}</label>
-                                    <input type="file" class="form-control" id="image" name="image"
+                                    <input type="file" class="form-control h-58" id="image" name="image"
                                         accept="image/*">
                                     <input type="hidden" id="croppedImage" name="croppedImage" value="">
                                 </div>
-                                <div id="upload-image-image"></div>
                             </div>
                             <div class="col-lg-12">
                                 <div class="form-group mb-4">
@@ -101,6 +125,29 @@
                                     @enderror
                                 </div>
                             </div>
+                            <div class="col-lg-6">
+                                <div class="form-group mb-4">
+                                    <label
+                                        class="label @error('status') text-danger @enderror">{{ __('dashboard.status') }}</label>
+                                    <div class="form-group position-relative">
+                                        <select class="form-select form-control ps-5 h-58" name="status"
+                                            aria-label="Parent category selection">
+                                            <option class="text-dark">{{ __('dashboard.select') }}
+                                                {{ __('dashboard.status') }}</option>
+
+                                            @foreach ($statuses as $key => $data)
+                                                <option value="{{ $key }}" class="text-dark">
+                                                    {{ $data["lable"] }}</option>
+                                            @endforeach
+                                        </select>
+                                        <i
+                                            class="ri-flag-2-line position-absolute top-50 start-0 translate-middle-y fs-20 text-gray-light ps-20"></i>
+                                    </div>
+                                    @error('status')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-lg-12">
@@ -115,59 +162,4 @@
             </div>
         </div>
     </form>
-
-    <script>
-        var $image_crop;
-        var $banner_crop;
-        var isImageSelected = false;
-        window.addEventListener('load', function(event) {
-            addCropperImage();
-            $("#formToValidate").submit(function(eventObj) {
-                getImage();
-                return true;
-            });
-        });
-
-        function getImage() {
-            $('#upload-image-image').croppie('result', {
-                type: 'base64',
-                format: 'jpeg',
-                quality: 0.7
-            }).then(function(resp) {
-                if (resp && isImageSelected) {
-                    $("#croppedImage").val(resp)
-                } else {
-                    $("#croppedImage").val("")
-                }
-            });
-        }
-
-        function addCropperImage() {
-            $image_crop = $('#upload-image-image').croppie({
-                //enableExif: true,
-                enableResize: true,
-                viewport: {
-                    width: 108,
-                    height: 192,
-                    type: 'square'
-                },
-                boundary: {
-                    width: $("#imageFormGroup").width(),
-                    height: $("#imageFormGroup").width() / 1.7
-                },
-            });
-            $('#image').on('change', function() {
-                var reader = new FileReader();
-                reader.onload = function(e) {
-                    $image_crop.croppie('bind', {
-                        url: e.target.result
-                    }).then(function() {
-                        isImageSelected = true;
-                    });
-                }
-                reader.readAsDataURL(this.files[0]);
-            });
-        }
-    </script>
-
 </x-layouts.dashboard>

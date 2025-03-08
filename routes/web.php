@@ -19,7 +19,7 @@ use App\Http\Controllers\Dashboard\PagesController;
 use App\Http\Controllers\Dashboard\TemplateController;
 use App\Http\Controllers\Dashboard\SocialMediaController;
 use App\Http\Controllers\Dashboard\WebpageController;
-
+use App\Http\Controllers\Dashboard\WebpageAnalyticsController;
 use App\Http\Middleware\CheckIfLogin;
 use App\Http\Middleware\CheckLanguage;
 
@@ -111,7 +111,7 @@ Route::middleware([CheckIfLogin::class, CheckLanguage::class])->group(function (
     Route::get('dashboard/template/view/{id}', [TemplateController::class, 'view'])->name('dashboard.template.view');
     Route::get('dashboard/template/delete/{id}', [TemplateController::class, 'delete'])->name('dashboard.template.delete');
     Route::get('dashboard/template/form/{id}', [TemplateController::class, 'form'])->name('dashboard.template.form');
-    Route::post('dashboard/template/form/{id}', [TemplateController::class, 'form_store'])->name('dashboard.template.form.post');
+    Route::post('dashboard/template/form/{id}', [TemplateController::class, 'store_form'])->name('dashboard.template.form.post');
 
     Route::get('dashboard/location', [LocationController::class, 'index'])->name('dashboard.location');
     Route::get('dashboard/location/create', [LocationController::class, 'create'])->name('dashboard.location.create');
@@ -160,6 +160,7 @@ Route::middleware([CheckIfLogin::class, CheckLanguage::class])->group(function (
     Route::post('dashboard/webpage/create', [WebpageController::class, 'store'])->name('dashboard.webpage.create');
     Route::get('dashboard/webpage/delete/{id}', [WebpageController::class, 'delete'])->name('dashboard.webpage.delete');
     Route::get('dashboard/webpage/restore/{id}', [WebpageController::class, 'restore'])->name('dashboard.webpage.restore');
+    Route::get('dashboard/webpage/analytics/{id}', [WebpageAnalyticsController::class, 'index'])->name('dashboard.webpage.analytics');
     Route::get('dashboard/webpage/edit/{id}/{section?}', [WebpageController::class, 'edit'])->name('dashboard.webpage.edit');
     //Route::post('dashboard/webpage/section-edit/{id}', [WebpageController::class, 'store_edit'])->name('dashboard.webpage.edit.section.post');
     Route::get('dashboard/webpage/delete-sub/{id}/{section}/{sub_id}', [WebpageController::class, 'delete_main'])->name('dashboard.webpage.delete.main');

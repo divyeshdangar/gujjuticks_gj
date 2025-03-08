@@ -25,7 +25,10 @@ class WebpageController extends Controller
             ],
             "title" => __('dashboard.webpage')
         ];
-        $dataList = Webpage::withTrashed()->orderBy('id', 'DESC')->where('user_id', Auth::id());
+        $dataList = Webpage::withTrashed()->orderBy('id', 'DESC');
+        if(!Auth::user()->is_admin()){
+            $dataList->where('user_id', Auth::id());
+        }
         $dataList = $dataList->searching()->paginate(10)->withQueryString();
 
         return view('dashboard.webpage.index', ['dataList' => $dataList, 'metaData' => $metaData]);

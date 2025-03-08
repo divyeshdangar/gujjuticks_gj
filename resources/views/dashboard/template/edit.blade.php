@@ -97,7 +97,6 @@
                                         accept="image/*">
                                     <input type="hidden" id="croppedImage" name="croppedImage" value="">
                                 </div>
-                                <div id="upload-image-image"></div>
                             </div>
                             <div class="col-lg-12">
                                 <div class="form-group mb-4">
@@ -123,6 +122,30 @@
                                             placeholder="{{ __('dashboard.description') }}" cols="30" rows="7">{{ old('description', $dataDetail->description) }}</textarea>
                                     </div>
                                     @error('description')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group mb-4">
+                                    <label
+                                        class="label @error('status') text-danger @enderror">{{ __('dashboard.status') }}</label>
+                                    <div class="form-group position-relative">
+                                        <select class="form-select form-control ps-5 h-58" name="status"
+                                            aria-label="Parent category selection">
+                                            <option class="text-dark">{{ __('dashboard.select') }}
+                                                {{ __('dashboard.status') }}</option>
+
+                                            @foreach ($statuses as $key => $data)
+                                                <option value="{{ $key }}" class="text-dark"
+                                                    @if ($key == old('status', $dataDetail->status)) selected="selected" @endif>
+                                                    {{ $data["lable"] }}</option>
+                                            @endforeach
+                                        </select>
+                                        <i
+                                            class="ri-flag-2-line position-absolute top-50 start-0 translate-middle-y fs-20 text-gray-light ps-20"></i>
+                                    </div>
+                                    @error('status')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>

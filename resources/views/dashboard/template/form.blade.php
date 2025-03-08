@@ -3,8 +3,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
     <script src="https://formbuilder.online/assets/js/form-builder.min.js"></script>
 
-    <script src="https://formbuilder.online/assets/js/form-render.min.js"></script>
-
     @if ($metaData['breadCrumb'])
         <x-common.breadcrumb :metaData="$metaData"></x-common.breadcrumb>
     @endif
@@ -60,14 +58,12 @@
                         </div>
                     </div>
                     <div class="">
-
-
-
                         <div id="fb-editor"></div>
-
-
-
                     </div>
+                    <form method="post" id="formToValidate"
+                        action="{{ route('dashboard.template.form.post', ['id' => $dataDetail->id]) }}">
+                        {{ csrf_field() }}
+                    </form>
                 </div>
             </div>
         </div>
@@ -76,15 +72,48 @@
     <script>
         jQuery(function($) {
             var options = {
-                formData: [],
+                formData: {!! ($dataDetail->form_data) ? $dataDetail->form_data : '{}' !!},
+                onSave: function(evt, formData) {
+                    sendData(formData);
+                },
                 disableFields: [
                     'autocomplete', 'button', 'header',
                     'hidden', 'paragraph', 'radio-group', 'starRating',
-                    'checkbox', 'email', 'phone', 'color', 'range', 'url'
+                    'checkbox', 'email', 'phone', 'range', 'url'
                 ]
             };
             $(document.getElementById('fb-editor')).formBuilder(options);
         });
+
+        function sendData(data) {
+                let form = $("#formToValidate")[0]; // Get the form element
+                let formData = new FormData(form); // Create FormData from form
+
+                // Append JSON data (as an object, not a string)
+                formData.append("form_data", JSON.stringify( data ));
+
+                // Send AJAX request
+                $.ajax({
+                    url: form.action, // Use form's action attribute
+                    type: "POST",
+                    data: formData,
+                    processData: false, // Important! Prevent jQuery from converting FormData into a string
+                    contentType: false, // Important! Let browser set the Content-Type
+                    headers: {
+                        "X-CSRF-TOKEN": $("input[name='_token']").val()
+                    },
+                    success: function(response) {
+                        Swal.fire(response.message.title, response.message.description, response.message.type);
+                    },
+                    error: function(xhr) {
+                        if(response && response.message && response.message.type){
+                            Swal.fire(response.message.title, response.message.description, response.message.type);
+                        } else {
+                            Swal.fire('Bad move!', 'Issue in saving record!', 'error');
+                        }
+                    }
+                });
+        }
     </script>
 
 </x-layouts.dashboard>

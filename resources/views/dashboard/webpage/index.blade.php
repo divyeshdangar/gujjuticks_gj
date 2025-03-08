@@ -89,6 +89,9 @@
                                                 <a class="btn bg p-1" href="{{ route('dashboard.webpage.edit', ['id' => $data->id]) }}">
                                                     <i data-feather="edit-3"></i>
                                                 </a>
+                                                {{-- <a class="btn bg p-1" href="{{ route('dashboard.webpage.analytics', ['id' => $data->id]) }}">
+                                                    <i data-feather="bar-chart-2"></i>
+                                                </a> --}}
                                                 <a class="btn bg p-1" onclick="confirmAndDelete('{{ route('dashboard.webpage.delete', ['id' => $data->id]) }}')">
                                                     <i data-feather="trash-2"></i>
                                                 </a>

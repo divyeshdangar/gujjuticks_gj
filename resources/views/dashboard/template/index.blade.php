@@ -52,6 +52,7 @@
                                 <th scope="col">{{ __('dashboard.image') }}</th>
                                 <th scope="col">{{ __('dashboard.type') }}</th>
                                 <th scope="col">{{ __('dashboard.title') }}</th>
+                                <th scope="col">{{ __('dashboard.status') }}</th>
                                 <th scope="col">{{ __('dashboard.date') }}</th>
                                 <th scope="col">{{ __('dashboard.action') }}</th>
                             </tr>
@@ -76,6 +77,9 @@
                                                 {!! CommonHelper::highLight($data->title) !!}
                                             <span>
                                         </div>
+                                    </td>
+                                    <td>
+                                        {!! $data->getStatus(true) !!}
                                     </td>
                                     <td>
                                         {{ $data->created_at->format('j F, Y') }}

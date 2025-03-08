@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dashboard;
 
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Template;
@@ -19,7 +20,7 @@ class TemplateController extends Controller
             ],
             "title" => "Template List"
         ];
-        $dataList = Template::orderBy('id', 'DESC')->where('status', '1');
+        $dataList = Template::orderBy('id', 'DESC'); //->where('status', '1');
         $dataList = $dataList->searching()->paginate(10)->withQueryString();
         return view('dashboard.template.index', ['dataList' => $dataList, 'metaData' => $metaData]);
     }
@@ -50,6 +51,7 @@ class TemplateController extends Controller
 
     public function create(Request $request)
     {
+        $dataDetail = new Template;
         $metaData = [
             "breadCrumb" => [
                 ["title" => "Template", "route" => "dashboard.template"],
@@ -57,7 +59,7 @@ class TemplateController extends Controller
             ],
             "title" => "Create Template"
         ];
-        return view('dashboard.template.create', ['metaData' => $metaData]);
+        return view('dashboard.template.create', ['statuses' => $dataDetail->getStatuses(), 'types' => $dataDetail->getTypes(), 'metaData' => $metaData]);
     }
 
     public function edit(Request $request, $id)
@@ -71,7 +73,7 @@ class TemplateController extends Controller
                 ],
                 "title" => "Edit Template"
             ];    
-            return view('dashboard.template.edit', ['types' => $dataDetail->getTypes(), 'dataDetail' => $dataDetail, 'metaData' => $metaData]);
+            return view('dashboard.template.edit', ['statuses' => $dataDetail->getStatuses(), 'types' => $dataDetail->getTypes(), 'dataDetail' => $dataDetail, 'metaData' => $metaData]);
         } else {
             $message = [
                 "message" => [
@@ -108,6 +110,44 @@ class TemplateController extends Controller
         }
     }
 
+    public function store_form(Request $request, $id)
+    {
+        $dataDetail = Template::find($id);
+        $message = [
+            "message" => [
+                "type" => "error",
+                "title" => __('dashboard.bad'),
+                "description" => __('dashboard.no_record_found')
+            ]
+        ];
+        if ($dataDetail) {
+            $validator = Validator::make($request->all(), [
+                'form_data' => 'required|json'
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json($message, 200);
+            }
+            $dataToInsert = $validator->validated();
+            try {
+                $dataDetail->form_data = json_decode($dataToInsert['form_data']);
+                $dataDetail->save();
+                $message = [
+                    "message" => [
+                        "type" => "success",
+                        "title" => __('dashboard.great'),
+                        "description" => __('dashboard.details_submitted')
+                    ]
+                ];
+                return response()->json($message, 200);
+            } catch (\Throwable $th) {
+                return response()->json($message, 200);
+            }
+        } else {
+            return response()->json($message, 200);
+        }
+    }
+
     public function store(Request $request, $id): RedirectResponse
     {
         $dataDetail = Template::find($id);
@@ -122,6 +162,7 @@ class TemplateController extends Controller
                 'slug' => ['required', 'unique:Template,slug,' . $id, 'min:5', 'max:255', 'regex:/^[a-z][a-z0-9]*(-[a-z0-9]+)*$/i'],
                 'meta_description' => 'required',
                 'description' => 'required',
+                'status' => 'required',
             ]);
 
             if ($validator->fails()) {
@@ -140,11 +181,10 @@ class TemplateController extends Controller
                 $fileName = time() . '-' . rand(0, time()) . '.' . $extension; // Use the original extension
                 $file->storeAs('images/template', $fileName, 'public');
                 $dataDetail->image = $fileName;
-            } else {
-                dd($request);
             }
 
             $dataDetail->title = $dataToInsert['title'];
+            $dataDetail->status = $dataToInsert['status'];
             $dataDetail->type = $dataToInsert['type'];
             $dataDetail->description = $dataToInsert['description'];
             $dataDetail->slug = $dataToInsert['slug'];

@@ -221,7 +221,7 @@
                                                     </div>
                                                 </a>
                                             </div>
-                                            <div class="notification-menu">
+                                            <div class="notification-menu d-none">
                                                 <a href="{{ route('language', ['locale' => 'hi']) }}"
                                                     class="dropdown-item p-0">
                                                     <div class="d-flex align-items-center">
@@ -235,7 +235,7 @@
                                                     </div>
                                                 </a>
                                             </div>
-                                            <div class="notification-menu mb-0">
+                                            <div class="notification-menu mb-0 d-none">
                                                 <a href="{{ route('language', ['locale' => 'gj']) }}"
                                                     class="dropdown-item p-0">
                                                     <div class="d-flex align-items-center">

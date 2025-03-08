@@ -15,6 +15,16 @@ class Template extends Model
         "1" => "Link Page",
         "2" => "Wish/One Page"
     ];
+    protected $statuses = [
+        "0" => [
+            "lable" => "In active",
+            "class" => "text-light text-bg-danger"
+        ],
+        "1" => [
+            "lable" => "Active",
+            "class" => "text-light text-bg-success"
+        ]
+    ];
 
     protected $searchable = [
         'title',
@@ -26,9 +36,23 @@ class Template extends Model
         return ($this->type) ? $this->types[$this->type] : "";
     }
 
+    public function getStatus($returnHtml = false)
+    {
+        if($returnHtml){
+            return '<span class="badge '.$this->statuses[$this->status]["class"].'">'.$this->statuses[$this->status]["lable"].'</span>';
+        } else {
+            return $this->statuses[$this->status]["lable"];
+        }
+    }
+
     public function getTypes()
     {
         return $this->types;
+    }
+
+    public function getStatuses()
+    {
+        return $this->statuses;
     }
 
     public function scopeSearching($q)
