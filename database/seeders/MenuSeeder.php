@@ -189,6 +189,16 @@ class MenuSeeder extends Seeder
                 "status" => "1"
             ],
             [
+                "id" => 21, 
+                "icon" => "monitor", 
+                "title" => 'dashboard.template', 
+                "route" => "dashboard.template",
+                "order" => 11,
+                "title_only" => "0",
+                "type" => "2",
+                "status" => "1"
+            ],
+            [
                 "id" => 12, 
                 "icon" => "user", 
                 "title" => 'dashboard.profile', 
