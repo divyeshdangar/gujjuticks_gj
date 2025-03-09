@@ -4,106 +4,15 @@
         <x-common.breadcrumb :metaData="$metaData"></x-common.breadcrumb>
     @endif
 
-    <style>
-        :root {
-            --white: #fff;
-            --main: #eaedf0;
-            --accent: #757FEF;
-            --accent-2: #ebedf0;
-        }
-
-        .h {
-            margin: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px;
-        }
-
-        .header-display {
-            display: flex;
-            align-items: center;
-        }
-
-        .header-display p {
-            color: var(--accent);
-            margin: 5px;
-            font-size: 1.2rem;
-            word-spacing: 0.5rem;
-        }
-
-        pre {
-            padding: 10px;
-            margin: 0;
-            cursor: pointer;
-            font-size: 1.2rem;
-            color: var(--accent);
-        }
-
-        .days,
-        .week {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            margin: auto;
-            padding: 0 20px;
-            justify-content: space-between;
-        }
-
-        .week div,
-        .days div {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 3rem;
-            width: 3em;
-            border-radius: 8px;
-        }
-
-        .days div:hover {
-            background: var(--accent-2);
-            color: rgb(25, 25, 201);
-            cursor: pointer;
-        }
-
-        .week div {
-            opacity: 0.5;
-        }
-
-        .c_badge {
-            position: absolute;
-            background: #d63384;
-            color: rgba(0,0,0,0);
-            max-height: 4px;
-            max-width: 4px;
-            border-radius: 100%;
-            margin-left: 30px;
-            margin-top: -30px;
-        }
-
-        .current-date {
-            background-color: var(--accent);
-            color: var(--white);
-        }
-
-        .each-date {
-            background-color: var(--accent);
-            color: var(--white);
-        }
-
-        .display-selected {
-            margin-bottom: 10px;
-            padding: 20px 20px;
-            text-align: center;
-        }
-    </style>
     <div class="row justify-content-center">
-        <div class="col-md-4">
+        <div class="col-12">
             <div class="card bg-white border-0 rounded-10 mb-4">
                 <div class="card-body p-4">
                     <div class="d-flex justify-content-between align-items-center border-bottom pb-20 mb-20">
                         <h4 class="fw-semibold fs-18 mb-0">{{ __('dashboard.connected_accounts') }}</h4>
                         <div class="dropdown action-opt">
-                            <button class="btn bg-transparent p-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <button class="btn bg-transparent p-0" type="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
                                 <i data-feather="more-horizontal"></i>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end bg-white border box-shadow">
@@ -117,35 +26,131 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="mb-4">
-                        @foreach ($dataList as $item)
-                            <div class="stats-box style-two card border-0 rounded-10 mb-4">
-                                <div class="card-body p-4">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div class="flex-shrink-0">
-                                            <img style="max-height: 58px;" class="rounded" src="{{ $item->profile_pic }}">
-                                        </div>
-                                        <div class="flex-grow-1 ms-3">
-                                            <h3 class="body-font fw-bold fs-4 mb-2">{{ $item->name }}</h3>
-                                            <a class="text-decoration-none" href=""><i class="flaticon-instagram mt-5"></i> {{ $item->username }}</a>
+
+
+
+
+
+
+
+
+
+
+
+
+                    <div class="default-table-area notification-list">
+                        <form method="get" id="form">
+                            {{-- {{ csrf_field() }} --}}
+                            <div class="row mb-2">
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-2">
+                                        <div class="form-group">
+                                            <input type="text" name="search"
+                                                value="{{ old('search', Request::get('search')) }}"
+                                                class="form-control text-dark" placeholder="Search here">
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-lg-3">
+                                    <div class="mb-2">
+                                        <button type="submit"
+                                            class="border-0 btn btn-primary py-2 px-3 px-sm-4 text-white fs-16 rounded-3">
+                                            <span class="py-sm-1 d-block">
+                                                <span>{{ __('dashboard.search') }}</span>
+                                            </span>
+                                        </button>
+                                        <a href="{{ Request::url() }}" type="reset"
+                                            class="btn btn-outline-secondary hover-white py-2 px-3 px-sm-4 fs-16 rounded-3">
+                                            <span class="py-sm-1 d-block">
+                                                <span>{{ __('dashboard.clear') }}</span>
+                                            </span>
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
-                        @endforeach
+                        </form>
+                        <div class="table-responsive">
+                            <table class="table align-middle">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" class="text-primary">
+                                            <label class="form-check-label ms-2" for="flexCheckDefault">#{{ __('dashboard.id') }}</label>
+                                        </th>
+                                        <th scope="col">{{ __('dashboard.image') }}</th>
+                                        <th scope="col">{{ __('dashboard.name') }}</th>
+                                        <th scope="col">{{ __('dashboard.follows') }}</th>
+                                        <th scope="col">{{ __('dashboard.account_type_media') }}</th>
+                                        <th scope="col">{{ __('dashboard.date') }}</th>
+                                        <th scope="col">{{ __('dashboard.action') }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($dataList as $data)
+                                        <tr>
+                                            <td>
+                                                #{{ $data->id }}
+                                            </td>
+                                            <td>
+                                                <a target="_blank" href="{{ $data->profile_pic }}">
+                                                    <img src="{{ $data->profile_pic }}" class="wh-60 rounded-circle">
+                                                </a>
+                                            </td>
+                                            <td class="ps-0">
+                                                <div class="d-flex align-items-center">
+                                                    <span class="fw-semibold position-relative" style="top: 1px;">
+                                                        <b>{!! CommonHelper::highLight($data->name) !!}</b>
+                                                        <hr>
+                                                        <i class="flaticon-instagram"></i>
+                                                        {!! CommonHelper::highLight($data->username) !!}
+                                                    <span>
+                                                </div>
+                                            </td>
+                                            <td class="text-center">
+                                                Followers: {{ $data->followers }}
+                                                <hr>
+                                                Follows: {{ $data->follows }}
+                                            </td>
+                                            <td class="text-center">
+                                                Account type: <br><b>{{ $data->account_type }}</b>
+                                                <hr>
+                                                Media: {{ $data->media }}
+                                            </td>
+                                            <td>
+                                                {{ $data->created_at->format('j F, Y') }}
+                                            </td>
+                                            <td>
+                                                <div class="dropdown action-opt">
+                                                    @if($data->deleted_at == null)
+                                                        <a class="btn bg p-1"
+                                                            href="{{ route('dashboard.social.view', ['id' => $data->id]) }}">
+                                                            <i data-feather="eye"></i>
+                                                        </a>
+                                                        <a class="btn bg p-1"
+                                                            href="{{ route('dashboard.social.edit', ['id' => $data->id]) }}">
+                                                            <i data-feather="edit-3"></i>
+                                                        </a>
+                                                        <a class="btn bg p-1"
+                                                            onclick="confirmAndDelete('{{ route('dashboard.social.delete', ['id' => $data->id]) }}')">
+                                                            <i data-feather="trash-2"></i>
+                                                        </a>
+                                                    @else
+                                                        <a title="Restore" class="btn bg p-1"
+                                                            onclick="confirmAndDelete('{{ route('dashboard.social.restore', ['id' => $data->id]) }}', 'restore')">
+                                                            <i data-feather="rotate-ccw"></i>
+                                                        </a>                                            
+                                                    @endif        
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                        {{ $dataList->links('vendor.pagination.bootstrap-5') }}
                     </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-8">
-            <div class="card bg-white border-0 rounded-10 mb-4">
-                <div class="card-body p-4">
-                    <div class="d-flex justify-content-between align-items-center border-bottom pb-20 mb-20">
-                        <h4 class="fw-semibold fs-18 mb-0">{{ __('dashboard.calender_and_posts') }}</h4>
-                    </div>
-                    <div class="mb-4">
-                        
-                    </div>
+                    @if (count($dataList) == 0)
+                        <x-common.empty></x-common.empty>
+                    @endif
                 </div>
             </div>
         </div>

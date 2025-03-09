@@ -190,7 +190,7 @@
                                                             <span class="ms-2">{{ __('dashboard.profile') }}</span>
                                                         </a>
                                                     </li>
-                                                    @if(auth()->user()->is_admin())
+                                                    {{-- @if(auth()->user()->is_admin()) --}}
                                                         <li>
                                                             <a class="dropdown-item d-flex align-items-center text-body"
                                                                 href="{{ route('dashboard') }}">
@@ -198,7 +198,7 @@
                                                                 <span class="ms-2">{{ __('dashboard.dashboard') }}</span>
                                                             </a>
                                                         </li>                                                        
-                                                    @endif
+                                                    {{-- @endif --}}
                                                     <li>
                                                         <a class="dropdown-item d-flex align-items-center text-body"
                                                             href="{{ route('logout') }}">
@@ -210,7 +210,7 @@
                                             </div>
                                         </li>
                                     @else
-                                        <li class="header-right-item d-none">
+                                        <li class="header-right-item">
                                             <div class="dropdown notifications email">
                                                 <a class="btn btn-secondary border-0 p-0 position-relative"
                                                     href="{{ route('login') }}" title="Blog">

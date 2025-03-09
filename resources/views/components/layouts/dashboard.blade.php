@@ -19,6 +19,9 @@
     <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.0.0/ckeditor5.css">
     <link rel="stylesheet" href="{{ asset('assets/plugin/croppie/croppie.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 
     <?php
     $metaData = [
@@ -218,7 +221,7 @@
                                                     </div>
                                                 </a>
                                             </div>
-                                            <div class="notification-menu">
+                                            <div class="notification-menu d-none">
                                                 <a href="{{ route('language', ['locale' => 'hi']) }}"
                                                     class="dropdown-item p-0">
                                                     <div class="d-flex align-items-center">
@@ -232,7 +235,7 @@
                                                     </div>
                                                 </a>
                                             </div>
-                                            <div class="notification-menu mb-0">
+                                            <div class="notification-menu mb-0 d-none">
                                                 <a href="{{ route('language', ['locale' => 'gj']) }}"
                                                     class="dropdown-item p-0">
                                                     <div class="d-flex align-items-center">
@@ -366,8 +369,6 @@
     <!-- Start Main Content Area -->
 
     <!-- Link Of JS File -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('assets/js/sidebar-menu.js') }}"></script>
     <script src="{{ asset('assets/js/dragdrop.js') }}"></script>

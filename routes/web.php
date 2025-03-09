@@ -16,9 +16,10 @@ use App\Http\Controllers\Dashboard\BoardItemController;
 use App\Http\Controllers\Dashboard\PostsController;
 use App\Http\Controllers\Dashboard\LocationController;
 use App\Http\Controllers\Dashboard\PagesController;
+use App\Http\Controllers\Dashboard\TemplateController;
 use App\Http\Controllers\Dashboard\SocialMediaController;
 use App\Http\Controllers\Dashboard\WebpageController;
-
+use App\Http\Controllers\Dashboard\WebpageAnalyticsController;
 use App\Http\Middleware\CheckIfLogin;
 use App\Http\Middleware\CheckLanguage;
 
@@ -103,6 +104,15 @@ Route::middleware([CheckIfLogin::class, CheckLanguage::class])->group(function (
     Route::get('dashboard/pages/view/{id}', [PagesController::class, 'view'])->name('dashboard.pages.view');
     Route::get('dashboard/pages/delete/{id}', [PagesController::class, 'delete'])->name('dashboard.pages.delete');
 
+    Route::get('dashboard/template', [TemplateController::class, 'index'])->name('dashboard.template');
+    Route::get('dashboard/template/create', [TemplateController::class, 'create'])->name('dashboard.template.create');
+    Route::get('dashboard/template/edit/{id}', [TemplateController::class, 'edit'])->name('dashboard.template.edit');
+    Route::post('dashboard/template/edit/{id}', [TemplateController::class, 'store'])->name('dashboard.template.edit.post');
+    Route::get('dashboard/template/view/{id}', [TemplateController::class, 'view'])->name('dashboard.template.view');
+    Route::get('dashboard/template/delete/{id}', [TemplateController::class, 'delete'])->name('dashboard.template.delete');
+    Route::get('dashboard/template/form/{id}', [TemplateController::class, 'form'])->name('dashboard.template.form');
+    Route::post('dashboard/template/form/{id}', [TemplateController::class, 'store_form'])->name('dashboard.template.form.post');
+
     Route::get('dashboard/location', [LocationController::class, 'index'])->name('dashboard.location');
     Route::get('dashboard/location/create', [LocationController::class, 'create'])->name('dashboard.location.create');
     Route::get('dashboard/location/edit/{id}', [LocationController::class, 'edit'])->name('dashboard.location.edit');
@@ -150,6 +160,7 @@ Route::middleware([CheckIfLogin::class, CheckLanguage::class])->group(function (
     Route::post('dashboard/webpage/create', [WebpageController::class, 'store'])->name('dashboard.webpage.create');
     Route::get('dashboard/webpage/delete/{id}', [WebpageController::class, 'delete'])->name('dashboard.webpage.delete');
     Route::get('dashboard/webpage/restore/{id}', [WebpageController::class, 'restore'])->name('dashboard.webpage.restore');
+    Route::get('dashboard/webpage/analytics/{id}', [WebpageAnalyticsController::class, 'index'])->name('dashboard.webpage.analytics');
     Route::get('dashboard/webpage/edit/{id}/{section?}', [WebpageController::class, 'edit'])->name('dashboard.webpage.edit');
     //Route::post('dashboard/webpage/section-edit/{id}', [WebpageController::class, 'store_edit'])->name('dashboard.webpage.edit.section.post');
     Route::get('dashboard/webpage/delete-sub/{id}/{section}/{sub_id}', [WebpageController::class, 'delete_main'])->name('dashboard.webpage.delete.main');
@@ -157,7 +168,11 @@ Route::middleware([CheckIfLogin::class, CheckLanguage::class])->group(function (
     Route::get('dashboard/webpage/refresh/{id}', [WebpageController::class, 'refresh'])->name('dashboard.webpage.refresh');
 
     Route::get('dashboard/social-media', [SocialMediaController::class, 'index'])->name('dashboard.social');
+    Route::get('dashboard/social-media/view/{id}', [SocialMediaController::class, 'view'])->name('dashboard.social.view');
     Route::get('dashboard/social-media/detail/{id}', [SocialMediaController::class, 'detail'])->name('dashboard.social.detail');
+    Route::get('dashboard/social-media/delete/{id}', [SocialMediaController::class, 'delete'])->name('dashboard.social.delete');
+    Route::get('dashboard/social-media/restore/{id}', [SocialMediaController::class, 'restore'])->name('dashboard.social.restore');
+    Route::get('dashboard/social-media/edit/{id}/{section?}', [SocialMediaController::class, 'edit'])->name('dashboard.social.edit');
     Route::get('instagram/handle-login-callback', [SocialMediaController::class, 'handleInstagramAfterLoginCallback'])->name('instagram.login.callback');
 });
 

@@ -91,6 +91,11 @@ return [
     'basic_info' => 'Basic Information',
     'public_features' => 'Public Features',
     'blog' => 'Blog',
+    'follows' => 'Follows',
+    'followers' => 'Followers',
+    'media' => 'Media',
+    'refresh' => 'Refresh',
+    'account_type_media' => 'Account type',
     'board' => 'Board',
     'member' => 'Member',
     'user' => 'User',
@@ -128,6 +133,7 @@ return [
     'success' => 'Success',
     'failed' => 'Failed',
     'pages' => 'Pages',
+    'template' => 'Template',
     'webpage' => 'Webpage',
     'links' => 'Links',
     'link' => 'Link',
@@ -139,5 +145,6 @@ return [
     'sync_success' => 'Sync completed successfully.',
     'record_deleted' => 'Record deleted successfully.',
     'record_restored' => 'Record restored successfully.',
-    'canvas_to_json' => 'Canvas to JSON'
+    'canvas_to_json' => 'Canvas to JSON',
+    'icon' => 'Icon'
 ];
