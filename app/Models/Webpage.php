@@ -17,6 +17,7 @@ class Webpage extends Model
         'link',
         'description',
         'user_id',
+        'template_id'
     ];
 
     protected $searchable = [
@@ -42,6 +43,16 @@ class Webpage extends Model
 
     public function links()
     {
-        return $this->hasMany(WebpageLink::class);
+        return $this->hasMany(WebpageLink::class)->where('type', 'simple')->orderBy('order');
+    }
+
+    public function social_links()
+    {
+        return $this->hasMany(WebpageLink::class)->where('type', 'social')->orderBy('order');
+    }
+
+    public function industry()
+    {
+        return $this->hasOne(IndustryType::class, 'id', 'industry_type_id');
     }
 }

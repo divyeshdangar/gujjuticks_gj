@@ -8,4 +8,20 @@ use Illuminate\Database\Eloquent\Model;
 class Profile extends Model
 {
     use HasFactory;
+
+    protected $searchable = [
+        'name',
+        'username'
+    ];
+
+    public function scopeSearching($q)
+    {
+        if (request('search')) {
+            foreach ($this->searchable as $key => $value) {
+                $q->orwhere($value, 'LIKE', '%' . request('search') . '%');
+            }
+        }
+        return $q;
+    }
+
 }

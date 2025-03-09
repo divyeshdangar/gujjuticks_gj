@@ -3,10 +3,8 @@
 namespace App\View\Components\layouts;
 
 use Closure;
-use App\Models\Menu;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
-use Illuminate\Support\Facades\Auth;
 
 class Dashboard extends Component
 {
