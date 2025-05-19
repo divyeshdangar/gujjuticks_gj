@@ -13,6 +13,6 @@ class HomeController extends Controller
         // to set meta data of page
         $metaData = [];
 
-        return view('welcome', ['metaData' => $metaData, 'metaData' => []]);
+        return view('welcome', ['metaData' => $metaData]);
     }
 }

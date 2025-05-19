@@ -146,5 +146,6 @@ return [
     'record_deleted' => 'Record deleted successfully.',
     'record_restored' => 'Record restored successfully.',
     'canvas_to_json' => 'Canvas to JSON',
+    'keywords' => 'Keywords',
     'icon' => 'Icon'
 ];

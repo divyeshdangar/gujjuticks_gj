@@ -87,6 +87,20 @@
                             <div class="col-lg-12">
                                 <div class="form-group mb-4">
                                     <label
+                                        class="label @error('keywords') text-danger @enderror">{{ __('dashboard.keywords') }}</label>
+                                    <div class="form-group position-relative">
+                                        <textarea id="keywords" name="keywords"
+                                            class="form-control text-dark @error('keywords') border border-danger rounded-3 border-3 @enderror"
+                                            placeholder="{{ __('dashboard.keywords') }}" rows="3" rows="7" required>{{ old('keywords', $dataDetail->keywords) }}</textarea>
+                                    </div>
+                                    @error('keywords')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="form-group mb-4">
+                                    <label
                                         class="label @error('meta_description') text-danger @enderror">{{ __('dashboard.meta_description') }}</label>
                                     <div class="form-group position-relative">
                                         <textarea id="meta_description" name="meta_description"
@@ -136,7 +150,7 @@
                                     <div class="form-group position-relative">
                                         <select class="form-select form-control ps-5 h-58" name="location_id"
                                             aria-label="Parent category selection">
-                                            <option class="text-dark">{{ __('dashboard.select') }}
+                                            <option value="" class="text-dark">{{ __('dashboard.select') }}
                                                 {{ __('dashboard.district') }}</option>
                                             @foreach ($locationData as $data)
                                                 <option value="{{ $data->id }}" class="text-dark"
@@ -157,7 +171,7 @@
                                     <label class="label @error('category_id') text-danger @enderror">{{ __('dashboard.blog_category') }}</label>
                                     <div class="form-group position-relative">
                                         <select class="form-select form-control ps-5 h-58" name="category_id" required aria-label="Parent category selection">
-                                            <option class="text-dark">{{ __('dashboard.select') }}
+                                            <option value="" class="text-dark">{{ __('dashboard.select') }}
                                                 {{ __('dashboard.blog_category') }}</option>
                                             @foreach ($categoryData as $data)
                                                 <option value="{{ $data->id }}" class="text-dark"

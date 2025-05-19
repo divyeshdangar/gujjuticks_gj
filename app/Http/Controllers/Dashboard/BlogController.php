@@ -21,7 +21,7 @@ class BlogController extends Controller
             ],
             "title" => "Blog List"
         ];
-        $dataList = Blog::orderBy('id', 'DESC');
+        $dataList = Blog::withTrashed()->orderBy('id', 'DESC');
         $dataList = $dataList->searching()->paginate(10)->withQueryString();
         return view('dashboard.blog.index', ['dataList' => $dataList, 'metaData' => $metaData]);
     }
@@ -95,6 +95,7 @@ class BlogController extends Controller
                 'title' => 'required|max:255',
                 'slug' => ['required', 'unique:blogs,slug,' . $id, 'min:5', 'max:255', 'regex:/^[a-z][a-z0-9]*(-[a-z0-9]+)*$/i'],
                 'meta_description' => 'required',
+                'keywords' => 'required',
                 'description' => 'required',
                 'category_id' => 'required',
                 'location_id' => 'sometimes',
@@ -123,9 +124,12 @@ class BlogController extends Controller
             $dataDetail->title = $dataToInsert['title'];
             $dataDetail->description = $dataToInsert['description'];
             $dataDetail->slug = $dataToInsert['slug'];
+            $dataDetail->keywords = $dataToInsert['keywords'];
             $dataDetail->meta_description = $dataToInsert['meta_description'];
             $dataDetail->category_id = $dataToInsert['category_id'];
-            $dataDetail->location_id = $dataToInsert['location_id'];
+            if(isset($dataToInsert['location_id'])){
+                $dataDetail->location_id = $dataToInsert['location_id'];
+            }
             $dataDetail->latitude = "";
             $dataDetail->longitude = "";
             $dataDetail->save();
@@ -167,4 +171,31 @@ class BlogController extends Controller
             return redirect()->route('dashboard.blog')->with($message);
         }
     }
+
+    public function restore(Request $request, $id)
+    {
+        $dataDetail = Blog::withTrashed()->find(CommonHelper::decUrlParam($id));
+        if ($dataDetail) {
+            $dataDetail->deleted_at = Null;
+            $dataDetail->save();
+            $message = [
+                "message" => [
+                    "type" => "success",
+                    "title" => __('dashboard.great'),
+                    "description" => __('dashboard.record_restored')
+                ]
+            ];
+            return redirect()->route('dashboard.blog')->with($message);
+        } else {
+            $message = [
+                "message" => [
+                    "type" => "error",
+                    "title" => __('dashboard.bad'),
+                    "description" => __('dashboard.no_record_found')
+                ]
+            ];
+            return redirect()->route('dashboard.blog')->with($message);
+        }
+    }
+
 }

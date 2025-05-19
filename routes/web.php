@@ -30,6 +30,8 @@ use App\Http\Controllers\Pages\PagesController as PublicPagesController;
 use App\Http\Controllers\Pages\FormController;
 use App\Http\Controllers\Pages\HomeController;
 
+use App\Http\Controllers\Api\V1\BlogController as ApiBlogController;
+
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\GoogleLoginController;
 use App\Http\Controllers\Auth\InstagramController;
@@ -96,6 +98,7 @@ Route::middleware([CheckIfLogin::class, CheckLanguage::class])->group(function (
     Route::post('dashboard/blog/edit/{id}', [BlogController::class, 'store'])->name('dashboard.blog.edit.post');
     Route::get('dashboard/blog/view/{id}', [BlogController::class, 'view'])->name('dashboard.blog.view');
     Route::get('dashboard/blog/delete/{id}', [BlogController::class, 'delete'])->name('dashboard.blog.delete');
+    Route::get('dashboard/blog/restore/{id}', [BlogController::class, 'restore'])->name('dashboard.blog.restore');
 
     Route::get('dashboard/pages', [PagesController::class, 'index'])->name('dashboard.pages');
     Route::get('dashboard/pages/create', [PagesController::class, 'create'])->name('dashboard.pages.create');
@@ -185,3 +188,8 @@ Route::get('instagram/handle-callback', [InstagramController::class, 'handleInst
 Route::post('instagram/handle-callback', [InstagramController::class, 'handleInstagramCallbackPost'])->name('instagram.callback.post');
 Route::get('instagram/handle-deauthorize-callback', [InstagramController::class, 'handleInstagramDeauthorizeCallback'])->name('instagram.deauthorize.callback');
 Route::get('instagram/handle-deletion-callback', [InstagramController::class, 'handleInstagramDeletionCallback'])->name('instagram.deletion.callback');
+
+
+Route::prefix('api/v1')->group(function () {
+    Route::apiResource('blog', ApiBlogController::class);
+});
