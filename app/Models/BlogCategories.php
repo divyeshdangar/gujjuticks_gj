@@ -19,9 +19,14 @@ class BlogCategories extends Model
     {
         if (request('search')) {
             foreach ($this->searchable as $key => $value) {
-                $q->orwhere($value, 'LIKE', '%'.request('search').'%');
+                $q->orwhere($value, 'LIKE', '%' . request('search') . '%');
             }
         }
         return $q;
+    }
+
+    public function blogs()
+    {
+        return $this->hasMany(Blog::class, 'category_id'); // replace 'category_id' if different
     }
 }

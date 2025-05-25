@@ -19,7 +19,7 @@ class BlogCategoryController extends Controller
             ],
             "title" => "Blog Categories List"
         ];
-        $dataList = BlogCategories::orderBy('id', 'DESC');
+        $dataList = BlogCategories::orderBy('id', 'DESC')->withCount('blogs');
         $dataList = $dataList->searching()->paginate(10)->withQueryString();
         return view('dashboard.blog-category.index', ['dataList' => $dataList, 'metaData' => $metaData]);
     }

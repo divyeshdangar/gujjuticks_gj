@@ -14,7 +14,7 @@
         if (getHeaderId) {
             window.addEventListener('scroll', event => {
                 const height = 150;
-                if(event.target.scrollingElement){
+                if (event.target.scrollingElement) {
                     const {
                         scrollTop
                     } = event.target.scrollingElement;
@@ -329,33 +329,49 @@ try {
 } catch {}
 
 function confirmAndDelete(link, action = 'delete') {
-	Swal.fire({
-		title: "Are you sure?",
-		text: "You won to be able to revert this!",
-		icon: "warning",
-		showCancelButton: true,
-		buttonsStyling: false,
-		confirmButtonText: "Yes, " + action.toLowerCase() + " it!",
-		cancelButtonText: "No, cancel!",
-		reverseButtons: true,
-		customClass: {
-			confirmButton: "mx-1 btn btn-danger",
-			cancelButton: "mx-1 btn btn-default"
-		}
-	}).then(function (result) {
-		if (result.value) {
-			location.href = link;
-		} else if (result.dismiss === "cancel") {
-			Swal.fire(
-				"Cancelled",
-				capitalize(action) + " operation cancelled :)",
-				"error"
-			);
-		}
-	});
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You won to be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        buttonsStyling: false,
+        confirmButtonText: "Yes, " + action.toLowerCase() + " it!",
+        cancelButtonText: "No, cancel!",
+        reverseButtons: true,
+        customClass: {
+            confirmButton: "mx-1 btn btn-danger",
+            cancelButton: "mx-1 btn btn-default"
+        }
+    }).then(function (result) {
+        if (result.value) {
+            location.href = link;
+        } else if (result.dismiss === "cancel") {
+            Swal.fire(
+                "Cancelled",
+                capitalize(action) + " operation cancelled :)",
+                "error"
+            );
+        }
+    });
 }
 
-function capitalize(s)
-{
+function capitalize(s) {
     return s && s[0].toUpperCase() + s.slice(1);
+}
+
+function copySlug(fromId, toId) {
+    const fromInput = document.getElementById(fromId);
+    const toInput = document.getElementById(toId);
+
+    if (fromInput && toInput) {
+        let slug = fromInput.value
+            .toLowerCase()
+            .trim()
+            .replace(/[^a-z0-9\s-]/g, '') // Remove special chars
+            .replace(/\s+/g, '-') // Replace spaces with hyphen
+            .replace(/-+/g, '-') // Collapse multiple hyphens
+            .replace(/^-+|-+$/g, ''); // Remove leading/trailing hyphens
+
+        toInput.value = slug;
+    }
 }

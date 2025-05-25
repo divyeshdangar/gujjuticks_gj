@@ -10,7 +10,7 @@
         <x-common.breadcrumb :metaData="$metaData"></x-common.breadcrumb>
     @endif
 
-    <form method="post" id="formToValidate" action="{{ route('dashboard.blog.edit.post', ['id' => encrypt(0)]) }}">
+    <form method="post" id="formToValidate" action="{{ route('dashboard.blog.edit.post', ['id' => 0]) }}">
         {{ csrf_field() }}
         <div class="row">
             <div class="col-lg-8">
@@ -35,7 +35,7 @@
                                     <label
                                         class="label @error('title') text-danger @enderror">{{ __('dashboard.title') }}</label>
                                     <div class="form-group position-relative">
-                                        <input type="text" name="title"
+                                        <input type="text" name="title" id="title"
                                             class="form-control text-dark ps-5 h-58 @error('title') border border-danger rounded-3 border-3 @enderror"
                                             value="{{ old('title') }}"
                                             placeholder="{{ __('dashboard.title') }}" required>
@@ -49,8 +49,9 @@
                                 <div class="form-group mb-4">
                                     <label
                                         class="label @error('slug') text-danger @enderror">{{ __('dashboard.slug') }}</label>
+                                    <button class="btn btn-sm btn-warning" type="button" onclick="copySlug('title', 'slug')">copy</button>
                                     <div class="form-group position-relative">
-                                        <input type="text" name="slug"
+                                        <input type="text" name="slug" id="slug"
                                             class="form-control text-dark ps-5 h-58 @error('slug') border border-danger rounded-3 border-3 @enderror"
                                             data-pristine-pattern="/[a-z]+$/i"
                                             value="{{ old('slug') }}"

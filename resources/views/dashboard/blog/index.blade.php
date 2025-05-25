@@ -79,18 +79,18 @@
                                     <td>
                                         <div class="dropdown action-opt">
                                             @if($data->deleted_at == null)
-                                                <a class="btn bg p-1" href="{{ route('dashboard.blog.view', ['id' => encrypt($data->id)]) }}">
+                                                <a class="btn bg p-1" href="{{ route('dashboard.blog.view', ['id' => $data->id]) }}">
                                                     <i data-feather="eye"></i>
                                                 </a>
-                                                <a class="btn bg p-1" href="{{ route('dashboard.blog.edit', ['id' => encrypt($data->id)]) }}">
+                                                <a class="btn bg p-1" href="{{ route('dashboard.blog.edit', ['id' => $data->id]) }}">
                                                     <i data-feather="edit-3"></i>
                                                 </a>
-                                                <a class="btn bg p-1" onclick="confirmAndDelete('{{ route('dashboard.blog.delete', ['id' => encrypt($data->id)]) }}')">
+                                                <a class="btn bg p-1" onclick="confirmAndDelete('{{ route('dashboard.blog.delete', ['id' => $data->id]) }}')">
                                                     <i data-feather="trash-2"></i>
                                                 </a>
                                             @else
                                                 <a title="Restore" class="btn bg p-1"
-                                                    onclick="confirmAndDelete('{{ route('dashboard.blog.restore', ['id' => encrypt($data->id)]) }}', 'restore')">
+                                                    onclick="confirmAndDelete('{{ route('dashboard.blog.restore', ['id' => $data->id]) }}', 'restore')">
                                                     <i data-feather="rotate-ccw"></i>
                                                 </a>
                                             @endif

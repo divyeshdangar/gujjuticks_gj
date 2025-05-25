@@ -113,7 +113,7 @@
                 @endphp
 
                 @if (isset($menu))
-                    @if(count($menu) > 0)                        
+                    @if (count($menu) > 0)
                         @foreach ($menu as $m)
                             @if ($m['title_only'] == 1)
                                 <li class="menu-title small text-uppercase">
@@ -303,7 +303,8 @@
                                         <div class="d-xxl-flex align-items-center bg-transparent border-0 text-start p-0 cursor"
                                             data-bs-toggle="dropdown">
                                             <div class="flex-shrink-0">
-                                                <img class="rounded-circle wh-54" src="{{ auth()->user()->profile() }}" alt="admin">
+                                                <img class="rounded-circle wh-54"
+                                                    src="{{ auth()->user()->profile() }}" alt="admin">
                                             </div>
                                             <div class="flex-grow-1 ms-3">
                                                 <div class="d-flex align-items-center justify-content-between">
@@ -461,7 +462,7 @@
         } from 'ckeditor5';
 
         if (document.querySelector('.ckeditor5')) {
-            
+
             var cke_list = document.querySelectorAll('.ckeditor5'); // returns NodeList
             var ck_array = [...cke_list]; // converts NodeList to Array
             ck_array.forEach(ck => {
@@ -528,9 +529,14 @@
                                 '|',
                                 'link', 'uploadImage', 'blockQuote', 'codeBlock',
                                 '|',
-                                'bulletedList', 'numberedList', 'todoList', 'outdent', 'indent'
+                                'bulletedList', 'numberedList', 'todoList', 'outdent', 'indent',
+                                '|',
+                                'insertTable'
                             ],
 
+                        },
+                        table: {
+                            contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells']
                         }
                     })
                     .then(editor => {

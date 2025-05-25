@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Dashboard;
 
-use App\Helpers\CommonHelper;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -28,7 +27,7 @@ class BlogController extends Controller
 
     public function view(Request $request, $id)
     {
-        $dataDetail = Blog::find(CommonHelper::decUrlParam($id));
+        $dataDetail = Blog::find($id);
         if ($dataDetail) {
             $metaData = [
                 "breadCrumb" => [
@@ -66,7 +65,7 @@ class BlogController extends Controller
 
     public function edit(Request $request, $id)
     {
-        $dataDetail = Blog::find(CommonHelper::decUrlParam($id));
+        $dataDetail = Blog::find($id);
         if ($dataDetail) {
             $locationData = Location::where('parent_id', 2)->orderBy('name')->get();
             $categoryData = BlogCategories::orderBy('title')->get();
@@ -84,8 +83,7 @@ class BlogController extends Controller
     }
 
     public function store(Request $request, $id): RedirectResponse
-    {
-        $id = CommonHelper::decUrlParam($id);
+    {        
         $dataDetail = Blog::find($id);
         if ($dataDetail || $id == 0) {
             if ($id == 0) {
@@ -149,7 +147,7 @@ class BlogController extends Controller
 
     public function delete(Request $request, $id)
     {        
-        $dataDetail = Blog::find(CommonHelper::decUrlParam($id));
+        $dataDetail = Blog::find($id);
         if ($dataDetail) {
             $dataDetail->delete();
             $message = [
@@ -174,7 +172,7 @@ class BlogController extends Controller
 
     public function restore(Request $request, $id)
     {
-        $dataDetail = Blog::withTrashed()->find(CommonHelper::decUrlParam($id));
+        $dataDetail = Blog::withTrashed()->find($id);
         if ($dataDetail) {
             $dataDetail->deleted_at = Null;
             $dataDetail->save();

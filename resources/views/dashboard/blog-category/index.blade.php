@@ -51,6 +51,7 @@
                                 </th>
                                 <th scope="col">{{ __('dashboard.image') }}</th>
                                 <th scope="col">{{ __('dashboard.title') }}</th>
+                                <th scope="col">{{ __('dashboard.blogs') }}</th>
                                 <th scope="col">{{ __('dashboard.date') }}</th>
                                 <th scope="col">{{ __('dashboard.action') }}</th>
                             </tr>
@@ -72,6 +73,9 @@
                                                 {!! CommonHelper::highLight($data->title) !!}
                                             <span>
                                         </div>
+                                    </td>
+                                    <td>
+                                        {{ $data->blogs_count }}
                                     </td>
                                     <td>
                                         {{ $data->created_at->format('j F, Y') }}

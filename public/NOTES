@@ -45,7 +45,7 @@ php artisan make:controller Dashboard/WebpageController
 
 Create migration
 php artisan make:migration create_notification_table
-php artisan make:migration multi_table_changes_6
+php artisan make:migration multi_table_changes_cities
 
 Run migration
 php artisan migrate
@@ -56,7 +56,7 @@ php artisan make:model TemplateData --migration //create migration as well
 
 php artisan make:seeder DaysSeeder
 php artisan db:seed
-php artisan db:seed --class=MenuSeeder
+php artisan db:seed --class=PlaceCategorySeeder
 
 php artisan make:trait InstagramTrait
 
