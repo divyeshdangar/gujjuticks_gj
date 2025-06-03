@@ -37,7 +37,7 @@ https://laravel.com/docs/11.x/blade#passing-data-to-components
 
 Create component
 php artisan make:component common/Breadcrumb //class and view file will be created
-php artisan make:component common.breadcrumb --view //only view file created
+php artisan make:component common.front_breadcrumb --view //only view file created
 
 Create controller
 php artisan make:controller Dashboard/WebpageController
@@ -45,7 +45,7 @@ php artisan make:controller Dashboard/WebpageController
 
 Create migration
 php artisan make:migration create_notification_table
-php artisan make:migration multi_table_changes_cities
+php artisan make:migration multi_table_changes_7
 
 Run migration
 php artisan migrate

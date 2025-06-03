@@ -23,7 +23,7 @@ class FormController extends Controller
             "url" => route('form.contact')
         ];
 
-        return view('pages.form.contact', ['metaData' => $metaData, 'metaData' => []]);
+        return view('pages.form.contact', ['metaData' => $metaData]);
     }
 
     public function store(Request $request): RedirectResponse

@@ -24,4 +24,8 @@ class PlaceCategory extends Model
         return $q;
     }
 
+    public function businesses()
+    {
+        return $this->hasMany(Business::class);
+    }
 }

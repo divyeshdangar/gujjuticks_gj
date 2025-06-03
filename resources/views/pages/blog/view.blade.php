@@ -1,69 +1,95 @@
-<x-layouts.simple-layout :showHeader="true" :metaData="$metaData">
+<x-layouts.front :showHeader="true" :metaData="$metaData">
 
-    {{-- @if ($metaData['breadCrumb'])
-        <x-common.breadcrumb :isPublicPage="true" :metaData="$metaData"></x-common.breadcrumb>
-    @endif --}}
-
-    <div class="row mb-2 pb-5">
-        <div class="col-md-8">
-            <div class="card bg-white border-0 rounded-10 mb-4">
-                <div class="card-body p-4 pb-0">
-                    <h1 class="mb-0 fw-semibold text-dark">{{ $dataDetail->title }}</h1>
-                    <img src="{{ URL::asset('/images/blog/' . $dataDetail->image) }}" alt="{{ $dataDetail->title }} Image" title="{{ $dataDetail->title }} Image" class="img-fluid rounded-10 my-4">
-                    <ul class="ps-0 mb-4 list-unstyled chat-list">
-                        <li class="d-flex justify-content-between border-bottom border-color-gray pb-3 mb-3">
-                            @if($dataDetail->user)
-                                <div class="d-flex align-items-center">
-                                    <div class="flex-shrink-0 position-relative">
-                                        <img src="{{ $dataDetail->user->profile() }}" class="wh-48 rounded-circle"
-                                            alt="user">
-                                        <div
-                                            class="position-absolute p-1 bg-primary border border-2 border-white rounded-circle status-position2">
-                                        </div>
-                                    </div>
-                                    <div class="flex-grow-1 ms-10">
-                                        <h4 class="fs-16 fw-semibold mb-1">{{ ucwords($dataDetail->user->name) }}</h4>
-                                        <span class="fs-14 text-success">{{ $dataDetail->user->username }}</span>
-                                    </div>
-                                </div>                                
-                            @endif
-                            <div class="text-end">
-                                <span class="d-block fs-14 text-gray-light">{{ $dataDetail->created_at->format('j F, Y') }}</span>
-                                <span class="d-block fs-14 text-info">1000 views | {{ $lang[$dataDetail->lang] }}</span>
-                            </div>
-                        </li>
-                    </ul>
-                    <p class="mb-4">{!! $dataDetail->description !!}</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4 mb-4">
-            <div class="card bg-white border-0 rounded-10 mb-4">
-                <div class="card-body p-4">
-                    <div class="d-flex justify-content-between align-items-center border-bottom pb-20 mb-20">
-                        <h4 class="fw-bold fs-18 mb-0">{{ __('contact.top_categories') }}</h4>
-                    </div>
-                    <div class="row">
-                        @foreach ($categories as $data)
-                            <x-common.blocks.category :data="$data" :class="'col-md-12'"></x-common.breadcrumb>
-                        @endforeach
-                    </div>
-                </div>
-            </div>
-
-            <div class="card bg-white border-0 rounded-10 mb-4">
-                <div class="card-body p-4 pb-0">
-                    <div class="d-flex justify-content-between align-items-center border-bottom pb-20 mb-20">
-                        <h4 class="fw-bold fs-18 mb-0">{{ __('contact.recent_blogs') }}</h4>
-                    </div>
-                    <div class="row">
-                        @foreach ($dataList as $data)
-                            <x-common.blocks.blog :lang="$lang" :data="$data" :class="'col-12'"></x-common.breadcrumb>
-                        @endforeach
-                    </div>
-                </div>
-            </div>
+    <div class="p-2">
+        <div class="p-5 d-none d-md-block">
         </div>
     </div>
-</x-layouts.simple-layout>
+
+    <section class="section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="text-center mb-5">
+                        <p class="text-danger fw-semibold mb-0">{{ $dataDetail->category->title }}</p>
+                        <h1 class="h2">{{ $dataDetail->title }}</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="blog-post">
+                        <img src="{{ URL::asset('/images/blog/' . $dataDetail->image) }}"
+                            alt="{{ $dataDetail->title }} Image" title="{{ $dataDetail->title }} Image"" alt=""
+                            class="img-fluid rounded-3">
+
+                        <ul class="list-inline mb-0 mt-3 text-muted">
+                            <li class="list-inline-item">
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-shrink-0">
+                                        <img src="{{ $dataDetail->user->profile() }}"
+                                            alt="{{ ucwords($dataDetail->user->name) }} Profile"
+                                            class="avatar-sm rounded-circle">
+                                    </div>
+                                    <div class="ms-3">
+                                        <a href="blog-author.html" class="primary-link">
+                                            <h6 class="mb-0">By {{ ucwords($dataDetail->user->name) }}</h6>
+                                        </a>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-inline-item">
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-shrink-0">
+                                        <i class="uil uil-calendar-alt"></i>
+                                    </div>
+                                    <div class="ms-2">
+                                        <p class="mb-0"> {{ $dataDetail->created_at->format('j F, Y') }}</p>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                        <div class="mt-4">
+
+                            {!! $dataDetail->description !!}
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-5">
+                    <div class="sidebar ms-lg-4 ps-lg-4 mt-5 mt-lg-0">
+                        <div class="pt-2">
+                            <div class="sd-title">
+                                <h6 class="fs-16 mb-3">Categories</h6>
+                            </div>
+                            <div class="my-3">
+                                @foreach ($categories as $key => $value)
+                                    <div class="mb-2">
+                                        <a
+                                            href="{{ route('pages.blog.category.detail', ['slug' => $value->slug]) }}">{{ $value->title }}</a>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+
+                        <div class="pt-4">
+                            <div class="sd-title">
+                                <h6 class="fs-16 mb-3">Related Blogs</h6>
+                            </div>
+                            <div class="my-3">
+                                <div class="row">
+                                    @foreach ($dataList as $data)
+                                        <x-common.blocks.blog :lang="$lang" :data="$data"
+                                            :class="'col-12'"></x-common.breadcrumb>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+</x-layouts.front>
