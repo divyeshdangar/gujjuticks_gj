@@ -17,6 +17,20 @@
     <link href="{{ asset('files/css/bootstrap.min.css') }}" id="bootstrap-style" rel="stylesheet" />
     <link href="{{ asset('files/css/icons.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('files/css/app.min.css') }}" id="app-style" rel="stylesheet" />
+
+    @production
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-CB42ST9162"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
+            gtag('config', 'G-CB42ST9162');
+        </script>
+    @endproduction
 </head>
 
 <body data-bs-theme="dark">
@@ -77,8 +91,7 @@
                 </a>
                 <div>
                     <button class="navbar-toggler me-3" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#navbarCollapse" aria-controls="navbarCollapse"
-                        aria-label="Toggle navigation">
+                        data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-label="Toggle navigation">
                         <i class="mdi mdi-menu"></i>
                     </button>
                 </div>
@@ -95,6 +108,14 @@
                         </li>
                     </ul>
                 </div>
+                <ul class="header-menu list-inline d-flex align-items-center mb-0">
+                    <li class="list-inline-item dropdown">
+                        <a href="javascript:void(0)" class="header-item" id="userdropdown">
+                            <img src="{{ asset('files/images/profile.jpg') }}" alt="mdo" width="35"
+                                height="35" class="rounded-circle me-1">
+                        </a>
+                    </li>
+                </ul>
             </div>
         </nav>
 
@@ -164,4 +185,5 @@
     ?>
 
 </body>
+
 </html>
