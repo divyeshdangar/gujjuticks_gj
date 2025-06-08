@@ -13,155 +13,91 @@
     </x-common.meta>
 
     <link rel="shortcut icon" href="{{ asset('files/images/favicon.ico') }}">
-    <link rel="stylesheet" href="{{ asset('files/libs/choices.js/public/assets/styles/choices.min.css') }}">
+    {{-- <link rel="preload" as="image" href="{{ asset('home/img-01.png') }}"> --}}
+    {{-- <link rel="stylesheet" href="{{ asset('files/libs/choices.js/public/assets/styles/choices.min.css') }}"> --}}
     <link href="{{ asset('files/css/bootstrap.min.css') }}" id="bootstrap-style" rel="stylesheet" />
-    <link href="{{ asset('files/css/icons.min.css') }}" rel="stylesheet" />
+    {{-- <link href="{{ asset('files/css/icons.min.css') }}" rel="stylesheet" /> --}}
     <link href="{{ asset('files/css/app.min.css') }}" id="app-style" rel="stylesheet" />
-
-    @production
-        <!-- Google tag (gtag.js) -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-CB42ST9162"></script>
-        <script>
-            window.dataLayer = window.dataLayer || [];
-
-            function gtag() {
-                dataLayer.push(arguments);
-            }
-            gtag('js', new Date());
-            gtag('config', 'G-CB42ST9162');
-        </script>
-    @endproduction
 </head>
 
 <body data-bs-theme="dark">
 
-    <div>
-        <div class="top-bar">
-            <div class="container-fluid custom-container">
-                <div class="row g-0 align-items-center">
-                    <div class="col-md-7">
-                        <ul class="list-inline mb-0 text-center text-md-start">
-                            <li class="list-inline-item">
-                                <p class="fs-13 mb-0"> <i class="mdi mdi-map-marker"></i> Your Location: <a
-                                        href="javascript:void(0)" class="text-dark">Gujarat</a></p>
-                            </li>
-                            <li class="list-inline-item">
-                                <ul class="topbar-social-menu list-inline mb-0">
-                                    <li class="list-inline-item"><a target="_blank" href="https://wa.me/7600126800"
-                                            class="social-link"><i class="uil uil-whatsapp"></i></a></li>
-                                    <li class="list-inline-item"><a target="_blank"
-                                            href="https://www.instagram.com/gujjuticks" class="social-link"><i
-                                                class="uil uil-instagram"></i></a></li>
-                                    <li class="list-inline-item"><a target="_blank" href="mailto:support@gujjuticks.com"
-                                            class="social-link"><i class="uil uil-envelope"></i></a></li>
-                                    <li class="list-inline-item"><a target="_blank" href="https://x.com/GujjuTicks"
-                                            class="social-link"><i class="uil uil-twitter-alt"></i></a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="col-md-5">
-                        <ul class="list-inline mb-0 text-center text-md-end">
-                            <li class="list-inline-item py-2 me-2 align-middle">
-                                <a href="{{ route('login') }}" class="text-dark fw-medium fs-13"><i
-                                        class="uil uil-lock"></i>
-                                    Login</a>
-                            </li>
-                            <li class="list-inline-item align-middle">
-                                <div class="dropdown d-inline-block language-switch">
-                                    <button type="button" class="btn">
-                                        <img id="header-lang-img" src="{{ asset('files/images/flags/india.png') }}"
-                                            alt="Header Language" height="16" />
-                                    </button>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+    <nav class="navbar navbar-expand-lg fixed-top sticky mt-0" id="navbar">
+        <div class="container-fluid custom-container">
+            <a title="GujjuTicks Logo" class="navbar-brand text-dark fw-bold me-auto" href="{{ route('home') }}">
+                {{-- <img src="{{ asset('files/images/logo-dark.png') }}" height="45" alt="" class="logo-dark" /> --}}
+                <img src="{{ asset('files/images/logo-light.png') }}" width="1000" height="220" alt=""
+                    class="logo-light" style="height: 30px; width: 136px;" />
+            </a>
+            <div>
+                <button class="navbar-toggler me-3" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-label="Toggle navigation">
+                    <i class="mdi mdi-menu"></i>
+                </button>
             </div>
-        </div>
-
-        <nav class="navbar navbar-expand-lg fixed-top sticky" id="navbar">
-            <div class="container-fluid custom-container">
-                <a class="navbar-brand text-dark fw-bold me-auto" href="{{ route('home') }}">
-                    <img src="{{ asset('files/images/logo-dark.png') }}" height="45" alt=""
-                        class="logo-dark" />
-                    <img src="{{ asset('files/images/logo-light.png') }}" height="30" alt=""
-                        class="logo-light" />
-                </a>
-                <div>
-                    <button class="navbar-toggler me-3" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-label="Toggle navigation">
-                        <i class="mdi mdi-menu"></i>
-                    </button>
-                </div>
-                <div class="collapse navbar-collapse" id="navbarCollapse">
-                    <ul class="navbar-nav mx-auto navbar-center">
-                        <li class="nav-item">
-                            <a href="{{ route('home') }}" class="nav-link">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('pages.blog.list') }}" class="nav-link">Blogs</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('form.contact') }}" class="nav-link">Contact</a>
-                        </li>
-                    </ul>
-                </div>
-                <ul class="header-menu list-inline d-flex align-items-center mb-0">
-                    <li class="list-inline-item dropdown">
-                        <a href="javascript:void(0)" class="header-item" id="userdropdown">
-                            <img src="{{ asset('files/images/profile.jpg') }}" alt="mdo" width="35"
-                                height="35" class="rounded-circle me-1">
-                        </a>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav mx-auto navbar-center">
+                    <li class="nav-item">
+                        <a href="{{ route('home') }}" class="nav-link">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('pages.blog.list') }}" class="nav-link">Blogs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('form.contact') }}" class="nav-link">Contact</a>
                     </li>
                 </ul>
             </div>
-        </nav>
+            <ul class="header-menu list-inline d-flex align-items-center mb-0">
+                <li class="list-inline-item dropdown">
+                    <a class="header-item" id="userdropdown">
+                        <img src="{{ asset('files/images/profile.jpg') }}" alt="mdo" width="35" height="35"
+                            class="rounded-circle me-1">
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
 
-        <div class="main-content">
-            <div class="page-content">
-                {{ $slot }}
-            </div>
-            <section class="bg-subscribe">
-                <div class="container">
-                    <div class="row justify-content-between align-items-center">
-                        <div class="col-lg-6">
-                            <div class="text-center text-lg-start">
-                                <h4 class="text-white">Get New Notification!</h4>
-                                <p class="text-white-50 mb-0">Subscribe & get all related notification.</p>
-                            </div>
+    <div class="main-content">
+        <div class="page-content">
+            {{ $slot }}
+        </div>
+        <section class="bg-subscribe">
+            <div class="container">
+                <div class="row justify-content-between align-items-center">
+                    <div class="col-lg-6">
+                        <div class="text-center text-lg-start">
+                            <span class="text-white h4">Get New Notification!</span>
+                            <p class="text-white-50 mb-0">Subscribe & get all related notification.</p>
                         </div>
-                        <div class="col-lg-6">
-                            <div class="mt-4 mt-lg-0">
-                                <form class="subscribe-form" action="#">
-                                    <div class="input-group justify-content-center justify-content-lg-end">
-                                        <input type="text" class="form-control" id="subscribe"
-                                            placeholder="Enter your email">
-                                        <button class="btn btn-primary" type="button"
-                                            id="subscribebtn">Subscribe</button>
-                                    </div>
-                                </form>
-                            </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mt-4 mt-lg-0">
+                            <form class="subscribe-form" action="#">
+                                <div class="input-group justify-content-center justify-content-lg-end">
+                                    <input type="text" class="form-control" id="subscribe"
+                                        placeholder="Enter your email">
+                                    <button class="btn btn-dark" type="button" id="subscribebtn">Subscribe</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
-                <div class="email-img d-none d-lg-block">
-                    <img src="{{ asset('files/images/subscribe.png') }}" alt="" class="img-fluid">
-                </div>
-            </section>
+            </div>
+            <div class="email-img d-none d-lg-block">
+                <img src="{{ asset('files/images/subscribe.png') }}" alt="" class="img-fluid">
+            </div>
+        </section>
 
-            <div class="footer-alt">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <p class="text-white-50 text-center mb-0">
-                                <script>
-                                    document.write(new Date().getFullYear())
-                                </script> &copy; GujjuTicks - First of it's kind
-                                Gujarati Portal.
-                            </p>
-                        </div>
+        <div class="footer-alt">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <p class="text-white-50 text-center mb-0">
+                            <?php echo Date('Y'); ?> GujjuTicks - First of it's kind
+                            Gujarati Portal.
+                        </p>
                     </div>
                 </div>
             </div>
@@ -169,8 +105,8 @@
     </div>
 
     <script src="{{ asset('files/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="https://unicons.iconscout.com/release/v4.0.0/script/monochrome/bundle.js"></script>
-    <script src="{{ asset('files/js/app.js') }}"></script>
+    {{-- <script src="https://unicons.iconscout.com/release/v4.0.0/script/monochrome/bundle.js"></script> --}}
+    {{-- <script src="{{ asset('files/js/app.js') }}"></script> --}}
 
     <?php 
         if(session('message')){ ?>
@@ -180,10 +116,14 @@
         if (message) {
             Swal.fire(message.title, message.description, message.type);
         }
+
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]')),
+            tooltipList = tooltipTriggerList.map(function(t) {
+                return new bootstrap.Tooltip(t)
+            });
     </script>
     <?php }
     ?>
-
 </body>
 
 </html>

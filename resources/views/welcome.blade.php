@@ -1,8 +1,6 @@
 <x-layouts.front :showHeader="true" :metaData="$metaData">
-
-    <!-- START HOME -->
     <section class="bg-home" id="home">
-        <div class="bg-overlay"></div>
+        {{-- <div class="bg-overlay"></div> --}}
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-8">
@@ -10,10 +8,10 @@
                         <h1 class="display-5 fw-semibold mb-3">Search Between More Then <span
                                 class="text-warning fw-bold">70,000+</span>
                             Businesses and more.</h1>
-                        <p class="fs-17 fw-bold text-danger">
+                        <p class="fs-17 fw-bold text-warning">
                             WE WILL LIVE SOON
                         </p>
-                            
+
                         <p class="fs-17">
                             GujjuTicks.com is dedicated to offering a wide array of essential services tailored to meet
                             the needs of the Gujarati community.
@@ -24,45 +22,10 @@
                         </p>
                     </div>
                 </div>
-                <!--end col-->
             </div>
-
-            {{-- <form action="#">
-                <div class="registration-form">
-                    <div class="row g-0 justify-content-center">
-                        <div class="col-lg-6">
-                            <div class="filter-search-form filter-border mt-3 mt-lg-0">
-                                <i class="uil uil-briefcase-alt"></i>
-                                <input type="search" id="job-title" class="form-control filter-input-box"
-                                    placeholder="Job, Company, Service, Blog, Person...">
-                            </div>
-                        </div>
-                        <div class="col-lg-3">
-                            <div class="mt-3 mt-lg-0 h-100">
-                                <button class="btn btn-primary submit-btn w-100 h-100" type="submit"><i
-                                        class="uil uil-search me-1"></i> Find Now</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </form> --}}
-
-            {{-- <div class="row">
-                <div class="col-lg-12">
-                    <ul class="treding-keywords list-inline mb-0 text-white-50 mt-4 mt-lg-3 text-center">
-                        <li class="list-inline-item text-white"><i
-                                class="mdi mdi-tag-multiple-outline text-warning fs-18"></i> Trending Keywords:</li>
-                        <li class="list-inline-item"><a href="javascript:void(0)">Design,</a></li>
-                        <li class="list-inline-item"><a href="javascript:void(0)">Development,</a></li>
-                        <li class="list-inline-item"><a href="javascript:void(0)">Manager,</a></li>
-                        <li class="list-inline-item"><a href="javascript:void(0)">Senior</a></li>
-                    </ul>
-                </div>
-            </div> --}}
         </div>
     </section>
 
-    <!-- START SHAPE -->
     <div class="position-relative">
         <div class="shape">
             <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -79,10 +42,8 @@
             </svg>
         </div>
     </div>
-    <!-- END SHAPE -->
 
     @if (false)
-        <!-- START CATEGORY -->
         <section class="section">
             <div class="container">
                 <div class="row justify-content-center">
@@ -94,7 +55,6 @@
                                 right freelancers.</p>
                         </div>
                     </div>
-                    <!--end col-->
                 </div>
                 <!--end row-->
                 <div class="row">
@@ -120,26 +80,24 @@
                             <a href="job-categories.html" class="btn btn-primary btn-hover">Browse All Categories <i
                                     class="uil uil-arrow-right"></i></a>
                         </div>
-                    </div><!--end col-->
-                </div><!--end row-->
+                    </div>
+                </div>
             </div>
-            <!--end container-->
         </section>
-        <!-- END CATEGORY -->
     @endif
 
-    <!-- START BLOG -->
     <section class="section">
         <div class="container">
             <div class="row justify-content-center">
-                <div class="col-lg-6">
+                <div class="col-lg-8">
                     <div class="section-title text-center mb-5">
-                        <h3 class="title mb-3">Quick Career Tips</h3>
-                        <p class="text-muted">Post a job to tell us about your project. We'll quickly match you with the
-                            right freelancers.</p>
+                        <h2 class="title mb-3">GujjuTicks Latest Blogs</h2>
+                        <p class="text-muted">GujjuTicks Latest Blogs covers everything from Finance & Investment and
+                            Health & Wellness to Technology, Real Estate, Legal & Insurance, and more—designed to
+                            empower Gujarati readers with practical insights. Dive into expert-led guides on Education, Business & Entrepreneurship, Digital Marketing,
+                            Cyber Safety, and Creators & Influencers, all in a crisp, easy-to-understand style.</p>
                     </div>
                 </div>
-                <!--end col-->
             </div>
 
             @if (isset($dataList) && count($dataList) > 0)
@@ -153,10 +111,7 @@
                 <x-common.empty></x-common.empty>
             @endif
 
-
         </div>
-        <!--end container-->
     </section>
-    <!-- END BLOG -->
 
 </x-layouts.front>

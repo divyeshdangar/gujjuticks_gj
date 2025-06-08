@@ -7,7 +7,7 @@
 
     <section class="section">
         <div class="container">
-            <div class="row align-items-center mt-5">
+            <div class="row align-items-center">
                 <div class="col-lg-6">
                     <div class="section-title mt-4 mt-lg-0">
                         <h3 class="title">{{ $metaData['title'] }}</h3>
