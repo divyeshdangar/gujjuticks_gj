@@ -43,23 +43,21 @@
         </div>
     </div>
 
-    @if (false)
+    @if (true)
         <section class="section">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-6">
                         <div class="section-title text-center">
                             <h3 class="title">Browser Business Categories </h3>
-                            <p class="text-muted">Post a job to tell us about your project. We'll quickly match you with
-                                the
-                                right freelancers.</p>
+                            <p class="text-muted">Post a job to tell us about your project. We'll quickly match you with the right freelancers.</p>
                         </div>
                     </div>
                 </div>
                 <!--end row-->
                 <div class="row">
                     @foreach ($categories as $data)
-                        <div class="col-lg-3 col-md-6 mt-4 pt-2">
+                        <div class="col-lg-3 col-md-6 col-6 mt-4 pt-2">
                             <div class="popu-category-box rounded text-center">
                                 <div class="popu-category-icon icons-md">
                                     <i class="uim uim-layers-alt"></i>

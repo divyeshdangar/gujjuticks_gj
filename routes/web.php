@@ -29,6 +29,7 @@ use App\Http\Controllers\Pages\GujaratController;
 use App\Http\Controllers\Pages\PagesController as PublicPagesController;
 use App\Http\Controllers\Pages\FormController;
 use App\Http\Controllers\Pages\HomeController;
+use App\Http\Controllers\Pages\CitiesController;
 
 use App\Http\Controllers\Api\V1\BlogController as ApiBlogController;
 
@@ -50,6 +51,10 @@ Route::middleware([CheckLanguage::class])->group(function () {
     Route::get('blog-on-{slug}', [PublicBlogController::class, 'category'])->name('pages.blog.category.detail');
     Route::get('blog/{slug}', [PublicBlogController::class, 'view'])->name('pages.blog.detail');
 
+    Route::get('cities', [CitiesController::class, 'index'])->name('pages.cities.list');
+    Route::get('city/{slug}', [CitiesController::class, 'view'])->name('pages.cities.detail');
+    Route::get('city/{slug}/{category}', [CitiesController::class, 'category_businesses_list'])->name('pages.cities.businesses.list');
+
     Route::get('image/{slug}', [PublicImageController::class, 'view'])->name('pages.image.detail');
     Route::post('image/save', [PublicImageController::class, 'store'])->name('pages.image.detail.save');
 
@@ -58,7 +63,6 @@ Route::middleware([CheckLanguage::class])->group(function () {
 
     Route::get('p/{slug}', [PublicPagesController::class, 'view'])->name('p.pages');
 });
-
 
 Route::get('language/{locale}', function ($locale) {
     if (! in_array($locale, ['en', 'hi', 'gj'])) {

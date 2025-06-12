@@ -10,7 +10,7 @@
             <div class="row justify-content-center">
                 <div class="col-lg-10">
                     <div class="text-center mb-5">
-                        <p class="text-danger fw-semibold mb-0">{{ $dataDetail->category->title }}</p>
+                        <a href="{{ route('pages.blog.category.detail', ['slug' => $dataDetail->category->slug]) }}" class="text-warning fw-semibold mb-0">{{ $dataDetail->category->title }}</a>
                         <h1 class="h2">{{ $dataDetail->title }}</h1>
                     </div>
                 </div>
@@ -31,19 +31,7 @@
                                             class="avatar-sm rounded-circle">
                                     </div>
                                     <div class="ms-3">
-                                        <a href="blog-author.html" class="primary-link">
-                                            <h6 class="mb-0">By {{ ucwords($dataDetail->user->name) }}</h6>
-                                        </a>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="list-inline-item">
-                                <div class="d-flex align-items-center">
-                                    <div class="flex-shrink-0">
-                                        <i class="uil uil-calendar-alt"></i>
-                                    </div>
-                                    <div class="ms-2">
-                                        <p class="mb-0"> {{ $dataDetail->created_at->format('j F, Y') }}</p>
+                                        <h6 class="mb-0">By {{ ucwords($dataDetail->user->name) }}</h6> {{ $dataDetail->created_at->format('j F, Y') }}
                                     </div>
                                 </div>
                             </li>

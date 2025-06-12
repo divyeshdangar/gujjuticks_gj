@@ -18,7 +18,7 @@ class HomeController extends Controller
     public function show(Request $request): View
     {
         $metaData = [];
-        $categories = []; //PlaceCategory::withCount('businesses')->where('is_active', '1')->get();
+        $categories = PlaceCategory::withCount('businesses')->where('is_active', '1')->get();
         $dataList = Blog::where('status', '1')->orderBy('id', 'DESC')->limit(3)->get();
 
         return view('welcome', ['metaData' => $metaData, 'lang' => $this->languages, 'categories' => $categories, 'dataList' => $dataList]);
