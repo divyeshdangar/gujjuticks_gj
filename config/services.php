@@ -27,4 +27,7 @@ return [
         'INSTAGRAM_HUB_VERIFY_TOKEN' => env('INSTAGRAM_HUB_VERIFY_TOKEN')
     ],
 
+    'openai' => [
+        'key' => env('OPENAI_API_KEY')
+    ],
 ];

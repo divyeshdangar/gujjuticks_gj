@@ -19,7 +19,7 @@
                 <div class="col-lg-8">
                     <div class="blog-post">
                         <img src="{{ URL::asset('/images/blog/' . $dataDetail->image) }}"
-                            alt="{{ $dataDetail->title }} Image" title="{{ $dataDetail->title }} Image"" alt=""
+                            alt="{{ $dataDetail->title }} Image" title="{{ $dataDetail->title }} Image"
                             class="img-fluid rounded-3">
 
                         <ul class="list-inline mb-0 mt-3 text-muted">

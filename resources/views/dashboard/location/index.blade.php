@@ -62,14 +62,14 @@
                                         #{{ $data->id }}
                                     </td>
                                     <td>
-                                        <a target="_blank" href="{{ URL::asset('/images/location/'.$data->image) }}">
-                                            <img src="{{ URL::asset('/images/location/'.$data->image) }}" width="250px" class="img-thumbnail">
+                                        <a target="_blank" href="{{ URL::asset('/images/cities/'.$data->image) }}">
+                                            <img src="{{ URL::asset('/images/cities/'.$data->image) }}" width="250px" class="img-thumbnail">
                                         </a>
                                     </td>
                                     <td class="ps-0">
                                         <div class="d-flex align-items-center">
                                             <span class="fw-semibold position-relative" style="top: 1px;">
-                                                {!! CommonHelper::highLight($data->name) !!} ({!! CommonHelper::highLight($data->name_gj) !!})
+                                                {!! CommonHelper::highLight($data->name) !!}
                                             <span>
                                         </div>
                                     </td>

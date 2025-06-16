@@ -15,6 +15,8 @@ return new class extends Migration
             $table->string('keywords',1024)->nullable();
             $table->integer('home_order')->default();
             $table->text('meta_description')->nullable();
+            $table->string('name_gj')->nullable();
+            $table->text('description_gj')->nullable();
         });
     }
 

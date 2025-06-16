@@ -9,6 +9,7 @@ use Illuminate\View\View;
 use App\Models\City;
 use App\Models\PlaceCategory;
 use URL;
+// use App\Services\OpenAIService;
 
 class CitiesController extends Controller
 {
@@ -42,7 +43,7 @@ class CitiesController extends Controller
                 "image" => URL::asset('/images/cities/' . $dataDetail->image),
                 "url" => route('pages.cities.detail', ['slug' => $dataDetail->slug])
             ];
-            $categories = PlaceCategory::where('is_active', '1')->get();
+            $categories = PlaceCategory::where('is_active', '1')->orderBy('name', 'ASC')->get();
             $categories = $categories->split(3); // split the Collection into 3 roughly-equal chunks
 
             $dataList = City::where('id', '<>', $dataDetail->id)->limit(3)->get();
@@ -98,4 +99,10 @@ class CitiesController extends Controller
             return redirect()->route('home')->with($message);
         }
     }
+
+    // public function generate(OpenAIService $openAI)
+    // {
+    //     $url = $openAI->generateImage("A traditional Gujarati stepwell surrounded by carved stone architecture in sunlight", '1024x1024');
+    //     dd($url);
+    // }
 }

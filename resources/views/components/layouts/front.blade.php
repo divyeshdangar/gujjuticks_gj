@@ -40,9 +40,11 @@
                     <li class="nav-item">
                         <a href="{{ route('home') }}" class="nav-link">Home</a>
                     </li>
-                    <li class="nav-item">
-                        <a href="{{ route('pages.cities.list') }}" class="nav-link">Cities</a>
-                    </li>
+                    @if(false)
+                        <li class="nav-item">
+                            <a href="{{ route('pages.cities.list') }}" class="nav-link">Cities</a>
+                        </li>                        
+                    @endif
                     <li class="nav-item">
                         <a href="{{ route('pages.blog.list') }}" class="nav-link">Blogs</a>
                     </li>

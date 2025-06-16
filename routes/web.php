@@ -52,6 +52,7 @@ Route::middleware([CheckLanguage::class])->group(function () {
     Route::get('blog/{slug}', [PublicBlogController::class, 'view'])->name('pages.blog.detail');
 
     Route::get('cities', [CitiesController::class, 'index'])->name('pages.cities.list');
+    Route::get('city/generate-image', [CitiesController::class, 'generate']);
     Route::get('city/{slug}', [CitiesController::class, 'view'])->name('pages.cities.detail');
     Route::get('city/{slug}/{category}', [CitiesController::class, 'category_businesses_list'])->name('pages.cities.businesses.list');
 

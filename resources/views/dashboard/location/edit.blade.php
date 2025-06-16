@@ -41,6 +41,23 @@
                         @endif
 
                         <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group mb-4">
+                                    <label
+                                        class="label @error('title') text-danger @enderror">{{ __('dashboard.title') }}</label>
+                                    <div class="form-group position-relative">
+                                        <input type="text" name="title"
+                                            class="form-control text-dark ps-5 h-58 @error('title') border border-danger rounded-3 border-3 @enderror"
+                                            value="{{ old('title', $dataDetail->title) }}"
+                                            placeholder="{{ __('dashboard.title') }}" required>
+                                        <i
+                                            class="ri-pencil-line position-absolute top-50 start-0 translate-middle-y fs-20 text-gray-light ps-20"></i>
+                                    </div>
+                                    @error('title')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
                             <div class="col-lg-6">
                                 <div class="form-group mb-4">
                                     <label
@@ -116,13 +133,13 @@
                             <div class="col-lg-12">
                                 <div class="form-group mb-4">
                                     <label
-                                        class="label @error('meta_keywords') text-danger @enderror">{{ __('dashboard.meta_keywords') }}</label>
+                                        class="label @error('keywords') text-danger @enderror">{{ __('dashboard.meta_keywords') }}</label>
                                     <div class="form-group position-relative">
-                                        <textarea id="meta_keywords" name="meta_keywords"
-                                            class="form-control text-dark @error('meta_keywords') border border-danger rounded-3 border-3 @enderror"
-                                            placeholder="{{ __('dashboard.meta_keywords') }}" rows="3" rows="7" required>{{ old('meta_keywords', $dataDetail->meta_keywords) }}</textarea>
+                                        <textarea id="keywords" name="keywords"
+                                            class="form-control text-dark @error('keywords') border border-danger rounded-3 border-3 @enderror"
+                                            placeholder="{{ __('dashboard.keywords') }}" rows="3" rows="7" required>{{ old('keywords', $dataDetail->keywords) }}</textarea>
                                     </div>
-                                    @error('meta_keywords')
+                                    @error('keywords')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
@@ -200,26 +217,10 @@
                 </div>
             </div>
             <div class="col-lg-4">
-                @if($dataDetail->parent)
-                    <div class="card bg-white border-0 rounded-10 mb-4">
-                        <div class="card-body p-4">
-                            <h4 class="fw-semibold fs-18 border-bottom pb-20 mb-20">{{ __('dashboard.parent') }} {{ __('dashboard.location') }}</h4>
-                            <div class="row">
-                                <div class="col-12 fw-bold mb-4">
-                                    {{ $dataDetail->parent->name }} ({{ $dataDetail->parent->name_gj }})
-                                </div>
-                                <div class="col-12 fw-bold">
-                                    <img src="{{ URL::asset('/images/location/'.$dataDetail->parent->image) }}" class="img-thumbnail">
-                                </div>
-                            </div>
-                        </div>
-                    </div>                    
-                @endif
-
                 <div class="card bg-white border-0 rounded-10 mb-4">
                     <div class="card-body p-4">
                         <h4 class="fw-semibold fs-18 border-bottom pb-20 mb-20">{{ __('dashboard.location') }} {{ __('dashboard.image') }}</h4>
-                        <img src="{{ URL::asset('/images/location/'.$dataDetail->image) }}" class="img-thumbnail">
+                        <img src="{{ URL::asset('/images/cities/'.$dataDetail->image) }}" class="img-thumbnail">
                     </div>
                 </div>
             </div>
