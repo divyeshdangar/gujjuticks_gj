@@ -13,7 +13,12 @@
                         <p class="badge text-bg-warning fs-14 mb-2">Businesses on GujjuTicks</p>
                         <h1 class="h2">{{ $dataDetail->title }}</h1>
                         <p class="text-muted mb-5">{!! $dataDetail->meta_description !!}</p>
-                        <img src="{{ URL::asset('/images/cities/' . $dataDetail->image) }}" alt="{{ $dataDetail->title }} Image" title="{{ $dataDetail->title }} Image" class="img-fluid rounded-3">
+                        <img src="{{ URL::asset('/images/cities/' . $dataDetail->image) }}"
+                            alt="{{ $dataDetail->title }} Image" title="{{ $dataDetail->title }} Image"
+                            class="img-fluid rounded-3 mb-5">
+                        <div class="text-muted text-start">
+                            {!! $dataDetail->description !!}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -28,7 +33,8 @@
                                 <ul class="list-unstyled job-Categories-list mb-0">
                                     @foreach ($column as $category)
                                         <li>
-                                            <a href="{{ route('pages.cities.businesses.list', ['slug' => $dataDetail->slug, 'category' => str_replace('_', '-', $category->name)]) }}" class="primary-link" style="display: block; overflow: hidden;">
+                                            <a href="{{ route('pages.cities.businesses.list', ['slug' => $dataDetail->slug, 'category' => str_replace('_', '-', $category->name)]) }}"
+                                                class="primary-link" style="display: block; overflow: hidden;">
                                                 <span class="badge bg-info-subtle text-info me-2 d-none">25</span>
                                                 {{ $category->label }} in {{ $dataDetail->name }}
                                             </a>

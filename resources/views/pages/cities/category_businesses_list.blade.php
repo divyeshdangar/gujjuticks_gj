@@ -19,7 +19,7 @@
                     </div>
                 </div>
 
-                <div class="col-lg-8">                    
+                <div class="col-lg-12">                    
                     <h2 class="h3 mb-4">List of {{ Str::plural($businessCategory->label) }} in {{ $dataDetail->name }} city</h2>
                     @if (count($dataList) > 0)
                             @foreach ($dataList as $data)

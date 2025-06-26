@@ -18,16 +18,17 @@ class BlogController extends Controller
     ];
     public function index(Request $request): View
     {
-        // to set meta data of page
+        $dataList = Blog::where('status', '1')->orderBy('id', 'DESC');
+        $dataList = $dataList->searching()->paginate(10)->withQueryString();
+        $categories = BlogCategories::where('status', '1')->where('parent_id', null)->limit(15)->get();
+
         $metaData = [
             "title" => "Discover the Essence of Gujarat: Insights and Stories from GujjuTicks Blogs",
             "description" => "Explore insightful blogs on Gujju culture, traditions, cuisine, and more. Discover fascinating stories and tips that celebrate the vibrant spirit of Gujarat, brought to you by GujjuTicks.",
             //"image" => "",
             "url" => route('pages.blog.list')
         ];
-        $dataList = Blog::where('status', '1')->orderBy('id', 'DESC');
-        $dataList = $dataList->searching()->paginate(10)->withQueryString();
-        $categories = BlogCategories::where('status', '1')->where('parent_id', null)->limit(15)->get();
+        $metaData['prev'] = $dataList->previousPageUrl() ?? null;
 
         return view('pages.blog.list', ['metaData' => $metaData, 'lang' => $this->languages, 'dataList' => $dataList, 'categories' => $categories]);
     }

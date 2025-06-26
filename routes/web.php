@@ -25,7 +25,7 @@ use App\Http\Middleware\CheckLanguage;
 
 use App\Http\Controllers\Pages\BlogController as PublicBlogController;
 use App\Http\Controllers\Pages\PublicImageController;
-use App\Http\Controllers\Pages\GujaratController;
+use App\Http\Controllers\Pages\CoolImageController;
 use App\Http\Controllers\Pages\PagesController as PublicPagesController;
 use App\Http\Controllers\Pages\FormController;
 use App\Http\Controllers\Pages\HomeController;
@@ -39,12 +39,6 @@ use App\Http\Controllers\Auth\InstagramController;
 
 Route::middleware([CheckLanguage::class])->group(function () {
     Route::get('/', [HomeController::class, 'show'])->name('home');    
-    Route::get('/test', function () {
-        return view('test');
-    });
-    Route::get('/google', function () {
-        return view('google');
-    });
     Route::get('login', [LoginController::class, 'authenticate'])->name('login');
     Route::get('contact-us', [FormController::class, 'show'])->name('form.contact');
     Route::get('blogs', [PublicBlogController::class, 'index'])->name('pages.blog.list');
@@ -57,10 +51,10 @@ Route::middleware([CheckLanguage::class])->group(function () {
     Route::get('city/{slug}/{category}', [CitiesController::class, 'category_businesses_list'])->name('pages.cities.businesses.list');
 
     Route::get('image/{slug}', [PublicImageController::class, 'view'])->name('pages.image.detail');
-    Route::post('image/save', [PublicImageController::class, 'store'])->name('pages.image.detail.save');
+    Route::get('cool-image/{slug}', [CoolImageController::class, 'view'])->name('pages.cool.image.detail');
 
-    Route::get('gujarat', [GujaratController::class, 'index'])->name('pages.gujarat');
-    Route::get('gujarat/{slug}', [GujaratController::class, 'district'])->name('pages.gujarat.district');
+    // Route::get('gujarat', [GujaratController::class, 'index'])->name('pages.gujarat');
+    // Route::get('gujarat/{slug}', [GujaratController::class, 'district'])->name('pages.gujarat.district');
 
     Route::get('p/{slug}', [PublicPagesController::class, 'view'])->name('p.pages');
 });
@@ -93,8 +87,12 @@ Route::middleware([CheckIfLogin::class, CheckLanguage::class])->group(function (
     Route::post('dashboard/image/edit/{id}', [ImageController::class, 'store'])->name('dashboard.image.edit.post');
     Route::post('dashboard/image/update/{id}', [ImageController::class, 'update'])->name('dashboard.image.update.post');
     Route::post('dashboard/image/upload/{id}', [ImageController::class, 'upload'])->name('dashboard.image.image.post');
-    Route::get('dashboard/image/view/{id}', [ImageController::class, 'view'])->name('dashboard.image.view');
+    Route::get('dashboard/image/data/{id}', [ImageController::class, 'data'])->name('dashboard.image.data');
+    Route::get('dashboard/image/data/create/{id}', [ImageController::class, 'createData'])->name('dashboard.image.data.create');
     Route::get('dashboard/image/delete/{id}', [ImageController::class, 'delete'])->name('dashboard.image.delete');
+    Route::get('dashboard/image/data/delete/{id}/{image_id}', [ImageController::class, 'deleteData'])->name('dashboard.image.data.delete');
+    Route::get('dashboard/image/data/edit/{id}/{image_id}', [ImageController::class, 'editData'])->name('dashboard.image.data.edit');
+    Route::post('dashboard/image/data/edit/{id}/{image_id}', [ImageController::class, 'storeData'])->name('dashboard.image.data.edit.post');
     Route::get('dashboard/image/copy/{id}', [ImageController::class, 'copy'])->name('dashboard.image.copy');
 
     Route::get('dashboard/blog', [BlogController::class, 'index'])->name('dashboard.blog');

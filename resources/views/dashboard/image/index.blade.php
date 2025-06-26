@@ -59,9 +59,9 @@
                                 <th scope="col" class="text-primary">
                                     <label class="form-check-label ms-2" for="flexCheckDefault">#{{ __('dashboard.id') }}</label>
                                 </th>
+                                <th scope="col">{{ __('dashboard.image') }}</th>
                                 <th scope="col">{{ __('dashboard.title') }}</th>
                                 <th scope="col">{{ __('dashboard.description') }}</th>
-                                <th scope="col">{{ __('dashboard.image') }}</th>
                                 <th scope="col">{{ __('dashboard.date') }}</th>
                                 <th scope="col">{{ __('dashboard.action') }}</th>
                             </tr>
@@ -71,6 +71,15 @@
                                 <tr>
                                     <td>
                                         #{{ $data->id }}
+                                    </td>
+                                    <td>
+                                        <div class="text-center">
+                                            <a target="_blank"
+                                                href="{{ route('pages.image.detail', ['slug' => $data->slug]) }}">
+                                                <img width="210px" class="bg-warning rounded p-1"
+                                                    title="{{ $data->width }} x {{ $data->height }}" src="{{ route('pages.image.detail', ['slug' => $data->slug]) }}">
+                                            </a><br>
+                                        </div>
                                     </td>
                                     <td class="ps-0">
                                         <div class="d-flex align-items-center">
@@ -87,20 +96,6 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <div class="d-flex align-items-center">
-                                            <div class="d-flex align-items-center">
-                                                <div class="flex-shrink-0 lh-1">
-                                                    <a target="_blank" href="{{ URL::asset('/images/dynamic/'.$data->image) }}">
-                                                        <img src="{{ URL::asset('/images/dynamic/'.$data->image) }}" class="wh-44 rounded-circle">
-                                                    </a>
-                                                </div>
-                                                <div class="flex-grow-1 ms-10">
-                                                    <h4 class="fw-semibold fs-16 mb-0">{{ $data->width }} x {{ $data->height }}</h4>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
                                         {{ $data->created_at->format('j F, Y') }}
                                     </td>
                                     <td>
@@ -108,8 +103,8 @@
                                             <a class="btn bg p-1" onclick="confirmAndDelete('{{ route('dashboard.image.copy', ['id' => $data->id]) }}', 'Copy')">
                                                 <i data-feather="copy"></i>
                                             </a>
-                                            <a class="btn bg p-1" href="{{ route('dashboard.image.view', ['id' => $data->id]) }}">
-                                                <i data-feather="eye"></i>
+                                            <a class="btn bg p-1" href="{{ route('dashboard.image.data', ['id' => $data->id]) }}">
+                                                <i data-feather="list"></i>
                                             </a>
                                             <a class="btn bg p-1" href="{{ route('dashboard.image.edit', ['id' => $data->id]) }}">
                                                 <i data-feather="edit-3"></i>

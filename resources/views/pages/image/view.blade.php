@@ -178,7 +178,7 @@
                         }).then(function() {
                             $.ajax({
                                 /* the route pointing to the post function */
-                                url: '{{ route('pages.image.detail.save') }}',
+                                url: '',
                                 type: 'POST',
                                 /* send the csrf-token and the input to the controller */
                                 data: {

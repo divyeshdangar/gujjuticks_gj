@@ -26,9 +26,10 @@ class LoginController extends Controller
             // to set meta data of page
             $metaData = [
                 "title" => "Login to GujjuTicks",
-                "description" => "Reach out to GujjuTicks easily with our contact form or contact information. Whether you have questions, feedback, or inquiries, we're here to assist you promptly. Connect with us now!",
+                "description" => "Securely log in to your GujjuTicks account to manage content, explore insights, and stay updated with the latest from Gujarat's vibrant culture. Fast, secure, and easy access to your dashboard.",
                 //"image" => "",
-                "url" => route('login')
+                "url" => route('login'),
+                "keywords" => "GujjuTicks login, user dashboard, login Gujarat blog, GujjuTicks account access, secure login, Gujarat culture portal, manage GujjuTicks content"
             ];
             return view('pages.auth.login', ['metaData' => $metaData]);
         }

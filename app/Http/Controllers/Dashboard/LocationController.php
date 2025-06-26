@@ -87,7 +87,7 @@ class LocationController extends Controller
                 'title' => 'required|max:255',
                 'name' => 'required|max:255',
                 'name_gj' => 'required|max:255',
-                'slug' => ['required', 'unique:cities,slug,' . $id, 'min:5', 'max:255', 'regex:/^[a-z][a-z0-9]*(-[a-z0-9]+)*$/i'],
+                'slug' => ['required', 'unique:cities,slug,' . $id, 'min:3', 'max:255', 'regex:/^[a-z][a-z0-9]*(-[a-z0-9]+)*$/i'],
                 'meta_description' => 'required',
                 'keywords' => 'required',
                 'description' => 'required',

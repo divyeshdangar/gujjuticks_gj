@@ -13,7 +13,7 @@
                     <h1 class="h2">{{ $metaData['title'] }}</h1>
                     <p class="text-muted mb-5">{{ $metaData['description'] }}</p>
                     <img src="{{ URL::asset('/images/creative/gujarat.png') }}" alt="Gujarat Image" title="Gujarat Image" class="img-fluid rounded-3 mb-5">
-                    <p class="text-muted">
+                    <p class="text-muted text-start">
                         Welcome to your ultimate guide for exploring vibrant cities across India and Gujarat. From the
                         historic lanes of Ahmedabad and the royal palaces of Jaipur to the bustling markets of Mumbai
                         and the serene backwaters near Kochi, our list spans every corner of the subcontinent. Whether
@@ -22,7 +22,7 @@
                         local culture highlights, and seasonal events to help you craft the perfect itinerary.
                     </p>
 
-                    <p class="text-muted">
+                    <p class="text-muted text-start">
                         Navigate our interactive directory to filter cities by region, theme, or traveler
                         interest - heritage, food, nightlife, wellness, and more. Dive into detailed overviews that cover
                         practical travel tips (best time to visit, transport options, and accommodation ranges), insider

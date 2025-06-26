@@ -2,7 +2,7 @@
     <div class="p-4">
         <div class="row align-items-center">
             <div class="col-lg-2 text-center">
-                <img src="{{ asset('files/images/featured-job/img-01.png') }}" alt="" class="img-fluid rounded-3">
+                <img src="{{ route('pages.cool.image.detail', ['slug' => 'characters-'.CommonHelper::getInitials($data->name).'.jpg']) }}" alt="" class="img-fluid rounded-3">
             </div>
             <div class="col-lg-10">
                 <div class="mt-3 mt-lg-0">
@@ -44,6 +44,10 @@
                 <div class="col-md-3">
                     <div class="text-md-end text-end">
                         <a target="_BLANK" href="https://www.google.com/maps/place/?q=place_id:{{ $data->place_id }}" rel="noopener noreferrer nofollow" class="primary-link">Google Map</a>
+                        @if(false)
+                            Replace link
+                            https://www.google.com/maps/search/?api=1&query=Lal+Darwaja+Ahmedabad&query_place_id=ChIJxS5EgoqEXjkRfdf98i_2u5o
+                        @endif
                     </div>
                 </div>                
             @endif

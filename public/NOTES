@@ -47,6 +47,8 @@ Create migration
 php artisan make:migration create_notification_table
 php artisan make:migration multi_table_changes_7
 php artisan make:migration multi_table_changes_5
+php artisan make:migration multi_table_changes_8
+php artisan make:migration create_quote_categories_table
 
 Run migration
 php artisan migrate
@@ -60,6 +62,7 @@ php artisan db:seed
 php artisan db:seed --class=PlaceCategorySeeder
 php artisan db:seed --class=GujaratCitiesSeeder
 php artisan db:seed --class=MenuSeeder
+php artisan db:seed --class=QuoteCategoriesSeeder
 
 php artisan make:trait InstagramTrait
 

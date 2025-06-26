@@ -14,7 +14,7 @@
                 @if (trim($bc['route']) != '')
                     <li>
                         <span class="fw-semibold fs-14 heading-font text-dark dot ms-2">
-                            <a href="{{ route($bc['route']) }}" class="text-decoration-none">
+                            <a href="{{ route($bc['route'], $bc['params'] ?? []) }}" class="text-decoration-none">
                                 {{ $bc['title'] }}
                             </a>
                         </span>

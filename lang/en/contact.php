@@ -36,4 +36,5 @@ return [
     'top_categories' => 'Top Categories',
     'sub_categories' => 'Sub Categories',
     'recent_blogs' => 'Recent Blogs',
+    'get_started' => 'Let\'s get Started'
 ];

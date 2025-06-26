@@ -49,4 +49,25 @@ class CommonHelper
         } while ($exists);
         return $code;
     }
+
+    static function getInitials($string)
+    {
+        $words = preg_split('/\s+/', trim($string));
+        $count = count($words);
+
+        // Helper to get safe character
+        $safeChar = function ($char) {
+            return ctype_alnum($char) ? strtoupper($char) : 'A';
+        };
+
+        if ($count === 1) {
+            $first = $safeChar(substr($words[0], 0, 1));
+            $second = $safeChar(substr($words[0], 1, 1));
+            return $first . $second;
+        }
+
+        $first = $safeChar(substr($words[0], 0, 1));
+        $second = $safeChar(substr($words[1], 0, 1));
+        return $first . $second;
+    }
 }

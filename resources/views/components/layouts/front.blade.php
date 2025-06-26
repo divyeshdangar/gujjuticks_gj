@@ -31,19 +31,19 @@
             </a>
             <div>
                 <button class="navbar-toggler me-3" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-label="Toggle navigation">
-                    <i class="mdi mdi-menu"></i>
+                    data-bs-target="#gtMenu" aria-controls="gtMenu" aria-label="GujjuTicks Menu">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="p-2" width="35" height="35" fill="#fff" viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M0 96C0 78.3 14.3 64 32 64l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32L32 448c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z"/></svg>
                 </button>
             </div>
-            <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="collapse navbar-collapse" id="gtMenu">
                 <ul class="navbar-nav mx-auto navbar-center">
                     <li class="nav-item">
                         <a href="{{ route('home') }}" class="nav-link">Home</a>
                     </li>
-                    @if(false)
+                    @if (false)
                         <li class="nav-item">
                             <a href="{{ route('pages.cities.list') }}" class="nav-link">Cities</a>
-                        </li>                        
+                        </li>
                     @endif
                     <li class="nav-item">
                         <a href="{{ route('pages.blog.list') }}" class="nav-link">Blogs</a>
@@ -54,12 +54,24 @@
                 </ul>
             </div>
             <ul class="header-menu list-inline d-flex align-items-center mb-0">
-                <li class="list-inline-item dropdown">
-                    <a class="header-item" id="userdropdown">
-                        <img src="{{ asset('files/images/profile.jpg') }}" alt="mdo" width="35" height="35"
-                            class="rounded-circle me-1">
-                    </a>
-                </li>
+                @if (auth()->user())
+                    <li class="list-inline-item dropdown">
+                        <a href="javascript:void(0)" class="header-item" id="userdropdown" data-bs-toggle="dropdown">
+                            <img src="{{ auth()->user()->profile() }}" alt="{{ auth()->user()->name }}" width="35"
+                                height="35" class="rounded-circle me-1">
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userdropdown">
+                            <li><a class="dropdown-item" href="profile.html">My Profile</a></li>
+                            <li><a class="dropdown-item" href="{{ route('logout') }}">Logout</a></li>
+                        </ul>
+                    </li>
+                @else
+                    <li class="list-inline-item dropdown">
+                        <a href="{{ route("login") }}" class="header-item">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="bg-warning" style="padding:5px; border-radius:10%" width="35" height="35" fill="#4a4a37" viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M304 128a80 80 0 1 0 -160 0 80 80 0 1 0 160 0zM96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM49.3 464l349.5 0c-8.9-63.3-63.3-112-129-112l-91.4 0c-65.7 0-120.1 48.7-129 112zM0 482.3C0 383.8 79.8 304 178.3 304l91.4 0C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7L29.7 512C13.3 512 0 498.7 0 482.3z"/></svg>
+                        </a>
+                    </li>
+                @endif
             </ul>
         </div>
     </nav>
