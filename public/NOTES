@@ -58,11 +58,18 @@ php artisan make:model IndustryType
 php artisan make:model TemplateData --migration //create migration as well
 
 php artisan make:seeder DaysSeeder
+php artisan make:seeder NewsFeedSeeder
+php artisan make:seeder NewsCategorySeeder
+
 php artisan db:seed
 php artisan db:seed --class=PlaceCategorySeeder
 php artisan db:seed --class=GujaratCitiesSeeder
 php artisan db:seed --class=MenuSeeder
 php artisan db:seed --class=QuoteCategoriesSeeder
+php artisan db:seed --class=NewsCategorySeeder
+php artisan db:seed --class=NewsFeedSeeder
+
+
 
 php artisan make:trait InstagramTrait
 
