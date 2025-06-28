@@ -60,8 +60,7 @@
                             <img src="{{ auth()->user()->profile() }}" alt="{{ auth()->user()->name }}" width="35"
                                 height="35" class="rounded-circle me-1">
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userdropdown">
-                            <li><a class="dropdown-item" href="profile.html">My Profile</a></li>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userdropdown">                            
                             <li><a class="dropdown-item" href="{{ route('logout') }}">Logout</a></li>
                         </ul>
                     </li>

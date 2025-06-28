@@ -85,9 +85,9 @@
                                                 @if ($data->type == 'image')
                                                     <div class="text-center">
                                                         <a target="_blank"
-                                                            href="{{ URL::asset('/images/dynamic/' . $data->image) }}">
+                                                            href="{{ URL::asset(config('paths.images.dynamic_data') . $data->image) }}">
                                                             <img width="210px" class="bg-warning rounded p-1"
-                                                                src="{{ URL::asset('/images/dynamic/' . $data->image) }}">
+                                                                src="{{ URL::asset(config('paths.images.dynamic_data') . $data->image) }}">
                                                         </a><br>
                                                         <div class="fw-semibold fs-16 mb-0">{{ $data->width }} x
                                                             {{ $data->height }}</div>

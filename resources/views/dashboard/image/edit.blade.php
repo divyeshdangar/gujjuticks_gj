@@ -10,7 +10,7 @@
         <x-common.breadcrumb :metaData="$metaData"></x-common.breadcrumb>
     @endif
 
-    <form method="post" id="formToValidate" action="{{ route('dashboard.image.edit.post', ['id' => $dataDetail->id]) }}">
+    <form method="post" enctype="multipart/form-data" id="formToValidate" action="{{ route('dashboard.image.edit.post', ['id' => $dataDetail->id]) }}">
         {{ csrf_field() }}
         <div class="row">
             <div class="col-lg-4">

@@ -145,6 +145,14 @@ class ImageController extends Controller
             if ($id == 0) {
                 $dataDetail->user_id = Auth::id();
             }
+
+            if ($request->file('image')) {
+                $temp = explode(".", $request->file('image')->getClientOriginalName());
+                $fileName = time() . '-' . rand(0, time()) . '.' . end($temp);
+                $request->image->storeAs(config('paths.images.dynamic'), $fileName, 'public');
+                $dataDetail->image = $fileName;
+            }
+
             $dataDetail->save();
 
             $message = [
@@ -234,7 +242,7 @@ class ImageController extends Controller
                 $metaData = [
                     "breadCrumb" => [
                         ["title" => "Image", "route" => "dashboard.image"],
-                        ["title" => "Detail", "route" => "dashboard.image.edit.post", "params" => [$id]],
+                        ["title" => "Detail", "route" => "dashboard.image.edit.post", "params" => [$image_id]],
                         ["title" => "Data List", "route" => "dashboard.image.data", "params" => ['id' => $image_id]],
                         ["title" => "Data List Detail", "route" => ""]
                     ],
@@ -340,6 +348,14 @@ class ImageController extends Controller
                 $dataListDetail->width = $dataToInsert['width'];
                 $dataListDetail->form_title = $dataToInsert['form_title'];
                 $dataListDetail->form_description = $dataToInsert['form_description'];
+
+                if ($request->file('image')) {
+                    $temp = explode(".", $request->file('image')->getClientOriginalName());
+                    $fileName = time() . '-' . rand(0, time()) . '.' . end($temp);
+                    $request->image->storeAs(config('paths.images.dynamic_data'), $fileName, 'public');
+                    $dataListDetail->image = $fileName;
+                }
+
                 $dataListDetail->save();
 
                 $message = [
