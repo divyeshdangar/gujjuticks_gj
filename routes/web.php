@@ -30,6 +30,7 @@ use App\Http\Controllers\Pages\PagesController as PublicPagesController;
 use App\Http\Controllers\Pages\FormController;
 use App\Http\Controllers\Pages\HomeController;
 use App\Http\Controllers\Pages\CitiesController;
+use App\Http\Controllers\Pages\NewsController;
 
 use App\Http\Controllers\Api\V1\BlogController as ApiBlogController;
 
@@ -45,13 +46,17 @@ Route::middleware([CheckLanguage::class])->group(function () {
     Route::get('blog-on-{slug}', [PublicBlogController::class, 'category'])->name('pages.blog.category.detail');
     Route::get('blog/{slug}', [PublicBlogController::class, 'view'])->name('pages.blog.detail');
 
+    Route::get('news', [NewsController::class, 'index'])->name('pages.news.list');
+    Route::get('news/{slug}', [NewsController::class, 'view'])->name('pages.news.detail');
+
     Route::get('cities', [CitiesController::class, 'index'])->name('pages.cities.list');
     Route::get('city/generate-image', [CitiesController::class, 'generate']);
     Route::get('city/{slug}', [CitiesController::class, 'view'])->name('pages.cities.detail');
     Route::get('city/{slug}/{category}', [CitiesController::class, 'category_businesses_list'])->name('pages.cities.businesses.list');
 
     Route::get('image/{slug}', [PublicImageController::class, 'view'])->name('pages.image.detail');
-    Route::get('cool-image/{slug}', [CoolImageController::class, 'view'])->name('pages.cool.image.detail');
+    Route::get('cool-image/{slug}', [CoolImageController::class, 'view'])->name('pages.image.cool');
+    Route::get('news-image/{slug}', [CoolImageController::class, 'news'])->name('pages.image.news');
 
     // Route::get('gujarat', [GujaratController::class, 'index'])->name('pages.gujarat');
     // Route::get('gujarat/{slug}', [GujaratController::class, 'district'])->name('pages.gujarat.district');

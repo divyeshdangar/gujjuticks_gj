@@ -30,25 +30,27 @@ class ImportGoogleAlertNews extends Command
      */
     public function handle()
     {
-        $feedUrls = [
-            'https://www.google.com/alerts/feeds/10574946886415694362/6422504717856592052', //Gujarat
-            'https://www.google.com/alerts/feeds/10574946886415694362/11471954644524627028', //India
-            'https://www.google.com/alerts/feeds/10574946886415694362/17434958478350299103', //Ahmedabad
-            'https://www.google.com/alerts/feeds/10574946886415694362/2535201726166280612', //Jamnagar
-        ];
+        $feeds = NewsFeed::with('category')
+            ->where(function ($query) {
+                $query->whereNull('last_called_at')
+                    ->orWhere('last_called_at', '<=', now()->subMinutes(5));
+            })
+            ->orderBy('last_called_at', 'asc')
+            ->limit(3)
+            ->get();
 
-
-        $feeds = NewsFeed::with('category')->get();
-        $importedCount = 0;
         foreach ($feeds as $feed) {
             try {
                 $xml = simplexml_load_file($feed->url);
 
+                // ✅ Update last_called_at after successful import
+                $feed->update(['last_called_at' => now()]);
+                
                 // Google Alerts uses Atom namespace
                 $entries = $xml->entry ?? [];
 
                 if (empty($entries)) {
-                    Log::warn("No entries found in feed: {$feed->id} {$feed->url}");
+                    Log::info("No entries found in feed: {$feed->id} {$feed->url}");
                     continue;
                 }
 
@@ -83,10 +85,12 @@ class ImportGoogleAlertNews extends Command
                     ]);
 
                     Log::info("Imported: $title");
-                }
+                }                
             } catch (\Exception $e) {
-                Log::error("Error reading feed [$url]: " . $e->getMessage());
+                Log::error("Error reading feed [$feed->url]: " . $e->getMessage());
             }
+
+            sleep(10);
         }
 
         Log::info("All feeds processed.");

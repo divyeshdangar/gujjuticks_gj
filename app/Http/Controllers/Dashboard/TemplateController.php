@@ -72,7 +72,7 @@ class TemplateController extends Controller
                     ["title" => "Edit", "route" => ""]
                 ],
                 "title" => "Edit Template"
-            ];    
+            ];
             return view('dashboard.template.edit', ['statuses' => $dataDetail->getStatuses(), 'types' => $dataDetail->getTypes(), 'dataDetail' => $dataDetail, 'metaData' => $metaData]);
         } else {
             $message = [
@@ -96,7 +96,7 @@ class TemplateController extends Controller
                     ["title" => "Form", "route" => ""]
                 ],
                 "title" => "Template Form"
-            ];    
+            ];
             return view('dashboard.template.form', ['types' => $dataDetail->getTypes(), 'dataDetail' => $dataDetail, 'metaData' => $metaData]);
         } else {
             $message = [
@@ -159,14 +159,14 @@ class TemplateController extends Controller
             $validator = Validator::make($request->all(), [
                 'title' => 'required|max:255',
                 'type' => 'required',
-                'slug' => ['required', 'unique:Template,slug,' . $id, 'min:5', 'max:255', 'regex:/^[a-z][a-z0-9]*(-[a-z0-9]+)*$/i'],
+                'slug' => ['required', 'unique:template,slug,' . $id, 'min:5', 'max:255', 'regex:/^[a-z][a-z0-9]*(-[a-z0-9]+)*$/i'],
                 'meta_description' => 'required',
                 'description' => 'required',
                 'status' => 'required',
             ]);
 
             if ($validator->fails()) {
-                if($id > 0) {
+                if ($id > 0) {
                     return redirect('dashboard/template/edit/' . $id)->withErrors($validator)->withInput();
                 } else {
                     return redirect('dashboard/template/create')->withErrors($validator)->withInput();
@@ -175,20 +175,22 @@ class TemplateController extends Controller
 
             $dataToInsert = $validator->validated();
 
-            if ($request->file('image')) {
-                $file = $request->file('image');
-                $extension = $file->getClientOriginalExtension(); // Get the original file extension
-                $fileName = time() . '-' . rand(0, time()) . '.' . $extension; // Use the original extension
-                $file->storeAs('images/template', $fileName, 'public');
-                $dataDetail->image = $fileName;
-            }
-
             $dataDetail->title = $dataToInsert['title'];
             $dataDetail->status = $dataToInsert['status'];
             $dataDetail->type = $dataToInsert['type'];
             $dataDetail->description = $dataToInsert['description'];
             $dataDetail->slug = $dataToInsert['slug'];
             $dataDetail->meta_description = $dataToInsert['meta_description'];
+
+            if ($request->file('image')) {
+                $file = $request->file('image');
+                $extension = $file->getClientOriginalExtension();
+                $fileName = $dataToInsert['slug'] . '-' . time() . '.' . $extension;
+                //$request->image->storeAs('images/template', $fileName, 'public');
+                $file->move(public_path('images/template'), $fileName);
+                $dataDetail->image = $fileName;
+            }
+
             $dataDetail->save();
 
             $message = [
@@ -205,7 +207,7 @@ class TemplateController extends Controller
     }
 
     public function delete(Request $request, $id)
-    {        
+    {
         $dataDetail = Template::find($id);
         if ($dataDetail) {
             $dataDetail->status = '0';
@@ -229,5 +231,4 @@ class TemplateController extends Controller
             return redirect()->route('dashboard.template')->with($message);
         }
     }
-
 }

@@ -3,8 +3,7 @@ TO CREATE NEW PAGE
 1. Create controller
 php artisan make:controller Dashboard/PagesController
 php artisan make:controller Api/V1/BlogController --api
-
-
+php artisan make:controller Pages/NewsController
 
 
 

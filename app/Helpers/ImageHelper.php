@@ -49,16 +49,40 @@ class ImageHelper
                     if (trim($value->text_color_multiline) != "") {
                         $colorArr = explode(",", $value->text_color_multiline);
                     }
-                    $font = str_replace('\\', '/', public_path(config('paths.fonts') . $value->font)); //realpath(config('paths.fonts') . $value->font);
+                    $font = str_replace('\\', '/', public_path(config('paths.fonts') . $value->font));
                     $textColor = $this->hexToRGB($value->text_color);
                     $textColor = imagecolorallocatealpha($this->image, $textColor['r'], $textColor['g'], $textColor['b'], $value->opacity);
-                    $splitText = explode("\n", $value->text);
-                    $lines = count($splitText);
+
+                    $maxWidth = $value->width; // max width for a line
+                    $wrappedLines = [];
+
+                    // Split by \n first, then wrap each line
+                    $manualLines = explode("\n", $value->text);
+                    foreach ($manualLines as $manualLine) {
+                        $words = explode(" ", $manualLine);
+                        $line = '';
+                        foreach ($words as $word) {
+                            $testLine = $line . ' ' . $word;
+                            $testBox = imagettfbbox($value->font_size, $value->angle, $font, trim($testLine));
+                            $testWidth = abs($testBox[2] - $testBox[0]);
+
+                            if ($testWidth > $maxWidth && $maxWidth > 0 && $line != '') {
+                                $wrappedLines[] = trim($line);
+                                $line = $word;
+                            } else {
+                                $line = $testLine;
+                            }
+                        }
+                        $wrappedLines[] = trim($line);
+                    }
+
                     $left = $value->left;
                     $top = $value->top;
                     $keyToSet = 0;
                     $spaceBetweenLines = 5;
-                    foreach ($splitText as $keyTxt => $txt) {
+                    $lines = count($wrappedLines);
+
+                    foreach ($wrappedLines as $keyTxt => $txt) {
                         if (!empty($colorArr)) {
                             if ($keyToSet == count($colorArr)) {
                                 $keyToSet = 0;
@@ -67,20 +91,21 @@ class ImageHelper
                             $textColor = imagecolorallocatealpha($this->image, $textColor['r'], $textColor['g'], $textColor['b'], $value->opacity);
                             $keyToSet++;
                         }
+
                         $textBox = imagettfbbox($value->font_size, $value->angle, $font, $txt);
                         $textWidth = abs(max($textBox[2], $textBox[4]));
                         $textHeight = abs(max($textBox[5], $textBox[7]));
 
-                        // for horizontal align
+                        // Horizontal align
                         if ($value->text_align == "center") {
                             $x = (imagesx($this->image) - $textWidth) / 2;
                         } else {
                             $x = $value->left;
                         }
 
-                        // for vertical align
+                        // Vertical align
                         if ($value->text_align_v == "center") {
-                            $y = (((imagesy($this->image) + $textHeight) / 2) - (($value->font_size + $spaceBetweenLines) * $lines)) + ($value->font_size * (count($splitText) / 2)) + (count($splitText) * $spaceBetweenLines);
+                            $y = (((imagesy($this->image) + $textHeight) / 2) - (($value->font_size + $spaceBetweenLines) * $lines)) + ($value->font_size * (count($wrappedLines) / 2)) + (count($wrappedLines) * $spaceBetweenLines);
                         } else {
                             $y = $top;
                         }

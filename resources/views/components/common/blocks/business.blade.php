@@ -2,7 +2,7 @@
     <div class="p-4">
         <div class="row align-items-center">
             <div class="col-lg-2 text-center">
-                <img src="{{ route('pages.cool.image.detail', ['slug' => 'characters-'.CommonHelper::getInitials($data->name).'.jpg']) }}" alt="" class="img-fluid rounded-3">
+                <img src="{{ route('pages.image.cool', ['slug' => 'characters-'.CommonHelper::getInitials($data->name).'.jpg']) }}" alt="" class="img-fluid rounded-3">
             </div>
             <div class="col-lg-10">
                 <div class="mt-3 mt-lg-0">

@@ -14,6 +14,7 @@ class NewsFeed extends Model
         'title',
         'location',
         'news_category_id',
+        'last_called_at'
     ];
 
     /**
