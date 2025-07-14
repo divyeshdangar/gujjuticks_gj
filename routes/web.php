@@ -123,6 +123,7 @@ Route::middleware([CheckIfLogin::class, CheckLanguage::class])->group(function (
     Route::get('dashboard/template/delete/{id}', [TemplateController::class, 'delete'])->name('dashboard.template.delete');
     Route::get('dashboard/template/form/{id}', [TemplateController::class, 'form'])->name('dashboard.template.form');
     Route::post('dashboard/template/form/{id}', [TemplateController::class, 'store_form'])->name('dashboard.template.form.post');
+    Route::get('dashboard/template/generated/{id}', [TemplateController::class, 'generatedPages'])->name('dashboard.template.generated');
 
     Route::get('dashboard/location', [LocationController::class, 'index'])->name('dashboard.location');
     Route::get('dashboard/location/create', [LocationController::class, 'create'])->name('dashboard.location.create');

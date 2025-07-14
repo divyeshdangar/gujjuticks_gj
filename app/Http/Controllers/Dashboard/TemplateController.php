@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Template;
+use App\Models\TemplateData;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
@@ -98,6 +99,32 @@ class TemplateController extends Controller
                 "title" => "Template Form"
             ];
             return view('dashboard.template.form', ['types' => $dataDetail->getTypes(), 'dataDetail' => $dataDetail, 'metaData' => $metaData]);
+        } else {
+            $message = [
+                "message" => [
+                    "type" => "error",
+                    "title" => __('dashboard.bad'),
+                    "description" => __('dashboard.no_record_found')
+                ]
+            ];
+            return redirect()->route('dashboard')->with($message);
+        }
+    }
+
+    public function generatedPages(Request $request, $id)
+    {
+        $dataDetail = Template::find($id);
+        if ($dataDetail) {
+
+            $dataList = TemplateData::orderBy('id', 'DESC')->where('template_id', $dataDetail->id)->paginate(9)->withQueryString();
+            $metaData = [
+                "breadCrumb" => [
+                    ["title" => "Template", "route" => "dashboard.template"],
+                    ["title" => "Form", "route" => ""]
+                ],
+                "title" => "Generated Pages"
+            ];
+            return view('dashboard.template.generated', ['types' => $dataDetail->getTypes(), 'dataList' => $dataList, 'dataDetail' => $dataDetail, 'metaData' => $metaData]);
         } else {
             $message = [
                 "message" => [

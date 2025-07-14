@@ -86,20 +86,21 @@
                                     </td>
                                     <td>
                                         <div class="dropdown action-opt">
-                                            <a class="btn bg p-1" href="{{ route('dashboard.template.view', ['id' => $data->id]) }}">
+                                            <a class="btn bg p-1" data-bs-toggle="tooltip" data-bs-title="View Record" href="{{ route('dashboard.template.view', ['id' => $data->id]) }}">
                                                 <i data-feather="eye"></i>
                                             </a>
-
                                             @if($data->type == 2)
-                                                <a class="btn bg p-1" href="{{ route('dashboard.template.form', ['id' => $data->id]) }}">
+                                                <a class="btn bg p-1" data-bs-toggle="tooltip" data-bs-title="Update Form Fields" href="{{ route('dashboard.template.form', ['id' => $data->id]) }}">
                                                     <i data-feather="table"></i>
-                                                </a>                                                
+                                                </a>
+                                                <a class="btn bg p-1" data-bs-toggle="tooltip" data-bs-title="Generated Pages" href="{{ route('dashboard.template.generated', ['id' => $data->id]) }}">
+                                                    <i data-feather="list"></i>
+                                                </a>
                                             @endif
-
-                                            <a class="btn bg p-1" href="{{ route('dashboard.template.edit', ['id' => $data->id]) }}">
+                                            <a class="btn bg p-1" data-bs-toggle="tooltip" data-bs-title="Edit Record" href="{{ route('dashboard.template.edit', ['id' => $data->id]) }}">
                                                 <i data-feather="edit-3"></i>
                                             </a>
-                                            <a class="btn bg p-1" onclick="confirmAndDelete('{{ route('dashboard.template.delete', ['id' => $data->id]) }}')">
+                                            <a class="btn bg p-1" data-bs-toggle="tooltip" data-bs-title="Delete Record" onclick="confirmAndDelete('{{ route('dashboard.template.delete', ['id' => $data->id]) }}')">
                                                 <i data-feather="trash-2"></i>
                                             </a>
                                         </div>
