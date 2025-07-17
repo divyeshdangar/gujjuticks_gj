@@ -4,6 +4,8 @@ TO CREATE NEW PAGE
 php artisan make:controller Dashboard/PagesController
 php artisan make:controller Api/V1/BlogController --api
 php artisan make:controller Pages/NewsController
+php artisan make:controller Dashboard/CardsController
+php artisan make:controller Dashboard/CardsCategoryController
 
 
 

@@ -4,6 +4,7 @@ return [
     'fonts' => 'fonts/',
     'images' => [
         'dynamic' => 'images/dynamic/',
-        'dynamic_data' => 'images/dynamic/data/'
+        'dynamic_data' => 'images/dynamic/data/',
+        'card' => 'images/card/'
     ]
 ];

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Dashboard;
 
-
 use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;

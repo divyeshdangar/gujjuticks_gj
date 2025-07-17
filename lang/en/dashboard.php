@@ -168,5 +168,16 @@ return [
     'list_order' => 'Order',
     'opacity' => 'Opacity',
     'colors' => 'Random color\'s list',
-    'icon' => 'Icon'
+    'icon' => 'Icon',
+    'manage_cards' => 'Manage Cards',
+    'card' => 'Card',
+    'card_category' => 'Card Category',
+    'card_order' => 'Card Orders',
+    'is_featured' => 'Is featured?',
+    'price' => 'Price',
+
+    'front_image' => 'Front image',
+    'back_image' => 'Back image',
+
+    'cards' => 'Cards'
 ];

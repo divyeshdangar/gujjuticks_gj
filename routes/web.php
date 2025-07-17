@@ -20,6 +20,7 @@ use App\Http\Controllers\Dashboard\TemplateController;
 use App\Http\Controllers\Dashboard\SocialMediaController;
 use App\Http\Controllers\Dashboard\WebpageController;
 use App\Http\Controllers\Dashboard\WebpageAnalyticsController;
+use App\Http\Controllers\Dashboard\CardsController;
 use App\Http\Middleware\CheckIfLogin;
 use App\Http\Middleware\CheckLanguage;
 
@@ -31,12 +32,14 @@ use App\Http\Controllers\Pages\FormController;
 use App\Http\Controllers\Pages\HomeController;
 use App\Http\Controllers\Pages\CitiesController;
 use App\Http\Controllers\Pages\NewsController;
+use App\Http\Controllers\Pages\CardsController as PublicCardsController;
 
 use App\Http\Controllers\Api\V1\BlogController as ApiBlogController;
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\GoogleLoginController;
 use App\Http\Controllers\Auth\InstagramController;
+use App\Http\Controllers\Dashboard\CardsCategoryController;
 
 Route::middleware([CheckLanguage::class])->group(function () {
     Route::get('/', [HomeController::class, 'show'])->name('home');    
@@ -45,6 +48,10 @@ Route::middleware([CheckLanguage::class])->group(function () {
     Route::get('blogs', [PublicBlogController::class, 'index'])->name('pages.blog.list');
     Route::get('blog-on-{slug}', [PublicBlogController::class, 'category'])->name('pages.blog.category.detail');
     Route::get('blog/{slug}', [PublicBlogController::class, 'view'])->name('pages.blog.detail');
+
+    Route::get('cards', [PublicCardsController::class, 'index'])->name('pages.card.list');
+    Route::get('cards/{slug}', [PublicCardsController::class, 'category'])->name('pages.card.category.detail');
+    Route::get('card/{slug}', [PublicCardsController::class, 'view'])->name('pages.card.detail');
 
     Route::get('news', [NewsController::class, 'index'])->name('pages.news.list');
     Route::get('news/{slug}', [NewsController::class, 'view'])->name('pages.news.detail');
@@ -107,6 +114,22 @@ Route::middleware([CheckIfLogin::class, CheckLanguage::class])->group(function (
     Route::get('dashboard/blog/view/{id}', [BlogController::class, 'view'])->name('dashboard.blog.view');
     Route::get('dashboard/blog/delete/{id}', [BlogController::class, 'delete'])->name('dashboard.blog.delete');
     Route::get('dashboard/blog/restore/{id}', [BlogController::class, 'restore'])->name('dashboard.blog.restore');
+
+    Route::get('dashboard/card', [CardsController::class, 'index'])->name('dashboard.card');
+    Route::get('dashboard/card/create', [CardsController::class, 'create'])->name('dashboard.card.create');
+    Route::get('dashboard/card/edit/{id}', [CardsController::class, 'edit'])->name('dashboard.card.edit');
+    Route::post('dashboard/card/edit/{id}', [CardsController::class, 'store'])->name('dashboard.card.edit.post');
+    Route::get('dashboard/card/delete/{id}', [CardsController::class, 'delete'])->name('dashboard.card.delete');
+    Route::get('dashboard/card/restore/{id}', [CardsController::class, 'restore'])->name('dashboard.card.restore');
+
+    Route::get('dashboard/card-order', [CardsController::class, 'test'])->name('dashboard.card.order');
+
+    Route::get('dashboard/card-category', [CardsCategoryController::class, 'index'])->name('dashboard.card.category');
+    Route::get('dashboard/card-category/create', [CardsCategoryController::class, 'create'])->name('dashboard.card.category.create');
+    Route::get('dashboard/card-category/edit/{id}', [CardsCategoryController::class, 'edit'])->name('dashboard.card.category.edit');
+    Route::post('dashboard/card-category/edit/{id}', [CardsCategoryController::class, 'store'])->name('dashboard.card.category.edit.post');
+    Route::get('dashboard/card-category/delete/{id}', [CardsCategoryController::class, 'delete'])->name('dashboard.card.category.delete');
+    Route::get('dashboard/card-category/restore/{id}', [CardsCategoryController::class, 'restore'])->name('dashboard.card.category.restore');
 
     Route::get('dashboard/pages', [PagesController::class, 'index'])->name('dashboard.pages');
     Route::get('dashboard/pages/create', [PagesController::class, 'create'])->name('dashboard.pages.create');
