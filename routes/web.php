@@ -21,6 +21,8 @@ use App\Http\Controllers\Dashboard\SocialMediaController;
 use App\Http\Controllers\Dashboard\WebpageController;
 use App\Http\Controllers\Dashboard\WebpageAnalyticsController;
 use App\Http\Controllers\Dashboard\CardsController;
+use App\Http\Controllers\Dashboard\CardsCategoryController;
+
 use App\Http\Middleware\CheckIfLogin;
 use App\Http\Middleware\CheckLanguage;
 
@@ -33,13 +35,14 @@ use App\Http\Controllers\Pages\HomeController;
 use App\Http\Controllers\Pages\CitiesController;
 use App\Http\Controllers\Pages\NewsController;
 use App\Http\Controllers\Pages\CardsController as PublicCardsController;
-
-use App\Http\Controllers\Api\V1\BlogController as ApiBlogController;
+use App\Http\Controllers\Pages\ResumeBuilderController;
+use App\Http\Controllers\Pages\ResumeController;
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\GoogleLoginController;
 use App\Http\Controllers\Auth\InstagramController;
-use App\Http\Controllers\Dashboard\CardsCategoryController;
+
+use App\Http\Controllers\Api\V1\BlogController as ApiBlogController;
 
 Route::middleware([CheckLanguage::class])->group(function () {
     Route::get('/', [HomeController::class, 'show'])->name('home');    
@@ -69,6 +72,12 @@ Route::middleware([CheckLanguage::class])->group(function () {
     // Route::get('gujarat/{slug}', [GujaratController::class, 'district'])->name('pages.gujarat.district');
 
     Route::get('p/{slug}', [PublicPagesController::class, 'view'])->name('p.pages');
+
+    Route::get('resume-builder', [ResumeController::class, 'index'])->name('pages.resume.list');
+    Route::post('resume-builder', [ResumeController::class, 'post'])->name('pages.resume.post');
+    Route::get('resume-builder/start', [ResumeController::class, 'start'])->name('pages.resume.start');    
+    Route::get('generate-resume', [ResumeBuilderController::class, 'generate']);
+
 });
 
 Route::get('language/{locale}', function ($locale) {
