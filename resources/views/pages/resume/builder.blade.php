@@ -1,7 +1,14 @@
 <x-layouts.front :showHeader="true" :metaData="$metaData">
+    <style>
+        .cr-boundary {
+            border-radius: 15px;
+        }
+    </style>
 
+    <link rel="stylesheet" href="{{ asset('assets/plugin/croppie/croppie.css') }}">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.repeater/1.2.1/jquery.repeater.min.js"></script>
+    <script type="text/javascript" src="{{ asset('assets/plugin/croppie/croppie.js') }}"></script>
 
     <div class="p-2">
         <div class="p-5 d-none d-md-block">
@@ -46,7 +53,8 @@
                             <div class="tab-pane fade show active" id="info" role="tabpanel"
                                 aria-labelledby="tab-info">
 
-                                <form method="post" class="contact-form mt-4" name="myForm" id="myForm">
+                                <form method="post" enctype="multipart/form-data" class="contact-form mt-4"
+                                    name="basicDetailsForm" id="basicDetailsForm">
                                     {{ csrf_field() }}
                                     <input type="hidden" name="record_type" value="basic">
                                     <span id="error-msg">
@@ -171,28 +179,43 @@
                                                         @enderror
                                                     </div>
                                                 </div>
+                                                <div class="col-md-12">
+                                                    <div class="mb-3">
+                                                        <label for="address"
+                                                            class="form-label @error('address') text-danger @enderror">Address</label>
+                                                        <textarea name="address" id="address" class="form-control @error('address') border border-danger border-1 @enderror"
+                                                            rows="2">{{ old('address', $dataDetail->address) }}</textarea>
+                                                        @error('address')
+                                                            <div class="text-danger">{{ $address }}</div>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="mb-3">
+                                                        <label for="about"
+                                                            class="form-label @error('about') text-danger @enderror">About</label>
+                                                        <textarea name="about" id="about" class="form-control @error('about') border border-danger border-1 @enderror"
+                                                            rows="6">{{ old('about', $dataDetail->about) }}</textarea>
+                                                        @error('about')
+                                                            <div class="text-danger">{{ $about }}</div>
+                                                        @enderror
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
-                                            <div class="mb-3">
+                                            <div class="mb-3" id="imageFormGroup">
                                                 <label for="image"
                                                     class="form-label @error('image') text-danger @enderror">Image</label>
-                                                <input type="file" value="{{ old('image', $dataDetail->image) }}"
-                                                    name="image" id="image"
+                                                <input type="file" name="image" id="image"
                                                     class="form-control @error('image') border border-danger border-1 @enderror">
+                                                <input type="hidden" id="croppedImage" name="croppedImage"
+                                                    value="">
                                                 @error('image')
                                                     <div class="text-danger">{{ $message }}</div>
                                                 @enderror
                                             </div>
-                                            <div class="mb-3">
-                                                <label for="about"
-                                                    class="form-label @error('about') text-danger @enderror">About</label>
-                                                <textarea name="about" id="about" class="form-control @error('about') border border-danger border-1 @enderror"
-                                                    rows="9">{{ old('about', $dataDetail->about) }}</textarea>
-                                                @error('about')
-                                                    <div class="text-danger">{{ $about }}</div>
-                                                @enderror
-                                            </div>
+                                            <div id="upload-image-image"></div>
                                         </div>
                                         <div class="col-md-12 text-center">
                                             <button type="submit" class="btn btn-primary">Save</button>
@@ -263,7 +286,7 @@
                                 aria-labelledby="tab-educations">
                                 <!-- Educations form -->
                                 <form method="post" class="contact-form mt-4" name="myForm"
-                                    id="educationRepeater">
+                                    id="educationsRepeater">
                                     {{ csrf_field() }}
                                     <input type="hidden" name="record_type" value="educations">
                                     <span id="error-msg">
@@ -297,15 +320,17 @@
                                                                             <label for="title"
                                                                                 class="form-label">Title</label>
                                                                             <input type="text" name="title"
-                                                                                id="title" value="{{ $edu->title }}" class="form-control"
-                                                                                required>
+                                                                                id="title"
+                                                                                value="{{ $edu->title }}"
+                                                                                class="form-control" required>
                                                                         </div>
                                                                         <div class="form-group mb-2">
                                                                             <label for="place"
                                                                                 class="form-label">Place</label>
                                                                             <input type="text" name="place"
-                                                                                id="place" value="{{ $edu->place }}" class="form-control"
-                                                                                required>
+                                                                                id="place"
+                                                                                value="{{ $edu->place }}"
+                                                                                class="form-control" required>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-4">
@@ -473,7 +498,230 @@
                             <div class="tab-pane fade" id="experiences" role="tabpanel"
                                 aria-labelledby="tab-experiences">
                                 <!-- Experiences form -->
-                                <p>This is the Experiences section.</p>
+                                <form method="post" class="contact-form mt-4" name="myForm"
+                                    id="experiencesRepeater">
+                                    {{ csrf_field() }}
+                                    <input type="hidden" name="record_type" value="experiences">
+                                    <span id="error-msg">
+                                        @if ($errors->any())
+                                            <div class="text-danger border border-danger border-2 p-3 rounded-3 mb-3">
+                                                <b>{{ __('dashboard.error') }}:</b>
+                                                <hr>
+                                                <ul>
+                                                    @foreach ($errors->all() as $error)
+                                                        <li>{{ $error }}</li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                        @endif
+                                    </span>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <button type="button" data-repeater-create
+                                                class="btn btn-sm btn-primary mb-2">Add Experience</button>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="row" data-repeater-list="experiences">
+                                                @if ($dataDetail->experiences && count($dataDetail->experiences) > 0)
+                                                    @foreach ($dataDetail->experiences as $exp)
+                                                        <div data-repeater-item class="col-md-12 mb-4">
+                                                            <div class="border border-2 rounded p-3">
+                                                                <div class="row">
+                                                                    <div class="col-md-4">
+                                                                        <div class="form-group mb-2">
+                                                                            <label for="title"
+                                                                                class="form-label">Title</label>
+                                                                            <input type="text" name="title"
+                                                                                id="title"
+                                                                                value="{{ $exp->title }}"
+                                                                                class="form-control" required>
+                                                                        </div>
+                                                                        <div class="form-group mb-2">
+                                                                            <label for="place"
+                                                                                class="form-label">Place</label>
+                                                                            <input type="text" name="place"
+                                                                                id="place"
+                                                                                value="{{ $exp->place }}"
+                                                                                class="form-control" required>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-4">
+                                                                        <div class="row">
+                                                                            <div class="col-5">
+                                                                                <div class="form-group mb-2">
+                                                                                    <label for="start_month"
+                                                                                        class="form-label">Start
+                                                                                        Month</label>
+                                                                                    <input type="text"
+                                                                                        name="start_month"
+                                                                                        value="{{ $exp->start_month }}"
+                                                                                        id="start_month"
+                                                                                        class="form-control">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-7">
+                                                                                <div class="form-group mb-2">
+                                                                                    <label for="start_year"
+                                                                                        class="form-label">Start
+                                                                                        Year</label>
+                                                                                    <input type="text"
+                                                                                        name="start_year"
+                                                                                        value="{{ $exp->start_year }}"
+                                                                                        id="start_year"
+                                                                                        class="form-control">
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-5">
+                                                                                <div class="form-group mb-2">
+                                                                                    <label for="end_month"
+                                                                                        class="form-label">End
+                                                                                        Month</label>
+                                                                                    <input type="text"
+                                                                                        name="end_month"
+                                                                                        value="{{ $exp->end_month }}"
+                                                                                        id="end_month"
+                                                                                        class="form-control">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-7">
+                                                                                <div class="form-group mb-2">
+                                                                                    <label for="end_year"
+                                                                                        class="form-label">End
+                                                                                        Year</label>
+                                                                                    <input type="text"
+                                                                                        name="end_year" id="end_year"
+                                                                                        value="{{ $exp->end_year }}"
+                                                                                        class="form-control">
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-4">
+                                                                        <div class="mb-2">
+                                                                            <label for="experience"
+                                                                                class="form-label">Experience</label>
+                                                                            <textarea name="experience" id="experience" class="form-control" rows="5">{{ $exp->experience }}</textarea>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-4">
+                                                                        <div class="form-group mb-2">
+                                                                            <label for="city"
+                                                                                class="form-label">City</label>
+                                                                            <input type="text" name="city"
+                                                                                value="{{ $exp->city }}"
+                                                                                id="city" class="form-control">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <button type="button" data-repeater-delete
+                                                                        class="btn btn-sm btn-outline-danger mt-2">Remove</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
+                                                @else
+                                                    <div data-repeater-item class="col-md-12 mb-4">
+                                                        <div class="border border-2 rounded p-3">
+
+                                                            <div class="row">
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group mb-2">
+                                                                        <label for="title"
+                                                                            class="form-label">Title</label>
+                                                                        <input type="text" name="title"
+                                                                            id="title" class="form-control"
+                                                                            required>
+                                                                    </div>
+                                                                    <div class="form-group mb-2">
+                                                                        <label for="place"
+                                                                            class="form-label">Place</label>
+                                                                        <input type="text" name="place"
+                                                                            id="place" class="form-control"
+                                                                            required>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="row">
+                                                                        <div class="col-5">
+                                                                            <div class="form-group mb-2">
+                                                                                <label for="start_month"
+                                                                                    class="form-label">Start
+                                                                                    Month</label>
+                                                                                <input type="text"
+                                                                                    name="start_month"
+                                                                                    id="start_month"
+                                                                                    class="form-control">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-7">
+                                                                            <div class="form-group mb-2">
+                                                                                <label for="start_year"
+                                                                                    class="form-label">Start
+                                                                                    Year</label>
+                                                                                <input type="text"
+                                                                                    name="start_year" id="start_year"
+                                                                                    class="form-control">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-5">
+                                                                            <div class="form-group mb-2">
+                                                                                <label for="end_month"
+                                                                                    class="form-label">End
+                                                                                    Month</label>
+                                                                                <input type="text" name="end_month"
+                                                                                    id="end_month"
+                                                                                    class="form-control">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-7">
+                                                                            <div class="form-group mb-2">
+                                                                                <label for="end_year"
+                                                                                    class="form-label">End
+                                                                                    Year</label>
+                                                                                <input type="text" name="end_year"
+                                                                                    id="end_year"
+                                                                                    class="form-control">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="mb-2">
+                                                                        <label for="experience"
+                                                                            class="form-label">Experience</label>
+                                                                        <textarea name="experience" id="experience" class="form-control" rows="5"></textarea>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group mb-2">
+                                                                        <label for="city"
+                                                                            class="form-label">City</label>
+                                                                        <input type="text" name="city"
+                                                                            id="city" class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group mt-4">
+                                                                        <button type="button" data-repeater-delete
+                                                                            class="btn btn-sm btn-outline-danger mt-2">Remove</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 text-center">
+                                            <button type="submit" class="btn btn-primary">Save</button>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
 
                             <div class="tab-pane fade" id="portfolios" role="tabpanel"
@@ -504,7 +752,7 @@
             }
         });
 
-        $('#educationRepeater').repeater({
+        $('#educationsRepeater').repeater({
             initEmpty: false,
             show: function() {
                 $(this).slideDown();
@@ -515,6 +763,72 @@
                 }
             }
         });
+
+        $('#experiencesRepeater').repeater({
+            initEmpty: false,
+            show: function() {
+                $(this).slideDown();
+            },
+            hide: function(deleteElement) {
+                if (confirm('Remove this education entry?')) {
+                    $(this).slideUp(deleteElement);
+                }
+            }
+        });
+
+
+        var $image_crop;
+        var $banner_crop;
+        var isImageSelected = false;
+        window.addEventListener('load', function(event) {
+            addCropperImage();
+            $("#basicDetailsForm").submit(function(eventObj) {
+                getImage();
+                return true;
+            });
+        });
+
+        function getImage() {
+            $('#upload-image-image').croppie('result', {
+                type: 'base64',
+                format: 'jpeg',
+                quality: 0.7
+            }).then(function(resp) {
+                if (resp && isImageSelected) {
+                    $("#croppedImage").val(resp)
+                } else {
+                    $("#croppedImage").val("")
+                }
+            });
+        }
+
+        function addCropperImage() {
+            $image_crop = $('#upload-image-image').croppie({
+                //enableExif: true,
+                enableResize: true,
+                viewport: {
+                    width: 200,
+                    height: 200,
+                    type: 'square'
+                },
+                boundary: {
+                    width: $("#imageFormGroup").width(),
+                    height: $("#imageFormGroup").width() * 1.2
+                },
+                url: '{{ URL::asset('/images/resume/' . $dataDetail->image) }}'
+            });
+            $('#image').on('change', function() {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    $image_crop.croppie('bind', {
+                        url: e.target.result
+                    }).then(function() {
+                        isImageSelected = true;
+                    });
+                }
+                reader.readAsDataURL(this.files[0]);
+            });
+        }
     </script>
 
 </x-layouts.front>

@@ -76,14 +76,14 @@ Route::middleware([CheckLanguage::class])->group(function () {
     Route::get('resume-builder', [ResumeController::class, 'index'])->name('pages.resume.list');
     Route::post('resume-builder', [ResumeController::class, 'post'])->name('pages.resume.post');
     Route::get('resume-builder/{token}', [ResumeController::class, 'builder'])->name('pages.resume.builder');
-    Route::post('resume-builder/{token}', [ResumeController::class, 'process'])->name('pages.resume.builder.post');    
-    Route::get('generate-resume', [ResumeBuilderController::class, 'generate']);
+    Route::post('resume-builder/{token}', [ResumeController::class, 'process'])->name('pages.resume.builder.post');
+    Route::get('generate-resume/{token}', [ResumeBuilderController::class, 'generate'])->name('pages.resume.builder.generate');
 
 });
 
 Route::get('language/{locale}', function ($locale) {
-    if (! in_array($locale, ['en', 'hi', 'gj'])) {
-        abort(400);
+if (! in_array($locale, ['en', 'hi', 'gj'])) {
+    abort(400);
     } else {
         app()->setLocale($locale);
         session()->put('locale', $locale);

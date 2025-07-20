@@ -77,7 +77,7 @@ class ResumeController extends Controller
     public function process(Request $request, $token)
     {
         $validator = Validator::make($request->all(), [
-            'record_type' => 'required|in:basic,skills,educations'
+            'record_type' => 'required|in:basic,skills,educations,experiences'
         ]);
 
         if ($validator->fails()) {
@@ -112,6 +112,7 @@ class ResumeController extends Controller
                     'designation' => 'sometimes|max:255',
                     'links' => 'sometimes|max:255',
                     'language' => 'sometimes|max:128',
+                    'address' => 'sometimes|max:512',
                     'about' => 'sometimes|max:2048'
                 ]);
 
@@ -129,6 +130,7 @@ class ResumeController extends Controller
                 $dataDetail->links = $dataToInsert['links'];
                 $dataDetail->language = $dataToInsert['language'];
                 $dataDetail->about = $dataToInsert['about'];
+                $dataDetail->address = $dataToInsert['address'];
 
                 if ($request->croppedImage != null) {
                     $croped_image = $request->croppedImage;
@@ -213,6 +215,52 @@ class ResumeController extends Controller
                         'end_month' => $edu['end_month'] ?? null,
                         'end_year' => $edu['end_year'] ?? null,
                         'description' => $edu['description'] ?? null,
+                    ]);
+                }
+
+                $message = [
+                    "message" => [
+                        "type" => "success",
+                        "title" => __('dashboard.great'),
+                        "description" => __('dashboard.details_submitted')
+                    ],
+                    "tab" => $record_type
+                ];
+                return redirect('resume-builder/' . $token)->with($message);
+                break;
+
+            case 'experiences':
+
+                $validator = Validator::make($request->all(), [
+                    'experiences' => 'nullable|array',
+                    'experiences.*.title' => 'required|string|max:255',
+                    'experiences.*.place' => 'required|string|max:255',
+                    'experiences.*.city' => 'nullable|string|max:128',
+                    'experiences.*.start_month' => 'nullable|string|max:20',
+                    'experiences.*.start_year' => 'nullable|string|min:4|max:4',
+                    'experiences.*.end_month' => 'nullable|string|max:20',
+                    'experiences.*.end_year' => 'nullable|string|min:4|max:4',
+                    'experiences.*.description' => 'nullable|string|max:1024',
+                ]);
+
+                if ($validator->fails()) {
+                    return redirect('resume-builder/' . $token)->withErrors($validator)->withInput();
+                }
+
+                // Optional: clear old experiences before saving new
+                $dataDetail->experiences()->delete();
+
+                // Save each entry
+                foreach ($request->experiences as $edu) {
+                    $dataDetail->experiences()->create([
+                        'title' => $edu['title'],
+                        'place' => $edu['place'],
+                        'city' => $edu['city'],
+                        'start_month' => $edu['start_month'] ?? null,
+                        'start_year' => $edu['start_year'] ?? null,
+                        'end_month' => $edu['end_month'] ?? null,
+                        'end_year' => $edu['end_year'] ?? null,
+                        'experience' => $edu['experience'] ?? null,
                     ]);
                 }
 

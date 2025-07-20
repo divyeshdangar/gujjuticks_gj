@@ -16,6 +16,7 @@ return new class extends Migration
             $table->uuid('token')->unique(); // for public access
             $table->string('firstname');
             $table->string('lastname');
+            $table->text('address')->nullable();
             $table->string('email')->nullable();
             $table->string('mobile')->nullable();
             $table->string('website')->nullable();
