@@ -75,7 +75,8 @@ Route::middleware([CheckLanguage::class])->group(function () {
 
     Route::get('resume-builder', [ResumeController::class, 'index'])->name('pages.resume.list');
     Route::post('resume-builder', [ResumeController::class, 'post'])->name('pages.resume.post');
-    Route::get('resume-builder/start', [ResumeController::class, 'start'])->name('pages.resume.start');    
+    Route::get('resume-builder/{token}', [ResumeController::class, 'builder'])->name('pages.resume.builder');
+    Route::post('resume-builder/{token}', [ResumeController::class, 'process'])->name('pages.resume.builder.post');    
     Route::get('generate-resume', [ResumeBuilderController::class, 'generate']);
 
 });

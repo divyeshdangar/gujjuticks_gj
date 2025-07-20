@@ -298,6 +298,7 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <form method="post">
+                    {{ csrf_field() }}
                     <div class="modal-header">
                         <h5 class="modal-title text-warning mt-0" id="startBuildingResumeLabel">Start Resume Building</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
