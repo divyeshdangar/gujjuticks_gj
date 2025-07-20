@@ -22,8 +22,9 @@
                     <div class="section-title mt-4 mt-lg-0">
                         <h3 class="title">{{ $metaData['title'] }}</h3>
                         <p class="text-muted">{{ $metaData['description'] }}</p>
-
-                        <div class="overflow-auto">
+                        <a target="_blank" href="{{ route('pages.resume.builder.generate', ['token' => $dataDetail->token]) }}" class="btn btn-primary">Check Resume PDF</a>
+                        <a target="_blank" href="{{ route('pages.resume.builder.generate', ['token' => $dataDetail->token, 'download' => '1']) }}" class="btn btn-danger">Download Resume PDF</a>
+                        <div class="overflow-auto mt-4">
                             <ul class="nav nav-underline flex-nowrap justify-content-start my-4"
                                 style="white-space: nowrap;" id="resumeTab" role="tablist">
                                 <li class="nav-item" role="presentation">

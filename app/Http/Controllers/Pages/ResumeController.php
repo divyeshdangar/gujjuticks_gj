@@ -44,7 +44,15 @@ class ResumeController extends Controller
         $resume->save();
 
         if ($resume) {
-            return redirect()->route('pages.resume.builder', ['token' => $resume->token]);
+
+            $message = [
+                "message" => [
+                    "type" => "success",
+                    "title" => __('dashboard.great'),
+                    "description" => __('dashboard.details_submitted')
+                ]
+            ];
+            return redirect()->route('pages.resume.builder', ['token' => $resume->token])->with($message);
         } else {
             echo '<h1>Error:</h1>';
         }

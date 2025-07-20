@@ -22,7 +22,7 @@ class ResumeBuilderController extends Controller
             $pdf->setPrintFooter(false);
 
             $pdf->SetCreator('GujjuTicks Resume Builder');
-            $pdf->SetTitle('Divyesh Dangar Resume');
+            $pdf->SetTitle(ucfirst($dataDetail->firstname) . ' ' . ucfirst($dataDetail->lastname) . ' Resume');
             $pdf->SetAuthor('GujjuTicks');
 
             $pdf->SetMargins(10, 10, 10, 10);
@@ -36,17 +36,14 @@ class ResumeBuilderController extends Controller
             TCPDF_FONTS::addTTFfont(public_path('fonts/DMSans-Regular.ttf'), 'TrueTypeUnicode', '', 96);
             TCPDF_FONTS::addTTFfont(public_path('fonts/DMSans-Black.ttf'), 'TrueTypeUnicode', '', 96);
 
-            // ✅ Dynamically register the font
             $fontPath = public_path('fonts/Oswald/Oswald-Regular.ttf');
             $fontName = TCPDF_FONTS::addTTFfont($fontPath, 'TrueTypeUnicode', '', 96);
             $pdf->SetFont($fontName, '', 14);
 
             $pdf->writeHTML($html, true, false, true, false, '');
 
-            // 5. Output to browser (inline). Use 'D' to force download.
-            $pdf->Output('Name_Surname_Resume.pdf', 'I');
-
-            //return view('pdf.resume.starter', []);
+            $download = (isset($_GET['download']) && $_GET['download'] == '1') ? 'D' : 'I';
+            $pdf->Output(ucfirst($dataDetail->firstname) . ' ' . ucfirst($dataDetail->lastname) . ' Resume.pdf', $download);
         } else {
             $message = [
                 "message" => [
