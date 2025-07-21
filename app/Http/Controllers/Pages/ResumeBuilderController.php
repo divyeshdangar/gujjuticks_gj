@@ -40,6 +40,9 @@ class ResumeBuilderController extends Controller
             $fontName = TCPDF_FONTS::addTTFfont($fontPath, 'TrueTypeUnicode', '', 96);
             $pdf->SetFont($fontName, '', 14);
 
+            // $pdf->SetFillColor(240, 0, 240); // RGB background
+            // $pdf->Rect(0, 0, $pdf->getPageWidth(), $pdf->getPageHeight(), 'F'); // Draw filled rectangle
+
             $pdf->writeHTML($html, true, false, true, false, '');
 
             $download = (isset($_GET['download']) && $_GET['download'] == '1') ? 'D' : 'I';

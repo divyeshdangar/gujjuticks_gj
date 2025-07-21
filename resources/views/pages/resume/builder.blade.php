@@ -345,7 +345,7 @@
                                                                                         name="start_month"
                                                                                         value="{{ $edu->start_month }}"
                                                                                         id="start_month"
-                                                                                        class="form-control">
+                                                                                        class="form-control" required>
                                                                                 </div>
                                                                             </div>
                                                                             <div class="col-7">
@@ -357,7 +357,7 @@
                                                                                         name="start_year"
                                                                                         value="{{ $edu->start_year }}"
                                                                                         id="start_year"
-                                                                                        class="form-control">
+                                                                                        class="form-control" required>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -433,7 +433,7 @@
                                                                                 <input type="text"
                                                                                     name="start_month"
                                                                                     id="start_month"
-                                                                                    class="form-control">
+                                                                                    class="form-control" required>
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-7">
@@ -443,7 +443,7 @@
                                                                                     Year</label>
                                                                                 <input type="text"
                                                                                     name="start_year" id="start_year"
-                                                                                    class="form-control">
+                                                                                    class="form-control" required>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -557,7 +557,7 @@
                                                                                         name="start_month"
                                                                                         value="{{ $exp->start_month }}"
                                                                                         id="start_month"
-                                                                                        class="form-control">
+                                                                                        class="form-control" required>
                                                                                 </div>
                                                                             </div>
                                                                             <div class="col-7">
@@ -569,7 +569,7 @@
                                                                                         name="start_year"
                                                                                         value="{{ $exp->start_year }}"
                                                                                         id="start_year"
-                                                                                        class="form-control">
+                                                                                        class="form-control" required>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -603,7 +603,7 @@
                                                                         <div class="mb-2">
                                                                             <label for="experience"
                                                                                 class="form-label">Experience</label>
-                                                                            <textarea name="experience" id="experience" class="form-control" rows="5">{{ $exp->experience }}</textarea>
+                                                                            <textarea name="experience" id="experience" class="form-control" rows="5" required>{{ $exp->experience }}</textarea>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-4">
@@ -654,7 +654,7 @@
                                                                                 <input type="text"
                                                                                     name="start_month"
                                                                                     id="start_month"
-                                                                                    class="form-control">
+                                                                                    class="form-control" required>
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-7">
@@ -664,7 +664,7 @@
                                                                                     Year</label>
                                                                                 <input type="text"
                                                                                     name="start_year" id="start_year"
-                                                                                    class="form-control">
+                                                                                    class="form-control" required>
                                                                             </div>
                                                                         </div>
                                                                     </div>

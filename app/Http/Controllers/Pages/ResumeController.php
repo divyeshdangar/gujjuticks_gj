@@ -41,6 +41,10 @@ class ResumeController extends Controller
         $resume->firstname = $dataToInsert['firstname'];
         $resume->lastname = $dataToInsert['lastname'];
         $resume->email = $dataToInsert['email'];
+
+        $resume->language = 'English';
+        $resume->image = 'default.png';
+        
         $resume->save();
 
         if ($resume) {
@@ -67,7 +71,8 @@ class ResumeController extends Controller
                 "description" => "Build a job-winning resume online with our free, easy-to-use resume builder. Choose a template, fill in your details, and download a professional PDF resume - no sign-up required.",
                 //"image" => "",
                 "keywords" => "online resume builder, free resume maker, create resume, resume templates, resume generator, download resume pdf, resume builder india, build cv online, professional resume",
-                "url" => route('pages.resume.list')
+                "url" => route('pages.resume.list'),
+                "nofollow" => true
             ];
             return view('pages.resume.builder', ['metaData' => $metaData, 'dataDetail' => $dataDetail]);
         } else {

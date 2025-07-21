@@ -19,30 +19,38 @@
                 <br>
                 <br>
                 <table width="100%" cellpadding="0" cellspacing="0" style="margin: 40px; padding:40px">
-                    <tr>
-                        <td style="vertical-align: top; width: 15%; text-align: center;">
-                            <span style="font-family: fab; font-size: 12px;">&#xf3c5;</span>
-                        </td>
-                        <td style="width: 85%; text-align: left; padding-bottom: 3px;">{{ $dataDetail->address }}</td>
-                    </tr>
-                    <tr>
-                        <td style="vertical-align: top; width: 15%; text-align: center;">
-                            <span style="font-family: fab; font-size: 12px;">&#xf095;</span>
-                        </td>
-                        <td style="width: 85%; text-align: left; padding-bottom: 3px;">{{ $dataDetail->mobile }}</td>
-                    </tr>
-                    <tr>
-                        <td style="vertical-align: top; width: 15%; text-align: center;">
-                            <span style="font-family: fab; font-size: 12px;">&#xf0e0;</span>
-                        </td>
-                        <td style="width: 85%; text-align: left; padding-bottom: 3px;"><a href="mailto:{{ $dataDetail->email }}" style="color: inherit; text-decoration: none;">{{ $dataDetail->email }}</a></td>
-                    </tr>
-                    <tr>
-                        <td style="vertical-align: top; width: 15%; text-align: center;">
-                            <span style="font-family: fab; font-size: 12px;">&#xf0ac;</span>
-                        </td>
-                        <td style="width: 85%; text-align: left; padding-bottom: 3px;"><a href="{{ $dataDetail->website }}" style="color: inherit; text-decoration: none;">{{ $dataDetail->website }}</a></td>
-                    </tr>
+                    @if($dataDetail->address)
+                        <tr>
+                            <td style="vertical-align: top; width: 15%; text-align: center;">
+                                <span style="font-family: fab; font-size: 12px;">&#xf3c5;</span>
+                            </td>
+                            <td style="width: 85%; text-align: left; padding-bottom: 3px;">{{ $dataDetail->address }}</td>
+                        </tr>                        
+                    @endif
+                    @if($dataDetail->mobile)
+                        <tr>
+                            <td style="vertical-align: top; width: 15%; text-align: center;">
+                                <span style="font-family: fab; font-size: 12px;">&#xf095;</span>
+                            </td>
+                            <td style="width: 85%; text-align: left; padding-bottom: 3px;">{{ $dataDetail->mobile }}</td>
+                        </tr>                        
+                    @endif
+                    @if($dataDetail->email)
+                        <tr>
+                            <td style="vertical-align: top; width: 15%; text-align: center;">
+                                <span style="font-family: fab; font-size: 12px;">&#xf0e0;</span>
+                            </td>
+                            <td style="width: 85%; text-align: left; padding-bottom: 3px;"><a href="mailto:{{ $dataDetail->email }}" style="color: inherit; text-decoration: none;">{{ $dataDetail->email }}</a></td>
+                        </tr>                        
+                    @endif
+                    @if($dataDetail->website)
+                        <tr>
+                            <td style="vertical-align: top; width: 15%; text-align: center;">
+                                <span style="font-family: fab; font-size: 12px;">&#xf0ac;</span>
+                            </td>
+                            <td style="width: 85%; text-align: left; padding-bottom: 3px;"><a href="{{ $dataDetail->website }}" style="color: inherit; text-decoration: none;">{{ $dataDetail->website }}</a></td>
+                        </tr>                        
+                    @endif
                 </table>
             </td>
         </tr>

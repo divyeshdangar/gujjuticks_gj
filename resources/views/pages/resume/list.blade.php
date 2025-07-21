@@ -4,7 +4,7 @@
             <div class="row align-items-center">
                 <div class="col-lg-7">
                     <div class="mb-4 pb-3 me-lg-5">
-                        <h6 class="sub-title">We have 150,000+ live jobs</h6>
+                        <h6 class="sub-title">Boost your professional image</h6>
                         <h1 class="display-5 fw-semibold mb-3">Build Your Resume in Minutes with <span
                                 class="text-warning fw-bold">GT Resume Builder</span></h1>
                         <p class="lead text-muted mb-0">Create a stunning, professional resume with ease. No design

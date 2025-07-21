@@ -6,6 +6,9 @@
 @if(isset($metaData['keywords']))
 <meta name="keywords" content="{{ $metaData['keywords'] }}">
 @endif
+@if(isset($metaData['nofollow']) && $metaData['nofollow'])
+<meta name="robots" content="noindex, nofollow">
+@endif
 <meta property="og:type" content="website">
 <meta property="og:url" content="{{ isset($metaData['url']) && !empty($metaData['url']) ? $metaData['url'] : 'https://www.gujjuticks.com/' }}">
 <meta property="og:title" content="{{ isset($metaData['title']) && !empty($metaData['title']) ? $metaData['title'] : 'GujjuTicks - ગુજ્જુટિકસ | Made In Gujarat' }}">
