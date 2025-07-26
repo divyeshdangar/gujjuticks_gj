@@ -1,74 +1,219 @@
-<x-layouts.simple-layout :showHeader="true" :metaData="$metaData">
+<x-layouts.front :showHeader="true" :metaData="$metaData">
 
-    {{-- @if ($metaData['breadCrumb'])
-        <x-common.breadcrumb :isPublicPage="true" :metaData="$metaData"></x-common.breadcrumb>
-    @endif --}}
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{{ asset('assets/plugin/croppie/croppie.css') }}">
+    <script type="text/javascript" src="{{ asset('assets/plugin/croppie/croppie.js') }}"></script>
+
     <style>
         .locked {
             pointer-events: none;
         }
-
         #upload-image-image {
             width: 100%;
-            max-width: 888px;
-            /* Set a max width for larger screens */
+            max-width: 670px;
             height: auto;
             margin: 0 auto;
         }
     </style>
 
-    <div class="row justify-content-center">
-        <div class="col-md-3">
-            <div class="card bg-white border-0 rounded-10 mb-4">
-                <div class="card-body p-4">
-                    <div class="d-flex justify-content-between align-items-center border-bottom pb-20 mb-20">
-                        <h1 class="fw-semibold fs-18 mb-0">{{ $dataDetail->title }}</h1>
+
+    <section class="bg-home2" id="home" style="background-color: rgb(48 56 65);">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-7">
+                    <div class="mb-4 pb-3 me-lg-5">
+                        <h6 class="sub-title">Create Image Easily</h6>
+                        <h1 class="display-5 fw-semibold mb-3">{!! str_replace(
+                            'Jamnagar Nursing Parivar',
+                            '<span class="text-info fw-bold">Jamnagar Nursing Parivar</span>',
+                            $dataDetail->title,
+                        ) !!}</h1>
+                        <p class="lead text-muted mb-0">{{ $dataDetail->meta_description }}</p>
                     </div>
-                    <img src="{{ URL::asset('/images/dynamic/' . $dataDetail->image) }}" class="mb-4 rounded-10">
-                    <p>{{ $dataDetail->meta_description }}</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-5">
-            <div class="card bg-white border-0 rounded-10 mb-4">
-                <div class="card-body p-4">
-                    <div class="d-flex justify-content-between align-items-center border-bottom pb-20 mb-20">
-                        <h4 id="here" class="fw-semibold fs-18 mb-0">{{ __('dashboard.download_images') }}</h4>
-                    </div>
-                    <div id="fabric-canvas-wrapper" class="hd-none">
-                        <canvas id="canvas" width="{{ $dataDetail->width }}" height="{{ $dataDetail->height }}"
-                            style="position: absolute !important;" class="rounded-10"></canvas>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="form-group mb-2 mt-4">
-                                <input type="file" class="form-control" id="image" name="image"
-                                    accept="image/*">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <div class="mt-3 mt-md-0 h-100">
+                                <button class="btn btn-info" style="color: rgb(19, 19, 19) !important;"
+                                    data-bs-toggle="modal" data-bs-target="#startBuildingResume">Create Image
+                                    Now</button>
                             </div>
                         </div>
-                        <div class="col-12">
-                            <button class="btn btn-primary my-2 w-100 text-white" onclick="saveImage()" type="button">
-                                Download
-                            </button>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <div class="mt-5 mt-md-0">
+                        <img src="{{ asset('images/dynamic/' . $dataDetail->image) }}"
+                            title="{{ $dataDetail->image_title }}" alt="{{ $dataDetail->image_alt }}"
+                            class="rounded home-img w-100" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="text-center">
+                        <h2 class="text-warning mb-4">Create Your Image</h2>
+                        <p class="text-muted mb-5">This tool lets you quickly generate a personalized image using a
+                            ready-made template. Just fill in a few details—no design skills needed—and get a
+                            professional image in seconds.</p>
+                        <div class="row text-start">
+                            <div class="col-lg-8">
+                                @if ($dataDetail->data)
+                                    <div class="row">
+                                        @foreach ($dataDetail->data as $key => $value)
+                                            @if ($value->is_editable)
+                                                @if ($value->type == 'text')
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label for="{{ $value->random_identity }}"
+                                                                class="form-label">{{ $value->form_title }}</label>
+                                                            <input type="text" value="{{ $value->text }}"
+                                                                name="{{ $value->random_identity }}"
+                                                                id="{{ $value->random_identity }}"
+                                                                class="form-control mb-1">
+                                                            <small>{{ $value->form_description }}</small>
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                                @if ($value->type == 'paragraph')
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label for="{{ $value->random_identity }}"
+                                                                class="form-label">{{ $value->form_title }}</label>
+                                                            <textarea name="{{ $value->random_identity }}" id="{{ $value->random_identity }}" class="form-control mb-1"
+                                                                rows="5">{{ $value->text }}</textarea>
+                                                            <small>{{ $value->form_description }}</small>
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                                @if ($value->type == 'image')
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label for="{{ $value->random_identity }}"
+                                                                class="form-label">{{ $value->form_title }}</label>
+                                                            <input type="file" name="{{ $value->random_identity }}"
+                                                                id="{{ $value->random_identity }}"
+                                                                class="form-control mb-1 image-crop">
+                                                            <small>{{ $value->form_description }}</small>
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                            @endif
+                                        @endforeach
+                                    </div>
+                                @endif
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="mt-5 mt-md-0">
+                                    <img src="{{ route('pages.image.detail', ['slug' => $dataDetail->slug]) }}"
+                                        title="{{ $dataDetail->image_title }}" alt="{{ $dataDetail->image_alt }}"
+                                        class="rounded home-img w-100" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-4 pt-2">
+                            <button class="btn btn-warning btn-hover" style="color: rgb(19, 19, 19) !important;"
+                                data-bs-toggle="modal" data-bs-target="#startBuildingResume">Create Now</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="card bg-white border-0 rounded-10 mb-4">
-                <div class="card-body p-4">
-                    <p>{!! $dataDetail->description !!}</p>
+    </section>
+
+    <section class="section bg-light">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <div class="section-title me-5">
+                        <h3 class="title text-info">How It Work</h3>
+                        <p class="text-muted">Post a job to tell us about your project. We'll quickly match you with the
+                            right freelancers.</p>
+                        <div class="process-menu nav flex-column nav-pills" id="v-pills-tab" role="tablist"
+                            aria-orientation="vertical">
+                            <a class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" href="#v-pills-home"
+                                role="tab" aria-controls="v-pills-home" aria-selected="true">
+                                <div class="d-flex">
+                                    <div class="number flex-shrink-0">
+                                        1
+                                    </div>
+                                    <div class="flex-grow-1 text-start ms-3">
+                                        <h5 class="fs-18">Fill In Your Details</h5>
+                                        <p class="text-muted mb-0">Enter the required information in our simple
+                                            form—like name, title, message, or location—depending on the image. The form
+                                            is tailored for this specific template, so it’s quick and easy.</p>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" href="#v-pills-profile"
+                                role="tab" aria-controls="v-pills-profile" aria-selected="false">
+                                <div class="d-flex">
+                                    <div class="number flex-shrink-0">
+                                        2
+                                    </div>
+                                    <div class="flex-grow-1 text-start ms-3">
+                                        <h5 class="fs-18">We Generate the Image Automatically</h5>
+                                        <p class="text-muted mb-0">Once you submit the form, we instantly place your
+                                            data into a pre-designed image template. No design skills needed—everything
+                                            is handled behind the scenes.</p>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill"
+                                href="#v-pills-messages" role="tab" aria-controls="v-pills-messages"
+                                aria-selected="false">
+                                <div class=" d-flex">
+                                    <div class="number flex-shrink-0">
+                                        3
+                                    </div>
+                                    <div class="flex-grow-1 text-start ms-3">
+                                        <h5 class="fs-18">Download or Share the Image</h5>
+                                        <p class="text-muted mb-0">Preview your personalized image and download it in
+                                            high quality. It's ready to post, print, or share on social media right
+                                            away.</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="tab-content" id="v-pills-tabContent">
+                        <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel"
+                            aria-labelledby="v-pills-home-tab">
+                            <img src="{{ asset('files/images/fill-in-details.png') }}" alt=""
+                                class="img-fluid">
+                        </div>
+                        <div class="tab-pane fade" id="v-pills-profile" role="tabpanel"
+                            aria-labelledby="v-pills-profile-tab">
+                            <img src="{{ asset('files/images/generate-the-image.png') }}" alt=""
+                                class="img-fluid">
+                        </div>
+                        <div class="tab-pane fade" id="v-pills-messages" role="tabpanel"
+                            aria-labelledby="v-pills-messages-tab">
+                            <img src="{{ asset('files/images/download-and-share-image.png') }}" alt=""
+                                class="img-fluid">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 
-    <textarea class="d-none" id="options" name="options">{{ base64_encode($dataDetail->options) }}</textarea>
 
-    <button id="modalButton" type="button" class="d-none btn btn-primary text-white py-2 px-4 fw-semibold"
+
+
+
+
+
+    <button id="modalButton" type="button" class="btn btn-primary text-white py-2 px-4 fw-semibold"
         data-bs-toggle="modal" data-bs-target="#cropperModal">
-        Launch static backdrop modal
+        Open Cropper
     </button>
     <div class="modal fade" id="cropperModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="cropperModalLabel" aria-hidden="true">
@@ -82,26 +227,20 @@
                     <div id="upload-image-image"></div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger text-white" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary text-white" onclick="getImage()">Set Image</button>
+                    <button type="button" class="btn btn-sm btn-danger text-white"
+                        data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-sm btn-primary text-white" onclick="getImage()">Set
+                        Image</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/2.3.6/fabric.min.js"></script>
     <script>
-        var canvas;
-        var objData;
-        var selectedObj;
-        var selectedIndex = 0;
         var $image_crop;
         var containerWidth;
         var viewportHeight;
         window.addEventListener('load', function(event) {
-            canvas = this.__canvas = new fabric.Canvas('canvas');
-            window.onresize = setResizeCanvas();
-            loadFromJson();
             addCropperImage();
 
             var cropImageModal = document.getElementById('cropperModal');
@@ -109,35 +248,24 @@
                 bindCropper()
             });
 
-            // Destroy Croppie when modal is hidden
             cropImageModal.addEventListener('hidden.bs.modal', function() {
-                // if (croppieInstance) {
-                //     croppieInstance.destroy();
-                // }
             });
 
         });
-
-        function update(getFromCode = 0) {
-            canvas.clear();
-            loadFromJson(getFromCode);
-        }
 
         function getImage() {
             $('#upload-image-image').croppie('result', {
                 type: 'base64',
                 format: 'jpeg',
                 size: {
-                    width: 888,
-                    height: 1536
+                    width: 670,
+                    height: 671
                 }, // Fixed result size
                 quality: 0.7
             }).then(function(resp) {
                 if (resp && isImageSelected) {
                     setTimeout(() => {
-                        selectedObj['src'] = resp;
-                        objData.objects[selectedIndex] = selectedObj;
-                        update();
+                        console.log(resp);
                         openClick('modalButton');
                     }, 200);
                 }
@@ -146,9 +274,9 @@
 
         function bindCropper() {
             containerWidth = document.getElementById('upload-image-image').offsetWidth;
-            viewportHeight = (containerWidth / 888) * 1536; // Scale height based on width
+            viewportHeight = (containerWidth / 670) * 671; // Scale height based on width
 
-            if(!$image_crop){
+            if (!$image_crop) {
                 $image_crop = $('#upload-image-image').croppie({
                     //enableExif: true,
                     enableResize: true,
@@ -162,33 +290,19 @@
                         height: viewportHeight // Same height as viewport to match 9:16 ratio
                     },
                     url: 'https://www.gujjuticks.com/images/dynamic/1727962910-1175287700.png'
-                    //url: 'http://127.0.0.1:8000/images/dynamic/1727961421-1649729557.png'
                 });
             }
         }
 
         function addCropperImage() {
-            $('#image').on('change', function() {
+            $('.image-crop').on('change', function() {
                 var reader = new FileReader();
                 reader.onload = function(e) {
                     openClick('modalButton');
-                    setTimeout(() => {                        
+                    setTimeout(() => {
                         $image_crop.croppie('bind', {
                             url: e.target.result
                         }).then(function() {
-                            $.ajax({
-                                /* the route pointing to the post function */
-                                url: '',
-                                type: 'POST',
-                                /* send the csrf-token and the input to the controller */
-                                data: {
-                                    data: e.target.result
-                                },
-                                dataType: 'JSON',
-                                /* remind that 'data' is the response of the AjaxController */
-                                success: function(data) {
-                                }
-                            });
                             isImageSelected = true;
                         });
                     }, 500);
@@ -205,72 +319,5 @@
                 ele.onclick()
             }
         }
-
-        function loadFromJson(getFromCode = 0) {
-            if (!objData || getFromCode == 1) {
-                var a = document.getElementById('options').value;
-                objData = JSON.parse(atob(a));
-                if (objData.objects[selectedIndex]) {
-                    selectedObj = objData.objects[selectedIndex];
-                }
-            }
-
-            var str = JSON.stringify(objData, undefined, 4);
-            document.getElementById('options').innerHTML = str;
-            canvas.loadFromJSON(objData, function() {
-                setTimeout(() => {
-                    canvas.renderAll();
-                }, 100);
-            }, function(o, object) {})
-        }
-
-        function setResizeCanvas() {
-            const outerCanvasContainer = document.getElementById('fabric-canvas-wrapper');
-            outerCanvasContainer.classList.add("locked");
-            const newWidth = outerCanvasContainer.clientWidth;
-            resizeCanvas(newWidth);
-        }
-
-        function resizeCanvas(newWidth) {
-            hide();
-            const ratio = canvas.getWidth() / canvas.getHeight();
-            const scale = newWidth / canvas.getWidth();
-            const zoom = canvas.getZoom() * scale;
-
-            canvas.setDimensions({
-                width: newWidth,
-                height: newWidth / ratio
-            });
-            canvas.setViewportTransform([zoom, 0, 0, zoom, 0, 0]);
-            show();
-        }
-
-        function show(element = undefined) {
-            if (!element) {
-                element = document.getElementById('fabric-canvas-wrapper');
-            }
-            element.classList.remove("d-none");
-        }
-
-        function hide(element = undefined) {
-            if (!element) {
-                element = document.getElementById('fabric-canvas-wrapper');
-            }
-            element.classList.add("d-none");
-        }
-
-        function saveImage(e) {
-            resizeCanvas({{ $dataDetail->width }});
-            let href = canvas.toDataURL({
-                format: 'jpeg',
-                quality: 1
-            });
-
-            var anchor = document.createElement('a');
-            anchor.setAttribute('href', href);
-            anchor.setAttribute('download', 'image.jpg');
-            anchor.click();
-            setResizeCanvas()
-        }
     </script>
-</x-layouts.simple-layout>
+</x-layouts.front>

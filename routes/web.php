@@ -64,6 +64,7 @@ Route::middleware([CheckLanguage::class])->group(function () {
     Route::get('city/{slug}', [CitiesController::class, 'view'])->name('pages.cities.detail');
     Route::get('city/{slug}/{category}', [CitiesController::class, 'category_businesses_list'])->name('pages.cities.businesses.list');
 
+    Route::get('image-editor/{slug}', [PublicImageController::class, 'try'])->name('pages.image.editor.detail');
     Route::get('image/{slug}', [PublicImageController::class, 'view'])->name('pages.image.detail');
     Route::get('cool-image/{slug}', [CoolImageController::class, 'view'])->name('pages.image.cool');
     Route::get('news-image/{slug}', [CoolImageController::class, 'news'])->name('pages.image.news');

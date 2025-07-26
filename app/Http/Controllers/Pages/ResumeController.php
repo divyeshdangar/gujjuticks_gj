@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Validator;
 
 class ResumeController extends Controller
 {
+    public $months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
     public function index(Request $request): View
     {
         $metaData = [
@@ -44,7 +46,7 @@ class ResumeController extends Controller
 
         $resume->language = 'English';
         $resume->image = 'default.png';
-        
+
         $resume->save();
 
         if ($resume) {
@@ -74,7 +76,7 @@ class ResumeController extends Controller
                 "url" => route('pages.resume.list'),
                 "nofollow" => true
             ];
-            return view('pages.resume.builder', ['metaData' => $metaData, 'dataDetail' => $dataDetail]);
+            return view('pages.resume.builder', ['metaData' => $metaData, 'dataDetail' => $dataDetail, 'months' => $this->months]);
         } else {
             $message = [
                 "message" => [

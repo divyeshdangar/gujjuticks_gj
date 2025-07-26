@@ -365,7 +365,7 @@ class ImageController extends Controller
                         "description" => __('dashboard.details_submitted')
                     ]
                 ];
-                return redirect()->route('dashboard.image.data', ['id' => $image_id])->with($message);
+                return redirect()->route('dashboard.image.data.edit', ['id' => $dataListDetail->id, 'image_id' => $image_id])->with($message);
             }
         }
         return redirect()->route('dashboard.image');

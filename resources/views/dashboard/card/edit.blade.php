@@ -92,12 +92,12 @@
                             <div class="col-lg-6">
                                 <div class="form-group mb-4">
                                     <label
-                                        class="label @error('card_category_id') text-danger @enderror">{{ __('dashboard.blog_category') }}</label>
+                                        class="label @error('card_category_id') text-danger @enderror">{{ __('dashboard.card_category') }}</label>
                                     <div class="form-group position-relative">
                                         <select class="form-select form-control ps-5 h-58" name="card_category_id"
                                             required aria-label="Parent category selection">
                                             <option value="" class="text-dark">{{ __('dashboard.select') }}
-                                                {{ __('dashboard.blog_category') }}</option>
+                                                {{ __('dashboard.card_category') }}</option>
                                             @foreach ($categoryData as $data)
                                                 <option value="{{ $data->id }}" class="text-dark"
                                                     @if ($data->id == old('card_category_id', $dataDetail->card_category_id)) selected="selected" @endif>
@@ -118,7 +118,7 @@
                                         class="label @error('is_featured') text-danger @enderror">{{ __('dashboard.is_featured') }}</label>
                                     <div class="form-group position-relative">
                                         <select class="form-select form-control h-58" name="is_featured"
-                                            aria-label="Parent category selection">
+                                            aria-label="Is featured selection">
                                             <option class="text-dark">{{ __('dashboard.select') }}
                                                 {{ __('dashboard.is_featured') }}</option>
 

@@ -22,8 +22,12 @@
                     <div class="section-title mt-4 mt-lg-0">
                         <h3 class="title">{{ $metaData['title'] }}</h3>
                         <p class="text-muted">{{ $metaData['description'] }}</p>
-                        <a target="_blank" href="{{ route('pages.resume.builder.generate', ['token' => $dataDetail->token]) }}" class="btn btn-primary">Check Resume PDF</a>
-                        <a target="_blank" href="{{ route('pages.resume.builder.generate', ['token' => $dataDetail->token, 'download' => '1']) }}" class="btn btn-danger">Download Resume PDF</a>
+                        <a target="_blank"
+                            href="{{ route('pages.resume.builder.generate', ['token' => $dataDetail->token]) }}"
+                            class="btn btn-primary">Check Resume PDF</a>
+                        <a target="_blank"
+                            href="{{ route('pages.resume.builder.generate', ['token' => $dataDetail->token, 'download' => '1']) }}"
+                            class="btn btn-danger">Download Resume PDF</a>
                         <div class="overflow-auto mt-4">
                             <ul class="nav nav-underline flex-nowrap justify-content-start my-4"
                                 style="white-space: nowrap;" id="resumeTab" role="tablist">
@@ -42,6 +46,10 @@
                                 <li class="nav-item" role="presentation">
                                     <a class="nav-link" id="tab-experiences" data-bs-toggle="tab" href="#experiences"
                                         role="tab">Experiences</a>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link" id="tab-achievements" data-bs-toggle="tab" href="#achievements"
+                                        role="tab">Achievements</a>
                                 </li>
                                 <li class="nav-item" role="presentation">
                                     <a class="nav-link" id="tab-portfolios" data-bs-toggle="tab" href="#portfolios"
@@ -170,11 +178,21 @@
                                                 <div class="col-md-6">
                                                     <div class="mb-3">
                                                         <label for="language"
-                                                            class="form-label @error('language') text-danger @enderror">Language</label>
-                                                        <input type="text"
-                                                            value="{{ old('language', $dataDetail->language) }}"
-                                                            name="language" id="language"
-                                                            class="form-control @error('language') border border-danger border-1 @enderror">
+                                                            class="form-label @error('language') text-danger @enderror">Language <span class="text-muted">(for PDF language)</span></label>
+                                                        <select
+                                                            class="form-control @error('language') border border-danger border-1 @enderror"
+                                                            name="language" id="language">
+                                                            <option value="English" class="text-dark"
+                                                                @if ('English' == old('language', $dataDetail->language)) selected="selected" @endif>
+                                                                English</option>
+                                                            <option value="Hindi" class="text-dark"
+                                                                @if ('Hindi' == old('language', $dataDetail->language)) selected="selected" @endif>
+                                                                Hindi</option>
+                                                            <option value="Gujarati" class="text-dark"
+                                                                @if ('Gujarati' == old('language', $dataDetail->language)) selected="selected" @endif>
+                                                                Gujarati</option>
+                                                        </select>
+                                                        <small class="text-muted">You can add languages you know in <span class="text-warning">Skills</span> section.</small>
                                                         @error('language')
                                                             <div class="text-danger">{{ $message }}</div>
                                                         @enderror
@@ -184,8 +202,8 @@
                                                     <div class="mb-3">
                                                         <label for="address"
                                                             class="form-label @error('address') text-danger @enderror">Address</label>
-                                                        <textarea name="address" id="address" class="form-control @error('address') border border-danger border-1 @enderror"
-                                                            rows="2">{{ old('address', $dataDetail->address) }}</textarea>
+                                                        <textarea name="address" id="address"
+                                                            class="form-control @error('address') border border-danger border-1 @enderror" rows="2">{{ old('address', $dataDetail->address) }}</textarea>
                                                         @error('address')
                                                             <div class="text-danger">{{ $address }}</div>
                                                         @enderror
@@ -245,10 +263,7 @@
                                     </span>
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <button type="button" data-repeater-create
-                                                class="btn btn-sm btn-primary mb-2">Add Skill</button>
-                                        </div>
-                                        <div class="col-md-12">
+                                            <button type="button" data-repeater-create class="btn btn-sm btn-primary mb-2">Add Skill</button>
                                             <div class="row" data-repeater-list="skills">
 
                                                 @if ($dataDetail->skills && count($dataDetail->skills) > 0)
@@ -259,7 +274,8 @@
                                                                 <input type="text" name="skill" id="skill"
                                                                     class="form-control" value="{{ $skill->name }}">
                                                                 <button type="button" data-repeater-delete
-                                                                    class="btn btn-sm btn-outline-danger mt-2">Remove</button>
+                                                                    class="btn btn-sm btn-outline-danger mt-2"
+                                                                    required>Remove</button>
                                                             </div>
                                                         </div>
                                                     @endforeach
@@ -276,6 +292,8 @@
                                                 @endif
                                             </div>
                                         </div>
+
+                                        
                                         <div class="col-md-12 text-center">
                                             <button type="submit" class="btn btn-primary">Save</button>
                                         </div>
@@ -341,11 +359,15 @@
                                                                                     <label for="start_month"
                                                                                         class="form-label">Start
                                                                                         Month</label>
-                                                                                    <input type="text"
+                                                                                    <select
+                                                                                        class="form-control @error('start_month') border border-danger border-1 @enderror"
                                                                                         name="start_month"
-                                                                                        value="{{ $edu->start_month }}"
-                                                                                        id="start_month"
-                                                                                        class="form-control" required>
+                                                                                        id="start_month" required>
+                                                                                        <option value="" class="text-dark">-- Select --</option>
+                                                                                        @foreach($months as $key => $value)
+                                                                                            <option value="{{ $key+1 }}" class="text-dark" @if (($key+1) == old('start_month',  $edu->start_month)) selected="selected" @endif>{{ $value }}</option>
+                                                                                        @endforeach
+                                                                                    </select>
                                                                                 </div>
                                                                             </div>
                                                                             <div class="col-7">
@@ -367,11 +389,15 @@
                                                                                     <label for="end_month"
                                                                                         class="form-label">End
                                                                                         Month</label>
-                                                                                    <input type="text"
+                                                                                    <select
+                                                                                        class="form-control @error('end_month') border border-danger border-1 @enderror"
                                                                                         name="end_month"
-                                                                                        value="{{ $edu->end_month }}"
-                                                                                        id="end_month"
-                                                                                        class="form-control">
+                                                                                        id="end_month">
+                                                                                        <option value="" class="text-dark">-- Select --</option>
+                                                                                        @foreach($months as $key => $value)
+                                                                                            <option value="{{ $key+1 }}" class="text-dark" @if (($key+1) == old('end_month',  $edu->end_month)) selected="selected" @endif>{{ $value }}</option>
+                                                                                        @endforeach
+                                                                                    </select>
                                                                                 </div>
                                                                             </div>
                                                                             <div class="col-7">
@@ -430,10 +456,15 @@
                                                                                 <label for="start_month"
                                                                                     class="form-label">Start
                                                                                     Month</label>
-                                                                                <input type="text"
+                                                                                <select
+                                                                                    class="form-control"
                                                                                     name="start_month"
-                                                                                    id="start_month"
-                                                                                    class="form-control" required>
+                                                                                    id="start_month" required>
+                                                                                    <option value="" class="text-dark">-- Select --</option>
+                                                                                    @foreach($months as $key => $value)
+                                                                                        <option value="{{ $key+1 }}" class="text-dark">{{ $value }}</option>
+                                                                                    @endforeach
+                                                                                </select>
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-7">
@@ -453,9 +484,15 @@
                                                                                 <label for="end_month"
                                                                                     class="form-label">End
                                                                                     Month</label>
-                                                                                <input type="text" name="end_month"
-                                                                                    id="end_month"
-                                                                                    class="form-control">
+                                                                                <select
+                                                                                    class="form-control"
+                                                                                    name="end_month"
+                                                                                    id="end_month">
+                                                                                    <option value="" class="text-dark">-- Select --</option>
+                                                                                    @foreach($months as $key => $value)
+                                                                                        <option value="{{ $key+1 }}" class="text-dark">{{ $value }}</option>
+                                                                                    @endforeach
+                                                                                </select>
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-7">
@@ -553,11 +590,15 @@
                                                                                     <label for="start_month"
                                                                                         class="form-label">Start
                                                                                         Month</label>
-                                                                                    <input type="text"
+                                                                                    <select
+                                                                                        class="form-control @error('start_month') border border-danger border-1 @enderror"
                                                                                         name="start_month"
-                                                                                        value="{{ $exp->start_month }}"
-                                                                                        id="start_month"
-                                                                                        class="form-control" required>
+                                                                                        id="start_month" required>
+                                                                                        <option value="" class="text-dark">-- Select --</option>
+                                                                                        @foreach($months as $key => $value)
+                                                                                            <option value="{{ $key+1 }}" class="text-dark" @if (($key+1) == old('start_month',  $exp->start_month)) selected="selected" @endif>{{ $value }}</option>
+                                                                                        @endforeach
+                                                                                    </select>
                                                                                 </div>
                                                                             </div>
                                                                             <div class="col-7">
@@ -579,11 +620,15 @@
                                                                                     <label for="end_month"
                                                                                         class="form-label">End
                                                                                         Month</label>
-                                                                                    <input type="text"
+                                                                                    <select
+                                                                                        class="form-control @error('end_month') border border-danger border-1 @enderror"
                                                                                         name="end_month"
-                                                                                        value="{{ $exp->end_month }}"
-                                                                                        id="end_month"
-                                                                                        class="form-control">
+                                                                                        id="end_month">
+                                                                                        <option value="" class="text-dark">-- Select --</option>
+                                                                                        @foreach($months as $key => $value)
+                                                                                            <option value="{{ $key+1 }}" class="text-dark" @if (($key+1) == old('end_month',  $exp->end_month)) selected="selected" @endif>{{ $value }}</option>
+                                                                                        @endforeach
+                                                                                    </select>
                                                                                 </div>
                                                                             </div>
                                                                             <div class="col-7">
@@ -612,13 +657,16 @@
                                                                                 class="form-label">City</label>
                                                                             <input type="text" name="city"
                                                                                 value="{{ $exp->city }}"
-                                                                                id="city" class="form-control">
+                                                                                id="city" class="form-control"
+                                                                                required>
                                                                         </div>
                                                                     </div>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <button type="button" data-repeater-delete
-                                                                        class="btn btn-sm btn-outline-danger mt-2">Remove</button>
+                                                                    <div class="col-md-4">
+                                                                        <div class="form-group mt-4">
+                                                                            <button type="button" data-repeater-delete
+                                                                                class="btn btn-sm btn-outline-danger mt-2">Remove</button>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -651,10 +699,15 @@
                                                                                 <label for="start_month"
                                                                                     class="form-label">Start
                                                                                     Month</label>
-                                                                                <input type="text"
+                                                                                <select
+                                                                                    class="form-control"
                                                                                     name="start_month"
-                                                                                    id="start_month"
-                                                                                    class="form-control" required>
+                                                                                    id="start_month" required>
+                                                                                    <option value="" class="text-dark">-- Select --</option>
+                                                                                    @foreach($months as $key => $value)
+                                                                                        <option value="{{ $key+1 }}" class="text-dark">{{ $value }}</option>
+                                                                                    @endforeach
+                                                                                </select>
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-7">
@@ -674,9 +727,15 @@
                                                                                 <label for="end_month"
                                                                                     class="form-label">End
                                                                                     Month</label>
-                                                                                <input type="text" name="end_month"
-                                                                                    id="end_month"
-                                                                                    class="form-control">
+                                                                                <select
+                                                                                    class="form-control"
+                                                                                    name="end_month"
+                                                                                    id="end_month">
+                                                                                    <option value="" class="text-dark">-- Select --</option>
+                                                                                    @foreach($months as $key => $value)
+                                                                                        <option value="{{ $key+1 }}" class="text-dark">{{ $value }}</option>
+                                                                                    @endforeach
+                                                                                </select>
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-7">
@@ -695,7 +754,7 @@
                                                                     <div class="mb-2">
                                                                         <label for="experience"
                                                                             class="form-label">Experience</label>
-                                                                        <textarea name="experience" id="experience" class="form-control" rows="5"></textarea>
+                                                                        <textarea name="experience" id="experience" class="form-control" rows="5" required></textarea>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-4">
@@ -703,7 +762,8 @@
                                                                         <label for="city"
                                                                             class="form-label">City</label>
                                                                         <input type="text" name="city"
-                                                                            id="city" class="form-control">
+                                                                            id="city" class="form-control"
+                                                                            required>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-4">

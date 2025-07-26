@@ -59,7 +59,7 @@
                         <a href="{{ route('pages.blog.list') }}" class="nav-link">Blogs</a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('pages.resume.list') }}" class="nav-link link-warning">Resume Builder</a>
+                        <a href="{{ route('pages.resume.list') }}" class="nav-link">Resume Builder</a>
                     </li>
                     <li class="nav-item">
                         <a href="{{ route('form.contact') }}" class="nav-link">Contact</a>

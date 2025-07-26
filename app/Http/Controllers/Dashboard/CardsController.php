@@ -99,6 +99,8 @@ class CardsController extends Controller
                 $fileName = $dataToInsert['slug'] . time() . '-front.' . $extension;
                 $file->move(public_path(config('paths.images.card')), $fileName);
                 $dataDetail->front_image = $fileName;
+            } elseif(empty($dataDetail->front_image)) {
+                $dataDetail->front_image = 'default.png';
             }
             if ($request->file('back_image')) {
                 $file = $request->file('back_image');
@@ -106,6 +108,8 @@ class CardsController extends Controller
                 $fileName = $dataToInsert['slug'] . time() . '-back.' . $extension;
                 $file->move(public_path(config('paths.images.card')), $fileName);
                 $dataDetail->back_image = $fileName;
+            } elseif(empty($dataDetail->back_image)) {
+                $dataDetail->back_image = 'default.png';
             }
 
             $dataDetail->title = $dataToInsert['title'];

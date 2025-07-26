@@ -81,6 +81,47 @@
                                     <input type="file" class="form-control h-58" id="back_image" name="back_image" accept="image/*">
                                 </div>
                             </div>
+                                                        <div class="col-lg-6">
+                                <div class="form-group mb-4">
+                                    <label
+                                        class="label @error('is_featured') text-danger @enderror">{{ __('dashboard.is_featured') }}</label>
+                                    <div class="form-group position-relative">
+                                        <select class="form-select form-control h-58" name="is_featured"
+                                            aria-label="Parent category selection">
+                                            <option class="text-dark">{{ __('dashboard.select') }}
+                                                {{ __('dashboard.is_featured') }}</option>
+
+                                            @foreach ($dataDetail->getBool() as $key => $data)
+                                                <option value="{{ $key }}" class="text-dark"
+                                                    @if ($key == old('is_featured')) selected="selected" @endif>
+                                                    {{ $data }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    @error('is_featured')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group mb-4">
+                                    <label class="label @error('card_category_id') text-danger @enderror">{{ __('dashboard.card_category') }}</label>
+                                    <div class="form-group position-relative">
+                                        <select class="form-select form-control h-58" name="card_category_id" required aria-label="Parent category selection">
+                                            <option value="" class="text-dark">{{ __('dashboard.select') }}
+                                                {{ __('dashboard.card_category') }}</option>
+                                            @foreach ($categoryData as $data)
+                                                <option value="{{ $data->id }}" class="text-dark"
+                                                    @if ($data->id == old('card_category_id')) selected="selected" @endif>
+                                                    {{ $data->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    @error('card_category_id')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
                             <div class="col-lg-12">
                                 <div class="form-group mb-4">
                                     <label
@@ -119,28 +160,6 @@
                                             placeholder="{{ __('dashboard.keywords') }}" rows="3" rows="7" required>{{ old('keywords') }}</textarea>
                                     </div>
                                     @error('keywords')
-                                        <div class="text-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="form-group mb-4">
-                                    <label
-                                        class="label @error('is_featured') text-danger @enderror">{{ __('dashboard.is_featured') }}</label>
-                                    <div class="form-group position-relative">
-                                        <select class="form-select form-control h-58" name="is_featured"
-                                            aria-label="Parent category selection">
-                                            <option class="text-dark">{{ __('dashboard.select') }}
-                                                {{ __('dashboard.is_featured') }}</option>
-
-                                            @foreach ($dataDetail->getBool() as $key => $data)
-                                                <option value="{{ $key }}" class="text-dark"
-                                                    @if ($key == old('is_featured')) selected="selected" @endif>
-                                                    {{ $data }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    @error('is_featured')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
