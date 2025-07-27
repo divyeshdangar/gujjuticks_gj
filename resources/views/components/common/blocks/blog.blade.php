@@ -1,6 +1,6 @@
 <div class="{{ $class }} mb-4">
     <div class="card blog-grid-box p-2">
-        <img height="1080" width="1920" src="{{ URL::asset('/images/blog/' . $data->image) }}" alt="{{ $data->title }} Image" title="{{ $data->title }} Image" class="img-fluid">
+        <img loading="lazy" height="1080" width="1920" src="{{ URL::asset('/images/blog/' . $data->image) }}" alt="{{ $data->title }} Image" title="{{ $data->title }} Image" class="img-fluid rounded-4">
         <div class="card-body">
 
             @if($class != "col-12")                

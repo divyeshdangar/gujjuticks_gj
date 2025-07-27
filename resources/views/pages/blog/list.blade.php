@@ -26,7 +26,7 @@
                 </div>
                 <div class="col-lg-5">
                     <div class="mt-5 mt-md-0">
-                        <img src="{{ asset('files/images/blogs-listing-page.png') }}" alt=""
+                        <img loading="lazy" src="{{ asset('files/images/blogs-listing-page.png') }}" alt=""
                             class="home-img w-100" />
                     </div>
                 </div>
@@ -81,24 +81,13 @@
             <div class="row text-start">
                 <div class="candidate-list">
                     @foreach ($categories as $key => $value)
-                        {{-- <div class="col-md-4 col-sm-6 col-6">
-                        <div class="mb-4">
-                            <img src="{{ URL::asset('/images/blog-category/' . $value->image) }}" alt=""
-                                class="rounded w-100" />
-                            <a href="{{ route('pages.blog.category.detail', ['slug' => $value->slug]) }}">
-                                <h3 class="h4 mt-2 text-center link-light">{{ $value->title }}</h3>
-                            </a>
-                            <p class="text-muted">{{ substr($value->meta_description, 0, 100) }}...</p>
-                        </div>
-                    </div> --}}
-
                         <div class="candidate-list-box card mt-4">
                             <div class="card-body p-4">
                                 <div class="row align-items-center">
                                     <div class="col-2">
                                         <div class="candidate-list-images">
-                                            <a href="javascript:void(0)"><img src="{{ URL::asset('/images/blog-category/' . $value->image) }}"
-                                                    alt="" class="img-thumbnail"></a>
+                                            <a href="javascript:void(0)"><img loading="lazy" src="{{ URL::asset('/images/blog-category/' . $value->image) }}"
+                                                    alt="" class="w-100 rounded-4"></a>
                                         </div>
                                     </div>
                                     <div class="col-10">
