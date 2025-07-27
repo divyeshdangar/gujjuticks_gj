@@ -44,7 +44,7 @@ class CitiesController extends Controller
                 "url" => route('pages.cities.detail', ['slug' => $dataDetail->slug])
             ];
             $categories = PlaceCategory::where('is_active', '1')->orderBy('name', 'ASC')->get();
-            $categories = $categories->split(3); // split the Collection into 3 roughly-equal chunks
+            //$categories = $categories->split(3); // split the Collection into 3 roughly-equal chunks
 
             $dataList = City::where('id', '<>', $dataDetail->id)->limit(3)->get();
 

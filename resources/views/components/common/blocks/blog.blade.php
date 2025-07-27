@@ -10,7 +10,8 @@
                             @if ($data->user)
                                 <span class="text-muted fw-medium">{{ ucwords($data->user->name) }}</span> -                         
                             @endif
-                            {{ $data->created_at->format('j F, Y') }}</p>
+                            {{ $data->created_at->format('j F, Y') }}
+                        </p>
                     </li>
                     <li class="list-inline-item d-none">
                         <p class="text-muted mb-0"><i class="mdi mdi-eye"></i> 432</p>
@@ -24,5 +25,5 @@
                 {{ $data->meta_description }}
             </p>
         </div>
-    </div><!--end blog-grid-box-->
-</div><!--end col-->
+    </div>
+</div>

@@ -7,7 +7,7 @@ use Spatie\Sitemap\Sitemap;
 use Spatie\Sitemap\Tags\Url;
 use App\Models\Blog;
 use App\Models\BlogCategories;
-
+use App\Models\City;
 
 class GenerateSitemap extends Command
 {
@@ -35,6 +35,8 @@ class GenerateSitemap extends Command
 
         $sitemap->add(Url::create(route('form.contact'))->setPriority(0.8));
         $sitemap->add(Url::create(route('pages.blog.list'))->setPriority(0.8));
+        $sitemap->add(Url::create(route('pages.cities.list'))->setPriority(0.8));
+        $sitemap->add(Url::create(route('pages.resume.list'))->setPriority(0.8));
 
         Blog::where('status', '1')
             ->get()
@@ -45,7 +47,6 @@ class GenerateSitemap extends Command
                     ->setPriority(0.8)
             ));
 
-        // 2️⃣ Add category pages
         BlogCategories::get()
             ->each(fn($cat) => $sitemap->add(
                 Url::create(route('pages.blog.category.detail', $cat->slug))
@@ -53,7 +54,13 @@ class GenerateSitemap extends Command
                     ->setPriority(0.6)
             ));
 
-        // 3️⃣ Write to public/sitemap.xml
+        City::get()
+            ->each(fn($city) => $sitemap->add(
+                Url::create(route('pages.cities.detail', $city->slug))
+                    ->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY)
+                    ->setPriority(0.6)
+            ));
+
         $sitemap->writeToFile(public_path('sitemap.xml'));
 
         $this->info('✅ sitemap.xml generated in /public');

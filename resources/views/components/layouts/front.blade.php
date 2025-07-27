@@ -46,9 +46,6 @@
                     </li>
                     @if (false)
                         <li class="nav-item">
-                            <a href="{{ route('pages.cities.list') }}" class="nav-link">Cities</a>
-                        </li>
-                        <li class="nav-item">
                             <a href="{{ route('pages.news.list') }}" class="nav-link">News</a>
                         </li>
                         <li class="nav-item">
@@ -57,6 +54,9 @@
                     @endif
                     <li class="nav-item">
                         <a href="{{ route('pages.blog.list') }}" class="nav-link">Blogs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('pages.cities.list') }}" class="nav-link">Cities</a>
                     </li>
                     <li class="nav-item">
                         <a href="{{ route('pages.resume.list') }}" class="nav-link">Resume Builder</a>
