@@ -77,7 +77,10 @@ class CitiesController extends Controller
                     "url" => route('pages.cities.businesses.list', ['slug' => $dataDetail->slug, 'category' => str_replace('_', '-', $businessCategory->name)])
                 ];
                 $dataList = Business::where('city_id', $dataDetail->id)->where('place_category_id', $businessCategory->id)->paginate(10)->withQueryString();
-                return view('pages.cities.category_businesses_list', ['dataList' => $dataList, 'dataDetail' => $dataDetail, 'metaData' => $metaData, 'dataDetail' => $dataDetail, 'businessCategory' => $businessCategory]);
+
+                $citiesList = City::where('id', '<>', $dataDetail->id)->limit(3)->get();
+
+                return view('pages.cities.category_businesses_list', ['dataList' => $dataList, 'dataDetail' => $dataDetail, 'metaData' => $metaData, 'dataDetail' => $dataDetail, 'businessCategory' => $businessCategory, 'citiesList' => $citiesList]);
             } else {
                 $message = [
                     "message" => [

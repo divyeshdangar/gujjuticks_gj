@@ -8,6 +8,8 @@ use Spatie\Sitemap\Tags\Url;
 use App\Models\Blog;
 use App\Models\BlogCategories;
 use App\Models\City;
+use Illuminate\Support\Str;
+use App\Models\PlaceCategory;
 
 class GenerateSitemap extends Command
 {
@@ -54,12 +56,33 @@ class GenerateSitemap extends Command
                     ->setPriority(0.6)
             ));
 
-        City::get()
-            ->each(fn($city) => $sitemap->add(
+        // City::get()
+        //     ->each(fn($city) => $sitemap->add(
+        //         Url::create(route('pages.cities.detail', $city->slug))
+        //             ->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY)
+        //             ->setPriority(0.6)
+        //     ));
+
+        City::get()->each(function ($city) use ($sitemap) {
+            // Add city detail page
+            $sitemap->add(
                 Url::create(route('pages.cities.detail', $city->slug))
                     ->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY)
                     ->setPriority(0.6)
-            ));
+            );
+
+            // Add city + category pages
+            PlaceCategory ::where('is_active', '1')->get()->each(function ($category) use ($city, $sitemap) {
+                $sitemap->add(
+                    Url::create(route('pages.cities.businesses.list', [
+                        'slug' => $city->slug,
+                        'category' => Str::slug($category->name),
+                    ]))
+                        ->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY)
+                        ->setPriority(0.5)
+                );
+            });
+        });
 
         $sitemap->writeToFile(public_path('sitemap.xml'));
 

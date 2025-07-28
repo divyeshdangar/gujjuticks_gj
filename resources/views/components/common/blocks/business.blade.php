@@ -40,10 +40,10 @@
                 </div>
             </div>
             
-            @if($data->google_maps_url && $data->google_maps_url != "")
+            @if(false && $data->google_maps_url && $data->google_maps_url != "")
                 <div class="col-md-3">
                     <div class="text-md-end text-end">
-                        <a target="_BLANK" href="https://www.google.com/maps/place/?q=place_id:{{ $data->place_id }}" rel="noopener noreferrer nofollow" class="primary-link">Google Map</a>
+                        <a target="_BLANK" href="https://www.google.com/maps/search/?api=1&query={{ $data->latitude }},{{ $data->longitude }}" rel="noopener noreferrer nofollow" class="primary-link">Google Map</a>
                         @if(false)
                             Replace link
                             https://www.google.com/maps/search/?api=1&query=Lal+Darwaja+Ahmedabad&query_place_id=ChIJxS5EgoqEXjkRfdf98i_2u5o
