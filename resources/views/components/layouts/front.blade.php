@@ -51,6 +51,9 @@
                         <li class="nav-item">
                             <a href="{{ route('pages.card.list') }}" class="nav-link link-info shake-text">Cards 🎴</a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{{ route('pages.link.index') }}" class="nav-link">Gujju.Me Links</a>
+                        </li>
                     @endif
                     <li class="nav-item">
                         <a href="{{ route('pages.blog.list') }}" class="nav-link">Blogs</a>

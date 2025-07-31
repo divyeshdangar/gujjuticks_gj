@@ -10,8 +10,9 @@ class OpenAIService
     protected string $apiKey;
 
     protected array $endpoint = [
-        'imageGeneration' => 'https://api.openai.com/v1/images/generations'
-    ];    
+        'imageGeneration' => 'https://api.openai.com/v1/images/generations',
+        'chatCompletion'  => 'https://api.openai.com/v1/chat/completions',
+    ];
 
     public function __construct()
     {
@@ -27,11 +28,32 @@ class OpenAIService
         ]);
 
         if ($response->successful() && isset($response['data'][0]['url'])) {
-            Log::info($response);
             return $response['data'][0]['url'];
         }
 
-        dd($response->body());
+        return null;
+    }
+
+    public function generateText(string $prompt): ?string
+    {
+        $response = Http::withToken($this->apiKey)
+            ->post($this->endpoint['chatCompletion'], [
+                'model' => 'gpt-3.5-turbo',
+                'messages' => [
+                    ['role' => 'user', 'content' => $prompt]
+                ],
+            ]);
+
+        if ($response->successful()) {
+            Log::info($response);
+            return $response['choices'][0]['message']['content'] ?? null;
+        }
+
+        // Log full error response
+        \Log::error('OpenAI API Error', [
+            'status' => $response->status(),
+            'body' => $response->body()
+        ]);
 
         return null;
     }

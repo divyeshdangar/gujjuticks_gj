@@ -43,6 +43,7 @@ use App\Http\Controllers\Auth\GoogleLoginController;
 use App\Http\Controllers\Auth\InstagramController;
 
 use App\Http\Controllers\Api\V1\BlogController as ApiBlogController;
+use App\Http\Controllers\Pages\GujjuMeController;
 
 Route::middleware([CheckLanguage::class])->group(function () {
     Route::get('/', [HomeController::class, 'show'])->name('home');    
@@ -80,6 +81,8 @@ Route::middleware([CheckLanguage::class])->group(function () {
     Route::post('resume-builder/{token}', [ResumeController::class, 'process'])->name('pages.resume.builder.post');
     Route::get('generate-resume/{token}', [ResumeBuilderController::class, 'generate'])->name('pages.resume.builder.generate');
 
+    Route::get('link-page-builder', [GujjuMeController::class, 'index'])->name('pages.link.index');
+    Route::post('link-page-builder', [GujjuMeController::class, 'post'])->name('pages.link.post');
 });
 
 Route::get('language/{locale}', function ($locale) {

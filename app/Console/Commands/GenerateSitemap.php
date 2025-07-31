@@ -33,8 +33,7 @@ class GenerateSitemap extends Command
     public function handle()
     {
         $sitemap = Sitemap::create()
-            ->add(Url::create(route('home'))->setPriority(1)); // optional: add your homepage
-
+            ->add(Url::create(route('home'))->setPriority(1));
         $sitemap->add(Url::create(route('form.contact'))->setPriority(0.8));
         $sitemap->add(Url::create(route('pages.blog.list'))->setPriority(0.8));
         $sitemap->add(Url::create(route('pages.cities.list'))->setPriority(0.8));

@@ -8,6 +8,7 @@ php artisan make:controller Dashboard/CardsController
 php artisan make:controller Dashboard/CardsCategoryController
 php artisan make:controller Pages/ResumeBuilderController
 php artisan make:controller Pages/ResumeController
+php artisan make:controller Pages/GujjuMeController
 
 
 ALTER TABLE `users` ADD `user_type` ENUM('1','2','3') NOT NULL DEFAULT '2' AFTER `phone`;

@@ -9,7 +9,7 @@ use Illuminate\View\View;
 use App\Models\City;
 use App\Models\PlaceCategory;
 use URL;
-// use App\Services\OpenAIService;
+use App\Services\OpenAIService;
 
 class CitiesController extends Controller
 {
@@ -103,9 +103,9 @@ class CitiesController extends Controller
         }
     }
 
-    // public function generate(OpenAIService $openAI)
-    // {
-    //     $url = $openAI->generateImage("A traditional Gujarati stepwell surrounded by carved stone architecture in sunlight", '1024x1024');
-    //     dd($url);
-    // }
+    public function generate(OpenAIService $openAI)
+    {
+        $data = $openAI->generateText("Give me ahmedabad info in 10 sentances in json type");
+        dd($data);
+    }
 }
