@@ -40,10 +40,12 @@
                 <div class="col-lg-10">
                     <div class="text-center">
                         <h2 class="text-warning mb-4">Explore {{ $dataDetail->name }}’s Business Landscape</h2>
-                        <p class="text-muted mb-5">{{ $dataDetail->name }} is home to a wide variety of businesses that contribute to
+                        <p class="text-muted mb-5">{{ $dataDetail->name }} is home to a wide variety of businesses that
+                            contribute to
                             its growing economy and vibrant local community. From small enterprises to large
                             establishments, the city offers opportunities across multiple sectors. This section
-                            highlights a diverse collection of businesses operating in {{ $dataDetail->name }}, making it easier to
+                            highlights a diverse collection of businesses operating in {{ $dataDetail->name }}, making
+                            it easier to
                             explore local services, connect with providers, or gain insight into the city’s commercial
                             environment.</p>
                     </div>
@@ -55,8 +57,13 @@
                         @foreach ($categories as $category)
                             <div class="col-md-3 col-6 text-center mb-5">
                                 <div class="rounded-4 border p-2 py-3">
-                                    <a href="{{ route('pages.cities.businesses.list', ['slug' => $dataDetail->slug, 'category' => str_replace('_', '-', $category->name)]) }}" class="primary-link" style="display: block; overflow: hidden;">                                    
-                                        <img loading="lazy" src="{{ URL::asset('/images/cities/category/'.$category->name.'.png') }}" class="border p-3 rounded-4 mb-2 bg-warning" alt="" title="Gujjuticks {{ $category->label }} image" height="128px" width="128px">
+                                    <a href="{{ route('pages.cities.businesses.list', ['slug' => $dataDetail->slug, 'category' => str_replace('_', '-', $category->name)]) }}"
+                                        class="primary-link" style="display: block; overflow: hidden;">
+                                        <img loading="lazy"
+                                            src="{{ route('pages.image.category', ['slug' => str_replace('_', '-', $category->name) . '-in-' . $dataDetail->slug . '.jpg']) }}"
+                                            class="border w-100 rounded-4 mb-2"
+                                            alt="{{ $category->label }} in {{ $dataDetail->name }}"
+                                            title="Gujjuticks {{ $category->label }} in {{ $dataDetail->name }} image">
                                         <div class="">{{ $category->label }} in {{ $dataDetail->name }}</div>
                                     </a>
                                 </div>

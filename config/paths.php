@@ -5,6 +5,8 @@ return [
     'images' => [
         'dynamic' => 'images/dynamic/',
         'dynamic_data' => 'images/dynamic/data/',
-        'card' => 'images/card/'
+        'card' => 'images/card/',
+        'city' => '',
+        'cities_category' => 'images/cities/category/',
     ]
 ];

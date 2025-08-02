@@ -27,8 +27,10 @@
                 <div class="col-lg-5">
                     <div class="mt-5 mt-md-0 text-center">
                         <img loading="lazy"
-                            src="{{ URL::asset('/images/cities/category/' . $businessCategory->name . '.png') }}"
-                            alt="Gujarat Image" title="Gujarat Image" class="rounded-4 home-img" />
+                            src="{{ route('pages.image.category', ['slug' => str_replace('_', '-', $businessCategory->name) . '-in-' . $dataDetail->slug . '.jpg']) }}"
+                            class="border w-100 rounded-4 mb-2"
+                            alt="{{ $businessCategory->label }} in {{ $dataDetail->name }}"
+                            title="Gujjuticks {{ $businessCategory->label }} in {{ $dataDetail->name }} image">
                     </div>
                 </div>
             </div>
@@ -42,7 +44,12 @@
                     <div class="text-center">
                         <h2 class="text-warning mb-4">{{ $dataDetail->name }}
                             {{ Str::plural($businessCategory->label) }} Business Finder</h2>
-                        <p class="text-muted mb-5">Looking for trusted {{ Str::plural($businessCategory->label) }} in {{ $dataDetail->name }}? You’re in the right place. This section helps you discover reliable and verified businesses operating in {{ $dataDetail->name }}, making it easy to find services that match your needs. Whether you're a local resident or a visitor, our curated listings connect you with top-rated professionals and companies in the {{ Str::plural($businessCategory->label) }} space.</p>                        
+                        <p class="text-muted mb-5">Looking for trusted {{ Str::plural($businessCategory->label) }} in
+                            {{ $dataDetail->name }}? You’re in the right place. This section helps you discover reliable
+                            and verified businesses operating in {{ $dataDetail->name }}, making it easy to find
+                            services that match your needs. Whether you're a local resident or a visitor, our curated
+                            listings connect you with top-rated professionals and companies in the
+                            {{ Str::plural($businessCategory->label) }} space.</p>
                     </div>
                 </div>
             </div>
@@ -94,8 +101,9 @@
             <div class="row justify-content-center">
                 <div class="col-lg-10">
                     <div class="text-center">
-                        <h2 class="text-warning mb-4">More on {{ Str::plural($businessCategory->label) }} in {{ $dataDetail->name }}, {{ $dataDetail->state }}</h2>
-                        @foreach(explode("___||___", $businessCategory->getDescription($dataDetail->name)) as $key => $value)
+                        <h2 class="text-warning mb-4">More on {{ Str::plural($businessCategory->label) }} in
+                            {{ $dataDetail->name }}, {{ $dataDetail->state }}</h2>
+                        @foreach (explode('___||___', $businessCategory->getDescription($dataDetail->name)) as $key => $value)
                             <p class="text-muted">{{ $value }}</p>
                         @endforeach
                     </div>
