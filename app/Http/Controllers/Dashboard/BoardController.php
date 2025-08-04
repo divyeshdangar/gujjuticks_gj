@@ -169,4 +169,41 @@ class BoardController extends Controller
         return redirect()->route('dashboard.board')->with($message);
     } 
 
+    public function delete(Request $request, $id)
+    {        
+        $dataDetail = Board::find($id);
+        if ($dataDetail) {
+
+            if(count($dataDetail->categories) > 0 || count($dataDetail->items) > 0 ){
+                $message = [
+                    "message" => [
+                        "type" => "error",
+                        "title" => __('dashboard.bad'),
+                        "description" => __('dashboard.board_not_empty')
+                    ]
+                ];
+                return redirect()->route('dashboard.board')->with($message);
+            } else {
+                $dataDetail->delete();
+                $message = [
+                    "message" => [
+                        "type" => "success",
+                        "title" => __('dashboard.great'),
+                        "description" => __('dashboard.record_deleted')
+                    ]
+                ];
+                return redirect()->route('dashboard.board')->with($message);
+            }
+        } else {
+            $message = [
+                "message" => [
+                    "type" => "error",
+                    "title" => __('dashboard.bad'),
+                    "description" => __('dashboard.no_record_found')
+                ]
+            ];
+            return redirect()->route('dashboard.board')->with($message);
+        }
+    }
+
 }

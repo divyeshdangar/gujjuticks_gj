@@ -42,8 +42,8 @@
                 <div class="d-sm-flex align-items-right justify-content-end">
                     <a href="{{ route('dashboard.board.items.add', ['id' => $dataDetail->id]) }}"
                         class="btn btn-primary bg-primary bg-opacity-10 text-primary border-0 py-2 px-3 mt-2 mt-sm-0">
-                        View Details
-                        <i class="ri-arrow-right-s-line"></i>
+                        Add Item
+                        <i class="ri-add-line"></i>
                     </a>
                 </div>
                 <ul class="ps-0 mb-0 list-unstyled d-flex">
@@ -84,10 +84,10 @@
                     enabled: false
                 },
                 click: function(el) {
-                    //console.log(el.dataset.eid)
+                    console.log(el.dataset.eid)
                 },
                 context: function(el, e) {
-                    //console.log("Trigger on all items right-click!");
+                    console.log("Trigger on all items right-click!");
                 },
                 dropEl: function(el, target, source, sibling) {
                     let data = {
@@ -103,7 +103,7 @@
             });
 
             function call(data) {
-                fetch("https://www.gujjuticks.com/dashboard/work-item/edit", {
+                fetch("{{ route('dashboard.work_item.edit.post') }}", {
                     method: "POST",
                     headers: {
                         'Content-Type': 'application/json'
