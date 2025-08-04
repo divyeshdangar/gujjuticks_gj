@@ -175,9 +175,8 @@ return [
     'card_order' => 'Card Orders',
     'is_featured' => 'Is featured?',
     'price' => 'Price',
-
     'front_image' => 'Front image',
     'back_image' => 'Back image',
-
-    'cards' => 'Cards'
+    'cards' => 'Cards',
+    'username_submitted' => 'Username registered, you can check it in your profile section.',
 ];

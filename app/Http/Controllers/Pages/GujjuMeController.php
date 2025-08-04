@@ -10,6 +10,8 @@ use App\Models\Webpage;
 use App\Models\Template;
 use App\Models\IndustryType;
 use App\Models\WebpageLink;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Auth;
 
 class GujjuMeController extends Controller
 {
@@ -43,6 +45,29 @@ class GujjuMeController extends Controller
             return redirect()->to(route('pages.link.index') . '#reserve-link-now')
                 ->withErrors(['username' => 'This username is already taken.'])
                 ->withInput();
+        } else {
+            $unique = $request->input('unique');
+            $username = $request->input('username');
+            if ($unique && $username) {
+                $decUsername = Crypt::decryptString($unique);
+                if ($username == $decUsername) {
+                    $web = new Webpage();
+                    $web->user_id = Auth::id();
+                    $web->link = $username;
+                    $web->template_id = 1;
+                    $web->title = "";
+                    $web->save();
+
+                    $message = [
+                        "message" => [
+                            "type" => "success",
+                            "title" => __('dashboard.great'),
+                            "description" => __('dashboard.details_submitted')
+                        ]
+                    ];
+                    return redirect()->route('home')->with($message);
+                }
+            }
         }
 
         // If valid and not taken, redirect back with success

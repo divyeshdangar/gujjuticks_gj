@@ -28,7 +28,7 @@ class Webpage extends Model
     {
         if (request('search')) {
             foreach ($this->searchable as $key => $value) {
-                $q->orwhere($value, 'LIKE', '%'.request('search').'%');
+                $q->orwhere($value, 'LIKE', '%' . request('search') . '%');
             }
         }
         return $q;
@@ -53,5 +53,10 @@ class Webpage extends Model
     public function industry()
     {
         return $this->hasOne(IndustryType::class, 'id', 'industry_type_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

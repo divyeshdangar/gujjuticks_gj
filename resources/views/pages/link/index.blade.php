@@ -13,8 +13,10 @@
                         <p class="lead text-muted mb-0">{{ $metaData['description'] }}</p>
                     </div>
                     <div class="row g-0">
-                        <div class="col-md-4">
+                        <div class="col-md-5">
                             <div class="mt-3 mt-md-0 h-100">
+                                <div class="my-2 text-warning">This feature is still in progress but you can register
+                                    your link now!</div>
                                 <a class="btn btn-warning" style="color: rgb(19, 19, 19) !important;"
                                     href="#reserve-link-now">Create Your Page</a>
                             </div>
@@ -23,7 +25,7 @@
                 </div>
                 <div class="col-lg-5">
                     <div class="mt-5 mt-md-0">
-                        <img src="{{ asset('files/images/gujjuticks-resume-builder.png') }}" alt=""
+                        <img src="{{ asset('files/images/gujjuticks-gujjume-link-create.png') }}" alt=""
                             class="home-img w-100" />
                     </div>
                 </div>
@@ -32,60 +34,99 @@
     </section>
 
     <section class="section" id="reserve-link-now">
-        <div class="container">
-            <form method="post" action="{{ route('pages.link.post') }}">
-                {{ csrf_field() }}
+
+        @if (auth()->user() && auth()->user()->webpages && count(auth()->user()->webpages) > 0)
+            <div class="container">
                 <div class="row align-items-center justify-content-center">
                     <div class="col-md-4 text-center mb-4">
                         <img src="{{ asset('logos/gujju.me.white.png') }}" alt="" class="home-img w-75" />
                     </div>
                     <div class="clearfix"></div>
                     <div class="col-md-8 text-center">
-                        <div class="mb-3">
+                        @foreach (auth()->user()->webpages as $key => $value)
                             <div class="mb-3">
-                                <label for="username" class="form-label">Find your username now!</label>
-                                <div
-                                    class="input-group input-group-lg @error('username') border border-danger border-1 rounded-3 @enderror">
-                                    <span class="input-group-text" id="username-link"><span
-                                            class="d-none d-md-inline">https://</span>gujju.me/</span>
-                                    <input type="text" class="form-control" autocomplete="off" id="username" onkeyup="updateUrl(this, 'username')" name="username" maxlength="255" value="{{ old('username') }}" minlength="3" aria-describedby="username-link username-description">
-                                </div>
-                                <div class="form-text" id="username-description">Example help text goes outside the
-                                    input group.</div>
-                                <div class="text-danger text-start d-none" id="link-error">
-                                    <ul class="mt-1">
-                                        <li>Invalid link</li>
-                                        <li>Must be at least <b>4 characters</b> long</li>
-                                        <li>Start with a letter</li>
-                                        <li>Can include numbers and single hyphens</li>
-                                        <li>Must end with a letter or number</li>
-                                        <li>Ex. <span class="text-warning">test</span>, <span
-                                                class="text-warning">test-page-one</span>, <span
-                                                class="text-warning">test-page-1</span> etc</li>
-                                    </ul>
-                                </div>
-                                @error('username')
-                                    <div class="h3 text-center mt-3 text-danger">{{ $message }}</div>
-                                @enderror
-                                @if (session('success'))
-                                    <div class="h3 text-center mt-3 text-success shake-text">{{ session('success') }}</div>
-                                    @if (auth()->user())
-                                        
-                                    @else
-                                        <p class="text-warning"></p>
-                                    @endif
-                                @endif
+                                <a href="https://www.google.com">
+                                    <div class="input-group input-group-lg">
+                                        <div class="input-group-text w-100" id="username-link"><span
+                                                class="d-none d-md-inline">https://</span>gujju.me/{{ $value->link }}</div>
+                                    </div>
+                                </a>
                             </div>
-                        </div>
-                    </div>
-                    <div class="clearfix"></div>
-                    <div class="col-md-6 text-center">
-                        <button type="submit" class="btn btn-warning d-none" style="color: rgb(19, 19, 19) !important;"
-                            id="subBut">Check if Available</button>
+                        @endforeach
                     </div>
                 </div>
-            </form>
-        </div>
+            </div>
+        @else
+            <div class="container">
+                <form method="post" action="{{ route('pages.link.post') }}">
+                    {{ csrf_field() }}
+                    <div class="row align-items-center justify-content-center">
+                        <div class="col-md-4 text-center mb-4">
+                            <img src="{{ asset('logos/gujju.me.white.png') }}" alt="" class="home-img w-75" />
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="col-md-8 text-center">
+                            <div class="mb-3">
+                                <div class="mb-3">
+                                    <label for="username" class="form-label">Find your username now!</label>
+                                    <div
+                                        class="input-group input-group-lg @error('username') border border-danger border-1 rounded-3 @enderror">
+                                        <span class="input-group-text" id="username-link"><span
+                                                class="d-none d-md-inline">https://</span>gujju.me/</span>
+                                        <input type="text" class="form-control" autocomplete="off" id="username"
+                                            onkeyup="updateUrl(this, 'username')" name="username" maxlength="255"
+                                            value="{{ old('username') }}" minlength="3"
+                                            aria-describedby="username-link username-description">
+                                    </div>
+                                    <div class="form-text" id="username-description">Enter your desired username using
+                                        letters, numbers, and hyphens (-). <br>Underscores are not allowed.</div>
+                                    <div class="text-danger text-start d-none" id="link-error">
+                                        <ul class="mt-1">
+                                            <li>Invalid link</li>
+                                            <li>Must be at least <b>4 characters</b> long</li>
+                                            <li>Start with a letter</li>
+                                            <li>Can include numbers and single hyphens</li>
+                                            <li>Must end with a letter or number</li>
+                                            <li>Ex. <span class="text-warning">test</span>, <span
+                                                    class="text-warning">test-page-one</span>, <span
+                                                    class="text-warning">test-page-1</span> etc</li>
+                                        </ul>
+                                    </div>
+                                    @error('username')
+                                        <div class="h3 text-center mt-3 text-danger">{{ $message }}</div>
+                                    @enderror
+                                    @if (session('success'))
+                                        <div id="userNameMessage">
+                                            <div class="h3 text-center mt-3 text-success">{{ session('success') }}
+                                            </div>
+                                            @if (auth()->user())
+                                                @php
+                                                    $encrypted = \Illuminate\Support\Facades\Crypt::encryptString(
+                                                        old('username'),
+                                                    );
+                                                @endphp
+                                                <input type="hidden" name="unique" value="{{ $encrypted }}">
+                                                <div class="h5 text-success">Reserve this username now! <button
+                                                        type="submit" class="btn btn-success btn-sm">Click
+                                                        Here!</button></div>
+                                            @else
+                                                <h5 class="text-danger h5">Try again after Login to reserve this
+                                                    username!</h5>
+                                            @endif
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="col-md-6 text-center">
+                            <button type="submit" class="btn btn-warning d-none"
+                                style="color: rgb(19, 19, 19) !important;" id="subBut">Check if Available</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        @endif
     </section>
 
     <section class="section bg-light">
@@ -109,7 +150,8 @@
                                         class="border p-3 rounded-4 mb-2 bg-warning" alt=""
                                         title="Gujjuticks image" height="128px" width="128px">
                                     <h3 class="h4">Smart Bio Link Page</h3>
-                                    <p class="text-muted">Add all your social media, website, WhatsApp, YouTube & more -
+                                    <p class="text-muted">Add all your social media, website, WhatsApp, YouTube & more
+                                        -
                                         all in one place.</p>
                                 </div>
                             </div>
@@ -575,6 +617,11 @@
             const error = document.getElementById("link-error");
             const subBut = document.getElementById("subBut");
             const linkPattern = /^[a-zA-Z](?!.*--)[a-zA-Z0-9-]{2,}[a-zA-Z0-9]$/;
+
+            const userNameMessage = document.getElementById("userNameMessage");
+            if (userNameMessage) {
+                userNameMessage.remove();
+            }
 
             if (!linkPattern.test(link)) {
                 error.classList.remove('d-none');

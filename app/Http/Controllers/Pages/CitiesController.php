@@ -73,7 +73,7 @@ class CitiesController extends Controller
                     "title" => $businessCategory->label . " in " . $dataDetail->name . " - GujjuTicks",
                     "no_title" => true,
                     "description" => $businessCategory->getMetaDescription($dataDetail->name),
-                    "image" => URL::asset('/images/cities/' . $dataDetail->image),
+                    "image" =>  route('pages.image.category', ['slug' => str_replace('_', '-', $businessCategory->name) . '-in-' . $dataDetail->slug . '.jpg']),  //URL::asset('/images/cities/' . $dataDetail->image),
                     "url" => route('pages.cities.businesses.list', ['slug' => $dataDetail->slug, 'category' => str_replace('_', '-', $businessCategory->name)])
                 ];
                 $dataList = Business::where('city_id', $dataDetail->id)->where('place_category_id', $businessCategory->id)->paginate(10)->withQueryString();

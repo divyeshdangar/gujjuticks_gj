@@ -123,4 +123,9 @@ class User extends Authenticatable
     {
         return $this->user_type == User::Company ? true : false;
     }
+
+    public function webpages()
+    {
+        return $this->hasMany(Webpage::class);
+    }
 }
