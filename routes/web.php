@@ -44,6 +44,7 @@ use App\Http\Controllers\Auth\InstagramController;
 
 use App\Http\Controllers\Api\V1\BlogController as ApiBlogController;
 use App\Http\Controllers\Pages\GujjuMeController;
+use App\Http\Controllers\Pages\PostSetController;
 
 Route::middleware([CheckLanguage::class])->group(function () {
     Route::get('/', [HomeController::class, 'show'])->name('home');    
@@ -70,6 +71,8 @@ Route::middleware([CheckLanguage::class])->group(function () {
     Route::get('cool-image/{slug}', [CoolImageController::class, 'view'])->name('pages.image.cool');
     Route::get('news-image/{slug}', [CoolImageController::class, 'news'])->name('pages.image.news');
     Route::get('city-business-category-image/{slug}', [CoolImageController::class, 'category'])->name('pages.image.category');
+    Route::get('post-image/{slug}', [CoolImageController::class, 'postset'])->name('pages.image.postset');
+    Route::get('post-main/{slug}', [CoolImageController::class, 'postmain'])->name('pages.image.postmain');
 
     // Route::get('gujarat', [GujaratController::class, 'index'])->name('pages.gujarat');
     // Route::get('gujarat/{slug}', [GujaratController::class, 'district'])->name('pages.gujarat.district');
@@ -81,6 +84,10 @@ Route::middleware([CheckLanguage::class])->group(function () {
     Route::get('resume-builder/{token}', [ResumeController::class, 'builder'])->name('pages.resume.builder');
     Route::post('resume-builder/{token}', [ResumeController::class, 'process'])->name('pages.resume.builder.post');
     Route::get('generate-resume/{token}', [ResumeBuilderController::class, 'generate'])->name('pages.resume.builder.generate');
+
+    Route::get('generate-post', [PostSetController::class, 'index'])->name('pages.postset.list');
+    Route::post('generate-post', [PostSetController::class, 'post'])->name('pages.postset.post');
+    Route::get('generate-post/{slug}', [PostSetController::class, 'generator'])->name('pages.postset.post.generator');
 
     Route::get('link-page-builder', [GujjuMeController::class, 'index'])->name('pages.link.index');
     Route::post('link-page-builder', [GujjuMeController::class, 'post'])->name('pages.link.post');

@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Image;
 use App\Helpers\ImageHelper;
 use App\Models\News;
+use App\Models\PostItem;
+use App\Models\PostSet;
 
 class CoolImageController extends Controller
 {
@@ -156,4 +158,88 @@ class CoolImageController extends Controller
         ];
         return redirect()->route('home')->with($message);
     }
+
+    public function postset(Request $request, $slug)
+    {
+        if (str_ends_with(strtolower($slug), '.jpg')) {
+            $slug = preg_replace('/\.jpg$/i', '', $slug);
+            $postItemDetail = PostItem::where("slug", $slug)->first();
+            if($postItemDetail){
+                $dataDetail = Image::select('id', 'image', 'type', 'height', 'width', 'bg_color', 'colors', 'generator')->where("id", $postItemDetail->image_id)->first();
+                if ($dataDetail) {
+                    $background = array(
+                        "type" => $dataDetail->type,
+                        "height" => $dataDetail->height,
+                        "width" => $dataDetail->width,
+                        "image" => config('paths.images.dynamic') . $dataDetail->image,
+                        "color" => $dataDetail->bg_color,
+                        "colors" => explode(",", $dataDetail->colors)
+                    );
+                    if (empty($background["colors"]) || empty($background["colors"][0])) {
+                        $background["colors"][0] = "#000000";
+                    }    
+                    $img = new ImageHelper();
+                    $img->setBackground($background);
+                    if (!empty($dataDetail->data)) {
+                        foreach ($dataDetail->data as $key => $value) {
+                            if ($value->random_identity == "title") {
+                                $value->text = $postItemDetail->title;
+                            }
+                            if ($value->random_identity == "description") {
+                                $value->text = $postItemDetail->description;
+                            }
+                            if ($value->random_identity == "order") {
+                                $value->text = $postItemDetail->order;
+                            }
+                        }
+                        $img->setExtraData($dataDetail->data);
+                    }
+                    $img->showImage();
+                    return;
+                }
+            }
+        }
+        return $this->goBack();
+    }
+
+    public function postmain(Request $request, $slug)
+    {
+        if (str_ends_with(strtolower($slug), '.jpg')) {
+            $slug = preg_replace('/\.jpg$/i', '', $slug);
+            $postItemDetail = PostSet::where("slug", $slug)->first();
+            if($postItemDetail){
+                $dataDetail = Image::select('id', 'image', 'type', 'height', 'width', 'bg_color', 'colors', 'generator')->where("id", $postItemDetail->image_id)->first();
+                if ($dataDetail) {
+                    $background = array(
+                        "type" => $dataDetail->type,
+                        "height" => $dataDetail->height,
+                        "width" => $dataDetail->width,
+                        "image" => config('paths.images.dynamic') . $dataDetail->image,
+                        "color" => $dataDetail->bg_color,
+                        "colors" => explode(",", $dataDetail->colors)
+                    );
+                    if (empty($background["colors"]) || empty($background["colors"][0])) {
+                        $background["colors"][0] = "#000000";
+                    }    
+                    $img = new ImageHelper();
+                    $img->setBackground($background);
+                    if (!empty($dataDetail->data)) {
+                        foreach ($dataDetail->data as $key => $value) {
+                            if ($value->random_identity == "title") {
+                                $value->text = $postItemDetail->title;
+                            }
+                            if ($value->random_identity == "description") {
+                                $value->text = $postItemDetail->description;
+                            }
+                        }
+                        $img->setExtraData($dataDetail->data);
+                    }
+                    $img->showImage();
+                    return;
+                }
+            }
+        }
+        return $this->goBack();
+    }
+
 }
