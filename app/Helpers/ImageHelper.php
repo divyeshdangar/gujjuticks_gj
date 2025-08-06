@@ -79,7 +79,7 @@ class ImageHelper
                     $left = $value->left;
                     $top = $value->top;
                     $keyToSet = 0;
-                    $spaceBetweenLines = 5;
+                    $spaceBetweenLines = 15;
                     $lines = count($wrappedLines);
 
                     foreach ($wrappedLines as $keyTxt => $txt) {

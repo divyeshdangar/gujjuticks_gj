@@ -8,5 +8,6 @@ return [
         'card' => 'images/card/',
         'city' => '',
         'cities_category' => 'images/cities/category/',
+        'business_logo' => 'images/business/logo/'
     ]
 ];

@@ -128,4 +128,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Webpage::class);
     }
+
+    public function businessProfile()
+    {
+        return $this->belongsTo(BusinessProfile::class);
+    }
 }

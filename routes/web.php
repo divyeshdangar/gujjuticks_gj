@@ -87,6 +87,7 @@ Route::middleware([CheckLanguage::class])->group(function () {
 
     Route::get('generate-post', [PostSetController::class, 'index'])->name('pages.postset.list');
     Route::post('generate-post', [PostSetController::class, 'post'])->name('pages.postset.post');
+    Route::post('generate-post/add-business', [PostSetController::class, 'add'])->name('pages.postset.business.add');
     Route::get('generate-post/{slug}', [PostSetController::class, 'generator'])->name('pages.postset.post.generator');
 
     Route::get('link-page-builder', [GujjuMeController::class, 'index'])->name('pages.link.index');

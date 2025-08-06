@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Pages;
 
 use App\Http\Controllers\Controller;
+use App\Models\BusinessProfile;
 use App\Models\PostSet;
 use App\Models\PostItem;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Validator;
@@ -99,6 +101,7 @@ class PostSetController extends Controller
     {
         $dataDetail = PostSet::where("slug", $slug)->first();
         if ($dataDetail) {
+            $bProfile = Auth::check() ? Auth::user()->businessProfile : null;
             $metaData = [
                 "title" => $dataDetail->title,
                 "description" => $dataDetail->meta_description,
@@ -106,7 +109,7 @@ class PostSetController extends Controller
                 "keywords" => $dataDetail->keywords,
                 "url" => route('pages.resume.list')
             ];
-            return view('pages.postset.builder', ['metaData' => $metaData, 'dataDetail' => $dataDetail]);
+            return view('pages.postset.builder', ['metaData' => $metaData, 'dataDetail' => $dataDetail, 'bProfile' => $bProfile]);
         } else {
             $message = [
                 "message" => [
@@ -116,6 +119,57 @@ class PostSetController extends Controller
                 ]
             ];
             return redirect()->route('pages.postset.list')->with($message);
+        }
+    }
+
+    public function add(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'instagram' => 'required|max:64'
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
+        $dataToInsert = $validator->validated();
+
+        $bProfile = Auth::user()->businessProfile;
+        if (!$bProfile) {
+            $bProfile = new BusinessProfile();
+        }
+        $bProfile->instagram = $dataToInsert['instagram'];
+
+        if ($request->croppedImage != null) {
+            $croped_image = $request->croppedImage;
+            list($type, $croped_image) = explode(';', $croped_image);
+            list(, $croped_image)      = explode(',', $croped_image);
+            $croped_image = base64_decode($croped_image);
+            $image_name = Str::uuid() . ".png";
+            file_put_contents("./". config('paths.images.business_logo') . $image_name, $croped_image);
+            $bProfile->logo = $image_name;
+        }
+
+        $bProfile->save();
+
+        if ($bProfile) {
+
+            $user = Auth::user();
+            if ($user) {
+                $user->business_profile_id = $bProfile->id;
+                $user->save();
+            }
+
+            $message = [
+                "message" => [
+                    "type" => "success",
+                    "title" => __('dashboard.great'),
+                    "description" => __('dashboard.details_submitted')
+                ]
+            ];
+            return back()->with($message);
+        } else {
+            return back();
         }
     }
 }

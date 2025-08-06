@@ -65,6 +65,9 @@
                         <a href="{{ route('pages.resume.list') }}" class="nav-link">Resume Builder</a>
                     </li>
                     <li class="nav-item">
+                        <a href="{{ route('pages.postset.list') }}" class="nav-link">Post Builder</a>
+                    </li>
+                    <li class="nav-item">
                         <a href="{{ route('form.contact') }}" class="nav-link">Contact</a>
                     </li>
                 </ul>

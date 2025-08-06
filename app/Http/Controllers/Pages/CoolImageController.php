@@ -9,6 +9,7 @@ use App\Helpers\ImageHelper;
 use App\Models\News;
 use App\Models\PostItem;
 use App\Models\PostSet;
+use Illuminate\Support\Facades\Auth;
 
 class CoolImageController extends Controller
 {
@@ -134,7 +135,7 @@ class CoolImageController extends Controller
                                 $value->text = $location;
                             }
                             if ($value->random_identity === "icon-image") {
-                                $value->add_image = config('paths.images.cities_category') . $category_slug.'.png';
+                                $value->add_image = config('paths.images.cities_category') . $category_slug . '.png';
                             }
                         }
                     }
@@ -164,7 +165,7 @@ class CoolImageController extends Controller
         if (str_ends_with(strtolower($slug), '.jpg')) {
             $slug = preg_replace('/\.jpg$/i', '', $slug);
             $postItemDetail = PostItem::where("slug", $slug)->first();
-            if($postItemDetail){
+            if ($postItemDetail) {
                 $dataDetail = Image::select('id', 'image', 'type', 'height', 'width', 'bg_color', 'colors', 'generator')->where("id", $postItemDetail->image_id)->first();
                 if ($dataDetail) {
                     $background = array(
@@ -177,7 +178,9 @@ class CoolImageController extends Controller
                     );
                     if (empty($background["colors"]) || empty($background["colors"][0])) {
                         $background["colors"][0] = "#000000";
-                    }    
+                    }
+
+                    $bProfile = (Auth::check() && Auth::user()->businessProfile) ? Auth::user()->businessProfile : null;
                     $img = new ImageHelper();
                     $img->setBackground($background);
                     if (!empty($dataDetail->data)) {
@@ -190,6 +193,16 @@ class CoolImageController extends Controller
                             }
                             if ($value->random_identity == "order") {
                                 $value->text = $postItemDetail->order;
+                            }
+                            if ($value->random_identity == "link") {
+                                if ($bProfile) {
+                                    $value->text = $bProfile->instagram;
+                                }
+                            }
+                            if ($value->random_identity == "logo") {
+                                if ($bProfile && !empty($bProfile->logo)) {
+                                    $value->add_image = config('paths.images.business_logo') . $bProfile->logo;
+                                }
                             }
                         }
                         $img->setExtraData($dataDetail->data);
@@ -207,7 +220,7 @@ class CoolImageController extends Controller
         if (str_ends_with(strtolower($slug), '.jpg')) {
             $slug = preg_replace('/\.jpg$/i', '', $slug);
             $postItemDetail = PostSet::where("slug", $slug)->first();
-            if($postItemDetail){
+            if ($postItemDetail) {
                 $dataDetail = Image::select('id', 'image', 'type', 'height', 'width', 'bg_color', 'colors', 'generator')->where("id", $postItemDetail->image_id)->first();
                 if ($dataDetail) {
                     $background = array(
@@ -220,7 +233,9 @@ class CoolImageController extends Controller
                     );
                     if (empty($background["colors"]) || empty($background["colors"][0])) {
                         $background["colors"][0] = "#000000";
-                    }    
+                    }
+
+                    $bProfile = (Auth::check() && Auth::user()->businessProfile) ? Auth::user()->businessProfile : null;
                     $img = new ImageHelper();
                     $img->setBackground($background);
                     if (!empty($dataDetail->data)) {
@@ -230,6 +245,16 @@ class CoolImageController extends Controller
                             }
                             if ($value->random_identity == "description") {
                                 $value->text = $postItemDetail->description;
+                            }
+                            if ($value->random_identity == "link") {
+                                if ($bProfile) {
+                                    $value->text = $bProfile->instagram;
+                                }
+                            }
+                            if ($value->random_identity == "logo") {
+                                if ($bProfile && !empty($bProfile->logo)) {
+                                    $value->add_image = config('paths.images.business_logo') . $bProfile->logo;
+                                }
                             }
                         }
                         $img->setExtraData($dataDetail->data);
@@ -241,5 +266,4 @@ class CoolImageController extends Controller
         }
         return $this->goBack();
     }
-
 }
