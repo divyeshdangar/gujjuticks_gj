@@ -9,7 +9,7 @@ class PostItem extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['post_set_id', 'title', 'description', 'slug', 'order'];
+    protected $fillable = ['post_set_id', 'title', 'description', 'slug', 'order', 'image_id'];
 
     public function set()
     {

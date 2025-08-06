@@ -4,11 +4,13 @@
             <div class="row align-items-center">
                 <div class="col-lg-7">
                     <div class="mb-4 pb-3 me-lg-5">
-                        <h6 class="sub-title">Boost your professional image</h6>
-                        <h1 class="display-5 fw-semibold mb-3">Build Your Resume in Minutes with <span
-                                class="text-warning fw-bold">GT Resume Builder</span></h1>
-                        <p class="lead text-muted mb-0">Create a stunning, professional resume with ease. No design
-                            skills needed.</p>
+                        <h6 class="sub-title">Readymade post builder</h6>
+                        <h1 class="display-5 fw-semibold mb-3">{!! str_replace(
+                            'Post Sets',
+                            '<a href="https://gujju.me"><span class="text-warning fw-bold">Post Sets</span></a>',
+                            'Editable Carousel Post Sets for Instagram and Knowledge Sharing',
+                        ) !!}</h1>
+                        <p class="lead text-muted mb-0">{{ $metaData['description'] }}</p>
                     </div>
                     <div class="row g-0">
                         <div class="col-md-4">
@@ -22,13 +24,51 @@
                 </div>
                 <div class="col-lg-5">
                     <div class="mt-5 mt-md-0">
-                        <img src="{{ asset('files/images/gujjuticks-resume-builder.png') }}" alt=""
+                        <img src="{{ asset('files/images/gujjuticks-dynamic-post-builder.png') }}" alt=""
                             class="home-img w-100" />
                     </div>
                 </div>
             </div>
         </div>
     </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center mb-4">
+                    <div class="section-title mb-5">
+                        <h3 class="title text-warning">Explore Visual Post Sets by Topic</h3>
+                        <p class="text-muted">
+                            Browse through our growing library of visual post sets, each designed to simplify complex
+                            topics into shareable content. Navigate by page to discover unique sets ready for
+                            customization and use.
+                        </p>
+                    </div>
+                </div>
+
+                @if (count($dataList) > 0)
+                    @foreach ($dataList as $data)
+                        <div class="col-lg-4 mb-4">
+                            <a href="{{ route('pages.postset.post.generator', ['slug' => $data->slug]) }}">
+                                <img src="{{ route('pages.image.postmain', ['slug' => $data->slug . '.jpg']) }}"
+                                    class="rounded-4 w-100 mb-3" alt="{{ $data->title }} Image"
+                                    title="{{ $data->title }} Image">
+                                <h3 class="h4 text-dark">{{ $data->title }}</h3>
+                            </a>
+                        </div>
+                    @endforeach
+                    <div class="col-12 text-center">
+                        {{ $dataList->links('vendor.pagination.bootstrap-5-new') }}
+                    </div>
+                @else
+                    <div class="col-md-12">
+                        <x-common.empty></x-common.empty>
+                    </div>
+                @endif
+            </div>
+        </div>
+    </section>
+
 
     <div id="startBuildingResume" class="modal fade" tabindex="-1" aria-labelledby="startBuildingResumeLabel"
         style="display: none;" aria-hidden="true">

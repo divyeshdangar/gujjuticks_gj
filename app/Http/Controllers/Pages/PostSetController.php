@@ -15,10 +15,10 @@ class PostSetController extends Controller
     public function index(Request $request): View
     {
         $metaData = [
-            "title" => "Free Online Resume Builder | Create a Professional Resume in Minutes | GujjuTicks Resume Builder",
-            "description" => "Build a job-winning resume online with our free, easy-to-use resume builder. Choose a template, fill in your details, and download a professional PDF resume - no sign-up required.",
+            "title" => "Editable Carousel Post Sets for Instagram and Knowledge Sharing | GujjuTicks Post Builder",
+            "description" => "Explore a curated library of customizable post sets covering various topics with visual storytelling. Ideal for Instagram carousels, knowledge hubs, and branded content - easily personalize and share as your own.",
             //"image" => "",
-            "keywords" => "online resume builder, free resume maker, create resume, resume templates, resume generator, download resume pdf, resume builder india, build cv online, professional resume",
+            "keywords" => "customizable Instagram posts, editable carousels, knowledge post sets, shareable visual content, educational content builder, dynamic post templates, branding-ready content, topic-based image posts, carousel content ideas, Instagram knowledge cards",
             "url" => route('pages.postset.list')
         ];
         $prompt = "Give me 9 point for 'history of Jamnagar' with 1 title, keywords, meta description, to create 10 Instagram post, also give me 1 proper caption with rich hashtags and whatever best for Instagram. Make sure you give it all in proper associative array in below format. Do not include emojis in title or posts, but you can in caption.
@@ -34,7 +34,12 @@ class PostSetController extends Controller
         'keywords' => '',
         'meta_description' => ''
         ]";
-        return view('pages.postset.list', ['metaData' => $metaData, 'prompt' => $prompt]);
+
+        $dataList = PostSet::where('image_id', '>', '0')->orderBy('id', 'DESC');
+        $dataList = $dataList->searching()->paginate(10)->withQueryString();
+        $metaData['prev'] = $dataList->previousPageUrl() ?? null;
+
+        return view('pages.postset.list', ['metaData' => $metaData, 'prompt' => $prompt, 'dataList' => $dataList]);
     }
 
     public function post(Request $request)
@@ -60,6 +65,7 @@ class PostSetController extends Controller
                 'slug' => Str::slug($array['title']),
                 'meta_description' => $array['meta_description'],
                 'keywords' => $array['keywords'],
+                'image_id' => 8,
                 'caption' => $array['caption'] ?? null,
             ]);
 
@@ -70,12 +76,12 @@ class PostSetController extends Controller
                         'post_set_id' => $postSet->id,
                         'title' => $post['title'],
                         'order' => $order++ . '.',
+                        'image_id' => 6,
                         'slug' => Str::slug($post['title']) . '-' . $postSet->id . '-' . rand(1000, 9999),
                         'description' => $post['description'],
                     ]);
                 }
             }
-
             $message = [
                 "message" => [
                     "type" => "success",
@@ -96,7 +102,7 @@ class PostSetController extends Controller
             $metaData = [
                 "title" => $dataDetail->title,
                 "description" => $dataDetail->meta_description,
-                //"image" => "",
+                "image" => route('pages.image.postmain', ['slug' => $dataDetail->slug . '.jpg']),
                 "keywords" => $dataDetail->keywords,
                 "url" => route('pages.resume.list')
             ];
