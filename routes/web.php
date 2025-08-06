@@ -85,10 +85,10 @@ Route::middleware([CheckLanguage::class])->group(function () {
     Route::post('resume-builder/{token}', [ResumeController::class, 'process'])->name('pages.resume.builder.post');
     Route::get('generate-resume/{token}', [ResumeBuilderController::class, 'generate'])->name('pages.resume.builder.generate');
 
-    Route::get('generate-post', [PostSetController::class, 'index'])->name('pages.postset.list');
-    Route::post('generate-post', [PostSetController::class, 'post'])->name('pages.postset.post');
-    Route::post('generate-post/add-business', [PostSetController::class, 'add'])->name('pages.postset.business.add');
-    Route::get('generate-post/{slug}', [PostSetController::class, 'generator'])->name('pages.postset.post.generator');
+    Route::get('news-post', [PostSetController::class, 'index'])->name('pages.postset.list');
+    Route::post('news-post', [PostSetController::class, 'post'])->name('pages.postset.post');
+    Route::post('news-post/add-business', [PostSetController::class, 'add'])->name('pages.postset.business.add');
+    Route::get('news-post/{slug}', [PostSetController::class, 'generator'])->name('pages.postset.post.generator');
 
     Route::get('link-page-builder', [GujjuMeController::class, 'index'])->name('pages.link.index');
     Route::post('link-page-builder', [GujjuMeController::class, 'post'])->name('pages.link.post');

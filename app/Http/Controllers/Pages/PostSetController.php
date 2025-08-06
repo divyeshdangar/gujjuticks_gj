@@ -107,7 +107,22 @@ class PostSetController extends Controller
                 "description" => $dataDetail->meta_description,
                 "image" => route('pages.image.postmain', ['slug' => $dataDetail->slug . '.jpg']),
                 "keywords" => $dataDetail->keywords,
-                "url" => route('pages.resume.list')
+                "url" => route('pages.resume.list'),
+                "schema" => [
+                    "@context" => "https://schema.org",
+                    "@type" => "NewsArticle",
+                    "headline" => $dataDetail->title,
+                    "description" => $dataDetail->meta_description,
+                    "datePublished" => $dataDetail->created_at->toIso8601String(),
+                    "url" => url()->current(),
+                    "author" => [
+                        "url" => "https://www.gujjuticks.com",
+                        "@type" => "Organization",
+                        "name" => 'GujjuTicks',
+                    ],
+                    "image" => route('pages.image.postmain', ['slug' => $dataDetail->slug . '.jpg']),
+                    "mainEntityOfPage" => url()->current()
+                ]
             ];
             return view('pages.postset.builder', ['metaData' => $metaData, 'dataDetail' => $dataDetail, 'bProfile' => $bProfile]);
         } else {
@@ -146,7 +161,7 @@ class PostSetController extends Controller
             list(, $croped_image)      = explode(',', $croped_image);
             $croped_image = base64_decode($croped_image);
             $image_name = Str::uuid() . ".png";
-            file_put_contents("./". config('paths.images.business_logo') . $image_name, $croped_image);
+            file_put_contents("./" . config('paths.images.business_logo') . $image_name, $croped_image);
             $bProfile->logo = $image_name;
         }
 
