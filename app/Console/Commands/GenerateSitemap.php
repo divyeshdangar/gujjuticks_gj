@@ -10,6 +10,7 @@ use App\Models\BlogCategories;
 use App\Models\City;
 use Illuminate\Support\Str;
 use App\Models\PlaceCategory;
+use App\Models\PostSet;
 
 class GenerateSitemap extends Command
 {
@@ -85,7 +86,19 @@ class GenerateSitemap extends Command
         });
 
         $sitemap->writeToFile(public_path('sitemap.xml'));
-
         $this->info('✅ sitemap.xml generated in /public');
+
+        $news_sitemap = Sitemap::create()->add(Url::create(route('pages.postset.list'))->setPriority(0.8));
+        PostSet::where('image_id', '>', '0')
+            ->get()
+            ->each(fn($post) => $news_sitemap->add(
+                Url::create(route('pages.postset.post.generator', $post->slug))
+                    ->setLastModificationDate($post->updated_at)
+                    ->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY)
+                    ->setPriority(0.8)
+            ));
+
+        $news_sitemap->writeToFile(public_path('news_sitemap.xml'));
+        $this->info('✅ news_sitemap.xml generated in /public');
     }
 }
