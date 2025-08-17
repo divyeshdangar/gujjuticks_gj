@@ -25,7 +25,7 @@
                 </div>
                 <div class="col-lg-5">
                     <div class="mt-md-0">
-                        <img src="{{ route('pages.image.postmain', ['slug' => $dataDetail->slug . '.jpg']) }}"
+                        <img loading="lazy" src="{{ route('pages.image.postmain', ['slug' => $dataDetail->slug . '.jpg']) }}"
                             alt="" class="home-img w-100 rounded-4" alt="{{ $dataDetail->title }}"
                             title="{{ $dataDetail->title }}">
                     </div>
@@ -119,7 +119,7 @@
                 @if ($dataDetail && $dataDetail->posts && count($dataDetail->posts) > 0)
                     @foreach ($dataDetail->posts as $key => $value)
                         <div class="col-lg-4 mb-4">
-                            <img src="{{ route('pages.image.postset', ['slug' => $value->slug . '.jpg']) }}"
+                            <img loading="lazy" src="{{ route('pages.image.postset', ['slug' => $value->slug . '.jpg']) }}"
                                 class="rounded-4 w-100 mb-3" alt="{{ $value->title }}" title="{{ $value->title }}">
                             <h3 class="h4">{{ $value->title }}</h3>
                             <p class="text-muted">{{ $value->description }}</p>
@@ -127,7 +127,6 @@
                     @endforeach
                 @else
                 @endif
-
             </div>
         </div>
     </section>

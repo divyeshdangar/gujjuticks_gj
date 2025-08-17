@@ -13,15 +13,25 @@
     </x-common.meta>
 
     <link rel="shortcut icon" href="{{ asset('files/images/favicon.ico') }}">
-    {{-- <link rel="preload" as="image" href="{{ asset('home/img-01.png') }}"> --}}
-    {{-- <link rel="stylesheet" href="{{ asset('files/libs/choices.js/public/assets/styles/choices.min.css') }}"> --}}
     <link href="{{ asset('files/css/bootstrap.min.css') }}" id="bootstrap-style" rel="stylesheet" />
-    {{-- <link href="{{ asset('files/css/icons.min.css') }}" rel="stylesheet" /> --}}
     <link href="{{ asset('files/css/app.min.css') }}" id="app-style" rel="stylesheet" />
+
+    @production
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-CB42ST9162"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
+            gtag('config', 'G-CB42ST9162');
+        </script>
+    @endproduction
 </head>
 
 <body data-bs-theme="dark">
-
     <nav class="navbar navbar-expand-lg fixed-top sticky mt-0" id="navbar">
         <div class="container-fluid custom-container">
             <a title="GujjuTicks Logo" class="navbar-brand text-dark fw-bold me-auto" href="{{ route('home') }}">
@@ -66,6 +76,10 @@
                     </li>
                     <li class="nav-item">
                         <a href="{{ route('pages.postset.list') }}" class="nav-link">Post Builder</a>
+                    </li>
+                    <li class="nav-item">
+                        <button data-bs-toggle="tooltip" data-bs-placement="bottom"
+                            data-bs-title="This feature will be available soon!" class="nav-link text-warning">Free Online Courses</button>
                     </li>
                     <li class="nav-item">
                         <a href="{{ route('form.contact') }}" class="nav-link">Contact</a>
@@ -145,8 +159,6 @@
     </div>
 
     <script src="{{ asset('files/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    {{-- <script src="https://unicons.iconscout.com/release/v4.0.0/script/monochrome/bundle.js"></script> --}}
-    {{-- <script src="{{ asset('files/js/app.js') }}"></script> --}}
 
     <?php 
         if(session('message')){ ?>
@@ -156,14 +168,20 @@
         if (message) {
             Swal.fire(message.title, message.description, message.type);
         }
-
-        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]')),
-            tooltipList = tooltipTriggerList.map(function(t) {
-                return new bootstrap.Tooltip(t)
-            });
     </script>
     <?php }
     ?>
+
+    <script>
+        (function() {
+            "use strict";
+            const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            tooltipTriggerList.map(function(t) {
+                console.log(t);
+                return new bootstrap.Tooltip(t);
+            });
+        })();
+    </script>
 </body>
 
 </html>

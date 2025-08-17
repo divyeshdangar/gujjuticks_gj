@@ -65,7 +65,7 @@ class BlogController extends Controller
 
     public function edit(Request $request, $id)
     {
-        $dataDetail = Blog::find($id);
+        $dataDetail = Blog::withTrashed()->find($id);
         if ($dataDetail) {
             $locationData = Location::where('parent_id', 2)->orderBy('name')->get();
             $categoryData = BlogCategories::orderBy('title')->get();

@@ -11,6 +11,7 @@ php artisan make:controller Pages/ResumeController
 php artisan make:controller Pages/GujjuMeController
 php artisan make:controller Pages/PostSetController
 
+php artisan make:controller RssFeedController
 
 ALTER TABLE `users` ADD `user_type` ENUM('1','2','3') NOT NULL DEFAULT '2' AFTER `phone`;
 

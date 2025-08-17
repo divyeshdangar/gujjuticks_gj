@@ -87,7 +87,7 @@ class PagesController extends Controller
             }
             $validator = Validator::make($request->all(), [
                 'title' => 'required|max:255',
-                'slug' => ['required', 'unique:Pages,slug,' . $id, 'min:5', 'max:255', 'regex:/^[a-z][a-z0-9]*(-[a-z0-9]+)*$/i'],
+                'slug' => ['required', 'unique:pages,slug,' . $id, 'min:5', 'max:255', 'regex:/^[a-z][a-z0-9]*(-[a-z0-9]+)*$/i'],
                 'meta_description' => 'required',
                 'description' => 'required',
             ]);

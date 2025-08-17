@@ -18,7 +18,7 @@
                             <div class="col-md-4">
                                 <div class="mt-3 mt-md-0 h-100">
                                     <button class="btn btn-warning" style="color: rgb(19, 19, 19) !important;"
-                                        data-bs-toggle="modal" data-bs-target="#startBuildingResume">Start Building Now</button>
+                                        data-bs-toggle="modal" data-bs-target="#startBuilding">Start Building Now</button>
                                 </div>
                             </div>
                         </div>
@@ -26,7 +26,7 @@
                 </div>
                 <div class="col-lg-5">
                     <div class="mt-5 mt-md-0">
-                        <img src="{{ asset('files/images/gujjuticks-dynamic-post-builder.png') }}" alt=""
+                        <img loading="lazy" src="{{ asset('files/images/gujjuticks-dynamic-post-builder.png') }}" alt="Gujjuticks Dynamic Post/News Builder"
                             class="home-img w-100" />
                     </div>
                 </div>
@@ -52,7 +52,7 @@
                     @foreach ($dataList as $data)
                         <div class="col-lg-4 mb-4">
                             <a href="{{ route('pages.postset.post.generator', ['slug' => $data->slug]) }}">
-                                <img src="{{ route('pages.image.postmain', ['slug' => $data->slug . '.jpg']) }}"
+                                <img loading="lazy" src="{{ route('pages.image.postmain', ['slug' => $data->slug . '.jpg']) }}"
                                     class="rounded-4 w-100 mb-3" alt="{{ $data->title }} Image"
                                     title="{{ $data->title }} Image">
                                 <h3 class="h4 text-dark">{{ $data->title }}</h3>
@@ -72,14 +72,14 @@
     </section>
 
     @if(auth()->user() && auth()->user()->is_admin())
-        <div id="startBuildingResume" class="modal fade" tabindex="-1" aria-labelledby="startBuildingResumeLabel"
+        <div id="startBuilding" class="modal fade" tabindex="-1" aria-labelledby="startBuildingLabel"
             style="display: none;" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <form method="post">
                         {{ csrf_field() }}
                         <div class="modal-header">
-                            <h5 class="modal-title text-warning mt-0" id="startBuildingResumeLabel">Start Adding Post</h5>
+                            <h5 class="modal-title text-warning mt-0" id="startBuildingLabel">Start Adding Post</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">

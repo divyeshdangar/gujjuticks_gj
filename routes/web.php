@@ -45,6 +45,7 @@ use App\Http\Controllers\Auth\InstagramController;
 use App\Http\Controllers\Api\V1\BlogController as ApiBlogController;
 use App\Http\Controllers\Pages\GujjuMeController;
 use App\Http\Controllers\Pages\PostSetController;
+use App\Http\Controllers\RssFeedController;
 
 Route::middleware([CheckLanguage::class])->group(function () {
     Route::get('/', [HomeController::class, 'show'])->name('home');    
@@ -103,6 +104,8 @@ if (! in_array($locale, ['en', 'hi', 'gj'])) {
         return redirect()->back();
     }
 })->name('language');
+
+Route::get('rss/{slug}', [RssFeedController::class, 'view'])->name('rss.feed');
 
 Route::middleware([CheckIfLogin::class, CheckLanguage::class])->group(function () {
     Route::get('dashboard', [DashboardoController::class, 'index'])->name('dashboard');
