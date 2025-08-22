@@ -178,6 +178,7 @@ return [
     'front_image' => 'Front image',
     'back_image' => 'Back image',
     'cards' => 'Cards',
+    'postset' => 'Post set',
     'board_not_empty' => 'Board is not empty. It can not be deleted.',
     'username_submitted' => 'Username registered, you can check it in your profile section.',
 ];

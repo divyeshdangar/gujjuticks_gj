@@ -21,7 +21,6 @@ class RssFeedController extends Controller
                 return response()
                     ->view('rss.feed', compact('blogs'))
                     ->header('Content-Type', 'application/rss+xml');
-
                 break;
 
             default:

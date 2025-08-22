@@ -28,6 +28,8 @@
             gtag('js', new Date());
             gtag('config', 'G-CB42ST9162');
         </script>
+
+        <meta name="p:domain_verify" content="66da8104105f0a877307b47e093de2ef"/>
     @endproduction
 </head>
 
@@ -92,8 +94,13 @@
                         <a href="javascript:void(0)" class="header-item" id="userdropdown" data-bs-toggle="dropdown">
                             <img src="{{ auth()->user()->profile() }}" alt="{{ auth()->user()->name }}" width="35"
                                 height="35" class="rounded-circle me-1">
-                        </a>
+                        </a>                        
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userdropdown">
+
+                            @if(auth()->user() && auth()->user()->is_admin())
+                                <li><a class="dropdown-item" href="{{ route('dashboard') }}">Dashboard</a></li>
+                            @endif
+
                             <li><a class="dropdown-item" href="{{ route('logout') }}">Logout</a></li>
                         </ul>
                     </li>

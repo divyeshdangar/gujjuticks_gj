@@ -13,7 +13,7 @@ class PostSet extends Model
 
     protected $searchable = [
         'title',
-        'description'
+        'meta_description'
     ];
 
     public function scopeSearching($q)

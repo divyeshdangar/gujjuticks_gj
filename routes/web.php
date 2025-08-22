@@ -43,6 +43,7 @@ use App\Http\Controllers\Auth\GoogleLoginController;
 use App\Http\Controllers\Auth\InstagramController;
 
 use App\Http\Controllers\Api\V1\BlogController as ApiBlogController;
+use App\Http\Controllers\Dashboard\PostSetController as DashboardPostSetController;
 use App\Http\Controllers\Pages\GujjuMeController;
 use App\Http\Controllers\Pages\PostSetController;
 use App\Http\Controllers\RssFeedController;
@@ -149,6 +150,14 @@ Route::middleware([CheckIfLogin::class, CheckLanguage::class])->group(function (
     Route::get('dashboard/card/restore/{id}', [CardsController::class, 'restore'])->name('dashboard.card.restore');
 
     Route::get('dashboard/card-order', [CardsController::class, 'test'])->name('dashboard.card.order');
+
+    Route::get('dashboard/postset', [DashboardPostSetController::class, 'index'])->name('dashboard.postset');
+    Route::get('dashboard/postset/create', [DashboardPostSetController::class, 'create'])->name('dashboard.postset.create');
+    Route::get('dashboard/postset/edit/{id}', [DashboardPostSetController::class, 'edit'])->name('dashboard.postset.edit');
+    Route::post('dashboard/postset/edit/{id}', [DashboardPostSetController::class, 'store'])->name('dashboard.postset.edit.post');
+    Route::get('dashboard/postset/list/{id}', [DashboardPostSetController::class, 'list'])->name('dashboard.postset.list');
+    Route::get('dashboard/postset/delete/{id}', [DashboardPostSetController::class, 'delete'])->name('dashboard.postset.delete');
+    Route::get('dashboard/postset/restore/{id}', [DashboardPostSetController::class, 'restore'])->name('dashboard.postset.restore');
 
     Route::get('dashboard/card-category', [CardsCategoryController::class, 'index'])->name('dashboard.card.category');
     Route::get('dashboard/card-category/create', [CardsCategoryController::class, 'create'])->name('dashboard.card.category.create');

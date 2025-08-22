@@ -146,4 +146,29 @@ class SocialMediaController extends Controller
         }
     }
 
+    public function delete(Request $request, $id)
+    {        
+        $dataDetail = Profile::find($id);
+        if ($dataDetail) {
+            $dataDetail->delete();
+            $message = [
+                "message" => [
+                    "type" => "success",
+                    "title" => __('dashboard.great'),
+                    "description" => __('dashboard.record_deleted')
+                ]
+            ];
+            return redirect()->route('dashboard.social')->with($message);
+        } else {
+            $message = [
+                "message" => [
+                    "type" => "error",
+                    "title" => __('dashboard.bad'),
+                    "description" => __('dashboard.no_record_found')
+                ]
+            ];
+            return redirect()->route('dashboard.social')->with($message);
+        }
+    }
+
 }

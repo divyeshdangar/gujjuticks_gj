@@ -10,6 +10,7 @@ php artisan make:controller Pages/ResumeBuilderController
 php artisan make:controller Pages/ResumeController
 php artisan make:controller Pages/GujjuMeController
 php artisan make:controller Pages/PostSetController
+php artisan make:controller Dashboard/PostSetController
 
 php artisan make:controller RssFeedController
 
@@ -102,3 +103,25 @@ TCPDF
 
 
 php vendor/tecnickcom/tcpdf/tools/tcpdf_addfont.php -b -t TrueTypeUnicode -i public/fonts/Oswald/Oswald-Bold.ttf
+
+
+
+
+
+
+
+
+BLOGS TO CSV
+
+SELECT 
+    title AS 'Title',
+    CONCAT('https://www.gujjuticks.com/images/blog/', image) AS 'Media URL',
+    'GujjuTicks Blogs' AS 'Pinterest board',
+    '' AS 'Thumbnail', 
+    meta_description AS 'Description',
+    CONCAT('https://www.gujjuticks.com/blog/', slug) AS 'Link',
+    '' AS 'Publish date',
+    keywords AS 'Keywords'
+FROM blogs
+WHERE deleted_at IS NUll
+ORDER BY created_at DESC;
