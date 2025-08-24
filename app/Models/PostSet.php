@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -29,5 +30,21 @@ class PostSet extends Model
     public function posts()
     {
         return $this->hasMany(PostItem::class);
+    }
+
+    public function instagramPostSets()
+    {
+        return $this->hasMany(InstagramPostSet::class);
+    }
+
+    public function isPostedByLoginUser(): bool
+    {
+        if (!Auth::check()) {
+            return false;
+        }
+
+        return $this->instagramPostSets()
+            ->where('user_id', Auth::id())
+            ->exists();
     }
 }

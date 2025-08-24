@@ -7,8 +7,6 @@ use App\Models\Profile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Traits\InstagramTrait;
-use Illuminate\Support\Facades\Log;
-
 
 class SocialMediaController extends Controller
 {

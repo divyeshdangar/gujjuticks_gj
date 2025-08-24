@@ -59,6 +59,7 @@
                                 <th scope="col">{{ __('dashboard.title') }}</th>
                                 <th scope="col">{{ __('dashboard.description') }}</th>
                                 <th scope="col">{{ __('dashboard.date') }}</th>
+                                <th scope="col">{{ __('dashboard.post') }}</th>
                                 <th scope="col">{{ __('dashboard.action') }}</th>
                             </tr>
                         </thead>
@@ -91,6 +92,11 @@
                                     </td>
                                     <td>
                                         {{ $data->created_at->format('j F, Y') }}
+                                    </td>
+                                    <td>
+                                        <a class="btn bg-dark link-light" href="{{ route('dashboard.postset.publish', ['id' => $data->id]) }}">
+                                            Post
+                                        </a>
                                     </td>
                                     <td>
                                         <div class="dropdown action-opt">
@@ -137,9 +143,10 @@
                     <label class="form-check-label text-danger" for="flexCheckDefault">
                         Important Note
                     </label><br>
-                    <span class="text-muted">Ensure you copy the prompt accurately and paste only the array response into the field named <span class="text-warning">data</span>. Verify that the array contains only valid data - no comments or any other extraneous content.</span>
+                    <span class="text-muted">Ensure you copy the prompt accurately and paste only the array response
+                        into the field named <span class="text-warning">data</span>. Verify that the array contains only
+                        valid data - no comments or any other extraneous content.</span>
                 </div>
-
 
                 <div class="mb-3">
                     <label for="prompt" class="form-label">Prompt</label>

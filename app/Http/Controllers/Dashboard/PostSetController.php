@@ -6,12 +6,18 @@ use App\Http\Controllers\Controller;
 use App\Models\Image;
 use App\Models\PostItem;
 use App\Models\PostSet;
+use App\Models\InstagramPostSet;
+use App\Models\Profile;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
+use App\Traits\InstagramTrait;
 
 class PostSetController extends Controller
 {
+    use InstagramTrait;
+
     public function index(Request $request)
     {
         $metaData = [
@@ -98,14 +104,14 @@ class PostSetController extends Controller
                 $fileName = $dataToInsert['slug'] . time() . '-front.' . $extension;
                 $file->move(public_path(config('paths.images.postset')), $fileName);
                 $dataDetail->image = $fileName;
-            } elseif(empty($dataDetail->image)) {
+            } elseif (empty($dataDetail->image)) {
                 $dataDetail->image = 'default.png';
             }
 
             $dataDetail->title = $dataToInsert['title'];
             $dataDetail->caption = $dataToInsert['caption'];
             $dataDetail->meta_description = $dataToInsert['meta_description'];
-            $dataDetail->image_id = $dataToInsert['image_id'];            
+            $dataDetail->image_id = $dataToInsert['image_id'];
             $dataDetail->keywords = $dataToInsert['keywords'];
             $dataDetail->save();
 
@@ -148,4 +154,75 @@ class PostSetController extends Controller
         }
     }
 
+    public function publish(Request $request, $id)
+    {
+        $dataDetail = PostSet::find($id);
+        if ($dataDetail) {
+            $imageLinkArray = [];
+            $imageLinkArray[] = route('pages.image.postmain', ['slug' => $dataDetail->slug . '.jpg']);
+
+            $itemData = PostItem::orderBy('order')
+                ->where('post_set_id', $dataDetail->id)
+                ->orderBy('order')
+                ->limit(9)
+                ->pluck('slug')
+                ->toArray();
+
+            if (!empty($itemData)) {
+                foreach ($itemData as $key => $value) {
+                    $imageLinkArray[] = route('pages.image.postset', ['slug' => $value . '.jpg']);
+                }
+            }
+            unset($itemData);
+
+            $profile = Profile::where('user_id', Auth::id())
+                ->where('type', 'insta')
+                ->first();
+
+            if ($profile) {
+                dd(['profile' => $profile, 'imageLinkArray' => $imageLinkArray, 'dataDetail' => $dataDetail]);
+
+                $result = $this->publishCarouselPost($profile, $imageLinkArray, $dataDetail->caption, 5, 3);
+
+                $success  = $result['success'];
+                $errorMsg = $success ? null : ($result['message'] ?? 'Unknown error');
+                $igPostId = $success ? ($result['id'] ?? null) : null;
+
+                InstagramPostSet::create([
+                    'user_id'           => Auth::id(),
+                    'post_set_id'       => $dataDetail->id,
+                    'instagram_post_id' => $igPostId,
+                    'status'            => $success ? 'posted' : 'failed',
+                    'error_message'     => $errorMsg,
+                ]);
+
+                $message = [
+                    "message" => [
+                        "type" => $success ? 'success' : 'error',
+                        "title" => $success ? __('dashboard.great') : __('dashboard.bad'),
+                        "description" => $success ? __('dashboard.instagram_post_published') : $errorMsg
+                    ]
+                ];
+            } else {
+                $message = [
+                    "message" => [
+                        "type" => "error",
+                        "title" => __('dashboard.bad'),
+                        "description" => __('dashboard.no_record_found') . '(' . __('dashboard.profile') . ')'
+                    ]
+                ];
+            }
+
+            return redirect()->route('dashboard.postset')->with($message);
+        } else {
+            $message = [
+                "message" => [
+                    "type" => "error",
+                    "title" => __('dashboard.bad'),
+                    "description" => __('dashboard.no_record_found')
+                ]
+            ];
+            return redirect()->route('dashboard')->with($message);
+        }
+    }
 }

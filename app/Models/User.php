@@ -133,4 +133,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(BusinessProfile::class);
     }
+
+    public function instagramPostSets()
+    {
+        return $this->hasMany(InstagramPostSet::class);
+    }
 }
