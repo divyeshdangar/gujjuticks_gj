@@ -37,7 +37,7 @@ class PostSetController extends Controller
         'meta_description' => ''
         ]";
 
-        $dataList = PostSet::where('image_id', '>', '0')->orderBy('id', 'DESC');
+        $dataList = PostSet::where('image_id', '>', '0')->where('status', 'created')->orderBy('id', 'DESC');
         $dataList = $dataList->searching()->paginate(10)->withQueryString();
         $metaData['prev'] = $dataList->previousPageUrl() ?? null;
 

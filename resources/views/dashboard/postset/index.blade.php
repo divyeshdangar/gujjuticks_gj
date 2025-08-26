@@ -56,8 +56,10 @@
                                         for="flexCheckDefault">#{{ __('dashboard.id') }}</label>
                                 </th>
                                 <th scope="col">{{ __('dashboard.image') }}</th>
+                                <th scope="col">{{ __('dashboard.topic') }}</th>
                                 <th scope="col">{{ __('dashboard.title') }}</th>
                                 <th scope="col">{{ __('dashboard.description') }}</th>
+                                <th scope="col">{{ __('dashboard.status') }}</th>
                                 <th scope="col">{{ __('dashboard.date') }}</th>
                                 <th scope="col">{{ __('dashboard.post') }}</th>
                                 <th scope="col">{{ __('dashboard.action') }}</th>
@@ -79,6 +81,13 @@
                                     <td class="ps-0">
                                         <div class="d-flex align-items-center">
                                             <span class="fw-semibold position-relative" style="top: 1px;">
+                                                {!! CommonHelper::highLight($data->topic) !!}
+                                                <span>
+                                        </div>
+                                    </td>
+                                    <td class="ps-0">
+                                        <div class="d-flex align-items-center">
+                                            <span class="fw-semibold position-relative" style="top: 1px;">
                                                 {!! CommonHelper::highLight($data->title) !!}
                                                 <span>
                                         </div>
@@ -91,12 +100,22 @@
                                         </div>
                                     </td>
                                     <td>
+                                        {!! $data->getStatus(true) !!}
+                                    </td>
+                                    <td>
                                         {{ $data->created_at->format('j F, Y') }}
                                     </td>
                                     <td>
-                                        <a class="btn bg-dark link-light" href="{{ route('dashboard.postset.publish', ['id' => $data->id]) }}">
-                                            Post
-                                        </a>
+                                        @if ($data->isPostedByLoginUser())
+                                            <button class="btn bg-warning link-dark">
+                                                Published
+                                            </button>
+                                        @else
+                                            <a class="btn bg-dark link-light"
+                                                href="{{ route('dashboard.postset.publish', ['id' => $data->id]) }}">
+                                                Post
+                                            </a>
+                                        @endif
                                     </td>
                                     <td>
                                         <div class="dropdown action-opt">
@@ -137,7 +156,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body p-4">
-            <form method="post" action="{{ route('dashboard.member.add') }}">
+            <form method="post" action="{{ route('dashboard.postset.add.post') }}">
                 {{ csrf_field() }}
                 <div class="form-group mb-4">
                     <label class="form-check-label text-danger" for="flexCheckDefault">
@@ -147,23 +166,13 @@
                         into the field named <span class="text-warning">data</span>. Verify that the array contains only
                         valid data - no comments or any other extraneous content.</span>
                 </div>
-
                 <div class="mb-3">
-                    <label for="prompt" class="form-label">Prompt</label>
-                    <textarea name="prompt" id="prompt" class="form-control" rows="4" style="width: 100%">{{ old('prompt', $prompt) }}</textarea>
-                    @error('prompt')
+                    <label for="topic" class="form-label">Topic</label>
+                    <textarea name="topic" id="topic" class="form-control" rows="10" style="width: 100%">{{ old('topic') }}</textarea>
+                    @error('topic')
                         <div class="text-danger">{{ $message }}</div>
                     @enderror
                 </div>
-                <div class="mb-3">
-                    <label for="data" class="form-label">Data</label>
-                    <textarea name="data" id="data" class="form-control" rows="10" style="width: 100%">{{ old('data') }}</textarea>
-                    @error('data')
-                        <div class="text-danger">{{ $message }}</div>
-                    @enderror
-                </div>
-
-
                 <div class="form-group d-flex gap-3">
                     <button type="submit" class="btn btn-primary text-white fw-semibold py-2 px-2 px-sm-3">
                         <span class="py-sm-1 d-block">

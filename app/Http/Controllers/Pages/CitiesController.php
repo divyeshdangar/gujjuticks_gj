@@ -102,10 +102,4 @@ class CitiesController extends Controller
             return redirect()->route('home')->with($message);
         }
     }
-
-    public function generate(OpenAIService $openAI)
-    {
-        $data = $openAI->generateText("Give me ahmedabad info in 10 sentances in json type");
-        dd($data);
-    }
 }

@@ -128,6 +128,42 @@ class PostSetController extends Controller
         }
     }
 
+    public function smallStore(Request $request): RedirectResponse
+    {
+        $validator = Validator::make($request->all(), [
+            'topic' => 'required|max:255'
+        ]);
+
+        if ($validator->fails()) {
+            $message = [
+                "message" => [
+                    "type" => "error",
+                    "title" => __('dashboard.bad'),
+                    "description" => __('dashboard.sync_error')
+                ]
+            ];
+            return redirect()->route('dashboard.postset')->with($message);
+        }
+
+        $dataToInsert = $validator->validated();
+        $dataDetail = new PostSet();
+        $dataDetail->topic = $dataToInsert['topic'];
+        $dataDetail->status = 'pending';
+        $dataDetail->image_id = 8;
+        $dataDetail->title = time();
+        $dataDetail->slug = time();
+        $dataDetail->save();
+
+        $message = [
+            "message" => [
+                "type" => "success",
+                "title" => __('dashboard.great'),
+                "description" => __('dashboard.details_submitted')
+            ]
+        ];
+        return redirect()->route('dashboard.postset')->with($message);
+    }
+
     public function list(Request $request, $id)
     {
         $dataDetail = PostSet::find($id);
@@ -180,7 +216,7 @@ class PostSetController extends Controller
                 ->first();
 
             if ($profile) {
-                dd(['profile' => $profile, 'imageLinkArray' => $imageLinkArray, 'dataDetail' => $dataDetail]);
+                //dd(['profile' => $profile, 'imageLinkArray' => $imageLinkArray, 'dataDetail' => $dataDetail]);
 
                 $result = $this->publishCarouselPost($profile, $imageLinkArray, $dataDetail->caption, 5, 3);
 

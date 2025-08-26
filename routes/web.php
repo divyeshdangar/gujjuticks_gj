@@ -153,6 +153,7 @@ Route::middleware([CheckIfLogin::class, CheckLanguage::class])->group(function (
 
     Route::get('dashboard/postset', [DashboardPostSetController::class, 'index'])->name('dashboard.postset');
     Route::get('dashboard/postset/create', [DashboardPostSetController::class, 'create'])->name('dashboard.postset.create');
+    Route::post('dashboard/postset/create', [DashboardPostSetController::class, 'smallStore'])->name('dashboard.postset.add.post');  
     Route::get('dashboard/postset/edit/{id}', [DashboardPostSetController::class, 'edit'])->name('dashboard.postset.edit');
     Route::get('dashboard/postset/publish/{id}', [DashboardPostSetController::class, 'publish'])->name('dashboard.postset.publish');
     Route::post('dashboard/postset/edit/{id}', [DashboardPostSetController::class, 'store'])->name('dashboard.postset.edit.post');
