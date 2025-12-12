@@ -6,12 +6,12 @@
             </div>
             <div class="col-lg-10">
                 <div class="mt-3 mt-lg-0">
-                    <h5 class="fs-17 mb-1">
+                    <h3 class="fs-17 mb-1">
                         <h3 class="h4 text-dark" style="display: inline-block">
                             {{ $data->name }}
                             <small class="text-muted fw-normal fs-12">({{ $dataDetail->name }}, {{ $dataDetail->state }})</small>
                         </h3> 
-                    </h5>
+                    </h3>
                     <p class="text-muted fs-14 mb-0">{{ $data->address }}</p>
                     <div class="mt-2">
                         <span class="badge bg-success mt-1">{{ $data->rating }} Ratings </span>
@@ -19,9 +19,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="favorite-icon d-none">
-            <a href="javascript:void(0)"><i class="uil uil-heart-alt fs-18"></i></a>
         </div>
     </div>
     <div class="p-3 bg-light">

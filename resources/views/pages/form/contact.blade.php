@@ -30,6 +30,10 @@
                             </span>
                             <div class="row">
                                 <div class="col-lg-12">
+                                    <a class="btn btn-success w-100" href="https://wa.me/917600126800?text=Hello%20GujjuTicks!">Whatsapp Now</a>
+                                    <div class="w-100 text-center my-4"> - OR - </div>
+                                </div>
+                                <div class="col-lg-12">
                                     <div class="mb-3">
                                         <label for="name"
                                             class="form-label @error('name') text-danger @enderror">Name</label>

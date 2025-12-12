@@ -19,9 +19,9 @@
                 </div>
                 <div class="col-lg-12">
                     <div class="mt-5">
-                        <img loading="lazy" src="{{ URL::asset('/images/blog/' . $dataDetail->image) }}"
+                        <img width="1920" height="1080" loading="lazy" src="{{ URL::asset('/images/blog/' . $dataDetail->image) }}"
                             alt="{{ $dataDetail->title }} Image" title="{{ $dataDetail->title }} Image"
-                            class="home-img w-100 rounded-4" />
+                            class="home-img w-100 rounded-4" style="object-fit: cover; width: 100%; height: auto;" />
                     </div>
                 </div>
             </div>
@@ -41,7 +41,7 @@
                                         class="avatar-sm rounded-circle">
                                 </div>
                                 <div class="ms-3">
-                                    <h6 class="mb-0">By {{ ucwords($dataDetail->user->name) }}</h6>
+                                    <div class="mb-0 fw-bold">By {{ ucwords($dataDetail->user->name) }}</div>
                                     {{ $dataDetail->created_at->format('j F, Y') }}
                                 </div>
                             </div>
@@ -52,7 +52,7 @@
                 <div class="col-lg-4">
                     <div class="pt-2">
                         <div class="sd-title">
-                            <h6 class="fs-16 mb-3">Related Blogs</h6>
+                            <h2 class="fs-16 mb-3">Related Blogs</h2>
                         </div>
                         <div class="my-3">
                             <div class="row">
@@ -89,17 +89,17 @@
                                 <div class="row align-items-center">
                                     <div class="col-2">
                                         <div class="candidate-list-images">
-                                            <a href="javascript:void(0)"><img loading="lazy"
+                                            <img loading="lazy"
                                                     src="{{ URL::asset('/images/blog-category/' . $value->image) }}"
-                                                    alt="" class="w-100 rounded-4"></a>
+                                                    alt="{{ $value->title }}" class="w-100 rounded-4">
                                         </div>
                                     </div>
                                     <div class="col-10">
                                         <div class="candidate-list-content mt-3 mt-lg-0">
-                                            <h5 class="fs-19 mb-0"><a
+                                            <h3 class="h5 fs-19 mb-0"><a
                                                     href="{{ route('pages.blog.category.detail', ['slug' => $value->slug]) }}"
                                                     class="primary-link">{{ $value->title }}</a> <span
-                                                    class="badge bg-success ms-1">{{ $value->blogs_count }}</span></h5>
+                                                    class="badge bg-success ms-1">{{ $value->blogs_count }}</span></h3>
                                             <p class="text-muted my-2">{{ $value->meta_description }}</p>
                                         </div>
                                     </div>

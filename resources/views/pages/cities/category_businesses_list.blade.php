@@ -16,10 +16,14 @@
                         <p class="lead text-muted mb-0">{{ $metaData['description'] }}</p>
                     </div>
                     <div class="row g-0">
-                        <div class="col-md-4">
-                            <div class="mt-3 mt-md-0 h-100">
-                                <a class="btn btn-warning" href="#businesses"
-                                    style="color: rgb(19, 19, 19) !important;">Start Exploring</a>
+                        <div class="col-md-4 mb-4">
+                            <div class="mt-3 pe-2 mt-md-0 h-100">
+                                <a class="btn btn-warning w-100" href="#businesses" style="color: rgb(19, 19, 19) !important;">Start Exploring</a>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="mt-3 pe-2 mt-md-0 h-100">
+                                <a class="btn btn-outline-warning w-100" href="{{ route('pages.business.add') }}">Add Business</a>
                             </div>
                         </div>
                     </div>

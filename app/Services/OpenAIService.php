@@ -69,7 +69,7 @@ class OpenAIService
     {
         $response = Http::withToken($this->apiKey)
             ->post($this->endpoint['chatCompletion'], [
-                'model' => 'gpt-4o-mini',
+                'model' => 'gpt-4o',
                 'messages' => [
                     ['role' => 'system', 'content' => 'You are a content generator for social media and you must always return valid JSON. Do not add any markdown formatting.'],
                     ['role' => 'user', 'content' => $prompt]

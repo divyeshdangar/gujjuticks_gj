@@ -35,8 +35,7 @@ class GeneratePostsCommand extends Command
         if ($record) {
             Log::info("- Data fetching for: [" . $record->id . "] - " . $record->topic);
 
-
-            $data = $openAI->generatePosts("Give me 9 point for '" . $record->topic . "' with 1 title, keywords, meta description, to create 10 Instagram post, also give me 1 proper caption with rich hashtags and whatever best for Instagram. Make sure you give it all in proper associative array in below format. Do not include emojis in title or posts, but you can in caption. [ 'title' => '', 'posts' => [ [ 'title' => '', 'description' => '' ] ], 'caption' => '', 'keywords' => '', 'meta_description' => '' ]");
+            $data = $openAI->generatePosts("Give me 9 point for '" . $record->topic . "' with 1 title, keywords, meta description, 1 proper caption with rich hashtags(Instagram). Provide it in associative array as below. Include emojis only in caption. [ 'title' => '', 'posts' => [ [ 'title' => '', 'description' => '' ] ], 'caption' => '', 'keywords' => '', 'meta_description' => '' ]");
 
             if (!is_array($data) || !isset($data['title']) || !isset($data['posts'])) {
                 Log::error("- Data got from OpenAi is not in proper format.");

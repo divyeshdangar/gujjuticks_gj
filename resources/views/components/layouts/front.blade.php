@@ -5,6 +5,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Roboto&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto&display=swap"></noscript>
+
     @php
         $metaData = $metaData ?? [];
     @endphp
@@ -17,19 +22,21 @@
     <link href="{{ asset('files/css/app.min.css') }}" id="app-style" rel="stylesheet" />
 
     @production
-        <!-- Google tag (gtag.js) -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-CB42ST9162"></script>
-        <script>
-            window.dataLayer = window.dataLayer || [];
 
-            function gtag() {
-                dataLayer.push(arguments);
-            }
-            gtag('js', new Date());
-            gtag('config', 'G-CB42ST9162');
-        </script>
+        @if(false)
+            <!-- Google tag (gtag.js) -->
+            <script async src="https://www.googletagmanager.com/gtag/js?id=G-CB42ST9162"></script>
+            <script>
+                window.dataLayer = window.dataLayer || [];
 
-        <meta name="p:domain_verify" content="66da8104105f0a877307b47e093de2ef"/>
+                function gtag() {
+                    dataLayer.push(arguments);
+                }
+                gtag('js', new Date());
+                gtag('config', 'G-CB42ST9162');
+            </script>
+        @endif
+        <meta name="p:domain_verify" content="66da8104105f0a877307b47e093de2ef"/>            
     @endproduction
 </head>
 
@@ -106,8 +113,8 @@
                     </li>
                 @else
                     <li class="list-inline-item dropdown">
-                        <a href="{{ route('login') }}" class="header-item">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="bg-warning"
+                        <a href="{{ route('login') }}" class="header-item" aria-label="GujjuTicks Login">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="bg-warning" aria-hidden="true"
                                 style="padding:5px; border-radius:10%" width="35" height="35" fill="#4a4a37"
                                 viewBox="0 0 448 512">
                                 <path

@@ -90,6 +90,7 @@ class GenerateSitemap extends Command
 
         $news_sitemap = Sitemap::create()->add(Url::create(route('pages.postset.list'))->setPriority(0.8));
         PostSet::where('image_id', '>', '0')
+            ->where('status', 'created')
             ->get()
             ->each(fn($post) => $news_sitemap->add(
                 Url::create(route('pages.postset.post.generator', $post->slug))

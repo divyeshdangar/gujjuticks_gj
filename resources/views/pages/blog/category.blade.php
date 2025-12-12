@@ -85,8 +85,8 @@
                                 <div class="row align-items-center">
                                     <div class="col-2">
                                         <div class="candidate-list-images">
-                                            <a href="javascript:void(0)"><img loading="lazy" src="{{ URL::asset('/images/blog-category/' . $value->image) }}"
-                                                    alt="" class="w-100 rounded-4"></a>
+                                            <img loading="lazy" src="{{ URL::asset('/images/blog-category/' . $value->image) }}"
+                                                    alt="{{ $value->title }}" class="w-100 rounded-4">
                                         </div>
                                     </div>
                                     <div class="col-10">

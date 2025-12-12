@@ -28,7 +28,7 @@ class ImageHelper
         return true;
     }
 
-    function setExtraData($data)
+    function setExtraData($data, $generatedData = [])
     {
         if (!empty($data)) {
             foreach ($data as $key => $value) {
@@ -36,14 +36,15 @@ class ImageHelper
                     $font = str_replace('\\', '/', public_path(config('paths.fonts') . $value->font));
                     $textColor = $this->hexToRGB($value->text_color);
                     $textColor = imagecolorallocatealpha($this->image, $textColor['r'], $textColor['g'], $textColor['b'], $value->opacity);
+                    $text = (!empty($generatedData) && isset($generatedData[$value->random_identity])) ? $generatedData[$value->random_identity] : $value->text;
                     if ($value->text_align == "center") {
-                        $textBox = imagettfbbox($value->font_size, $value->angle, $font, $value->text);
+                        $textBox = imagettfbbox($value->font_size, $value->angle, $font, $text);
                         $textWidth = abs(max($textBox[2], $textBox[4]));
                         $left = (imagesx($this->image) - $textWidth) / 2;
                     } else {
                         $left = $value->left;
                     }
-                    imagettftext($this->image, $value->font_size, $value->angle, $left, $value->top, $textColor, $font, $value->text);
+                    imagettftext($this->image, $value->font_size, $value->angle, $left, $value->top, $textColor, $font, $text);
                 } else if ($value->type == "paragraph") {
                     $colorArr = array();
                     if (trim($value->text_color_multiline) != "") {
@@ -56,8 +57,9 @@ class ImageHelper
                     $maxWidth = $value->width; // max width for a line
                     $wrappedLines = [];
 
+                    $text = (!empty($generatedData) && isset($generatedData[$value->random_identity])) ? $generatedData[$value->random_identity] : $value->text;
                     // Split by \n first, then wrap each line
-                    $manualLines = explode("\n", $value->text);
+                    $manualLines = explode("\n", $text);
                     foreach ($manualLines as $manualLine) {
                         $words = explode(" ", $manualLine);
                         $line = '';

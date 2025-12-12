@@ -44,6 +44,7 @@ use App\Http\Controllers\Auth\InstagramController;
 
 use App\Http\Controllers\Api\V1\BlogController as ApiBlogController;
 use App\Http\Controllers\Dashboard\PostSetController as DashboardPostSetController;
+use App\Http\Controllers\Pages\BusinessController;
 use App\Http\Controllers\Pages\GujjuMeController;
 use App\Http\Controllers\Pages\PostSetController;
 use App\Http\Controllers\RssFeedController;
@@ -69,7 +70,9 @@ Route::middleware([CheckLanguage::class])->group(function () {
     Route::get('city/{slug}/{category}', [CitiesController::class, 'category_businesses_list'])->name('pages.cities.businesses.list');
 
     Route::get('image-editor/{slug}', [PublicImageController::class, 'try'])->name('pages.image.editor.detail');
+    Route::post('image-editor/{slug}', [PublicImageController::class, 'store'])->name('pages.image.editor.post');
     Route::get('image/{slug}', [PublicImageController::class, 'view'])->name('pages.image.detail');
+
     Route::get('cool-image/{slug}', [CoolImageController::class, 'view'])->name('pages.image.cool');
     Route::get('news-image/{slug}', [CoolImageController::class, 'news'])->name('pages.image.news');
     Route::get('city-business-category-image/{slug}', [CoolImageController::class, 'category'])->name('pages.image.category');
@@ -91,6 +94,8 @@ Route::middleware([CheckLanguage::class])->group(function () {
     Route::post('news-post', [PostSetController::class, 'post'])->name('pages.postset.post');
     Route::post('news-post/add-business', [PostSetController::class, 'add'])->name('pages.postset.business.add');
     Route::get('news-post/{slug}', [PostSetController::class, 'generator'])->name('pages.postset.post.generator');
+
+    Route::get('business/add', [BusinessController::class, 'add'])->name('pages.business.add');
 
     Route::get('link-page-builder', [GujjuMeController::class, 'index'])->name('pages.link.index');
     Route::post('link-page-builder', [GujjuMeController::class, 'post'])->name('pages.link.post');

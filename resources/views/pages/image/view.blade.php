@@ -1,6 +1,7 @@
 <x-layouts.front :showHeader="true" :metaData="$metaData">
 
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="{{ asset('assets/plugin/croppie/croppie.css') }}">
     <script type="text/javascript" src="{{ asset('assets/plugin/croppie/croppie.js') }}"></script>
 
@@ -8,6 +9,7 @@
         .locked {
             pointer-events: none;
         }
+
         #upload-image-image {
             width: 100%;
             max-width: 670px;
@@ -33,9 +35,8 @@
                     <div class="row g-0">
                         <div class="col-md-4">
                             <div class="mt-3 mt-md-0 h-100">
-                                <button class="btn btn-info" style="color: rgb(19, 19, 19) !important;"
-                                    data-bs-toggle="modal" data-bs-target="#startBuildingResume">Create Image
-                                    Now</button>
+                                <a href="#create-now" class="btn btn-info"
+                                    style="color: rgb(19, 19, 19) !important;">Create Image Now</a>
                             </div>
                         </div>
                     </div>
@@ -51,76 +52,94 @@
         </div>
     </section>
 
-    <section class="section">
+    <section class="section" id="create-now">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-10">
-                    <div class="text-center">
-                        <h2 class="text-warning mb-4">Create Your Image</h2>
-                        <p class="text-muted mb-5">This tool lets you quickly generate a personalized image using a
-                            ready-made template. Just fill in a few details—no design skills needed—and get a
-                            professional image in seconds.</p>
-                        <div class="row text-start">
-                            <div class="col-lg-8">
-                                @if ($dataDetail->data)
-                                    <div class="row">
-                                        @foreach ($dataDetail->data as $key => $value)
-                                            @if ($value->is_editable)
-                                                @if ($value->type == 'text')
-                                                    <div class="col-md-6">
-                                                        <div class="mb-3">
-                                                            <label for="{{ $value->random_identity }}"
-                                                                class="form-label">{{ $value->form_title }}</label>
-                                                            <input type="text" value="{{ $value->text }}"
-                                                                name="{{ $value->random_identity }}"
-                                                                id="{{ $value->random_identity }}"
-                                                                class="form-control mb-1">
-                                                            <small>{{ $value->form_description }}</small>
+                    <form method="post" enctype="multipart/form-data" class="contact-form mt-4" name="basicDetailsForm"
+                        id="basicDetailsForm">
+                        {{ csrf_field() }}
+                        <input type="hidden" name="image_id" value="{{ $dataDetail->id }}">
+                        <div class="text-center">
+                            <h2 class="text-warning mb-4">Create Your Image</h2>
+                            <p class="text-muted mb-5">This tool lets you quickly generate a personalized image using a
+                                ready-made template. Just fill in a few details—no design skills needed—and get a
+                                professional image in seconds.</p>
+                            <div class="row text-start justify-content-center">
+                                <div class="col-lg-5">
+                                    @if ($dataDetail->data)
+                                        <div class="row">
+                                            @foreach ($dataDetail->data as $key => $value)
+                                                @if ($value->is_editable)
+                                                    @if ($value->type == 'text')
+                                                        <div class="col-md-12">
+                                                            <div class="mb-3">
+                                                                <label for="{{ $value->random_identity }}"
+                                                                    class="form-label">{{ $value->form_title }}</label>
+                                                                <input type="text" value="{{ isset($imageData[$value->random_identity]) ? $imageData[$value->random_identity] : $value->text }}"
+                                                                    name="{{ $value->random_identity }}"
+                                                                    id="{{ $value->random_identity }}"
+                                                                    class="form-control mb-1">
+                                                                <small>{{ $value->form_description }}</small>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                @endif
-                                                @if ($value->type == 'paragraph')
-                                                    <div class="col-md-6">
-                                                        <div class="mb-3">
-                                                            <label for="{{ $value->random_identity }}"
-                                                                class="form-label">{{ $value->form_title }}</label>
-                                                            <textarea name="{{ $value->random_identity }}" id="{{ $value->random_identity }}" class="form-control mb-1"
-                                                                rows="5">{{ $value->text }}</textarea>
-                                                            <small>{{ $value->form_description }}</small>
+                                                    @endif
+                                                    @if ($value->type == 'paragraph')
+                                                        <div class="col-md-12">
+                                                            <div class="mb-3">
+                                                                <label for="{{ $value->random_identity }}"
+                                                                    class="form-label">{{ $value->form_title }}</label>
+                                                                <textarea name="{{ $value->random_identity }}" id="{{ $value->random_identity }}" class="form-control mb-1"
+                                                                    rows="3">{{ isset($imageData[$value->random_identity]) ? $imageData[$value->random_identity] : $value->text }}</textarea>
+                                                                <small>{{ $value->form_description }}</small>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                @endif
-                                                @if ($value->type == 'image')
-                                                    <div class="col-md-6">
-                                                        <div class="mb-3">
-                                                            <label for="{{ $value->random_identity }}"
-                                                                class="form-label">{{ $value->form_title }}</label>
-                                                            <input type="file" name="{{ $value->random_identity }}"
-                                                                id="{{ $value->random_identity }}"
-                                                                class="form-control mb-1 image-crop">
-                                                            <small>{{ $value->form_description }}</small>
+                                                    @endif
+                                                    @if ($value->type == 'image')
+                                                        <div class="col-md-12">
+                                                            <div class="mb-3">
+                                                                <label for="{{ $value->random_identity }}"
+                                                                    class="form-label">{{ $value->form_title }}</label>
+                                                                <input type="file"
+                                                                    name="{{ $value->random_identity }}"
+                                                                    id="{{ $value->random_identity }}"
+                                                                    height="{{ $value->height }}"
+                                                                    width="{{ $value->width }}"
+                                                                    class="form-control mb-1 image-crop">
+                                                                <small>{{ $value->form_description }}</small>
+                                                                <input type="hidden"
+                                                                    id="{{ $value->random_identity }}--iMage"
+                                                                    name="{{ $value->random_identity }}--iMage"
+                                                                    value="">
+                                                            </div>
                                                         </div>
-                                                    </div>
+                                                    @endif
                                                 @endif
-                                            @endif
-                                        @endforeach
+                                            @endforeach
+                                        </div>
+                                    @endif
+                                </div>
+                                <div class="col-lg-5">
+                                    <div class="mt-5 mt-md-0">
+                                        @if($condition)
+                                            <img src="{{ route('pages.image.detail', ['slug' => $dataDetail->slug]) }}"
+                                                title="{{ $dataDetail->image_title }}" alt="{{ $dataDetail->image_alt }}"
+                                                class="rounded home-img w-100" />
+                                        @else 
+                                            <img src="{{ route('pages.image.detail', ['slug' => $dataDetail->slug]) }}"
+                                                title="{{ $dataDetail->image_title }}" alt="{{ $dataDetail->image_alt }}"
+                                                class="rounded home-img w-100" />
+                                        @endif
                                     </div>
-                                @endif
-                            </div>
-                            <div class="col-lg-4">
-                                <div class="mt-5 mt-md-0">
-                                    <img src="{{ route('pages.image.detail', ['slug' => $dataDetail->slug]) }}"
-                                        title="{{ $dataDetail->image_title }}" alt="{{ $dataDetail->image_alt }}"
-                                        class="rounded home-img w-100" />
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="mt-4 pt-2">
-                            <button class="btn btn-warning btn-hover" style="color: rgb(19, 19, 19) !important;"
-                                data-bs-toggle="modal" data-bs-target="#startBuildingResume">Create Now</button>
+                            <div class="mt-4 pt-2">
+                                <button type="submit" class="btn btn-warning btn-hover"
+                                    style="color: rgb(19, 19, 19) !important;">Create Now</button>
+                            </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -150,8 +169,9 @@
                                     </div>
                                 </div>
                             </a>
-                            <a class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" href="#v-pills-profile"
-                                role="tab" aria-controls="v-pills-profile" aria-selected="false">
+                            <a class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill"
+                                href="#v-pills-profile" role="tab" aria-controls="v-pills-profile"
+                                aria-selected="false">
                                 <div class="d-flex">
                                     <div class="number flex-shrink-0">
                                         2
@@ -205,13 +225,7 @@
         </div>
     </section>
 
-
-
-
-
-
-
-    <button id="modalButton" type="button" class="btn btn-primary text-white py-2 px-4 fw-semibold"
+    <button id="modalButton" type="button" class="btn btn-primary text-white py-2 px-4 fw-semibold d-none"
         data-bs-toggle="modal" data-bs-target="#cropperModal">
         Open Cropper
     </button>
@@ -240,6 +254,7 @@
         var $image_crop;
         var containerWidth;
         var viewportHeight;
+        var selectedImage = undefined;
         window.addEventListener('load', function(event) {
             addCropperImage();
 
@@ -248,8 +263,7 @@
                 bindCropper()
             });
 
-            cropImageModal.addEventListener('hidden.bs.modal', function() {
-            });
+            cropImageModal.addEventListener('hidden.bs.modal', function() {});
 
         });
 
@@ -265,7 +279,7 @@
             }).then(function(resp) {
                 if (resp && isImageSelected) {
                     setTimeout(() => {
-                        console.log(resp);
+                        $('#' + selectedImage.element).val(resp);
                         openClick('modalButton');
                     }, 200);
                 }
@@ -274,7 +288,7 @@
 
         function bindCropper() {
             containerWidth = document.getElementById('upload-image-image').offsetWidth;
-            viewportHeight = (containerWidth / 670) * 671; // Scale height based on width
+            viewportHeight = (containerWidth / selectedImage.width) * selectedImage.height; // Scale height based on width
 
             if (!$image_crop) {
                 $image_crop = $('#upload-image-image').croppie({
@@ -288,15 +302,22 @@
                     boundary: {
                         width: containerWidth, // Set boundary equal to container width
                         height: viewportHeight // Same height as viewport to match 9:16 ratio
-                    },
-                    url: 'https://www.gujjuticks.com/images/dynamic/1727962910-1175287700.png'
+                    }
+                    //url: 'https://www.gujjuticks.com/images/dynamic/1727962910-1175287700.png'
                 });
             }
         }
 
         function addCropperImage() {
+            selectedImage = undefined;
             $('.image-crop').on('change', function() {
                 var reader = new FileReader();
+                selectedImage = {
+                    element: $(this).attr('name') +
+                        '--iMage', //hidden input where we storing cropped base64 image
+                    height: $(this).attr('height'),
+                    width: $(this).attr('width')
+                }
                 reader.onload = function(e) {
                     openClick('modalButton');
                     setTimeout(() => {
@@ -311,7 +332,7 @@
             });
         }
 
-        function openClick(id) {
+        function openClick(id, setElement = '') {
             var ele = document.getElementById(id);
             if (typeof ele.click == 'function') {
                 ele.click()

@@ -131,7 +131,7 @@ class PostSetController extends Controller
     public function smallStore(Request $request): RedirectResponse
     {
         $validator = Validator::make($request->all(), [
-            'topic' => 'required|max:255'
+            'topic' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -146,13 +146,19 @@ class PostSetController extends Controller
         }
 
         $dataToInsert = $validator->validated();
-        $dataDetail = new PostSet();
-        $dataDetail->topic = $dataToInsert['topic'];
-        $dataDetail->status = 'pending';
-        $dataDetail->image_id = 8;
-        $dataDetail->title = time();
-        $dataDetail->slug = time();
-        $dataDetail->save();
+
+        $topics = array_map('trim', explode(',', $dataToInsert['topic']));
+        foreach ($topics as $topic) {
+            if(trim($topic) != "") {
+                $dataDetail = new PostSet();
+                $dataDetail->topic = $topic;
+                $dataDetail->status = 'pending';
+                $dataDetail->image_id = 8;
+                $dataDetail->title = time(); // added to ensure data, will change once openai api called
+                $dataDetail->slug = time() . '-' . rand(1000, 9999); // added to ensure data, will change once openai api called
+                $dataDetail->save();
+            }
+        }
 
         $message = [
             "message" => [
