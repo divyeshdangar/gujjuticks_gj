@@ -118,6 +118,9 @@ class ImageHelper
                     }
                 } else if ($value->type == "image") {
                     $im_location = isset($value->add_image) ? $value->add_image : config('paths.images.dynamic_data') . $value->image;
+                    
+                    $im_location = (!empty($generatedData) && isset($generatedData[$value->random_identity . '--iMage'])) ? $generatedData[$value->random_identity . '--iMage'] : $im_location;
+
                     $dataImage = imagecreatefromstring(file_get_contents($im_location));
                     $left = ($value->text_align == "center") ? (($this->width / 2) - ($value->width / 2)) : $value->left;
                     $top = ($value->text_align_v == "center") ? (($this->height / 2) - ($value->height / 2)) : $value->top;

@@ -76,7 +76,8 @@
                                                             <div class="mb-3">
                                                                 <label for="{{ $value->random_identity }}"
                                                                     class="form-label">{{ $value->form_title }}</label>
-                                                                <input type="text" value="{{ isset($imageData[$value->random_identity]) ? $imageData[$value->random_identity] : $value->text }}"
+                                                                <input type="text"
+                                                                    value="{{ isset($imageData[$value->random_identity]) ? $imageData[$value->random_identity] : $value->text }}"
                                                                     name="{{ $value->random_identity }}"
                                                                     id="{{ $value->random_identity }}"
                                                                     class="form-control mb-1">
@@ -121,14 +122,14 @@
                                 </div>
                                 <div class="col-lg-5">
                                     <div class="mt-5 mt-md-0">
-                                        @if($condition)
+                                        @if (!empty($imageData))
+                                            <img src="{{ route('pages.image.detail', ['slug' => $dataDetail->slug, 'id' => $imageData->slug]) }}"
+                                                title="{{ $dataDetail->image_title }}"
+                                                alt="{{ $dataDetail->image_alt }}" class="rounded home-img w-100" />
+                                        @else
                                             <img src="{{ route('pages.image.detail', ['slug' => $dataDetail->slug]) }}"
-                                                title="{{ $dataDetail->image_title }}" alt="{{ $dataDetail->image_alt }}"
-                                                class="rounded home-img w-100" />
-                                        @else 
-                                            <img src="{{ route('pages.image.detail', ['slug' => $dataDetail->slug]) }}"
-                                                title="{{ $dataDetail->image_title }}" alt="{{ $dataDetail->image_alt }}"
-                                                class="rounded home-img w-100" />
+                                                title="{{ $dataDetail->image_title }}"
+                                                alt="{{ $dataDetail->image_alt }}" class="rounded home-img w-100" />
                                         @endif
                                     </div>
                                 </div>
@@ -137,6 +138,10 @@
                             <div class="mt-4 pt-2">
                                 <button type="submit" class="btn btn-warning btn-hover"
                                     style="color: rgb(19, 19, 19) !important;">Create Now</button>
+
+                                @if (!empty($imageData))
+                                    <a class="btn btn-primary" href="{{ route('pages.image.detail', ['slug' => $dataDetail->slug, 'id' => $imageData->slug, 'download' => '1']) }}">Download</a>
+                                @endif
                             </div>
                         </div>
                     </form>
@@ -151,12 +156,14 @@
                 <div class="col-lg-6">
                     <div class="section-title me-5">
                         <h3 class="title text-info">How It Work</h3>
-                        <p class="text-muted">Post a job to tell us about your project. We'll quickly match you with the
+                        <p class="text-muted">Post a job to tell us about your project. We'll quickly match you with
+                            the
                             right freelancers.</p>
                         <div class="process-menu nav flex-column nav-pills" id="v-pills-tab" role="tablist"
                             aria-orientation="vertical">
-                            <a class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" href="#v-pills-home"
-                                role="tab" aria-controls="v-pills-home" aria-selected="true">
+                            <a class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill"
+                                href="#v-pills-home" role="tab" aria-controls="v-pills-home"
+                                aria-selected="true">
                                 <div class="d-flex">
                                     <div class="number flex-shrink-0">
                                         1

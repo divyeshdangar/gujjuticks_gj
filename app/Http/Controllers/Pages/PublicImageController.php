@@ -7,8 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Image;
 use App\Helpers\ImageHelper;
 use App\Models\ImageDataGenerated;
-use App\Models\ImagesData;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
@@ -35,7 +34,7 @@ class PublicImageController extends Controller
             if (!empty($dataDetail->data)) {
                 $slugId = $request->query('id');
                 if ($slugId && strlen($slugId) == 12) {
-                    $imageData = ImageDataGenerated::select('options')->where('image_id', $dataDetail->id)->where('slugId', $slugId)->first();
+                    $imageData = ImageDataGenerated::select('options')->where('image_id', $dataDetail->id)->where('slug', $slugId)->first();
                     $imageData = ($dataDetail) ? $imageData->options : [];
                     $img->setExtraData($dataDetail->data, $imageData);
                 } else {
@@ -74,16 +73,8 @@ class PublicImageController extends Controller
             $slugId = $request->query('id');
             $imageData = [];
             if ($slugId && strlen($slugId) == 12) {
-                $imageData = ImageDataGenerated::select('options')->where('image_id', $dataDetail->id)->where('slug', $slugId)->first();
-                $imageData = ($dataDetail) ? $imageData->options : [];
+                $imageData = ImageDataGenerated::where('image_id', $dataDetail->id)->where('slug', $slugId)->first();
             }
-
-            // $img = new ImageHelper();
-            // $img->setBackground($background);
-            // if (!empty($dataDetail->data)) {
-            //     $img->setExtraData($dataDetail->data);
-            // }
-
             return view('pages.image.view', ['metaData' => [], 'dataDetail' => $dataDetail, 'imageData' => $imageData]);
         } else {
             $message = [
@@ -109,6 +100,29 @@ class PublicImageController extends Controller
         $dataDetail = Image::where("slug", $slug)->first();
         if ($dataDetail) {
             $data = $request->except(['_token']);
+
+
+            $data = collect($request->except(['_token']))->map(function ($value) {
+
+                // Handle base64 images
+                if (
+                    is_string($value) &&
+                    preg_match('/^data:image\/(\w+);base64,/', $value, $matches)
+                ) {
+                    $extension = $matches[1]; // jpg, png, etc
+                    $base64Image = preg_replace('/^data:image\/\w+;base64,/', '', $value);
+                    $imageData = base64_decode($base64Image);
+
+                    if ($imageData !== false) {
+                        $fileName = 'img_' . Str::random(20) . '.' . $extension;
+                        $path = config('paths.images.dynamic_data') . $fileName;
+                        Storage::disk('public')->put($path, $imageData);
+                        return $path;
+                    }
+                }
+
+                return $value;
+            })->toArray();
 
             $insertData = new ImageDataGenerated();
             do {
