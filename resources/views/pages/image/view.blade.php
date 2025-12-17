@@ -277,10 +277,10 @@
         function getImage() {
             $('#upload-image-image').croppie('result', {
                 type: 'base64',
-                format: 'jpeg',
+                format: 'png',
                 size: {
-                    width: 670,
-                    height: 671
+                    width: selectedImage.width,
+                    height: selectedImage.height
                 }, // Fixed result size
                 quality: 0.7
             }).then(function(resp) {
@@ -299,18 +299,16 @@
 
             if (!$image_crop) {
                 $image_crop = $('#upload-image-image').croppie({
-                    //enableExif: true,
                     enableResize: true,
                     viewport: {
-                        width: containerWidth, // Dynamic based on container width
-                        height: viewportHeight, // Calculated to maintain 9:16 aspect ratio
-                        type: 'square' // You can change this to 'circle' or 'square' as per needs
+                        width: containerWidth,
+                        height: viewportHeight,
+                        type: 'square'
                     },
                     boundary: {
-                        width: containerWidth, // Set boundary equal to container width
-                        height: viewportHeight // Same height as viewport to match 9:16 ratio
+                        width: containerWidth,
+                        height: viewportHeight
                     }
-                    //url: 'https://www.gujjuticks.com/images/dynamic/1727962910-1175287700.png'
                 });
             }
         }
