@@ -39,8 +39,8 @@
             <div class="row justify-content-center">
                 <div class="col-lg-10">
                     <div class="text-center">
-                        <h2 class="text-warning mb-4">Explore & Discover: 50 Cities from Gujarat</h2>
-                        <p class="text-muted mb-5">Uncover the vibrant essence of Gujarat through its top 50 cities.
+                        <h2 class="text-warning mb-4">Explore & Discover: 50+ Cities from Gujarat</h2>
+                        <p class="text-muted mb-5">Uncover the vibrant essence of Gujarat through its top 50+ cities.
                             From historical landmarks to modern hubs, each city has a unique story, culture, and charm
                             waiting to be explored. Whether you're planning a trip or simply curious, this guide offers
                             a quick glimpse into the diverse spirit of Gujarat's landscape.</p>

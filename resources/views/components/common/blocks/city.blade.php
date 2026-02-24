@@ -6,9 +6,9 @@
                 <a href="{{ route('pages.cities.detail', ['slug' => $data->slug]) }}" class="primary-link">
                     <h6 class="fs-18 mb-2">{{ $data->name }} ({{ $data->name_gj }})</h6>
                 </a>
-                <p class="text-muted mb-4">{{ $data->state }}, {{ $data->country }}</p>
+                <p class="text-muted">{{ $data->state }}, {{ $data->country }}</p>
                 @if($data->businesses)
-                    <button class="btn btn-warning btn-sm" style="color: rgb(19, 19, 19) !important;">{{ $data->businesses->count() }} Businesses</button>                
+                    <p class="text-muted mb-2">{{ $data->businesses->count() }} Businesses</p>
                 @endif
             </div>
         </div>

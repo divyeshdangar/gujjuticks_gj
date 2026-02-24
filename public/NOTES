@@ -127,3 +127,16 @@ SELECT
 FROM blogs
 WHERE deleted_at IS NUll
 ORDER BY created_at DESC;
+
+
+-- 1) See how temp_user is currently defined
+SELECT user, host FROM mysql.user WHERE user = 'temp_user';
+
+-- 2) Create/adjust host-specific user for your IP
+CREATE USER IF NOT EXISTS 'temp_user'@'150.129.166.104' IDENTIFIED BY 'your_strong_password_here';
+
+-- 3) Grant privileges for that IP
+GRANT ALL PRIVILEGES ON *.* TO 'temp_user'@'150.129.166.104' WITH GRANT OPTION;
+
+FLUSH PRIVILEGES;
+EXIT;

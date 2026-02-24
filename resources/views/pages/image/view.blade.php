@@ -301,13 +301,13 @@
                 $image_crop = $('#upload-image-image').croppie({
                     enableResize: true,
                     viewport: {
-                        width: containerWidth,
-                        height: viewportHeight,
+                        width: containerWidth / 2,
+                        height: viewportHeight / 2,
                         type: 'square'
                     },
                     boundary: {
                         width: containerWidth,
-                        height: viewportHeight
+                        height: viewportHeight / 2
                     }
                 });
             }

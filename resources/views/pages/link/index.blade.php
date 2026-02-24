@@ -603,7 +603,7 @@
                             class="btn btn-success btn-hover mt-2">Whatsapp</a>
                         <a target="_blank" href="{{ route('form.contact.post') }}"
                             class="btn btn-primary btn-hover mt-2 ms-md-2">Contact Us</a>
-                        <a target="_blank" href="mailto:support@gujjuticks.com"
+                        <a target="_blank" href="mailto:info@gujjuticks.com"
                             class="btn btn-warning btn-hover mt-2 ms-md-2">Email Now</a>
                     </div>
                 </div>

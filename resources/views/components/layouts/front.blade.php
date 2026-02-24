@@ -191,7 +191,6 @@
             "use strict";
             const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
             tooltipTriggerList.map(function(t) {
-                console.log(t);
                 return new bootstrap.Tooltip(t);
             });
         })();

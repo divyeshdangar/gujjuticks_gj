@@ -133,6 +133,4 @@ class UserController extends Controller
         ];
         return redirect()->route('dashboard.user.edit', ['id' => $id])->with($message);
     }
-
-
 }

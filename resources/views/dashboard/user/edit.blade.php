@@ -245,7 +245,7 @@
                     $image_crop.croppie('bind', {
                         url: e.target.result
                     }).then(function() {
-                        console.log('jQuery bind complete');
+                        //console.log('jQuery bind complete');
                     });
                 }
                 reader.readAsDataURL(this.files[0]);

@@ -35,8 +35,8 @@
                 </div>
                 <div class="col-lg-5">
                     <div class="mt-5 mt-md-0">
-                        <img loading="lazy" src="{{ URL::asset('/images/creative/gujarat.png') }}" alt="Gujarat Image"
-                            title="Gujarat Image" class="rounded-4 home-img w-100" />
+                        <img loading="lazy" src="{{ URL::asset('/images/creative/Add-Your-Business-GujjuTicks-Business-Directory.jpg') }}" alt="Gujarat Add Business Image"
+                            title="Gujarat Add Business Image" class="rounded-4 home-img w-100" />
                     </div>
                 </div>
             </div>
@@ -48,15 +48,15 @@
             <div class="row justify-content-center">
                 <div class="col-lg-10">
                     <div class="text-center">
-                        <h2 class="text-warning mb-4">Explore & Discover: 50 Cities from Gujarat</h2>
-                        <p class="text-muted mb-5">Uncover the vibrant essence of Gujarat through its top 50 cities.
+                        <h2 class="text-warning mb-4">Explore & Discover: 50+ Cities from Gujarat</h2>
+                        <p class="text-muted mb-5">Uncover the vibrant essence of Gujarat through its top 50+ cities.
                             From historical landmarks to modern hubs, each city has a unique story, culture, and charm
                             waiting to be explored. Whether you're planning a trip or simply curious, this guide offers
                             a quick glimpse into the diverse spirit of Gujarat's landscape.</p>
                     </div>
                 </div>
                 <div class="col-ld-10">
-                    <form method="post">
+                    <form method="post" action="" id="basicDetailsForm" enctype="multipart/form-data">
                         <div>
                             <h5 class="fs-17 fw-semibold mb-3 mb-0">Basic Business Details</h5>
 
@@ -112,15 +112,15 @@
                                 <div class="col-lg-6">
                                     <div class="mb-3">
                                         <div class="form-group mb-2">
-                                            <label for="place_category_id " class="form-label">Select Business
+                                            <label for="place_category_id" class="form-label">Select Business
                                                 Category</label>
                                             <select
-                                                class="form-control @error('place_category_id ') border border-danger border-1 @enderror"
-                                                name="place_category_id " id="place_category_id " required>
+                                                class="form-control @error('place_category_id') border border-danger border-1 @enderror"
+                                                name="place_category_id" id="place_category_id" required>
                                                 <option value="" class="text-dark">-- Select --</option>
                                                 @foreach ($categories as $key => $value)
                                                     <option value="{{ $value->id }}" class="text-dark"
-                                                        @if ($value->id == old('place_category_id ')) selected="selected" @endif>
+                                                        @if ($value->id == old('place_category_id')) selected="selected" @endif>
                                                         {{ $value->label }}</option>
                                                 @endforeach
                                             </select>
@@ -153,9 +153,10 @@
                                         <label for="phone"
                                             class="form-label @error('phone') text-danger @enderror">Business
                                             phone</label>
-                                        <input type="text" value="{{ old('phone') }}" name="phone" id="phone"
+                                        <input type="tel" value="{{ old('phone') }}" name="phone" id="phone"
                                             class="form-control @error('phone') border border-danger border-1 @enderror"
-                                            placeholder="Enter Phone" required>
+                                            placeholder="Enter Phone" required pattern="[0-9]{10,12}" minlength="10"
+                                            maxlength="12" inputmode="numeric">
                                         @error('phone')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
@@ -163,20 +164,30 @@
                                     <div class="mb-3">
                                         <label for="website"
                                             class="form-label @error('website') text-danger @enderror">Website</label>
-                                        <input type="text" value="{{ old('website') }}" name="website"
+                                        <input type="url" value="{{ old('website') }}" name="website"
                                             id="website"
                                             class="form-control @error('website') border border-danger border-1 @enderror"
-                                            placeholder="Enter website" required>
+                                            placeholder="Enter website" required maxlength="255">
                                         @error('website')
+                                            <div class="text-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="address"
+                                            class="form-label @error('address') text-danger @enderror">Address</label>
+                                        <textarea name="address" id="address"
+                                            class="form-control @error('address') border border-danger border-1 @enderror"
+                                            placeholder="Enter Address" rows="3">{{ old('address') }}</textarea>
+                                        @error('address')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
                                 </div>
                                 <!--end col-->
-                                <div class="col-lg-6">
+                                <div class="col-lg-6" style="overflow: hidden;">
                                     <div class="mb-3" id="imageFormGroup">
                                         <label for="image"
-                                            class="form-label @error('image') text-danger @enderror">Image</label>
+                                            class="form-label @error('image') text-danger @enderror">Image/Logo</label>
                                         <input type="file" name="image" id="image"
                                             class="form-control @error('image') border border-danger border-1 @enderror">
                                         <input type="hidden" id="croppedImage" name="croppedImage" value="">
@@ -191,7 +202,7 @@
                             <!--end row-->
                         </div>
                         <div class="mt-4 text-end">
-                            <a href="javascript:void(0)" class="btn btn-primary">Update</a>
+                            <button type="submit" class="btn btn-warning">Submit for Review</button>
                         </div>
                     </form>
                 </div>
@@ -231,7 +242,6 @@
 
     <script>
         var $image_crop;
-        var $banner_crop;
         var isImageSelected = false;
         window.addEventListener('load', function(event) {
             addCropperImage();
@@ -245,7 +255,10 @@
             $('#upload-image-image').croppie('result', {
                 type: 'base64',
                 format: 'png',
-                size: { width: 512, height: 512 }
+                size: {
+                    width: 512,
+                    height: 512
+                }
             }).then(function(resp) {
                 if (resp && isImageSelected) {
                     $("#croppedImage").val(resp)

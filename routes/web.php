@@ -95,6 +95,7 @@ Route::middleware([CheckLanguage::class])->group(function () {
     Route::post('news-post/add-business', [PostSetController::class, 'add'])->name('pages.postset.business.add');
     Route::get('news-post/{slug}', [PostSetController::class, 'generator'])->name('pages.postset.post.generator');
 
+    Route::get('business', [BusinessController::class, 'business'])->name('pages.business');
     Route::get('business/add', [BusinessController::class, 'add'])->name('pages.business.add');
 
     Route::get('link-page-builder', [GujjuMeController::class, 'index'])->name('pages.link.index');

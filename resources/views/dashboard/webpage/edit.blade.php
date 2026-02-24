@@ -715,7 +715,6 @@
                         url: e.target.result
                     }).then(function() {
                         isImageSelected = true;
-                        console.log('here');
                     });
                 }
                 reader.readAsDataURL(this.files[0]);

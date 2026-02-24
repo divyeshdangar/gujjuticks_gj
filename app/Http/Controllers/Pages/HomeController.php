@@ -44,11 +44,6 @@ class HomeController extends Controller
                         "https://www.youtube.com/@gujjuticks"
                     ]
                 ],
-                // "potentialAction" => [
-                //     "@type" => "SearchAction",
-                //     "target" => "https://www.gujjuticks.com/search?q={search_term_string}",
-                //     "query-input" => "required name=search_term_string"
-                // ],
                 "mainEntity" => [
                     "@type" => "CollectionPage",
                     "name" => "GujjuTicks Home",

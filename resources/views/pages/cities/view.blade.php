@@ -26,7 +26,7 @@
                 </div>
                 <div class="col-lg-5">
                     <div class="mt-5 mt-md-0">
-                        <img loading="lazy" src="{{ URL::asset('/images/creative/gujarat.png') }}" alt="Gujarat Image"
+                        <img loading="lazy" src="{{ URL::asset('/images/cities/' . $dataDetail->image) }}" alt="Gujarat Image"
                             title="Gujarat Image" class="rounded-4 home-img w-100" />
                     </div>
                 </div>
