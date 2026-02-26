@@ -37,6 +37,7 @@ use App\Http\Controllers\Pages\NewsController;
 use App\Http\Controllers\Pages\CardsController as PublicCardsController;
 use App\Http\Controllers\Pages\ResumeBuilderController;
 use App\Http\Controllers\Pages\ResumeController;
+use App\Http\Controllers\Pages\AiPromptsController;
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\GoogleLoginController;
@@ -65,6 +66,8 @@ Route::middleware([CheckLanguage::class])->group(function () {
     Route::get('news/{slug}', [NewsController::class, 'view'])->name('pages.news.detail');
 
     Route::get('cities', [CitiesController::class, 'index'])->name('pages.cities.list');
+    Route::get('ai-prompts', [AiPromptsController::class, 'index'])->name('pages.ai_prompts.list');
+    Route::post('ai-prompts/copy/{uniqueId}', [AiPromptsController::class, 'copy'])->name('pages.ai_prompts.copy');
     Route::get('city/generate-image', [CitiesController::class, 'generate']);
     Route::get('city/{slug}', [CitiesController::class, 'view'])->name('pages.cities.detail');
     Route::get('city/{slug}/{category}', [CitiesController::class, 'category_businesses_list'])->name('pages.cities.businesses.list');
