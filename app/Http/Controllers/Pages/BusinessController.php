@@ -11,6 +11,7 @@ use App\Models\City;
 use App\Models\Notification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class BusinessController extends Controller
 {
@@ -99,6 +100,7 @@ class BusinessController extends Controller
             'address' => 'required|max:1048',
             'website' => 'nullable|url|max:255',
             'phone' => 'required|numeric|digits_between:10,12',
+            'croppedImage' => 'nullable|string',
         ]);
 
         if ($validator->fails()) {
@@ -113,8 +115,22 @@ class BusinessController extends Controller
             'description' => $dataToInsert['description'],
             'address' => $dataToInsert['address'],
             'website' => $dataToInsert['website'],
-            'phone' => $dataToInsert['phone']
+            'phone' => $dataToInsert['phone'],
         ];
+
+        if ($request->croppedImage != null) {
+            $croped_image = $request->croppedImage;
+            try {
+                list($type, $croped_image) = explode(';', $croped_image);
+                list(, $croped_image) = explode(',', $croped_image);
+                $croped_image = base64_decode($croped_image);
+                $image_name = Str::uuid() . '.png';
+                file_put_contents('./' . config('paths.images.business_logo') . $image_name, $croped_image);
+                $data['icon'] = $image_name;
+            } catch (\Throwable $e) {
+                // If image processing fails, continue without blocking business creation
+            }
+        }
 
         $business = Business::create($data);
         if (!empty($business) && isset($business->id)) {

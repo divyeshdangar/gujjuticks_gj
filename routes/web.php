@@ -97,6 +97,7 @@ Route::middleware([CheckLanguage::class])->group(function () {
 
     Route::get('business', [BusinessController::class, 'business'])->name('pages.business');
     Route::get('business/add', [BusinessController::class, 'add'])->name('pages.business.add');
+    Route::post('business/add', [BusinessController::class, 'store'])->name('pages.business.store');
 
     Route::get('link-page-builder', [GujjuMeController::class, 'index'])->name('pages.link.index');
     Route::post('link-page-builder', [GujjuMeController::class, 'post'])->name('pages.link.post');

@@ -56,7 +56,8 @@
                     </div>
                 </div>
                 <div class="col-ld-10">
-                    <form method="post" action="" id="basicDetailsForm" enctype="multipart/form-data">
+                    <form method="post" action="{{ route('pages.business.store') }}" id="basicDetailsForm"
+                        enctype="multipart/form-data">
                         <div>
                             <h5 class="fs-17 fw-semibold mb-3 mb-0">Basic Business Details</h5>
 
@@ -144,7 +145,7 @@
                                             Your Business</label>
                                         <textarea name="description" id="description"
                                             class="form-control @error('description') border border-danger border-1 @enderror"
-                                            placeholder="Enter About Your Business" rows="6">{{ old('description') }}</textarea>
+                                            placeholder="Enter About Your Business" rows="6" required>{{ old('description') }}</textarea>
                                         @error('description')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
@@ -164,10 +165,9 @@
                                     <div class="mb-3">
                                         <label for="website"
                                             class="form-label @error('website') text-danger @enderror">Website</label>
-                                        <input type="url" value="{{ old('website') }}" name="website"
-                                            id="website"
+                                        <input type="url" value="{{ old('website') }}" name="website" id="website"
                                             class="form-control @error('website') border border-danger border-1 @enderror"
-                                            placeholder="Enter website" required maxlength="255">
+                                            placeholder="Enter website" maxlength="255">
                                         @error('website')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
@@ -177,7 +177,7 @@
                                             class="form-label @error('address') text-danger @enderror">Address</label>
                                         <textarea name="address" id="address"
                                             class="form-control @error('address') border border-danger border-1 @enderror"
-                                            placeholder="Enter Address" rows="3">{{ old('address') }}</textarea>
+                                            placeholder="Enter Address" rows="3" required>{{ old('address') }}</textarea>
                                         @error('address')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
