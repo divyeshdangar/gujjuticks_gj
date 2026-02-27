@@ -39,6 +39,11 @@
                                 @foreach ($dataList as $item)
                                     <div class="col-12 mb-4">
                                         <div class="card blog-grid-box h-100 border shadow-sm">
+                                            @if($item->image)
+                                                <a href="{{ route('pages.ai_prompts.detail', ['slug' => $item->slug]) }}">
+                                                    <img src="{{ asset('images/ai-prompts/' . $item->image) }}" class="card-img-top" alt="{{ $item->title }}" style="height: 180px; object-fit: cover;" loading="lazy">
+                                                </a>
+                                            @endif
                                             <div class="card-body">
                                                 <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-2">
                                                     <div>
@@ -47,7 +52,9 @@
                                                     </div>
                                                     <span class="text-muted small">{{ number_format($item->copy_count) }} copies</span>
                                                 </div>
-                                                <h5 class="card-title mb-2">{{ $item->title }}</h5>
+                                                <h5 class="card-title mb-2">
+                                                    <a href="{{ route('pages.ai_prompts.detail', ['slug' => $item->slug]) }}" class="text-decoration-none text-dark">{{ $item->title }}</a>
+                                                </h5>
                                                 @if($item->description)
                                                     <p class="text-muted small mb-3">{{ Str::limit($item->description, 160) }}</p>
                                                 @endif
@@ -55,6 +62,8 @@
                                                     <pre class="mb-0 small text-dark overflow-auto" style="max-height: 180px; white-space: pre-wrap; word-break: break-word;">{{ Str::limit($item->prompt, 400) }}</pre>
                                                     @if(strlen($item->prompt) > 400)
                                                         <button type="button" class="btn btn-link btn-sm p-0 mt-1" data-bs-toggle="modal" data-bs-target="#promptModal{{ $item->id }}">Show full prompt</button>
+                                                        <span class="mx-1">|</span>
+                                                        <a href="{{ route('pages.ai_prompts.detail', ['slug' => $item->slug]) }}" class="btn btn-link btn-sm p-0 mt-1">View & share link</a>
                                                     @endif
                                                 </div>
                                                 <div class="d-flex align-items-center flex-wrap gap-2">
@@ -64,6 +73,7 @@
                                                             data-copy-url="{{ route('pages.ai_prompts.copy', ['uniqueId' => $item->unique_id]) }}">
                                                         Copy prompt
                                                     </button>
+                                                    <a href="{{ route('pages.ai_prompts.detail', ['slug' => $item->slug]) }}" class="btn btn-outline-primary btn-sm">View & share</a>
                                                     @if($item->category)
                                                         <a href="{{ route('pages.ai_prompts.list', ['category' => $item->category->slug]) }}" class="btn btn-outline-secondary btn-sm">{{ $item->category->name }}</a>
                                                     @endif
@@ -122,7 +132,10 @@
                                         $queryWithCategory['category'] = $cat->slug;
                                         $queryWithCategory['page'] = 1;
                                     @endphp
-                                    <div class="mb-2">
+                                    <div class="mb-2 d-flex align-items-center gap-2">
+                                        @if($cat->image)
+                                            <img src="{{ asset('images/ai-prompt-categories/' . $cat->image) }}" alt="" class="rounded" style="width: 24px; height: 24px; object-fit: cover;">
+                                        @endif
                                         <a href="{{ route('pages.ai_prompts.list', $queryWithCategory) }}" class="{{ request('category') === $cat->slug ? 'fw-bold' : '' }}">{{ $cat->name }}</a>
                                     </div>
                                 @endforeach

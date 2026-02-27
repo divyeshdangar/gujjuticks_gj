@@ -12,8 +12,12 @@ class AiPrompt extends Model
     protected $fillable = [
         'ai_prompt_category_id',
         'unique_id',
+        'slug',
         'title',
         'description',
+        'image',
+        'meta_description',
+        'meta_keywords',
         'prompt',
         'prompt_version',
         'copy_count',
@@ -51,6 +55,11 @@ class AiPrompt extends Model
     public function category()
     {
         return $this->belongsTo(AiPromptCategory::class, 'ai_prompt_category_id');
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(AiPromptComment::class)->orderBy('created_at', 'DESC');
     }
 
     public function incrementCopyCount(): void
