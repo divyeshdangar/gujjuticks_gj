@@ -56,21 +56,16 @@
                                                     <p class="text-muted small mb-3">{{ Str::limit($item->meta_description, 160) }}</p>
                                                 @endif
                                                 <div class="bg-light rounded p-3 mb-3 position-relative">
-                                                    <pre class="mb-0 small text-dark overflow-auto" style="max-height: 180px; white-space: pre-wrap; word-break: break-word;">{{ Str::limit($item->prompt, 400) }}</pre>
-                                                    @if(strlen($item->prompt) > 400)
-                                                        <button type="button" class="btn btn-link btn-sm p-0 mt-1" data-bs-toggle="modal" data-bs-target="#promptModal{{ $item->id }}">Show full prompt</button>
-                                                        <span class="mx-1">|</span>
-                                                        <a href="{{ route('pages.ai_prompts.detail', ['slug' => $item->slug]) }}" class="btn btn-link btn-sm p-0 mt-1">View & share link</a>
-                                                    @endif
+                                                    <pre class="mb-0 small text-dark overflow-auto" style="max-height: 180px; white-space: pre-wrap; word-break: break-word;">{{ Str::limit($item->prompt, 100) }}</pre>
                                                 </div>
                                                 <div class="d-flex align-items-center flex-wrap gap-2">
-                                                    <button type="button" class="btn btn-warning btn-sm copy-prompt-btn" style="color: rgb(19, 19, 19) !important;"
+                                                    <button type="button" class="d-none btn btn-warning btn-sm copy-prompt-btn" style="color: rgb(19, 19, 19) !important;"
                                                             data-unique-id="{{ $item->unique_id }}"
                                                             data-prompt="{{ e($item->prompt) }}"
                                                             data-copy-url="{{ route('pages.ai_prompts.copy', ['uniqueId' => $item->unique_id]) }}">
                                                         Copy prompt
                                                     </button>
-                                                    <a href="{{ route('pages.ai_prompts.detail', ['slug' => $item->slug]) }}" class="btn btn-outline-primary btn-sm">View & share</a>
+                                                    <a href="{{ route('pages.ai_prompts.detail', ['slug' => $item->slug]) }}" class="btn btn-warning btn-sm" style="color: rgb(19, 19, 19) !important;">View & share</a>
                                                     @if($item->category)
                                                         <a href="{{ route('pages.ai_prompts.category', ['slug' => $item->category->slug]) }}" class="btn btn-outline-secondary btn-sm">{{ $item->category->name }}</a>
                                                     @endif
@@ -79,25 +74,7 @@
                                         </div>
                                     </div>
 
-                                    @if(strlen($item->prompt) > 400)
-                                        <div class="modal fade" id="promptModal{{ $item->id }}" tabindex="-1">
-                                            <div class="modal-dialog modal-lg modal-dialog-scrollable">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title">{{ $item->title }}</h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <pre class="bg-light p-3 rounded small" style="white-space: pre-wrap; word-break: break-word;">{{ $item->prompt }}</pre>
-                                                        <button type="button" class="btn btn-warning btn-sm copy-prompt-btn mt-2" style="color: rgb(19, 19, 19) !important;"
-                                                                data-unique-id="{{ $item->unique_id }}"
-                                                                data-prompt="{{ e($item->prompt) }}"
-                                                                data-copy-url="{{ route('pages.ai_prompts.copy', ['uniqueId' => $item->unique_id]) }}">Copy prompt</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @endif
+                                    
                                 @endforeach
                                 <div class="col-12 text-center mt-3">
                                     {{ $dataList->links('vendor.pagination.bootstrap-5-new') }}
