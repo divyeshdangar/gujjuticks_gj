@@ -17,10 +17,16 @@ use URL;
 class AiPromptsController extends Controller
 {
     /**
-     * List AI prompts with category filter and search.
+     * List AI prompts with search. Old ?category=slug is redirected to /ai-prompts/slug.
      */
-    public function index(Request $request): View
+    public function index(Request $request): View|\Illuminate\Http\RedirectResponse
     {
+        if ($request->filled('category')) {
+            return redirect()->route('pages.ai_prompts.category', [
+                'slug' => $request->get('category'),
+            ], 301)->withQueryString();
+        }
+
         $metaData = [
             'title' => 'AI Prompts – Quality Prompts by Category | GujjuTicks',
             'description' => 'Browse quality AI prompts by category. Find prompts for writing, coding, marketing, and more. Filter, search, and copy with one click.',
@@ -33,19 +39,92 @@ class AiPromptsController extends Controller
             ->searching()
             ->orderBy('id', 'DESC');
 
-        if ($request->filled('category')) {
-            $slug = $request->get('category');
-            $query->whereHas('category', function ($q) use ($slug) {
-                $q->where('slug', $slug)->active();
-            });
-        }
-
         $dataList = $query->paginate(12)->withQueryString();
         $categories = AiPromptCategory::active()->orderBy('sort_order')->orderBy('name')->get();
 
         $metaData['prev'] = $dataList->previousPageUrl() ?? null;
 
         return view('pages.ai_prompts.list', [
+            'metaData' => $metaData,
+            'dataList' => $dataList,
+            'categories' => $categories,
+        ]);
+    }
+
+    /**
+     * Category page: AI prompts in a single category (separate URL for SEO).
+     */
+    public function category(Request $request, string $slug): View|\Illuminate\Http\RedirectResponse
+    {
+        $category = AiPromptCategory::where('slug', $slug)->active()->first();
+
+        if (!$category) {
+            return redirect()->route('pages.ai_prompts.list')->with('message', [
+                'type' => 'error',
+                'title' => __('dashboard.bad'),
+                'description' => __('dashboard.no_record_found'),
+            ]);
+        }
+
+        $metaData = [
+            'title' => $category->name . ' AI Prompts – Quality Prompts | GujjuTicks',
+            'no_title' => true,
+            'description' => $category->meta_description ?? $category->description ?? 'Browse ' . $category->name . ' AI prompts. Copy and use quality prompts for ' . Str::lower($category->name) . '.',
+            'keywords' => $category->meta_keywords ?? 'AI prompts, ' . $category->name . ' prompts, ChatGPT prompts, ' . $category->name,
+            'url' => route('pages.ai_prompts.category', ['slug' => $category->slug]),
+        ];
+
+        if (!empty($category->image)) {
+            $metaData['image'] = URL::asset('images/ai-prompt-categories/' . $category->image);
+        }
+
+        $query = AiPrompt::with('category')
+            ->active()
+            ->where('ai_prompt_category_id', $category->id)
+            ->searching()
+            ->orderBy('id', 'DESC');
+
+        $dataList = $query->paginate(12)->withQueryString();
+        $categories = AiPromptCategory::active()->orderBy('sort_order')->orderBy('name')->get();
+
+        $metaData['prev'] = $dataList->previousPageUrl() ?? null;
+
+        // JSON-LD: CollectionPage + ItemList for category page
+        $baseUrl = rtrim(config('app.url'), '/');
+        $categoryUrl = $baseUrl . '/ai-prompts/' . $category->slug;
+        $listItems = $dataList->getCollection()->take(20)->map(function ($prompt) use ($baseUrl) {
+            return [
+                '@type' => 'ListItem',
+                'position' => 1,
+                'url' => $baseUrl . '/ai-prompt/' . $prompt->slug,
+                'name' => $prompt->title,
+            ];
+        })->values()->all();
+        foreach (array_keys($listItems) as $i) {
+            $listItems[$i]['position'] = $i + 1;
+        }
+
+        $metaData['schema'] = [
+            '@context' => 'https://schema.org',
+            '@type' => 'CollectionPage',
+            'name' => $category->name . ' AI Prompts',
+            'description' => $metaData['description'],
+            'url' => $categoryUrl,
+            'publisher' => [
+                '@type' => 'Organization',
+                'name' => 'GujjuTicks',
+                'url' => $baseUrl,
+            ],
+            'mainEntity' => [
+                '@type' => 'ItemList',
+                'name' => $category->name . ' AI Prompts',
+                'numberOfItems' => $dataList->total(),
+                'itemListElement' => $listItems,
+            ],
+        ];
+
+        return view('pages.ai_prompts.category', [
+            'category' => $category,
             'metaData' => $metaData,
             'dataList' => $dataList,
             'categories' => $categories,

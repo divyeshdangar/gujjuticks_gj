@@ -67,6 +67,7 @@ Route::middleware([CheckLanguage::class])->group(function () {
 
     Route::get('cities', [CitiesController::class, 'index'])->name('pages.cities.list');
     Route::get('ai-prompts', [AiPromptsController::class, 'index'])->name('pages.ai_prompts.list');
+    Route::get('ai-prompts/{slug}', [AiPromptsController::class, 'category'])->name('pages.ai_prompts.category');
     Route::get('ai-prompt/{slug}', [AiPromptsController::class, 'show'])->name('pages.ai_prompts.detail');
     Route::post('ai-prompts/copy/{uniqueId}', [AiPromptsController::class, 'copy'])->name('pages.ai_prompts.copy');
     Route::post('ai-prompt/{slug}/comment', [AiPromptsController::class, 'storeComment'])->name('pages.ai_prompts.comment.store');

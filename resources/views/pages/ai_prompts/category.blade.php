@@ -5,14 +5,23 @@
             <div class="row align-items-center">
                 <div class="col-lg-7">
                     <div class="mb-4 pb-3 me-lg-5">
-                        <h6 class="sub-title">Curated for creators & developers</h6>
-                        <h1 class="display-5 fw-semibold mb-3">Quality <span class="text-warning fw-bold">AI Prompts</span> by Category</h1>
-                        <p class="lead text-muted mb-0">Browse, filter, and copy ready-to-use prompts. Find the right prompt for writing, coding, marketing, and more.</p>
+                        <nav aria-label="breadcrumb" class="mb-2">
+                            <ol class="breadcrumb text-muted small mb-0">
+                                <li class="breadcrumb-item"><a href="{{ route('pages.ai_prompts.list') }}" class="text-muted">AI Prompts</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">{{ $category->name }}</li>
+                            </ol>
+                        </nav>
+                        <h6 class="sub-title">Category</h6>
+                        <h1 class="display-5 fw-semibold mb-3"><span class="text-warning fw-bold">{{ $category->name }}</span> AI Prompts</h1>
+                        <p class="lead text-muted mb-0">{{ $category->meta_description ?? $category->description ?? 'Browse and copy quality ' . Str::lower($category->name) . ' AI prompts.' }}</p>
                     </div>
                 </div>
                 <div class="col-lg-5">
                     <div class="mt-5 mt-lg-0">
-                        <a class="btn btn-warning" href="#prompts-list" style="color: rgb(19, 19, 19) !important;">Browse Prompts</a>
+                        @if($category->image)
+                            <img src="{{ asset('images/ai-prompt-categories/' . $category->image) }}" alt="{{ $category->name }}" class="img-fluid rounded-4 shadow" loading="lazy" style="max-height: 200px; object-fit: cover;">
+                        @endif
+                        <a class="btn btn-warning mt-3" href="#prompts-list" style="color: rgb(19, 19, 19) !important;">Browse Prompts</a>
                     </div>
                 </div>
             </div>
@@ -24,9 +33,9 @@
             <div class="row">
                 <div class="col-lg-8 col-md-7">
                     <div class="blog-post">
-                        <form method="get" action="{{ route('pages.ai_prompts.list') }}" class="mb-4">
+                        <form method="get" action="{{ route('pages.ai_prompts.category', ['slug' => $category->slug]) }}" class="mb-4">
                             <div class="input-group">
-                                <input type="text" name="search" class="form-control" placeholder="Search by title, description or prompt..." value="{{ request('search') }}">
+                                <input type="text" name="search" class="form-control" placeholder="Search in this category..." value="{{ request('search') }}">
                                 <button type="submit" class="btn btn-warning" style="color: rgb(19, 19, 19) !important;">Search</button>
                             </div>
                         </form>
@@ -71,9 +80,7 @@
                                                         Copy prompt
                                                     </button>
                                                     <a href="{{ route('pages.ai_prompts.detail', ['slug' => $item->slug]) }}" class="btn btn-outline-primary btn-sm">View & share</a>
-                                                    @if($item->category)
-                                                        <a href="{{ route('pages.ai_prompts.category', ['slug' => $item->category->slug]) }}" class="btn btn-outline-secondary btn-sm">{{ $item->category->name }}</a>
-                                                    @endif
+                                                    <a href="{{ route('pages.ai_prompts.category', ['slug' => $category->slug]) }}" class="btn btn-outline-secondary btn-sm">{{ $category->name }}</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -117,14 +124,14 @@
                             </div>
                             <div class="my-3">
                                 <div class="mb-2">
-                                    <a href="{{ route('pages.ai_prompts.list') }}" class="fw-bold">All categories</a>
+                                    <a href="{{ route('pages.ai_prompts.list') }}">All categories</a>
                                 </div>
                                 @foreach ($categories as $cat)
                                     <div class="mb-2 d-flex align-items-center gap-2">
                                         @if($cat->image)
                                             <img src="{{ asset('images/ai-prompt-categories/' . $cat->image) }}" alt="" class="rounded" style="width: 24px; height: 24px; object-fit: cover;">
                                         @endif
-                                        <a href="{{ route('pages.ai_prompts.category', ['slug' => $cat->slug]) }}">{{ $cat->name }}</a>
+                                        <a href="{{ route('pages.ai_prompts.category', ['slug' => $cat->slug]) }}" class="{{ $category->id === $cat->id ? 'fw-bold' : '' }}">{{ $cat->name }}</a>
                                     </div>
                                 @endforeach
                             </div>

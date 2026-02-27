@@ -8,6 +8,8 @@ use Spatie\Sitemap\Tags\Url;
 use App\Models\Blog;
 use App\Models\BlogCategories;
 use App\Models\City;
+use App\Models\AiPrompt;
+use App\Models\AiPromptCategory;
 use Illuminate\Support\Str;
 use App\Models\PlaceCategory;
 use App\Models\PostSet;
@@ -40,6 +42,7 @@ class GenerateSitemap extends Command
         $sitemap->add(Url::create(route('pages.cities.list'))->setPriority(0.8));
         $sitemap->add(Url::create(route('pages.resume.list'))->setPriority(0.8));
         $sitemap->add(Url::create(route('pages.postset.list'))->setPriority(0.8));
+        $sitemap->add(Url::create(route('pages.ai_prompts.list'))->setPriority(0.8));
 
         Blog::where('status', '1')
             ->get()
@@ -55,6 +58,21 @@ class GenerateSitemap extends Command
                 Url::create(route('pages.blog.category.detail', $cat->slug))
                     ->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY)
                     ->setPriority(0.6)
+            ));
+
+        AiPromptCategory::where('is_active', true)->get()
+            ->each(fn($cat) => $sitemap->add(
+                Url::create(route('pages.ai_prompts.category', ['slug' => $cat->slug]))
+                    ->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY)
+                    ->setPriority(0.6)
+            ));
+
+        AiPrompt::where('is_active', true)->get()
+            ->each(fn($prompt) => $sitemap->add(
+                Url::create(route('pages.ai_prompts.detail', ['slug' => $prompt->slug]))
+                    ->setLastModificationDate($prompt->updated_at)
+                    ->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY)
+                    ->setPriority(0.7)
             ));
 
         // City::get()
