@@ -60,21 +60,6 @@ class GenerateSitemap extends Command
                     ->setPriority(0.6)
             ));
 
-        AiPromptCategory::where('is_active', true)->whereNotNull('slug')->get()
-            ->each(fn($cat) => $sitemap->add(
-                Url::create(route('pages.ai_prompts.category', ['slug' => $cat->slug]))
-                    ->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY)
-                    ->setPriority(0.6)
-            ));
-
-        AiPrompt::where('is_active', true)->whereNotNull('slug')->get()
-            ->each(fn($prompt) => $sitemap->add(
-                Url::create(route('pages.ai_prompts.detail', ['slug' => $prompt->slug]))
-                    ->setLastModificationDate($prompt->updated_at)
-                    ->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY)
-                    ->setPriority(0.7)
-            ));
-
         // City::get()
         //     ->each(fn($city) => $sitemap->add(
         //         Url::create(route('pages.cities.detail', $city->slug))
@@ -119,5 +104,25 @@ class GenerateSitemap extends Command
 
         $news_sitemap->writeToFile(public_path('news_sitemap.xml'));
         $this->info('✅ news_sitemap.xml generated in /public');
+
+
+        $ai_sitemap = Sitemap::create()->add(Url::create(route('pages.ai_prompts.list'))->setPriority(0.8));
+        AiPromptCategory::where('is_active', true)->whereNotNull('slug')->get()
+            ->each(fn($cat) => $ai_sitemap->add(
+                Url::create(route('pages.ai_prompts.category', ['slug' => $cat->slug]))
+                    ->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY)
+                    ->setPriority(0.6)
+            ));
+
+        AiPrompt::where('is_active', true)->whereNotNull('slug')->get()
+            ->each(fn($prompt) => $ai_sitemap->add(
+                Url::create(route('pages.ai_prompts.detail', ['slug' => $prompt->slug]))
+                    ->setLastModificationDate($prompt->updated_at)
+                    ->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY)
+                    ->setPriority(0.7)
+            )); 
+
+        $ai_sitemap->writeToFile(public_path('ai_sitemap.xml'));
+        $this->info('✅ ai_sitemap.xml generated in /public');
     }
 }

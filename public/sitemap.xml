@@ -21,6 +21,14 @@
     <priority>0.8</priority>
             </url>
     <url>
+    <loc>http://localhost:8000/news-post</loc>
+    <priority>0.8</priority>
+            </url>
+    <url>
+    <loc>http://localhost:8000/ai-prompts</loc>
+    <priority>0.8</priority>
+            </url>
+    <url>
     <loc>http://localhost:8000/blog/the-indian-education-paradox-balancing-tradition-and-innovation</loc>
     <lastmod>2025-05-26T12:17:47+05:30</lastmod>
     <changefreq>monthly</changefreq>
@@ -101,12 +109,6 @@
     <url>
     <loc>http://localhost:8000/blog/crypto-investment-in-india-is-it-safe-in-2025</loc>
     <lastmod>2025-05-19T08:55:36+05:30</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-            </url>
-    <url>
-    <loc>http://localhost:8000/blog/how-gujarati-entrepreneurs-build-wealth-through-smart-investments</loc>
-    <lastmod>2025-05-19T08:55:13+05:30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
             </url>

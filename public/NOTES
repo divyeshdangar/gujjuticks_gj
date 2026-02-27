@@ -76,6 +76,7 @@ php artisan db:seed --class=MenuSeeder
 php artisan db:seed --class=QuoteCategoriesSeeder
 php artisan db:seed --class=NewsCategorySeeder
 php artisan db:seed --class=NewsFeedSeeder
+php artisan db:seed --class=AiPromptSeeder
 
 
 
