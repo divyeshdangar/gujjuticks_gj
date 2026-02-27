@@ -36,6 +36,7 @@ class AiPromptsController extends Controller
 
         $query = AiPrompt::with('category')
             ->active()
+            ->whereNotNull('slug')
             ->searching()
             ->orderBy('id', 'DESC');
 
@@ -81,6 +82,7 @@ class AiPromptsController extends Controller
         $query = AiPrompt::with('category')
             ->active()
             ->where('ai_prompt_category_id', $category->id)
+            ->whereNotNull('slug')
             ->searching()
             ->orderBy('id', 'DESC');
 
@@ -166,6 +168,7 @@ class AiPromptsController extends Controller
             ->active()
             ->where('id', '!=', $dataDetail->id)
             ->where('ai_prompt_category_id', $dataDetail->ai_prompt_category_id)
+            ->whereNotNull('slug')
             ->limit(4)
             ->get();
 

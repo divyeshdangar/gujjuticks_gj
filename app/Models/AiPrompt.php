@@ -4,10 +4,26 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class AiPrompt extends Model
 {
     use HasFactory;
+
+    protected static function booted()
+    {
+        static::creating(function ($model) {
+            if (empty($model->slug)) {
+                $slug = Str::slug($model->title);
+                $count = 1;
+                $originalSlug = $slug;
+                while (static::where('slug', $slug)->exists()) {
+                    $slug = $originalSlug . '-' . $count++;
+                }
+                $model->slug = $slug;
+            }
+        });
+    }
 
     protected $fillable = [
         'ai_prompt_category_id',

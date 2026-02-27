@@ -60,14 +60,14 @@ class GenerateSitemap extends Command
                     ->setPriority(0.6)
             ));
 
-        AiPromptCategory::where('is_active', true)->get()
+        AiPromptCategory::where('is_active', true)->whereNotNull('slug')->get()
             ->each(fn($cat) => $sitemap->add(
                 Url::create(route('pages.ai_prompts.category', ['slug' => $cat->slug]))
                     ->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY)
                     ->setPriority(0.6)
             ));
 
-        AiPrompt::where('is_active', true)->get()
+        AiPrompt::where('is_active', true)->whereNotNull('slug')->get()
             ->each(fn($prompt) => $sitemap->add(
                 Url::create(route('pages.ai_prompts.detail', ['slug' => $prompt->slug]))
                     ->setLastModificationDate($prompt->updated_at)
