@@ -5,13 +5,7 @@
             <div class="row align-items-center">
                 <div class="col-lg-7">
                     <div class="mb-4 pb-3 me-lg-5">
-                        <nav aria-label="breadcrumb" class="mb-2">
-                            <ol class="breadcrumb text-muted small mb-0">
-                                <li class="breadcrumb-item"><a href="{{ route('pages.ai_prompts.list') }}" class="text-muted">AI Prompts</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">{{ $category->name }}</li>
-                            </ol>
-                        </nav>
-                        <h6 class="sub-title">Category</h6>
+                        <h6 class="sub-title"><a href="{{ route('pages.ai_prompts.list') }}" class="text-muted">AI Prompts</a> Category</h6>
                         <h1 class="display-5 fw-semibold mb-3"><span class="text-warning fw-bold">{{ $category->name }}</span> AI Prompts</h1>
                         <p class="lead text-muted mb-0">{{ $category->meta_description ?? $category->description ?? 'Browse and copy quality ' . Str::lower($category->name) . ' AI prompts.' }}</p>
                     </div>
@@ -131,7 +125,7 @@
                                         @if($cat->image)
                                             <img src="{{ asset('images/ai-prompt-categories/' . $cat->image) }}" alt="" class="rounded" style="width: 24px; height: 24px; object-fit: cover;">
                                         @endif
-                                        <a href="{{ route('pages.ai_prompts.category', ['slug' => $cat->slug]) }}" class="{{ $category->id === $cat->id ? 'fw-bold' : '' }}">{{ $cat->name }}</a>
+                                        <a href="{{ route('pages.ai_prompts.category', ['slug' => $cat->slug]) }}" class="{{ $category->id === $cat->id ? 'fw-bold text-warning' : '' }}">{{ $cat->name }}</a>
                                     </div>
                                 @endforeach
                             </div>

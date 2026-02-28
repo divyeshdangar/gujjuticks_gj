@@ -6,7 +6,7 @@
                 <div class="col-lg-7">
                     <div class="mb-4 pb-3 me-lg-5">
                         @if($dataDetail->category)
-                            <a href="{{ route('pages.ai_prompts.list', ['category' => $dataDetail->category->slug]) }}" class="text-warning text-decoration-none">
+                            <a href="{{ route('pages.ai_prompts.category', ['slug' => $dataDetail->category->slug]) }}" class="text-warning text-decoration-none">
                                 <h6 class="sub-title">{{ $dataDetail->category->name }}</h6>
                             </a>
                         @endif
@@ -14,7 +14,7 @@
                         <p class="lead text-muted mb-0">{{ $dataDetail->meta_description ?? $dataDetail->description }}</p>
                         <ul class="list-inline mt-3 mb-0 text-muted small">
                             <li class="list-inline-item">
-                                <span class="badge bg-secondary">{{ $dataDetail->unique_id }}</span>
+                                <span class="badge bg-secondary text-uppercase small">{{ $dataDetail->unique_id }}</span>
                             </li>
                             <li class="list-inline-item">Version {{ $dataDetail->prompt_version }}</li>
                             <li class="list-inline-item">{{ number_format($dataDetail->copy_count) }} copies</li>
@@ -40,11 +40,11 @@
                         <div class="card-body">
                             <h5 class="card-title border-bottom pb-2 mb-3">Prompt details</h5>
                             <div class="d-flex flex-wrap gap-2 mb-3">
-                                <span class="badge bg-secondary">ID: {{ $dataDetail->unique_id }}</span>
+                                <span class="badge bg-secondary text-uppercase small">{{ $dataDetail->unique_id }}</span>
                                 <span class="badge bg-light text-dark">v{{ $dataDetail->prompt_version }}</span>
                                 <span class="badge bg-info text-dark">{{ number_format($dataDetail->copy_count) }} copies</span>
                                 @if($dataDetail->category)
-                                    <a href="{{ route('pages.ai_prompts.list', ['category' => $dataDetail->category->slug]) }}" class="badge bg-warning text-dark text-decoration-none">{{ $dataDetail->category->name }}</a>
+                                    <a href="{{ route('pages.ai_prompts.category', ['slug' => $dataDetail->category->slug]) }}" class="badge bg-warning text-dark text-decoration-none">{{ $dataDetail->category->name }}</a>
                                 @endif
                             </div>
                             @if($dataDetail->description)
@@ -65,7 +65,7 @@
                         </div>
                     </div>
 
-                    <div class="card border shadow-sm">
+                    <div class="card border shadow-sm mb-4">
                         <div class="card-body">
                             <h5 class="card-title border-bottom pb-2 mb-4">Comments ({{ $dataDetail->comments->count() }})</h5>
 
@@ -122,7 +122,7 @@
                                 <div class="my-2">
                                     <a href="{{ route('pages.ai_prompts.list') }}" class="d-block py-1 text-decoration-none">All categories</a>
                                     @foreach ($categories as $cat)
-                                        <a href="{{ route('pages.ai_prompts.list', ['category' => $cat->slug]) }}" class="d-block py-1 text-decoration-none {{ $dataDetail->category && $dataDetail->category->id === $cat->id ? 'fw-bold text-warning' : '' }}">{{ $cat->name }}</a>
+                                        <a href="{{ route('pages.ai_prompts.category', ['slug' => $cat->slug]) }}" class="d-block py-1 text-decoration-none {{ $dataDetail->category && $dataDetail->category->id === $cat->id ? 'fw-bold text-warning' : '' }}">{{ $cat->name }}</a>
                                     @endforeach
                                 </div>
                             </div>
