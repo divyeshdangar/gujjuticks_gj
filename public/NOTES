@@ -141,3 +141,17 @@ GRANT ALL PRIVILEGES ON *.* TO 'temp_user'@'150.129.166.104' WITH GRANT OPTION;
 
 FLUSH PRIVILEGES;
 EXIT;
+
+
+
+
+
+
+
+
+
+feature/updates
+
+php artisan migrate
+php artisan db:seed --class=UpdateCategorySeeder
+php artisan db:seed --class=MenuSeeder

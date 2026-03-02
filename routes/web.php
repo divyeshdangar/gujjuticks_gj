@@ -22,6 +22,7 @@ use App\Http\Controllers\Dashboard\WebpageController;
 use App\Http\Controllers\Dashboard\WebpageAnalyticsController;
 use App\Http\Controllers\Dashboard\CardsController;
 use App\Http\Controllers\Dashboard\CardsCategoryController;
+use App\Http\Controllers\Dashboard\UpdateCategoryController;
 
 use App\Http\Middleware\CheckIfLogin;
 use App\Http\Middleware\CheckLanguage;
@@ -38,6 +39,7 @@ use App\Http\Controllers\Pages\CardsController as PublicCardsController;
 use App\Http\Controllers\Pages\ResumeBuilderController;
 use App\Http\Controllers\Pages\ResumeController;
 use App\Http\Controllers\Pages\AiPromptsController;
+use App\Http\Controllers\Pages\UpdatesController;
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\GoogleLoginController;
@@ -71,6 +73,20 @@ Route::middleware([CheckLanguage::class])->group(function () {
     Route::get('ai-prompt/{slug}', [AiPromptsController::class, 'show'])->name('pages.ai_prompts.detail');
     Route::post('ai-prompts/copy/{uniqueId}', [AiPromptsController::class, 'copy'])->name('pages.ai_prompts.copy');
     Route::post('ai-prompt/{slug}/comment', [AiPromptsController::class, 'storeComment'])->name('pages.ai_prompts.comment.store');
+    Route::get('updates', [UpdatesController::class, 'index'])->name('pages.updates.list');
+    Route::get('update/{slug}', [UpdatesController::class, 'show'])->name('pages.updates.detail');
+    Route::get('update/create/new', [UpdatesController::class, 'create'])->name('pages.updates.create');
+    Route::post('update/create/new', [UpdatesController::class, 'store'])->name('pages.updates.store');
+    Route::get('update/{slug}/edit', [UpdatesController::class, 'edit'])->name('pages.updates.edit');
+    Route::post('update/{slug}/edit', [UpdatesController::class, 'update'])->name('pages.updates.update');
+    Route::post('update/{slug}/delete', [UpdatesController::class, 'delete'])->name('pages.updates.delete');
+    Route::post('update/{slug}/comment', [UpdatesController::class, 'comment'])->name('pages.updates.comment.store');
+    Route::post('update/comment/{id}/edit', [UpdatesController::class, 'updateComment'])->name('pages.updates.comment.edit');
+    Route::post('update/comment/{id}/delete', [UpdatesController::class, 'deleteComment'])->name('pages.updates.comment.delete');
+    Route::post('update/comment/{id}/report', [UpdatesController::class, 'reportComment'])->name('pages.updates.comment.report');
+    Route::post('update/{slug}/react', [UpdatesController::class, 'react'])->name('pages.updates.react');
+    Route::post('update/{slug}/poll-vote', [UpdatesController::class, 'vote'])->name('pages.updates.poll.vote');
+    Route::post('update/{slug}/answer', [UpdatesController::class, 'answer'])->name('pages.updates.answer');
     Route::get('city/generate-image', [CitiesController::class, 'generate']);
     Route::get('city/{slug}', [CitiesController::class, 'view'])->name('pages.cities.detail');
     Route::get('city/{slug}/{category}', [CitiesController::class, 'category_businesses_list'])->name('pages.cities.businesses.list');
@@ -218,6 +234,12 @@ Route::middleware([CheckIfLogin::class, CheckLanguage::class])->group(function (
     Route::post('dashboard/blog-category/edit/{id}', [BlogCategoryController::class, 'store'])->name('dashboard.blog.category.edit.post');
     Route::get('dashboard/blog-category/view/{id}', [BlogCategoryController::class, 'view'])->name('dashboard.blog.category.view');
     Route::get('dashboard/blog-category/delete/{id}', [BlogCategoryController::class, 'delete'])->name('dashboard.blog.category.delete');
+
+    Route::get('dashboard/update-category', [UpdateCategoryController::class, 'index'])->name('dashboard.update.category');
+    Route::get('dashboard/update-category/create', [UpdateCategoryController::class, 'create'])->name('dashboard.update.category.create');
+    Route::get('dashboard/update-category/edit/{id}', [UpdateCategoryController::class, 'edit'])->name('dashboard.update.category.edit');
+    Route::post('dashboard/update-category/edit/{id}', [UpdateCategoryController::class, 'store'])->name('dashboard.update.category.edit.post');
+    Route::get('dashboard/update-category/delete/{id}', [UpdateCategoryController::class, 'delete'])->name('dashboard.update.category.delete');
 
     Route::get('dashboard/board', [BoardController::class, 'index'])->name('dashboard.board');
     Route::get('dashboard/board/create', [BoardController::class, 'create'])->name('dashboard.board.create');

@@ -79,6 +79,16 @@ class MenuSeeder extends Seeder
                 "status" => "1"
             ],
             [
+                "id" => 27,
+                "icon" => "message-square",
+                "title" => 'Updates Category',
+                "route" => "dashboard.update.category",
+                "order" => 4,
+                "title_only" => "0",
+                "type" => "2",
+                "status" => "1"
+            ],
+            [
                 "id" => 5, 
                 "icon" => "", 
                 "title" => 'dashboard.public_features', 
