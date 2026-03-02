@@ -9,13 +9,20 @@
                         <h1 class="display-5 fw-semibold mb-3"><span class="text-warning fw-bold">{{ $category->name }}</span> AI Prompts</h1>
                         <p class="lead text-muted mb-0">{{ $category->meta_description ?? $category->description ?? 'Browse and copy quality ' . Str::lower($category->name) . ' AI prompts.' }}</p>
                     </div>
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <div class="mt-3 mt-md-0 h-100">
+                                <a class="btn btn-warning" href="#prompts-list" style="color: rgb(19, 19, 19) !important;">Start
+                                    Reading</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-lg-5">
                     <div class="mt-5 mt-lg-0">
                         @if($category->image)
                             <img src="{{ asset('images/ai-prompt-categories/' . $category->image) }}" alt="{{ $category->name }}" class="img-fluid rounded-4 shadow" loading="lazy" style="max-height: 200px; object-fit: cover;">
                         @endif
-                        <a class="btn btn-warning mt-3" href="#prompts-list" style="color: rgb(19, 19, 19) !important;">Browse Prompts</a>
                     </div>
                 </div>
             </div>
@@ -122,7 +129,7 @@
                                 </div>
                                 @foreach ($categories as $cat)
                                     <div class="mb-2 d-flex align-items-center gap-2">
-                                        @if($cat->image)
+                                        @if(false && $cat->image) <!--Added false condition -->
                                             <img src="{{ asset('images/ai-prompt-categories/' . $cat->image) }}" alt="" class="rounded" style="width: 24px; height: 24px; object-fit: cover;">
                                         @endif
                                         <a href="{{ route('pages.ai_prompts.category', ['slug' => $cat->slug]) }}" class="{{ $category->id === $cat->id ? 'fw-bold text-warning' : '' }}">{{ $cat->name }}</a>

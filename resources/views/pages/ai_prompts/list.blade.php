@@ -6,8 +6,8 @@
                 <div class="col-lg-7">
                     <div class="mb-4 pb-3 me-lg-5">
                         <h6 class="sub-title">Curated for creators & developers</h6>
-                        <h1 class="display-5 fw-semibold mb-3">Quality <span class="text-warning fw-bold">AI Prompts</span> by Category</h1>
-                        <p class="lead text-muted mb-0">Browse, filter, and copy ready-to-use prompts. Find the right prompt for writing, coding, marketing, and more.</p>
+                        <h1 class="display-5 fw-semibold mb-3"><span class="text-warning fw-bold">AI Prompts</span> Library – Image, Video, Writing, Marketing, Coding & More</h1>
+                        <p class="lead text-muted mb-0">Explore a curated library of AI prompts for image generation, video creation, writing, marketing, coding, business, social media, automation, and more. Discover, copy, and share category-wise AI prompts to get better results from AI tools.</p>
                     </div>
                 </div>
                 <div class="col-lg-5">
@@ -98,7 +98,7 @@
                                 </div>
                                 @foreach ($categories as $cat)
                                     <div class="mb-2 d-flex align-items-center gap-2">
-                                        @if($cat->image)
+                                        @if(false && $cat->image) <!--Added false condition -->
                                             <img src="{{ asset('images/ai-prompt-categories/' . $cat->image) }}" alt="" class="rounded" style="width: 24px; height: 24px; object-fit: cover;">
                                         @endif
                                         <a href="{{ route('pages.ai_prompts.category', ['slug' => $cat->slug]) }}">{{ $cat->name }}</a>
@@ -107,6 +107,13 @@
                             </div>
                         </div>
                     </div>
+                </div>
+
+                <div class="col-12 mt-5">
+                    <h3 class="mb-3">AI Prompts Library for Creators, Developers & Marketers</h3>
+                    <p class="text-muted">Discover a growing library of high-quality AI prompts organized by category to help you get better results from AI tools.</p>
+                    <p class="text-muted">Whether you are creating viral images and videos, writing content, building products, marketing your brand, coding faster, or automating workflows - you will find ready-to-use prompts designed for real-world use cases.</p>
+                    <p class="text-muted">Browse prompts by category, copy instantly, and explore trending prompts used by creators, founders, developers, and marketers. New prompts are added regularly, and community contributions are coming soon.</p>
                 </div>
             </div>
         </div>
