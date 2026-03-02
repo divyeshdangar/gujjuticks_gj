@@ -81,6 +81,9 @@
                         <a href="{{ route('pages.cities.list') }}" class="nav-link">Cities</a>
                     </li>
                     <li class="nav-item">
+                        <a href="{{ route('pages.updates.list') }}" class="nav-link">Updates</a>
+                    </li>
+                    <li class="nav-item">
                         <a href="{{ route('pages.ai_prompts.list') }}" class="nav-link">AI Prompts</a>
                     </li>
                     <li class="nav-item">

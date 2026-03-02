@@ -47,7 +47,7 @@
 
                             <div class="col-md-3">
                                 <label class="form-label">Type</label>
-                                <select name="type" class="form-select" required>
+                                <select id="update-type" name="type" class="form-select" required>
                                     @foreach($types as $value => $label)
                                         <option value="{{ $value }}" @if(old('type', $dataDetail?->type ?? 'status') === $value) selected @endif>{{ $label }}</option>
                                     @endforeach
@@ -68,21 +68,25 @@
 
                             <div class="col-md-12">
                                 <label class="form-label">Description</label>
-                                <textarea name="description" rows="5" class="form-control">{{ old('description', $dataDetail?->description) }}</textarea>
+                                <textarea id="description-field" name="description" rows="5" class="form-control" placeholder="Write your update details...">{{ old('description', $dataDetail?->description) }}</textarea>
+                                <small class="text-muted">For status updates, this is the main content users read.</small>
                             </div>
 
-                            <div class="col-md-6">
-                                <label class="form-label">Image (for image type)</label>
-                                <input type="file" name="image" class="form-control" accept="image/*">
+                            <div class="col-md-6 update-type-section" data-types="image">
+                                <label class="form-label">Image</label>
+                                <input id="image-field" type="file" name="image" class="form-control" accept="image/*">
+                                @if($dataDetail?->image)
+                                    <small class="text-muted d-block mt-1">Current image: {{ $dataDetail->image }}</small>
+                                @endif
                             </div>
-                            <div class="col-md-6">
-                                <label class="form-label">YouTube URL (for YouTube type)</label>
-                                <input type="url" name="youtube_url" class="form-control" value="{{ old('youtube_url', $dataDetail?->youtube_url) }}">
+                            <div class="col-md-6 update-type-section" data-types="youtube">
+                                <label class="form-label">YouTube URL</label>
+                                <input id="youtube-field" type="url" name="youtube_url" class="form-control" placeholder="https://www.youtube.com/watch?v=..." value="{{ old('youtube_url', $dataDetail?->youtube_url) }}">
                             </div>
 
-                            <div class="col-md-12">
-                                <label class="form-label">Poll Question (for poll type)</label>
-                                <input type="text" name="poll_question" class="form-control mb-2" value="{{ old('poll_question', $dataDetail?->poll_question) }}">
+                            <div class="col-md-12 update-type-section" data-types="poll">
+                                <label class="form-label">Poll Question</label>
+                                <input id="poll-question-field" type="text" name="poll_question" class="form-control mb-2" placeholder="Ask your poll question..." value="{{ old('poll_question', $dataDetail?->poll_question) }}">
                                 @php
                                     $oldOptions = old('poll_options');
                                     $options = $oldOptions ?? ($dataDetail ? $dataDetail->pollOptions->pluck('option_text')->toArray() : ['', '']);
@@ -90,14 +94,20 @@
                                         $options = array_pad($options, 2, '');
                                     }
                                 @endphp
-                                @foreach($options as $option)
-                                    <input type="text" name="poll_options[]" class="form-control mb-2" placeholder="Poll option" value="{{ $option }}">
-                                @endforeach
+                                <div id="poll-options-container">
+                                    @foreach($options as $option)
+                                        <div class="input-group mb-2 poll-option-row">
+                                            <input type="text" name="poll_options[]" class="form-control poll-option-input" placeholder="Poll option" value="{{ $option }}">
+                                            <button class="btn btn-outline-danger remove-poll-option" type="button">Remove</button>
+                                        </div>
+                                    @endforeach
+                                </div>
+                                <button type="button" id="add-poll-option" class="btn btn-sm btn-outline-primary">+ Add option</button>
                             </div>
 
-                            <div class="col-md-12">
-                                <label class="form-label">Q&A Question (for Q&A type)</label>
-                                <input type="text" name="qa_question" class="form-control" value="{{ old('qa_question', $dataDetail?->qa_question) }}">
+                            <div class="col-md-12 update-type-section" data-types="qa">
+                                <label class="form-label">Q&A Question</label>
+                                <input id="qa-question-field" type="text" name="qa_question" class="form-control" placeholder="Ask a question for the community..." value="{{ old('qa_question', $dataDetail?->qa_question) }}">
                             </div>
                         </div>
 
@@ -110,5 +120,91 @@
             </div>
         </div>
     </section>
+
+    <script>
+        (function() {
+            var typeField = document.getElementById('update-type');
+            var sections = document.querySelectorAll('.update-type-section');
+            var descriptionField = document.getElementById('description-field');
+            var imageField = document.getElementById('image-field');
+            var youtubeField = document.getElementById('youtube-field');
+            var pollQuestionField = document.getElementById('poll-question-field');
+            var qaQuestionField = document.getElementById('qa-question-field');
+            var pollOptionsContainer = document.getElementById('poll-options-container');
+            var addPollOptionBtn = document.getElementById('add-poll-option');
+            var hasExistingImage = {{ $dataDetail && $dataDetail->image ? 'true' : 'false' }};
+
+            function getPollInputs() {
+                return pollOptionsContainer ? pollOptionsContainer.querySelectorAll('.poll-option-input') : [];
+            }
+
+            function updatePollOptionRequirements(isPoll) {
+                var inputs = getPollInputs();
+                inputs.forEach(function(input, index) {
+                    input.required = isPoll && index < 2;
+                });
+            }
+
+            function toggleFields() {
+                var type = typeField ? typeField.value : 'status';
+
+                sections.forEach(function(section) {
+                    var allowedTypes = section.getAttribute('data-types').split(',');
+                    var show = allowedTypes.indexOf(type) >= 0;
+                    section.style.display = show ? '' : 'none';
+                });
+
+                if (descriptionField) {
+                    descriptionField.required = (type === 'status');
+                }
+                if (imageField) {
+                    imageField.required = (type === 'image' && !hasExistingImage);
+                }
+                if (youtubeField) {
+                    youtubeField.required = (type === 'youtube');
+                }
+                if (pollQuestionField) {
+                    pollQuestionField.required = (type === 'poll');
+                }
+                if (qaQuestionField) {
+                    qaQuestionField.required = (type === 'qa');
+                }
+
+                updatePollOptionRequirements(type === 'poll');
+            }
+
+            function addPollOption(value) {
+                if (!pollOptionsContainer) return;
+
+                var row = document.createElement('div');
+                row.className = 'input-group mb-2 poll-option-row';
+                row.innerHTML =
+                    '<input type="text" name="poll_options[]" class="form-control poll-option-input" placeholder="Poll option" value="' + (value || '') + '">' +
+                    '<button class="btn btn-outline-danger remove-poll-option" type="button">Remove</button>';
+                pollOptionsContainer.appendChild(row);
+                toggleFields();
+            }
+
+            if (addPollOptionBtn) {
+                addPollOptionBtn.addEventListener('click', function() {
+                    addPollOption('');
+                });
+            }
+
+            document.addEventListener('click', function(e) {
+                if (!e.target.classList.contains('remove-poll-option')) return;
+                var rows = pollOptionsContainer ? pollOptionsContainer.querySelectorAll('.poll-option-row') : [];
+                if (rows.length <= 2) return;
+                e.target.closest('.poll-option-row').remove();
+                toggleFields();
+            });
+
+            if (typeField) {
+                typeField.addEventListener('change', toggleFields);
+            }
+
+            toggleFields();
+        })();
+    </script>
 </x-layouts.front>
 
