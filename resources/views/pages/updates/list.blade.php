@@ -65,7 +65,7 @@
                                     <small class="text-muted">{{ $item->created_at?->diffForHumans() }}</small>
                                 </div>
                                 <h5 class="card-title mb-1">
-                                    <a class="text-dark text-decoration-none" href="{{ route('pages.updates.detail', ['slug' => $item->slug]) }}">{{ $item->title }}</a>
+                                    <a class="text-dark text-decoration-none" href="{{ route('pages.updates.detail', ['citySlug' => $item->city?->slug, 'postType' => $item->type, 'publicId' => $item->public_id ?? $item->slug]) }}">{{ $item->title }}</a>
                                 </h5>
                                 <div class="small text-muted mb-2">
                                     {{ $item->city?->name }} | {{ $item->category?->name }}
@@ -75,7 +75,7 @@
                                 @endif
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="small text-muted">{{ $item->comments_count }} comments • {{ $item->reactions_count }} reactions</div>
-                                    <a href="{{ route('pages.updates.detail', ['slug' => $item->slug]) }}" class="btn btn-outline-primary btn-sm">Open</a>
+                                    <a href="{{ route('pages.updates.detail', ['citySlug' => $item->city?->slug, 'postType' => $item->type, 'publicId' => $item->public_id ?? $item->slug]) }}" class="btn btn-outline-primary btn-sm">Open</a>
                                 </div>
                             </div>
                         </div>

@@ -15,7 +15,7 @@
                         </div>
                     @endif
 
-                    <form method="post" enctype="multipart/form-data" action="{{ $dataDetail ? route('pages.updates.update', ['slug' => $dataDetail->slug]) : route('pages.updates.store') }}">
+                    <form method="post" enctype="multipart/form-data" action="{{ $dataDetail ? route('pages.updates.update', ['citySlug' => $dataDetail->city?->slug, 'postType' => $dataDetail->type, 'publicId' => $dataDetail->public_id ?? $dataDetail->slug]) : route('pages.updates.store') }}">
                         @csrf
                         @if($dataDetail && $dataDetail->image)
                             <input type="hidden" name="existing_image" value="{{ $dataDetail->image }}">

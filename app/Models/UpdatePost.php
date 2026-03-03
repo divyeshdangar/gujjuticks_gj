@@ -27,6 +27,7 @@ class UpdatePost extends Model
     protected $fillable = [
         'title',
         'slug',
+        'public_id',
         'description',
         'city_id',
         'update_category_id',
@@ -44,6 +45,12 @@ class UpdatePost extends Model
     protected static function booted()
     {
         static::creating(function (self $model) {
+            if (empty($model->public_id)) {
+                do {
+                    $model->public_id = Str::lower(Str::random(10));
+                } while (self::where('public_id', $model->public_id)->exists());
+            }
+
             if (empty($model->slug)) {
                 $baseSlug = Str::slug($model->title ?: 'update');
                 $slug = $baseSlug;

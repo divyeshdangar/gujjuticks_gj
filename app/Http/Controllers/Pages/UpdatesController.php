@@ -64,7 +64,7 @@ class UpdatesController extends Controller
         ]);
     }
 
-    public function show(Request $request, string $slug): View|RedirectResponse
+    public function show(Request $request, string $citySlug, string $postType, string $publicId): View|RedirectResponse
     {
         $dataDetail = UpdatePost::with([
             'city',
@@ -74,8 +74,17 @@ class UpdatesController extends Controller
             'answers.user',
             'comments.user',
             'reactions',
-        ])
-            ->where('slug', $slug)
+        ])->withCount('reactions')
+            ->where(function ($q) use ($publicId) {
+                $q->where('public_id', $publicId)
+                    ->orWhere(function ($legacy) use ($publicId) {
+                        $legacy->whereNull('public_id')->where('slug', $publicId);
+                    });
+            })
+            ->where('type', $postType)
+            ->whereHas('city', function ($q) use ($citySlug) {
+                $q->where('slug', $citySlug);
+            })
             ->published()
             ->first();
 
@@ -93,7 +102,7 @@ class UpdatesController extends Controller
         $metaData = [
             'title' => $dataDetail->title . ' | GujjuTicks Updates',
             'description' => $dataDetail->description ?: 'Community update on GujjuTicks',
-            'url' => route('pages.updates.detail', ['slug' => $dataDetail->slug]),
+            'url' => route('pages.updates.detail', $this->routeParams($dataDetail)),
         ];
 
         return view('pages.updates.detail', [
@@ -101,6 +110,7 @@ class UpdatesController extends Controller
             'dataDetail' => $dataDetail,
             'hasAccess' => $hasAccess,
             'isGuest' => !Auth::check(),
+            'isLikedByViewer' => Auth::check() ? $dataDetail->reactions->where('user_id', Auth::id())->isNotEmpty() : false,
         ]);
     }
 
@@ -149,26 +159,26 @@ class UpdatesController extends Controller
             return $update;
         });
 
-        return redirect()->route('pages.updates.detail', ['slug' => $update->slug])->with('message', [
+        return redirect()->route('pages.updates.detail', $this->routeParams($update))->with('message', [
             'type' => 'success',
             'title' => __('dashboard.great'),
             'description' => 'Update posted successfully.',
         ]);
     }
 
-    public function edit(Request $request, string $slug): View|RedirectResponse
+    public function edit(Request $request, string $citySlug, string $postType, string $publicId): View|RedirectResponse
     {
         if (!Auth::check()) {
             return redirect()->route('login');
         }
 
-        $dataDetail = UpdatePost::with('pollOptions')->where('slug', $slug)->first();
+        $dataDetail = $this->findUpdateByRouteParts($citySlug, $postType, $publicId, true);
         if (!$dataDetail) {
             return redirect()->route('pages.updates.list');
         }
 
         if ((int) $dataDetail->created_by !== (int) Auth::id()) {
-            return redirect()->route('pages.updates.detail', ['slug' => $slug])->with('message', [
+            return redirect()->route('pages.updates.detail', $this->routeParams($dataDetail))->with('message', [
                 'type' => 'error',
                 'title' => __('dashboard.bad'),
                 'description' => 'You can edit only your own updates.',
@@ -178,7 +188,7 @@ class UpdatesController extends Controller
         $metaData = [
             'title' => 'Edit Update',
             'description' => 'Modify your update',
-            'url' => route('pages.updates.edit', ['slug' => $dataDetail->slug]),
+            'url' => route('pages.updates.edit', $this->routeParams($dataDetail)),
         ];
 
         return view('pages.updates.form', [
@@ -191,23 +201,23 @@ class UpdatesController extends Controller
         ]);
     }
 
-    public function update(Request $request, string $slug): RedirectResponse
+    public function update(Request $request, string $citySlug, string $postType, string $publicId): RedirectResponse
     {
         if (!Auth::check()) {
             return redirect()->route('login');
         }
 
-        $dataDetail = UpdatePost::where('slug', $slug)->first();
+        $dataDetail = $this->findUpdateByRouteParts($citySlug, $postType, $publicId);
         if (!$dataDetail) {
             return redirect()->route('pages.updates.list');
         }
         if ((int) $dataDetail->created_by !== (int) Auth::id()) {
-            return redirect()->route('pages.updates.detail', ['slug' => $slug]);
+            return redirect()->route('pages.updates.detail', $this->routeParams($dataDetail));
         }
 
         $validator = $this->validateUpdate($request, $dataDetail->id);
         if ($validator->fails()) {
-            return redirect()->route('pages.updates.edit', ['slug' => $slug])->withErrors($validator)->withInput();
+            return redirect()->route('pages.updates.edit', $this->routeParams($dataDetail))->withErrors($validator)->withInput();
         }
         $validated = $validator->validated();
 
@@ -217,25 +227,25 @@ class UpdatesController extends Controller
             $this->syncTypeSpecificData($dataDetail, $validated, true);
         });
 
-        return redirect()->route('pages.updates.detail', ['slug' => $dataDetail->slug])->with('message', [
+        return redirect()->route('pages.updates.detail', $this->routeParams($dataDetail))->with('message', [
             'type' => 'success',
             'title' => __('dashboard.great'),
             'description' => 'Update edited successfully.',
         ]);
     }
 
-    public function delete(Request $request, string $slug): RedirectResponse
+    public function delete(Request $request, string $citySlug, string $postType, string $publicId): RedirectResponse
     {
         if (!Auth::check()) {
             return redirect()->route('login');
         }
 
-        $dataDetail = UpdatePost::where('slug', $slug)->first();
+        $dataDetail = $this->findUpdateByRouteParts($citySlug, $postType, $publicId);
         if (!$dataDetail) {
             return redirect()->route('pages.updates.list');
         }
         if ((int) $dataDetail->created_by !== (int) Auth::id()) {
-            return redirect()->route('pages.updates.detail', ['slug' => $slug]);
+            return redirect()->route('pages.updates.detail', $this->routeParams($dataDetail));
         }
 
         $dataDetail->status = UpdatePost::STATUS_DELETED;
@@ -249,7 +259,7 @@ class UpdatesController extends Controller
         ]);
     }
 
-    public function comment(Request $request, string $slug): RedirectResponse
+    public function comment(Request $request, string $citySlug, string $postType, string $publicId): RedirectResponse
     {
         if (!Auth::check()) {
             return redirect()->route('login')->with('message', [
@@ -259,7 +269,7 @@ class UpdatesController extends Controller
             ]);
         }
 
-        $dataDetail = UpdatePost::where('slug', $slug)->published()->first();
+        $dataDetail = $this->findUpdateByRouteParts($citySlug, $postType, $publicId);
         if (!$dataDetail || !$this->canAccessUpdate($dataDetail, Auth::id(), Auth::user()?->is_admin())) {
             return redirect()->route('pages.updates.list');
         }
@@ -268,7 +278,7 @@ class UpdatesController extends Controller
             'comment' => 'required|string|min:2|max:2000',
         ]);
         if ($validator->fails()) {
-            return redirect()->route('pages.updates.detail', ['slug' => $slug])->withErrors($validator)->withInput();
+            return redirect()->route('pages.updates.detail', $this->routeParams($dataDetail))->withErrors($validator)->withInput();
         }
 
         UpdateComment::create([
@@ -278,7 +288,7 @@ class UpdatesController extends Controller
             'status' => UpdateComment::STATUS_ACTIVE,
         ]);
 
-        return redirect()->route('pages.updates.detail', ['slug' => $slug])->with('message', [
+        return redirect()->route('pages.updates.detail', $this->routeParams($dataDetail))->with('message', [
             'type' => 'success',
             'title' => __('dashboard.great'),
             'description' => 'Comment posted.',
@@ -298,20 +308,20 @@ class UpdatesController extends Controller
 
         $isAllowed = ((int) $comment->user_id === (int) Auth::id()) || Auth::user()?->is_admin();
         if (!$isAllowed) {
-            return redirect()->route('pages.updates.detail', ['slug' => $comment->post->slug]);
+            return redirect()->route('pages.updates.detail', $this->routeParams($comment->post));
         }
 
         $validator = Validator::make($request->all(), [
             'comment' => 'required|string|min:2|max:2000',
         ]);
         if ($validator->fails()) {
-            return redirect()->route('pages.updates.detail', ['slug' => $comment->post->slug])->withErrors($validator)->withInput();
+            return redirect()->route('pages.updates.detail', $this->routeParams($comment->post))->withErrors($validator)->withInput();
         }
 
         $comment->comment = $request->input('comment');
         $comment->save();
 
-        return redirect()->route('pages.updates.detail', ['slug' => $comment->post->slug])->with('message', [
+        return redirect()->route('pages.updates.detail', $this->routeParams($comment->post))->with('message', [
             'type' => 'success',
             'title' => __('dashboard.great'),
             'description' => 'Comment updated.',
@@ -331,14 +341,14 @@ class UpdatesController extends Controller
 
         $isAllowed = ((int) $comment->user_id === (int) Auth::id()) || Auth::user()?->is_admin();
         if (!$isAllowed) {
-            return redirect()->route('pages.updates.detail', ['slug' => $comment->post->slug]);
+            return redirect()->route('pages.updates.detail', $this->routeParams($comment->post));
         }
 
         $comment->status = UpdateComment::STATUS_DELETED;
         $comment->save();
         $comment->delete();
 
-        return redirect()->route('pages.updates.detail', ['slug' => $comment->post->slug])->with('message', [
+        return redirect()->route('pages.updates.detail', $this->routeParams($comment->post))->with('message', [
             'type' => 'success',
             'title' => __('dashboard.great'),
             'description' => 'Comment deleted.',
@@ -360,20 +370,20 @@ class UpdatesController extends Controller
         $comment->reported_by = Auth::id();
         $comment->save();
 
-        return redirect()->route('pages.updates.detail', ['slug' => $comment->post->slug])->with('message', [
+        return redirect()->route('pages.updates.detail', $this->routeParams($comment->post))->with('message', [
             'type' => 'success',
             'title' => __('dashboard.great'),
             'description' => 'Comment reported.',
         ]);
     }
 
-    public function react(Request $request, string $slug): RedirectResponse
+    public function react(Request $request, string $citySlug, string $postType, string $publicId): RedirectResponse
     {
         if (!Auth::check()) {
             return redirect()->route('login');
         }
 
-        $dataDetail = UpdatePost::where('slug', $slug)->published()->first();
+        $dataDetail = $this->findUpdateByRouteParts($citySlug, $postType, $publicId);
         if (!$dataDetail || !$this->canAccessUpdate($dataDetail, Auth::id(), Auth::user()?->is_admin())) {
             return redirect()->route('pages.updates.list');
         }
@@ -382,7 +392,7 @@ class UpdatesController extends Controller
             'reaction' => 'nullable|string|max:32',
         ]);
         if ($validator->fails()) {
-            return redirect()->route('pages.updates.detail', ['slug' => $slug]);
+            return redirect()->route('pages.updates.detail', $this->routeParams($dataDetail));
         }
 
         $reactionValue = $request->input('reaction', 'like');
@@ -390,27 +400,36 @@ class UpdatesController extends Controller
             ->where('user_id', Auth::id())
             ->first();
 
-        if ($reaction) {
+        if ($reaction && $reaction->reaction === $reactionValue) {
+            $reaction->delete();
+            $message = 'Like removed.';
+        } elseif ($reaction) {
             $reaction->reaction = $reactionValue;
             $reaction->save();
+            $message = 'Reaction updated.';
         } else {
             UpdateReaction::create([
                 'update_post_id' => $dataDetail->id,
                 'user_id' => Auth::id(),
                 'reaction' => $reactionValue,
             ]);
+            $message = 'Liked successfully.';
         }
 
-        return redirect()->route('pages.updates.detail', ['slug' => $slug]);
+        return redirect()->route('pages.updates.detail', $this->routeParams($dataDetail))->with('message', [
+            'type' => 'success',
+            'title' => __('dashboard.great'),
+            'description' => $message,
+        ]);
     }
 
-    public function vote(Request $request, string $slug): RedirectResponse
+    public function vote(Request $request, string $citySlug, string $postType, string $publicId): RedirectResponse
     {
         if (!Auth::check()) {
             return redirect()->route('login');
         }
 
-        $dataDetail = UpdatePost::with('pollOptions')->where('slug', $slug)->published()->first();
+        $dataDetail = $this->findUpdateByRouteParts($citySlug, $postType, $publicId, true);
         if (!$dataDetail || $dataDetail->type !== UpdatePost::TYPE_POLL) {
             return redirect()->route('pages.updates.list');
         }
@@ -422,13 +441,13 @@ class UpdatesController extends Controller
             'option_id' => 'required|integer|exists:update_poll_options,id',
         ]);
         if ($validator->fails()) {
-            return redirect()->route('pages.updates.detail', ['slug' => $slug])->withErrors($validator)->withInput();
+            return redirect()->route('pages.updates.detail', $this->routeParams($dataDetail))->withErrors($validator)->withInput();
         }
 
         $optionId = (int) $request->input('option_id');
         $option = $dataDetail->pollOptions->firstWhere('id', $optionId);
         if (!$option) {
-            return redirect()->route('pages.updates.detail', ['slug' => $slug]);
+            return redirect()->route('pages.updates.detail', $this->routeParams($dataDetail));
         }
 
         DB::transaction(function () use ($dataDetail, $optionId) {
@@ -455,20 +474,20 @@ class UpdatesController extends Controller
             UpdatePollOption::where('id', $optionId)->increment('votes_count');
         });
 
-        return redirect()->route('pages.updates.detail', ['slug' => $slug])->with('message', [
+        return redirect()->route('pages.updates.detail', $this->routeParams($dataDetail))->with('message', [
             'type' => 'success',
             'title' => __('dashboard.great'),
             'description' => 'Vote submitted.',
         ]);
     }
 
-    public function answer(Request $request, string $slug): RedirectResponse
+    public function answer(Request $request, string $citySlug, string $postType, string $publicId): RedirectResponse
     {
         if (!Auth::check()) {
             return redirect()->route('login');
         }
 
-        $dataDetail = UpdatePost::where('slug', $slug)->published()->first();
+        $dataDetail = $this->findUpdateByRouteParts($citySlug, $postType, $publicId);
         if (!$dataDetail || $dataDetail->type !== UpdatePost::TYPE_QA) {
             return redirect()->route('pages.updates.list');
         }
@@ -480,7 +499,7 @@ class UpdatesController extends Controller
             'answer' => 'required|string|min:2|max:3000',
         ]);
         if ($validator->fails()) {
-            return redirect()->route('pages.updates.detail', ['slug' => $slug])->withErrors($validator)->withInput();
+            return redirect()->route('pages.updates.detail', $this->routeParams($dataDetail))->withErrors($validator)->withInput();
         }
 
         UpdateAnswer::create([
@@ -489,7 +508,7 @@ class UpdatesController extends Controller
             'answer' => $request->input('answer'),
         ]);
 
-        return redirect()->route('pages.updates.detail', ['slug' => $slug])->with('message', [
+        return redirect()->route('pages.updates.detail', $this->routeParams($dataDetail))->with('message', [
             'type' => 'success',
             'title' => __('dashboard.great'),
             'description' => 'Answer posted.',
@@ -594,7 +613,7 @@ class UpdatesController extends Controller
         }
     }
 
-    private function canAccessUpdate(UpdatePost $update, ?int $viewerId, bool $isAdmin = false): bool
+    private function canAccessUpdate(UpdatePost $update, ?int $viewerId, ?bool $isAdmin = false): bool
     {
         if ($update->privacy === UpdatePost::PRIVACY_PUBLIC) {
             return true;
@@ -602,7 +621,7 @@ class UpdatesController extends Controller
         if (!$viewerId) {
             return false;
         }
-        if ($isAdmin) {
+        if ((bool) $isAdmin) {
             return true;
         }
         return (int) $update->created_by === (int) $viewerId;
@@ -617,6 +636,41 @@ class UpdatesController extends Controller
             UpdatePost::TYPE_POLL => 'Poll',
             UpdatePost::TYPE_QA => 'Q&A',
         ];
+    }
+
+    private function routeParams(UpdatePost $post): array
+    {
+        $citySlug = optional($post->city)->slug;
+        if (!$citySlug) {
+            $citySlug = City::where('id', $post->city_id)->value('slug') ?: 'city';
+        }
+
+        return [
+            'citySlug' => $citySlug,
+            'postType' => $post->type,
+            'publicId' => $post->public_id ?: $post->slug,
+        ];
+    }
+
+    private function findUpdateByRouteParts(string $citySlug, string $postType, string $publicId, bool $withPollOptions = false): ?UpdatePost
+    {
+        $query = UpdatePost::where(function ($q) use ($publicId) {
+                $q->where('public_id', $publicId)
+                    ->orWhere(function ($legacy) use ($publicId) {
+                        $legacy->whereNull('public_id')->where('slug', $publicId);
+                    });
+            })
+            ->where('type', $postType)
+            ->whereHas('city', function ($q) use ($citySlug) {
+                $q->where('slug', $citySlug);
+            })
+            ->published();
+
+        if ($withPollOptions) {
+            $query->with('pollOptions');
+        }
+
+        return $query->first();
     }
 }
 

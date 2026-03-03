@@ -55,8 +55,8 @@
 
                         @if(Auth::check() && Auth::id() === (int)$dataDetail->created_by)
                             <div class="d-flex gap-2 mb-3">
-                                <a href="{{ route('pages.updates.edit', ['slug' => $dataDetail->slug]) }}" class="btn btn-outline-primary btn-sm">Edit</a>
-                                <form method="post" action="{{ route('pages.updates.delete', ['slug' => $dataDetail->slug]) }}">
+                                <a href="{{ route('pages.updates.edit', ['citySlug' => $dataDetail->city?->slug, 'postType' => $dataDetail->type, 'publicId' => $dataDetail->public_id ?? $dataDetail->slug]) }}" class="btn btn-outline-primary btn-sm">Edit</a>
+                                <form method="post" action="{{ route('pages.updates.delete', ['citySlug' => $dataDetail->city?->slug, 'postType' => $dataDetail->type, 'publicId' => $dataDetail->public_id ?? $dataDetail->slug]) }}">
                                     @csrf
                                     <button type="submit" class="btn btn-outline-danger btn-sm">Delete</button>
                                 </form>
@@ -64,12 +64,12 @@
                         @endif
 
                         <div class="d-flex flex-wrap gap-2 align-items-center mb-2">
-                            <form method="post" action="{{ route('pages.updates.react', ['slug' => $dataDetail->slug]) }}">
+                            <form method="post" action="{{ route('pages.updates.react', ['citySlug' => $dataDetail->city?->slug, 'postType' => $dataDetail->type, 'publicId' => $dataDetail->public_id ?? $dataDetail->slug]) }}">
                                 @csrf
                                 <input type="hidden" name="reaction" value="like">
-                                <button class="btn btn-outline-primary btn-sm">Like</button>
+                                <button class="btn btn-outline-primary btn-sm">{{ $isLikedByViewer ? 'Unlike' : 'Like' }} ({{ $dataDetail->reactions_count ?? $dataDetail->reactions->count() }})</button>
                             </form>
-                            <input type="text" class="form-control form-control-sm" style="max-width: 360px;" readonly value="{{ route('pages.updates.detail', ['slug' => $dataDetail->slug]) }}">
+                            <input type="text" class="form-control form-control-sm" style="max-width: 360px;" readonly value="{{ route('pages.updates.detail', ['citySlug' => $dataDetail->city?->slug, 'postType' => $dataDetail->type, 'publicId' => $dataDetail->public_id ?? $dataDetail->slug]) }}">
                         </div>
                     </div>
                 </div>
@@ -78,7 +78,7 @@
                     <div class="card border-0 shadow-sm mb-4">
                         <div class="card-body p-4">
                             <h3 class="h5 mb-3">{{ $dataDetail->poll_question }}</h3>
-                            <form method="post" action="{{ route('pages.updates.poll.vote', ['slug' => $dataDetail->slug]) }}">
+                            <form method="post" action="{{ route('pages.updates.poll.vote', ['citySlug' => $dataDetail->city?->slug, 'postType' => $dataDetail->type, 'publicId' => $dataDetail->public_id ?? $dataDetail->slug]) }}">
                                 @csrf
                                 @foreach($dataDetail->pollOptions as $option)
                                     <label class="d-flex justify-content-between border rounded p-2 mb-2">
@@ -100,7 +100,7 @@
                         <div class="card-body p-4">
                             <h3 class="h5 mb-3">{{ $dataDetail->qa_question }}</h3>
                             @auth
-                                <form method="post" action="{{ route('pages.updates.answer', ['slug' => $dataDetail->slug]) }}" class="mb-3">
+                                <form method="post" action="{{ route('pages.updates.answer', ['citySlug' => $dataDetail->city?->slug, 'postType' => $dataDetail->type, 'publicId' => $dataDetail->public_id ?? $dataDetail->slug]) }}" class="mb-3">
                                     @csrf
                                     <textarea name="answer" rows="3" class="form-control mb-2" placeholder="Write your answer..." required>{{ old('answer') }}</textarea>
                                     <button type="submit" class="btn btn-primary btn-sm">Post Answer</button>
@@ -122,7 +122,7 @@
                         <h3 class="h5 mb-3">Comments</h3>
 
                         @auth
-                            <form method="post" action="{{ route('pages.updates.comment.store', ['slug' => $dataDetail->slug]) }}" class="mb-4">
+                            <form method="post" action="{{ route('pages.updates.comment.store', ['citySlug' => $dataDetail->city?->slug, 'postType' => $dataDetail->type, 'publicId' => $dataDetail->public_id ?? $dataDetail->slug]) }}" class="mb-4">
                                 @csrf
                                 <textarea name="comment" rows="3" class="form-control mb-2" placeholder="Write your comment..." required>{{ old('comment') }}</textarea>
                                 <button type="submit" class="btn btn-primary btn-sm">Post Comment</button>
