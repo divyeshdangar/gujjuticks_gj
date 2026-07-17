@@ -17,7 +17,7 @@
                                 <span class="badge bg-secondary text-uppercase small">{{ $dataDetail->unique_id }}</span>
                             </li>
                             <li class="list-inline-item">Version {{ $dataDetail->prompt_version }}</li>
-                            <li class="list-inline-item">{{ number_format($dataDetail->copy_count) }} copies</li>
+                            <li class="list-inline-item js-copy-count" data-uid="{{ $dataDetail->unique_id }}" data-copy-count="{{ $dataDetail->copy_count }}">{{ number_format($dataDetail->copy_count) }} copies</li>
                         </ul>
                     </div>
                 </div>
@@ -42,7 +42,7 @@
                             <div class="d-flex flex-wrap gap-2 mb-3">
                                 <span class="badge bg-secondary text-uppercase small">{{ $dataDetail->unique_id }}</span>
                                 <span class="badge bg-light text-dark">v{{ $dataDetail->prompt_version }}</span>
-                                <span class="badge bg-info text-dark">{{ number_format($dataDetail->copy_count) }} copies</span>
+                                <span class="badge bg-info text-dark js-copy-count" data-uid="{{ $dataDetail->unique_id }}" data-copy-count="{{ $dataDetail->copy_count }}">{{ number_format($dataDetail->copy_count) }} copies</span>
                                 @if($dataDetail->category)
                                     <a href="{{ route('pages.ai_prompts.category', ['slug' => $dataDetail->category->slug]) }}" class="badge bg-warning text-dark text-decoration-none">{{ $dataDetail->category->name }}</a>
                                 @endif
@@ -103,7 +103,7 @@
                                                 <span class="fw-semibold">{{ $comment->user ? $comment->user->name : 'User' }}</span>
                                                 <span class="text-muted small">{{ $comment->created_at->diffForHumans() }}</span>
                                             </div>
-                                            <p class="mb-0 text-muted small">{{ nl2br(e($comment->comment)) }}</p>
+                                            <p class="mb-0 text-muted small">{!! nl2br(e($comment->comment)) !!}</p>
                                         </div>
                                     </div>
                                 @empty
@@ -153,28 +153,5 @@
     </section>
 
     <div id="ai-prompts-csrf" data-csrf="{{ csrf_token() }}" class="d-none"></div>
-    <script>
-        (function() {
-            var csrfEl = document.getElementById('ai-prompts-csrf');
-            var csrfToken = csrfEl ? csrfEl.getAttribute('data-csrf') : '';
-            document.querySelectorAll('.copy-prompt-btn').forEach(function(btn) {
-                btn.addEventListener('click', function() {
-                    var prompt = this.getAttribute('data-prompt');
-                    var url = this.getAttribute('data-copy-url');
-                    if (!prompt) return;
-                    navigator.clipboard.writeText(prompt).then(function() {
-                        var label = btn.innerHTML;
-                        btn.innerHTML = 'Copied!';
-                        btn.disabled = true;
-                        setTimeout(function() { btn.innerHTML = label; btn.disabled = false; }, 2000);
-                        if (url && csrfToken) {
-                            var fd = new FormData();
-                            fd.append('_token', csrfToken);
-                            fetch(url, { method: 'POST', body: fd, headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' } }).catch(function() {});
-                        }
-                    });
-                });
-            });
-        })();
-    </script>
+    @include('components.common.ai_prompt_copy_script')
 </x-layouts.front>

@@ -74,6 +74,7 @@ Route::middleware([CheckLanguage::class])->group(function () {
     Route::post('ai-prompts/copy/{uniqueId}', [AiPromptsController::class, 'copy'])->name('pages.ai_prompts.copy');
     Route::post('ai-prompt/{slug}/comment', [AiPromptsController::class, 'storeComment'])->name('pages.ai_prompts.comment.store');
     Route::get('updates', [UpdatesController::class, 'index'])->name('pages.updates.list');
+    Route::get('updates/{slug}', [UpdatesController::class, 'category'])->name('pages.updates.category');
     Route::get('update/{citySlug}/{postType}/{publicId}', [UpdatesController::class, 'show'])->name('pages.updates.detail');
     Route::get('update/create/new', [UpdatesController::class, 'create'])->name('pages.updates.create');
     Route::post('update/create/new', [UpdatesController::class, 'store'])->name('pages.updates.store');

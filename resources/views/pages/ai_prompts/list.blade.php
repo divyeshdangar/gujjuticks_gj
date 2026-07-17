@@ -47,7 +47,7 @@
                                                         <span class="badge bg-secondary text-uppercase small">{{ $item->unique_id }}</span>
                                                         <span class="badge bg-light text-dark ms-1">v{{ $item->prompt_version }}</span>
                                                     </div>
-                                                    <span class="text-muted small">{{ number_format($item->copy_count) }} copies</span>
+                                                    <span class="text-muted small js-copy-count" data-uid="{{ $item->unique_id }}" data-copy-count="{{ $item->copy_count }}">{{ number_format($item->copy_count) }} copies</span>
                                                 </div>
                                                 <h5 class="card-title mb-2">
                                                     <a href="{{ route('pages.ai_prompts.detail', ['slug' => $item->slug]) }}" class="text-decoration-none text-dark">{{ $item->title }}</a>
@@ -59,7 +59,7 @@
                                                     <pre class="mb-0 small text-dark overflow-auto" style="max-height: 180px; white-space: pre-wrap; word-break: break-word;">{{ Str::limit($item->prompt, 100) }}</pre>
                                                 </div>
                                                 <div class="d-flex align-items-center flex-wrap gap-2">
-                                                    <button type="button" class="d-none btn btn-warning btn-sm copy-prompt-btn" style="color: rgb(19, 19, 19) !important;"
+                                                    <button type="button" class="btn btn-warning btn-sm copy-prompt-btn" style="color: rgb(19, 19, 19) !important;"
                                                             data-unique-id="{{ $item->unique_id }}"
                                                             data-prompt="{{ e($item->prompt) }}"
                                                             data-copy-url="{{ route('pages.ai_prompts.copy', ['uniqueId' => $item->unique_id]) }}">
@@ -120,28 +120,5 @@
     </section>
 
     <div id="ai-prompts-csrf" data-csrf="{{ csrf_token() }}" class="d-none"></div>
-    <script>
-        (function() {
-            var csrfEl = document.getElementById('ai-prompts-csrf');
-            var csrfToken = csrfEl ? csrfEl.getAttribute('data-csrf') : '';
-            document.querySelectorAll('.copy-prompt-btn').forEach(function(btn) {
-                btn.addEventListener('click', function() {
-                    var prompt = this.getAttribute('data-prompt');
-                    var url = this.getAttribute('data-copy-url');
-                    if (!prompt) return;
-                    navigator.clipboard.writeText(prompt).then(function() {
-                        var label = btn.innerHTML;
-                        btn.innerHTML = 'Copied!';
-                        btn.disabled = true;
-                        setTimeout(function() { btn.innerHTML = label; btn.disabled = false; }, 2000);
-                        if (url && csrfToken) {
-                            var fd = new FormData();
-                            fd.append('_token', csrfToken);
-                            fetch(url, { method: 'POST', body: fd, headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' } }).catch(function() {});
-                        }
-                    });
-                });
-            });
-        })();
-    </script>
+    @include('components.common.ai_prompt_copy_script')
 </x-layouts.front>

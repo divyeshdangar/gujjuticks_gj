@@ -20,8 +20,48 @@ use Illuminate\View\View;
 
 class UpdatesController extends Controller
 {
-    public function index(Request $request): View
+    public function index(Request $request): View|RedirectResponse
     {
+        if ($request->filled('category_id')) {
+            $category = UpdateCategory::active()->find($request->integer('category_id'));
+            if ($category) {
+                $query = $this->normalizeListFilterQuery($request->except(['category_id', 'page']));
+                $url = route('pages.updates.category', ['slug' => $category->slug]);
+                if ($query !== []) {
+                    $url .= '?' . http_build_query($query);
+                }
+
+                return redirect()->to($url, 301);
+            }
+        }
+
+        return $this->renderList($request);
+    }
+
+    public function category(Request $request, string $slug): View|RedirectResponse
+    {
+        $activeCategory = UpdateCategory::active()->where('slug', $slug)->first();
+
+        if (!$activeCategory) {
+            return redirect()->route('pages.updates.list')->with('message', [
+                'type' => 'error',
+                'title' => __('dashboard.bad'),
+                'description' => __('dashboard.no_record_found'),
+            ]);
+        }
+
+        return $this->renderList($request, $activeCategory);
+    }
+
+    private function renderList(Request $request, ?UpdateCategory $activeCategory = null): View|RedirectResponse
+    {
+        if ($redirect = $this->redirectIfLegacyCityFilter($request, $activeCategory)) {
+            return $redirect;
+        }
+
+        $activeCity = $this->resolveCityFromRequest($request);
+        $filterQuery = $this->listFilterQuery($request, $activeCity);
+
         $metaData = [
             'title' => 'City Updates Feed | GujjuTicks',
             'description' => 'Post and discover city-wise and category-wise updates on GujjuTicks.',
@@ -29,17 +69,25 @@ class UpdatesController extends Controller
             'url' => route('pages.updates.list'),
         ];
 
+        if ($activeCategory) {
+            $metaData['title'] = $activeCategory->name . ' Updates | GujjuTicks';
+            $metaData['description'] = 'Browse ' . $activeCategory->name . ' updates from your city community on GujjuTicks.';
+            $metaData['keywords'] = 'city updates, ' . $activeCategory->name . ', local updates, community feed';
+            $metaData['url'] = route('pages.updates.category', ['slug' => $activeCategory->slug]);
+        }
+
         $query = UpdatePost::with(['city', 'category', 'creator'])
             ->withCount(['comments', 'reactions'])
             ->published()
             ->visibleFor(Auth::id())
             ->orderBy('id', 'DESC');
 
-        if ($request->filled('city_id')) {
-            $query->where('city_id', $request->integer('city_id'));
+        if ($activeCategory) {
+            $query->where('update_category_id', $activeCategory->id);
         }
-        if ($request->filled('category_id')) {
-            $query->where('update_category_id', $request->integer('category_id'));
+
+        if ($activeCity) {
+            $query->where('city_id', $activeCity->id);
         }
         if ($request->filled('type')) {
             $query->where('type', $request->get('type'));
@@ -61,7 +109,94 @@ class UpdatesController extends Controller
             'cityData' => City::orderBy('name')->get(),
             'categoryData' => UpdateCategory::active()->orderBy('sort_order')->orderBy('name')->get(),
             'types' => $this->types(),
+            'activeCategory' => $activeCategory,
+            'activeCity' => $activeCity,
+            'filterQuery' => $filterQuery,
+            'listAction' => $activeCategory
+                ? route('pages.updates.category', ['slug' => $activeCategory->slug])
+                : route('pages.updates.list'),
         ]);
+    }
+
+    private function resolveCityFromRequest(Request $request): ?City
+    {
+        if (!$request->filled('city')) {
+            return null;
+        }
+
+        $value = $request->get('city');
+
+        if (ctype_digit((string) $value)) {
+            return City::find((int) $value);
+        }
+
+        return City::where('slug', $value)->first();
+    }
+
+    private function redirectIfLegacyCityFilter(Request $request, ?UpdateCategory $activeCategory): ?RedirectResponse
+    {
+        $needsRedirect = $request->filled('city_id')
+            || ($request->filled('city') && ctype_digit((string) $request->get('city')));
+
+        if (!$needsRedirect) {
+            return null;
+        }
+
+        $query = $this->normalizeListFilterQuery($request->except(['page']));
+
+        $url = $activeCategory
+            ? route('pages.updates.category', ['slug' => $activeCategory->slug])
+            : route('pages.updates.list');
+
+        if ($query !== []) {
+            $url .= '?' . http_build_query($query);
+        }
+
+        return redirect()->to($url, 301);
+    }
+
+    private function listFilterQuery(Request $request, ?City $activeCity = null): array
+    {
+        $query = [];
+
+        if ($request->filled('search')) {
+            $query['search'] = $request->get('search');
+        }
+        if ($activeCity) {
+            $query['city'] = $activeCity->slug;
+        }
+        if ($request->filled('type')) {
+            $query['type'] = $request->get('type');
+        }
+
+        return $query;
+    }
+
+    private function normalizeListFilterQuery(array $query): array
+    {
+        if (isset($query['city_id'])) {
+            $legacy = $query['city_id'];
+            $city = ctype_digit((string) $legacy)
+                ? City::find((int) $legacy)
+                : City::where('slug', $legacy)->first();
+
+            if ($city) {
+                $query['city'] = $city->slug;
+            }
+
+            unset($query['city_id']);
+        }
+
+        if (isset($query['city']) && ctype_digit((string) $query['city'])) {
+            $city = City::find((int) $query['city']);
+            if ($city) {
+                $query['city'] = $city->slug;
+            } else {
+                unset($query['city']);
+            }
+        }
+
+        return $query;
     }
 
     public function show(Request $request, string $citySlug, string $postType, string $publicId): View|RedirectResponse
@@ -105,13 +240,54 @@ class UpdatesController extends Controller
             'url' => route('pages.updates.detail', $this->routeParams($dataDetail)),
         ];
 
+        $viewerPollOptionId = null;
+        if (Auth::check() && $dataDetail->type === UpdatePost::TYPE_POLL) {
+            $viewerPollOptionId = UpdatePollVote::where('update_post_id', $dataDetail->id)
+                ->where('user_id', Auth::id())
+                ->value('update_poll_option_id');
+        }
+
+        $similarList = $hasAccess
+            ? $this->similarUpdates($dataDetail, $viewer?->id)
+            : collect();
+
+        $cityFilterQuery = $dataDetail->city?->slug ? ['city' => $dataDetail->city->slug] : [];
+        $typeFilterQuery = array_merge($cityFilterQuery, ['type' => $dataDetail->type]);
+
         return view('pages.updates.detail', [
             'metaData' => $metaData,
             'dataDetail' => $dataDetail,
             'hasAccess' => $hasAccess,
             'isGuest' => !Auth::check(),
             'isLikedByViewer' => Auth::check() ? $dataDetail->reactions->where('user_id', Auth::id())->isNotEmpty() : false,
+            'viewerPollOptionId' => $viewerPollOptionId,
+            'similarList' => $similarList,
+            'cityFilterQuery' => $cityFilterQuery,
+            'typeFilterQuery' => $typeFilterQuery,
+            'categoryData' => UpdateCategory::active()->orderBy('sort_order')->orderBy('name')->get(),
+            'types' => $this->types(),
         ]);
+    }
+
+    private function similarUpdates(UpdatePost $post, ?int $viewerId, int $limit = 6)
+    {
+        return UpdatePost::with(['city', 'category', 'creator'])
+            ->withCount(['comments', 'reactions'])
+            ->published()
+            ->visibleFor($viewerId)
+            ->where('id', '!=', $post->id)
+            ->where(function ($query) use ($post) {
+                $query
+                    ->where('update_category_id', $post->update_category_id)
+                    ->orWhere('city_id', $post->city_id)
+                    ->orWhere('type', $post->type);
+            })
+            ->orderByRaw(
+                '(update_category_id = ?) DESC, (city_id = ?) DESC, id DESC',
+                [$post->update_category_id, $post->city_id]
+            )
+            ->limit($limit)
+            ->get();
     }
 
     public function create(Request $request): View|RedirectResponse

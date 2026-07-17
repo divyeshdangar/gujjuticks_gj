@@ -1,96 +1,124 @@
 <x-layouts.front :showHeader="true" :metaData="$metaData">
-    <section class="section">
-        <div class="container">
-            <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
-                <div>
-                    <h1 class="h3 mb-1">Updates Feed</h1>
-                    <p class="text-muted mb-0">City-wise and category-wise community updates.</p>
-                </div>
-                <a href="{{ route('pages.updates.create') }}" class="btn btn-warning" style="color: rgb(19, 19, 19) !important;">Post Update</a>
-            </div>
 
-            <form method="get" class="card border-0 shadow-sm mb-4">
-                <div class="card-body">
-                    <div class="row g-2">
-                        <div class="col-md-3">
-                            <input type="text" class="form-control" name="search" placeholder="Search updates..." value="{{ request('search') }}">
-                        </div>
-                        <div class="col-md-3">
-                            <select class="form-select" name="city_id">
-                                <option value="">All Cities</option>
-                                @foreach($cityData as $city)
-                                    <option value="{{ $city->id }}" @if((string)request('city_id') === (string)$city->id) selected @endif>{{ $city->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-md-3">
-                            <select class="form-select" name="category_id">
-                                <option value="">All Categories</option>
-                                @foreach($categoryData as $category)
-                                    <option value="{{ $category->id }}" @if((string)request('category_id') === (string)$category->id) selected @endif>{{ $category->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-md-2">
-                            <select class="form-select" name="type">
-                                <option value="">All Types</option>
-                                @foreach($types as $value => $label)
-                                    <option value="{{ $value }}" @if(request('type') === $value) selected @endif>{{ $label }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-md-1">
-                            <button type="submit" class="btn btn-primary w-100">Go</button>
-                        </div>
+    <section class="bg-home2" id="home" style="background-color: rgb(48 56 65);">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <div class="mb-4 pb-2 me-lg-4">
+                        <h6 class="sub-title">Local news & community alerts</h6>
+                        @if($activeCategory)
+                            <h1 class="display-5 fw-semibold mb-3"><span class="text-warning fw-bold">{{ $activeCategory->name }}</span> Updates</h1>
+                            <p class="lead text-muted mb-0">Browse {{ Str::lower($activeCategory->name) }} posts from your city community. Filter by city or post type, or search within this category.</p>
+                        @else
+                            <h1 class="display-5 fw-semibold mb-3"><span class="text-warning fw-bold">City Updates</span> – Share what matters in your area</h1>
+                            <p class="lead text-muted mb-0">Discover city-wise updates on festivals, events, emergencies, jobs, lost & found, polls, and community Q&amp;A. Post publicly or keep updates private.</p>
+                        @endif
                     </div>
                 </div>
-            </form>
+                <div class="col-lg-4 text-lg-end">
+                    <a class="btn btn-warning me-2" href="#updates-feed" style="color: rgb(19, 19, 19) !important;">Browse feed</a>
+                    <a class="btn btn-outline-light" href="{{ route('pages.updates.create') }}">Post update</a>
+                </div>
+            </div>
+        </div>
+    </section>
 
+    <section class="section" id="updates-feed">
+        <div class="container">
             <div class="row">
-                @forelse($dataList as $item)
-                    <div class="col-lg-6 mb-4">
-                        <div class="card h-100 border-0 shadow-sm">
-                            @if($item->type === 'image' && $item->image)
-                                <img src="{{ asset('images/updates/' . $item->image) }}" class="card-img-top" style="height: 220px; object-fit: cover;" alt="{{ $item->title }}">
+                <div class="col-lg-8 col-md-7">
+                    @if($activeCategory)
+                        <x-updates.breadcrumb class="mb-3" :items="[
+                            ['label' => 'Updates', 'url' => route('pages.updates.list')],
+                            ['label' => $activeCategory->name],
+                        ]" />
+                    @endif
+
+                    <form method="get" action="{{ $listAction }}" class="mb-4">
+                        @if($activeCity)
+                            <input type="hidden" name="city" value="{{ $activeCity->slug }}">
+                        @endif
+                        @if(request('type'))
+                            <input type="hidden" name="type" value="{{ request('type') }}">
+                        @endif
+                        <div class="input-group">
+                            <input type="text" name="search" class="form-control" placeholder="Search by title or description..." value="{{ request('search') }}">
+                            <button type="submit" class="btn btn-warning" style="color: rgb(19, 19, 19) !important;">Search</button>
+                        </div>
+                    </form>
+
+                    @php
+                        $hasFilters = request()->filled('search') || $activeCity || request()->filled('type') || $activeCategory;
+                        $filterWithoutCity = collect($filterQuery)->except('city')->all();
+                    @endphp
+
+                    @if($hasFilters)
+                        <div class="d-flex flex-wrap align-items-center gap-2 mb-4">
+                            <span class="small text-muted">Active filters:</span>
+                            @if($activeCategory)
+                                <a href="{{ route('pages.updates.list', $filterQuery) }}" class="badge bg-warning text-decoration-none" style="color: rgb(19, 19, 19) !important;">{{ $activeCategory->name }} ×</a>
                             @endif
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between align-items-start mb-2">
-                                    <div>
-                                        <span class="badge bg-secondary text-uppercase">{{ $item->type }}</span>
-                                        <span class="badge @if($item->privacy === 'public') bg-success @else bg-dark @endif">{{ $item->privacy }}</span>
-                                        @if($item->category?->is_important)
-                                            <span class="badge bg-danger">Important</span>
-                                        @endif
-                                    </div>
-                                    <small class="text-muted">{{ $item->created_at?->diffForHumans() }}</small>
+                            @if(request('search'))
+                                <span class="badge bg-secondary">Search: {{ request('search') }}</span>
+                            @endif
+                            @if($activeCity)
+                                <a href="{{ $activeCategory ? route('pages.updates.category', array_merge(['slug' => $activeCategory->slug], $filterWithoutCity)) : route('pages.updates.list', $filterWithoutCity) }}" class="badge bg-secondary text-decoration-none">City: {{ $activeCity->name }} ×</a>
+                            @endif
+                            @if(request('type'))
+                                <span class="badge bg-secondary">Type: {{ $types[request('type')] ?? request('type') }}</span>
+                            @endif
+                            <a href="{{ route('pages.updates.list') }}" class="small text-warning">Clear all</a>
+                        </div>
+                    @endif
+
+                    @if($dataList->count() > 0)
+                        <p class="text-muted small mb-3">Showing {{ $dataList->firstItem() }}–{{ $dataList->lastItem() }} of {{ $dataList->total() }} updates</p>
+                        <div class="row">
+                            @foreach($dataList as $item)
+                                <div class="col-12 mb-4">
+                                    <x-updates.card :item="$item" />
                                 </div>
-                                <h5 class="card-title mb-1">
-                                    <a class="text-dark text-decoration-none" href="{{ route('pages.updates.detail', ['citySlug' => $item->city?->slug, 'postType' => $item->type, 'publicId' => $item->public_id ?? $item->slug]) }}">{{ $item->title }}</a>
-                                </h5>
-                                <div class="small text-muted mb-2">
-                                    {{ $item->city?->name }} | {{ $item->category?->name }}
-                                </div>
-                                @if($item->description)
-                                    <p class="text-muted mb-3">{{ Str::limit(strip_tags($item->description), 180) }}</p>
-                                @endif
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="small text-muted">{{ $item->comments_count }} comments • {{ $item->reactions_count }} reactions</div>
-                                    <a href="{{ route('pages.updates.detail', ['citySlug' => $item->city?->slug, 'postType' => $item->type, 'publicId' => $item->public_id ?? $item->slug]) }}" class="btn btn-outline-primary btn-sm">Open</a>
+                            @endforeach
+                        </div>
+                        <div class="text-center mt-2">
+                            {{ $dataList->links('vendor.pagination.bootstrap-5-new') }}
+                        </div>
+                    @else
+                        <x-common.empty></x-common.empty>
+                        <div class="text-center mt-3">
+                            <a href="{{ route('pages.updates.create') }}" class="btn btn-warning" style="color: rgb(19, 19, 19) !important;">Be the first to post</a>
+                        </div>
+                    @endif
+                </div>
+
+                <div class="col-lg-4 col-md-5">
+                    <x-updates.filters-sidebar :cityData="$cityData" :categoryData="$categoryData" :types="$types" :activeCategory="$activeCategory" :activeCity="$activeCity" :listAction="$listAction" :filterQuery="$filterQuery" />
+                </div>
+            </div>
+
+            <div class="row mt-5 pt-4 border-top">
+                <div class="col-lg-10 mx-auto">
+                    <h3 class="h4 mb-3">What you can post</h3>
+                    <div class="row g-3">
+                        @foreach($types as $value => $label)
+                            <div class="col-sm-6 col-md-4">
+                                <div class="p-3 rounded border h-100">
+                                    <x-updates.type-badge :type="$value" class="mb-2" />
+                                    <p class="text-muted small mb-0">
+                                        @switch($value)
+                                            @case('status') Text updates for announcements and news. @break
+                                            @case('image') Photo updates with optional description. @break
+                                            @case('youtube') Embed a YouTube video for your community. @break
+                                            @case('poll') Ask the community to vote on options. @break
+                                            @case('qa') Collect answers to a community question. @break
+                                        @endswitch
+                                    </p>
                                 </div>
                             </div>
-                        </div>
+                        @endforeach
                     </div>
-                @empty
-                    <div class="col-12">
-                        <x-common.empty></x-common.empty>
-                    </div>
-                @endforelse
-            </div>
-
-            <div class="mt-2">
-                {{ $dataList->links('vendor.pagination.bootstrap-5-new') }}
+                </div>
             </div>
         </div>
     </section>
 </x-layouts.front>
-

@@ -119,5 +119,33 @@ class UpdatePost extends Model
     {
         return $this->hasMany(UpdateAnswer::class)->orderBy('id', 'desc');
     }
+
+    public function getYoutubeEmbedUrlAttribute(): ?string
+    {
+        if (!$this->youtube_url) {
+            return null;
+        }
+
+        $url = trim($this->youtube_url);
+
+        if (str_contains($url, 'youtube.com/embed/')) {
+            return $url;
+        }
+
+        if (preg_match('/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/', $url, $matches)) {
+            return 'https://www.youtube.com/embed/' . $matches[1];
+        }
+
+        return $url;
+    }
+
+    public function detailUrl(): string
+    {
+        return route('pages.updates.detail', [
+            'citySlug' => $this->city?->slug ?? 'city',
+            'postType' => $this->type,
+            'publicId' => $this->public_id ?? $this->slug,
+        ]);
+    }
 }
 
