@@ -132,6 +132,13 @@ body.site-body--blogs .site-footer {
     animation: jn-in 1s var(--site-ease) 0.1s both;
 }
 
+.jn-hero__visual--square {
+    aspect-ratio: 1 / 1;
+    max-width: min(100%, 28rem);
+    margin-inline: auto;
+    border-radius: 1rem;
+}
+
 .jn-hero__visual img {
     width: 100%;
     height: 100%;
@@ -891,10 +898,13 @@ body.site-body--blogs .site-footer {
     .jn-hero__visual {
         aspect-ratio: 16 / 9;
         min-height: 0;
+        order: -1;
     }
 
-    .jn-hero__visual {
-        order: -1;
+    .jn-hero__visual--square {
+        aspect-ratio: 1 / 1;
+        max-width: min(100%, 20rem);
+        margin-bottom: 0.5rem;
     }
 
     .jn-hero__visual::after {

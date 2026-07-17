@@ -8,7 +8,7 @@
                     class="site-footer__logo-img site-footer__logo-img--light">
             </a>
             <p class="site-footer__tagline">
-                Software, technology, and AI — crafted for ambitious teams.
+                Custom apps, websites, and software — built by GujjuTicks for startups and growing teams.
             </p>
         </div>
         <nav class="site-footer__nav" aria-label="Footer">

@@ -7,12 +7,12 @@ alwaysApply: true
 
 ## Brand positioning
 
-GujjuTicks is a **software company** that builds software, tech products, and AI tools — not a Gujarati community portal.
+GujjuTicks is a **software startup** that provides **custom apps**, **websites**, and **custom software** for startups and growing businesses — not a Gujarati community portal.
 
 When writing copy, meta, or UI for redesign pages:
 
-- Lead with software, products, and AI — not culture, festivals, or community services.
-- Prefer B2B / product language on Home, Blogs, and Contact.
+- Lead with custom apps, websites, and software delivery — clear B2B / startup language.
+- Prefer practical service outcomes (MVP, launch, operations tools) over culture or community framing.
 - Do **not** link to Cities, AI Prompts, or Post Builder from Home, nav, Contact, Blogs, or other marketing surfaces. Those modules stay live at their URLs but are unlisted from public entry points.
 
 ## Redesign (new design)

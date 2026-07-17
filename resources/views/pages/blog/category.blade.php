@@ -24,8 +24,8 @@
                 <a class="jn-btn jn-btn--ghost" href="{{ route('pages.blog.list') }}">All topics</a>
             </div>
         </div>
-        <div class="jn-hero__visual">
-            <img src="{{ $categoryImage }}" alt="{{ $dataDetail->title }}" width="1600" height="900"
+        <div class="jn-hero__visual jn-hero__visual--square">
+            <img src="{{ $categoryImage }}" alt="{{ $dataDetail->title }}" width="800" height="800"
                 loading="eager" decoding="async">
         </div>
     </section>

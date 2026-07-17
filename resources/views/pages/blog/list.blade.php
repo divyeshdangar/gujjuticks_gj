@@ -14,7 +14,7 @@
             <p class="jn-hero__label">Journal</p>
             <p class="jn-hero__brand">GujjuTicks</p>
             <h1 class="jn-hero__title">
-                Essays on software, AI, and the systems behind products that scale worldwide.
+                Notes on custom apps, websites, software delivery, and building digital products.
             </h1>
             <div class="jn-hero__actions">
                 <a class="jn-btn jn-btn--solid" href="#articles">Read the latest</a>
