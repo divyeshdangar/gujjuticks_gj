@@ -1,5 +1,15 @@
 <x-layouts.site :metaData="$metaData" page="home">
 
+    <div class="hm-ambient" aria-hidden="true">
+        <div class="hm-ambient__grid"></div>
+        <div class="hm-ambient__blob hm-ambient__blob--a"></div>
+        <div class="hm-ambient__blob hm-ambient__blob--b"></div>
+        <div class="hm-ambient__blob hm-ambient__blob--c"></div>
+        <div class="hm-ambient__glow" data-ambient-glow></div>
+        <canvas class="hm-ambient__canvas" data-ambient-canvas width="1" height="1"></canvas>
+    </div>
+    <div class="hm-progress" data-scroll-progress aria-hidden="true"></div>
+
     <section class="hm-hero">
         <div class="hm-hero__copy">
             <p class="hm-live" data-live-status>
@@ -8,6 +18,11 @@
             </p>
             <p class="hm-hero__brand">GujjuTicks</p>
             <h1 class="hm-hero__title">Custom apps, websites, and software — built for growing teams.</h1>
+            <p class="hm-hero__typing" aria-live="polite">
+                Now building
+                <span class="hm-hero__typed" data-type-rotate>custom apps</span><span class="hm-hero__caret"
+                    aria-hidden="true"></span>
+            </p>
             <p class="hm-hero__lead">
                 GujjuTicks is a software startup that designs and develops custom applications, modern websites,
                 and business software so you can launch faster and operate with confidence.
@@ -19,6 +34,8 @@
             <p class="hm-hero__meta">
                 <span data-local-time>—</span>
                 <span class="hm-hero__sep" aria-hidden="true">·</span>
+                <span data-session-live>Session live</span>
+                <span class="hm-hero__sep" aria-hidden="true">·</span>
                 Avg. reply within 1 business day
             </p>
         </div>
@@ -29,6 +46,17 @@
             <div class="hm-hero__scan" aria-hidden="true"></div>
         </div>
     </section>
+
+    <aside class="hm-activity" aria-live="polite">
+        <div class="hm-wrap hm-activity__inner">
+            <span class="hm-activity__badge">
+                <span class="hm-live__dot" aria-hidden="true"></span>
+                Live
+            </span>
+            <p class="hm-activity__text" data-activity-text>Reviewing new project briefs…</p>
+            <p class="hm-activity__clock"><span data-clock-seconds>—</span></p>
+        </div>
+    </aside>
 
     <div class="hm-ticker" aria-hidden="true">
         <div class="hm-ticker__track">
@@ -285,7 +313,7 @@
             <div>
                 <p class="hm-cta__live">
                     <span class="hm-live__dot" aria-hidden="true"></span>
-                    Open for project inquiries
+                    <span data-cta-live>Open for project inquiries</span>
                 </p>
                 <p>Need a custom app, website, or software system? Tell us what you want to launch.</p>
             </div>
