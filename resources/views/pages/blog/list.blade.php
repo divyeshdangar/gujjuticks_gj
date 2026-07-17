@@ -1,84 +1,122 @@
 <x-layouts.site :metaData="$metaData" page="blogs">
 
-    <section class="blogs-hero"
-        style="--blogs-hero-image: url('{{ asset('files/images/blogs-listing-page.png') }}')">
-        <div class="blogs-hero__inner">
-            <p class="blogs-hero__brand">GujjuTicks</p>
-            <h1 class="blogs-hero__title">Insights on software, tech &amp; AI</h1>
-            <p class="blogs-hero__lead">{{ $metaData['description'] }}</p>
-            <div class="blogs-hero__actions">
-                <a class="blogs-btn blogs-btn--primary" href="#articles">Browse articles</a>
-                <a class="blogs-btn blogs-btn--ghost" href="{{ route('form.contact') }}">Talk to us</a>
+    @php
+        $items = $dataList->items();
+        $featured = $dataList->currentPage() === 1 && !request('search') && count($items) > 0 ? $items[0] : null;
+        $rest = $featured ? array_slice($items, 1) : $items;
+        $heroImage = $featured
+            ? URL::asset('/images/blog/' . $featured->image)
+            : asset('files/images/blogs-listing-page.png');
+    @endphp
+
+    <section class="jn-hero">
+        <div class="jn-hero__copy">
+            <p class="jn-hero__label">Journal</p>
+            <p class="jn-hero__brand">GujjuTicks</p>
+            <h1 class="jn-hero__title">
+                Essays on software, AI, and the systems behind products that scale worldwide.
+            </h1>
+            <div class="jn-hero__actions">
+                <a class="jn-btn jn-btn--solid" href="#articles">Read the latest</a>
+                <a class="jn-btn jn-btn--ghost" href="{{ route('form.contact') }}">Work with us</a>
             </div>
+        </div>
+        <div class="jn-hero__visual" aria-hidden="true">
+            <img src="{{ $heroImage }}" alt="" width="1600" height="900" loading="eager" decoding="async">
         </div>
     </section>
 
-    <section class="blogs-section" id="articles" aria-labelledby="articles-heading">
-        <div class="site-wrap">
-            <div class="blogs-section__head">
-                <h2 id="articles-heading">Latest articles</h2>
-                <p>Practical writing from the GujjuTicks team on building products, applying AI, and shipping software.</p>
-            </div>
-
-            <div class="blogs-toolbar">
-                <form class="blogs-search" method="get" action="{{ route('pages.blog.list') }}" role="search">
-                    <label class="visually-hidden" for="blog-search">Search blogs</label>
-                    <input id="blog-search" type="search" name="search" value="{{ request('search') }}"
-                        placeholder="Search articles" autocomplete="off">
-                    <button type="submit">Search</button>
-                </form>
-                @if (request('search'))
-                    <a href="{{ route('pages.blog.list') }}" class="blogs-btn blogs-btn--ghost"
-                        style="color: var(--site-ink); border-color: var(--site-line);">Clear search</a>
-                @endif
-            </div>
-
-            @if (isset($dataList) && count($dataList) > 0)
-                <div class="blogs-feed">
-                    @foreach ($dataList as $data)
-                        <x-site.blocks.blog-item :data="$data" :lang="$lang" />
-                    @endforeach
+    <section class="jn-section" id="articles" aria-label="Articles">
+        <div class="jn-wrap">
+            <div class="jn-bar">
+                <h2 class="jn-bar__title">
+                    @if (request('search'))
+                        Results
+                    @else
+                        Latest
+                    @endif
+                </h2>
+                <div class="jn-bar__actions">
+                    <form class="jn-search" method="get" action="{{ route('pages.blog.list') }}" role="search">
+                        <label class="visually-hidden" for="blog-search">Search journal</label>
+                        <input id="blog-search" type="search" name="search" value="{{ request('search') }}"
+                            placeholder="Search" autocomplete="off">
+                        <button type="submit">Go</button>
+                    </form>
+                    @if (request('search'))
+                        <a class="jn-clear" href="{{ route('pages.blog.list') }}">Clear</a>
+                    @endif
                 </div>
+            </div>
+
+            @if (count($items) > 0)
+                @if ($featured)
+                    @php
+                        $featuredHref = route('pages.blog.detail', ['slug' => $featured->slug]);
+                        $featuredImage = URL::asset('/images/blog/' . $featured->image);
+                        $featuredExcerpt = \Illuminate\Support\Str::limit(
+                            strip_tags($featured->meta_description ?? ''),
+                            160,
+                        );
+                    @endphp
+                    <a href="{{ $featuredHref }}" class="jn-featured">
+                        <figure class="jn-featured__media">
+                            <img src="{{ $featuredImage }}" alt="" width="1600" height="900" loading="eager"
+                                decoding="async">
+                        </figure>
+                        <div class="jn-featured__body">
+                            <span class="jn-chip">Featured</span>
+                            <h3 class="jn-featured__title">{{ $featured->title }}</h3>
+                            @if ($featuredExcerpt)
+                                <p class="jn-featured__excerpt">{{ $featuredExcerpt }}</p>
+                            @endif
+                            <div class="jn-meta">
+                                @if ($featured->category)
+                                    <span>{{ $featured->category->title }}</span>
+                                    <span class="jn-meta__dot" aria-hidden="true"></span>
+                                @endif
+                                <time datetime="{{ $featured->created_at->toAtomString() }}">
+                                    {{ $featured->created_at->format('M j, Y') }}
+                                </time>
+                            </div>
+                        </div>
+                    </a>
+                @endif
+
+                @if (count($rest) > 0)
+                    <div class="jn-grid">
+                        @foreach ($rest as $data)
+                            <x-site.blocks.blog-item :data="$data" :lang="$lang" />
+                        @endforeach
+                    </div>
+                @endif
+
                 {{ $dataList->links('vendor.pagination.site') }}
             @else
-                <div class="blogs-empty" role="status">
+                <div class="jn-empty" role="status">
                     @if (request('search'))
-                        No articles matched “{{ request('search') }}”. Try another search.
+                        No articles matched “{{ request('search') }}”.
                     @else
-                        No articles published yet. Check back soon.
+                        New writing will appear here soon.
                     @endif
+                </div>
+            @endif
+
+            @if (isset($categories) && count($categories) > 0)
+                <div class="jn-topics">
+                    <p class="jn-topics__label">Topics</p>
+                    <nav class="jn-topics__list" aria-label="Topics">
+                        @foreach ($categories as $category)
+                            <a class="jn-topic"
+                                href="{{ route('pages.blog.category.detail', ['slug' => $category->slug]) }}">
+                                <span>{{ $category->title }}</span>
+                                <span class="jn-topic__count">{{ $category->blogs_count }}</span>
+                            </a>
+                        @endforeach
+                    </nav>
                 </div>
             @endif
         </div>
     </section>
-
-    @if (isset($categories) && count($categories) > 0)
-        <section class="blogs-categories" aria-labelledby="categories-heading">
-            <div class="site-wrap">
-                <div class="blogs-categories__head">
-                    <h2 id="categories-heading">Browse by topic</h2>
-                    <p>Explore software, AI, and product themes that matter to your next build.</p>
-                </div>
-                <div class="blogs-cat-list">
-                    @foreach ($categories as $category)
-                        <a class="blogs-cat"
-                            href="{{ route('pages.blog.category.detail', ['slug' => $category->slug]) }}">
-                            <img class="blogs-cat__thumb"
-                                src="{{ URL::asset('/images/blog-category/' . $category->image) }}"
-                                alt="" width="56" height="56" loading="lazy" decoding="async">
-                            <div>
-                                <h3 class="blogs-cat__title">{{ $category->title }}</h3>
-                                @if ($category->meta_description)
-                                    <p class="blogs-cat__desc">{{ $category->meta_description }}</p>
-                                @endif
-                            </div>
-                            <span class="blogs-cat__count">{{ $category->blogs_count }}
-                                {{ \Illuminate\Support\Str::plural('article', $category->blogs_count) }}</span>
-                        </a>
-                    @endforeach
-                </div>
-            </div>
-        </section>
-    @endif
 
 </x-layouts.site>

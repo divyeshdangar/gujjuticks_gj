@@ -1,115 +1,87 @@
-<x-layouts.front :showHeader="true" :metaData="$metaData">
+<x-layouts.site :metaData="$metaData" page="blogs">
 
-    <section class="bg-home2" id="home" style="background-color: rgb(48 56 65);">
-        <div class="container">
-            <div class="row align-items-center justify-content-center">
-                <div class="col-lg-9 text-center">
-                    <div class="pb-3 me-lg-5">
-                        <a href="{{ route('pages.blog.category.detail', ['slug' => $dataDetail->category->slug]) }}">
-                            <h6 class="sub-title text-warning">{{ $dataDetail->category->title }}</h6>
-                        </a>
-                        <h1 class="display-5 fw-semibold mb-3">{!! str_replace(
-                            'GujjuTicks Blogs',
-                            '<span class="text-info fw-bold">GujjuTicks Blogs</span>',
-                            $dataDetail->title,
-                        ) !!}</h1>
+    @php
+        $image = URL::asset('/images/blog/' . $dataDetail->image);
+        $author = $dataDetail->user->name ?? 'GujjuTicks';
+    @endphp
 
-                        <p class="lead text-muted mb-0">{{ $dataDetail->meta_description }}</p>
+    <article class="post" itemscope itemtype="https://schema.org/BlogPosting">
+        <meta itemprop="headline" content="{{ $dataDetail->title }}">
+        <meta itemprop="datePublished" content="{{ $dataDetail->created_at->toAtomString() }}">
+        <link itemprop="image" href="{{ $image }}">
+
+        <header class="post-header">
+            <div class="post-header__inner">
+                <nav class="post-crumb" aria-label="Breadcrumb">
+                    <a href="{{ route('pages.blog.list') }}">Journal</a>
+                    @if ($dataDetail->category)
+                        <span class="post-crumb__sep" aria-hidden="true">/</span>
+                        <a
+                            href="{{ route('pages.blog.category.detail', ['slug' => $dataDetail->category->slug]) }}">{{ $dataDetail->category->title }}</a>
+                    @endif
+                </nav>
+
+                @if ($dataDetail->category)
+                    <p class="post-kicker">{{ $dataDetail->category->title }}</p>
+                @endif
+
+                <h1 class="post-title" itemprop="name">{{ $dataDetail->title }}</h1>
+
+                @if ($dataDetail->meta_description)
+                    <p class="post-deck" itemprop="description">{{ $dataDetail->meta_description }}</p>
+                @endif
+
+                <div class="post-meta">
+                    <div class="post-meta__author" itemprop="author" itemscope itemtype="https://schema.org/Person">
+                        <span class="post-meta__label">Written by</span>
+                        <span itemprop="name">{{ ucwords($author) }}</span>
+                    </div>
+                    <div class="post-meta__date">
+                        <span class="post-meta__label">Published</span>
+                        <time datetime="{{ $dataDetail->created_at->toAtomString() }}">
+                            {{ $dataDetail->created_at->format('M j, Y') }}
+                        </time>
                     </div>
                 </div>
-                <div class="col-lg-12">
-                    <div class="mt-5">
-                        <img width="1920" height="1080" loading="lazy" src="{{ URL::asset('/images/blog/' . $dataDetail->image) }}"
-                            alt="{{ $dataDetail->title }} Image" title="{{ $dataDetail->title }} Image"
-                            class="home-img w-100 rounded-4" style="object-fit: cover; width: 100%; height: auto;" />
-                    </div>
-                </div>
+            </div>
+        </header>
+
+        <figure class="post-cover">
+            <img src="{{ $image }}" alt="{{ $dataDetail->title }}" width="1600" height="900" loading="eager"
+                decoding="async">
+        </figure>
+
+        <div class="post-content">
+            <div class="post-prose" itemprop="articleBody">
+                {!! $dataDetail->description !!}
             </div>
         </div>
-    </section>
 
-    <section class="section" id="blogs">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-8">
-                    <ul class="list-inline mb-5 mt-3 text-muted">
-                        <li class="list-inline-item">
-                            <div class="d-flex align-items-center">
-                                <div class="flex-shrink-0">
-                                    <img loading="lazy" src="{{ $dataDetail->user->profile() }}"
-                                        alt="{{ ucwords($dataDetail->user->name) }} Profile"
-                                        class="avatar-sm rounded-circle">
-                                </div>
-                                <div class="ms-3">
-                                    <div class="mb-0 fw-bold">By {{ ucwords($dataDetail->user->name) }}</div>
-                                    {{ $dataDetail->created_at->format('j F, Y') }}
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                    {!! $dataDetail->description !!}
+        <aside class="post-cta">
+            <div class="post-cta__inner">
+                <div>
+                    <p class="post-cta__label">GujjuTicks</p>
+                    <p class="post-cta__text">Need software, AI, or a product partner? We’re ready to help.</p>
                 </div>
-                <div class="col-lg-4">
-                    <div class="pt-2">
-                        <div class="sd-title">
-                            <h2 class="fs-16 mb-3">Related Blogs</h2>
-                        </div>
-                        <div class="my-3">
-                            <div class="row">
-                                @foreach ($dataList as $data)
-                                    <x-common.blocks.blog :lang="$lang" :data="$data"
-                                        :class="'col-12'"></x-common.breadcrumb>
-                                @endforeach
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <a class="jn-btn jn-btn--solid" href="{{ route('form.contact') }}">Contact us</a>
             </div>
-        </div>
-    </section>
+        </aside>
+    </article>
 
-    <section class="section bg-light">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-10">
-                    <div class="text-center">
-                        <h2 class="text-warning mb-4">Explore Our Blog Categories</h2>
-                        <p class="text-muted mb-5">Discover content that matters to you! From local news and tech
-                            updates to lifestyle tips and cultural insights, our blog categories are tailored to keep
-                            you informed, inspired, and entertained. Dive into the topics you love and stay connected
-                            with what’s happening in and around Gujarat.</p>
-                    </div>
+    @if (isset($dataList) && count($dataList) > 0)
+        <section class="post-related" aria-labelledby="related-heading">
+            <div class="jn-wrap">
+                <div class="jn-related__head">
+                    <h2 id="related-heading">Continue reading</h2>
+                    <a href="{{ route('pages.blog.list') }}">All articles</a>
                 </div>
-            </div>
-            <div class="row text-start">
-                <div class="candidate-list">
-                    @foreach ($categories as $key => $value)
-                        <div class="candidate-list-box card mt-4">
-                            <div class="card-body p-4">
-                                <div class="row align-items-center">
-                                    <div class="col-2">
-                                        <div class="candidate-list-images">
-                                            <img loading="lazy"
-                                                    src="{{ URL::asset('/images/blog-category/' . $value->image) }}"
-                                                    alt="{{ $value->title }}" class="w-100 rounded-4">
-                                        </div>
-                                    </div>
-                                    <div class="col-10">
-                                        <div class="candidate-list-content mt-3 mt-lg-0">
-                                            <h3 class="h5 fs-19 mb-0"><a
-                                                    href="{{ route('pages.blog.category.detail', ['slug' => $value->slug]) }}"
-                                                    class="primary-link">{{ $value->title }}</a> <span
-                                                    class="badge bg-success ms-1">{{ $value->blogs_count }}</span></h3>
-                                            <p class="text-muted my-2">{{ $value->meta_description }}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                <div class="jn-grid">
+                    @foreach ($dataList as $data)
+                        <x-site.blocks.blog-item :data="$data" :lang="$lang" />
                     @endforeach
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    @endif
 
-</x-layouts.front>
+</x-layouts.site>

@@ -31,6 +31,20 @@
 <meta property="og:description" content="{{ $description }}">
 <meta property="og:image" content="{{ $image }}">
 <meta property="og:image:alt" content="{{ $metaData['image_alt'] ?? $title }}">
+@if ($type === 'article')
+    @if (!empty($metaData['published_time']))
+        <meta property="article:published_time" content="{{ $metaData['published_time'] }}">
+    @endif
+    @if (!empty($metaData['modified_time']))
+        <meta property="article:modified_time" content="{{ $metaData['modified_time'] }}">
+    @endif
+    @if (!empty($metaData['author_name']))
+        <meta property="article:author" content="{{ $metaData['author_name'] }}">
+    @endif
+    @if (!empty($metaData['section']))
+        <meta property="article:section" content="{{ $metaData['section'] }}">
+    @endif
+@endif
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@gujjuticks">
