@@ -40,7 +40,6 @@ class GenerateSitemap extends Command
         $sitemap->add(Url::create(route('form.contact'))->setPriority(0.8));
         $sitemap->add(Url::create(route('pages.blog.list'))->setPriority(0.8));
         $sitemap->add(Url::create(route('pages.cities.list'))->setPriority(0.8));
-        $sitemap->add(Url::create(route('pages.resume.list'))->setPriority(0.8));
         $sitemap->add(Url::create(route('pages.postset.list'))->setPriority(0.8));
         $sitemap->add(Url::create(route('pages.ai_prompts.list'))->setPriority(0.8));
 

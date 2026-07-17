@@ -17,9 +17,8 @@ class FormController extends Controller
     {
         // to set meta data of page
         $metaData = [
-            "title" => "Get in Touch: Contact GujjuTicks",
-            "description" => "Reach out to GujjuTicks easily with our contact form or contact information. Whether you have questions, feedback, or inquiries, we're here to assist you promptly. Connect with us now!",
-            //"image" => "",
+            "title" => "Contact GujjuTicks — Software & AI Projects",
+            "description" => "Get in touch with GujjuTicks for software development, tech products, and AI solutions. Share your project idea or product question — we will respond promptly.",
             "url" => route('form.contact')
         ];
 

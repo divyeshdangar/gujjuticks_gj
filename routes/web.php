@@ -35,8 +35,6 @@ use App\Http\Controllers\Pages\HomeController;
 use App\Http\Controllers\Pages\CitiesController;
 use App\Http\Controllers\Pages\NewsController;
 use App\Http\Controllers\Pages\CardsController as PublicCardsController;
-use App\Http\Controllers\Pages\ResumeBuilderController;
-use App\Http\Controllers\Pages\ResumeController;
 use App\Http\Controllers\Pages\AiPromptsController;
 
 use App\Http\Controllers\Auth\LoginController;
@@ -90,11 +88,12 @@ Route::middleware([CheckLanguage::class])->group(function () {
 
     Route::get('p/{slug}', [PublicPagesController::class, 'view'])->name('p.pages');
 
-    Route::get('resume-builder', [ResumeController::class, 'index'])->name('pages.resume.list');
-    Route::post('resume-builder', [ResumeController::class, 'post'])->name('pages.resume.post');
-    Route::get('resume-builder/{token}', [ResumeController::class, 'builder'])->name('pages.resume.builder');
-    Route::post('resume-builder/{token}', [ResumeController::class, 'process'])->name('pages.resume.builder.post');
-    Route::get('generate-resume/{token}', [ResumeBuilderController::class, 'generate'])->name('pages.resume.builder.generate');
+    // Resume Builder removed — soft-deprecate with redirects (route names kept for legacy links)
+    Route::get('resume-builder', fn () => redirect()->route('form.contact', [], 301))->name('pages.resume.list');
+    Route::post('resume-builder', fn () => redirect()->route('form.contact', [], 301))->name('pages.resume.post');
+    Route::get('resume-builder/{token}', fn () => redirect()->route('form.contact', [], 301))->name('pages.resume.builder');
+    Route::post('resume-builder/{token}', fn () => redirect()->route('form.contact', [], 301))->name('pages.resume.builder.post');
+    Route::get('generate-resume/{token}', fn () => redirect()->route('form.contact', [], 301))->name('pages.resume.builder.generate');
 
     Route::get('news-post', [PostSetController::class, 'index'])->name('pages.postset.list');
     Route::post('news-post', [PostSetController::class, 'post'])->name('pages.postset.post');

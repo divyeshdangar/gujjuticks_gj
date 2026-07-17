@@ -30,7 +30,7 @@
                             </span>
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <a class="btn btn-success w-100" href="https://wa.me/917600126800?text=Hello%20GujjuTicks!">Whatsapp Now</a>
+                                    <a class="btn btn-success w-100" href="https://wa.me/917600126800?text=Hello%20GujjuTicks%20%E2%80%94%20I%27d%20like%20to%20discuss%20a%20software%20or%20AI%20project.">Whatsapp Now</a>
                                     <div class="w-100 text-center my-4"> - OR - </div>
                                 </div>
                                 <div class="col-lg-12">

@@ -78,22 +78,6 @@
                         <a href="{{ route('pages.blog.list') }}" class="nav-link">Blogs</a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('pages.cities.list') }}" class="nav-link">Cities</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('pages.ai_prompts.list') }}" class="nav-link">AI Prompts</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('pages.resume.list') }}" class="nav-link">Resume Builder</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('pages.postset.list') }}" class="nav-link">Post Builder</a>
-                    </li>
-                    <li class="nav-item">
-                        <button data-bs-toggle="tooltip" data-bs-placement="bottom"
-                            data-bs-title="This feature will be available soon!" class="nav-link text-warning">Free Online Courses</button>
-                    </li>
-                    <li class="nav-item">
                         <a href="{{ route('form.contact') }}" class="nav-link">Contact</a>
                     </li>
                 </ul>
@@ -166,8 +150,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <p class="text-white-50 text-center mb-0">
-                            <?php echo Date('Y'); ?> GujjuTicks - First of it's kind
-                            Gujarati Portal.
+                            <?php echo Date('Y'); ?> GujjuTicks — Software, tech &amp; AI products.
                         </p>
                     </div>
                 </div>

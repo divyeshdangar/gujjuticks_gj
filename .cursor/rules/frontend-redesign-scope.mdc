@@ -1,0 +1,43 @@
+---
+description: Brand positioning and frontend redesign page scope
+alwaysApply: true
+---
+
+# Brand & Frontend Redesign Scope
+
+## Brand positioning
+
+GujjuTicks is a **software company** that builds software, tech products, and AI tools — not a Gujarati community portal.
+
+When writing copy, meta, or UI for redesign pages:
+
+- Lead with software, products, and AI — not culture, festivals, or community services.
+- Prefer B2B / product language on Home, Blogs, and Contact.
+- Do **not** link to Cities, AI Prompts, or Post Builder from Home, nav, Contact, Blogs, or other marketing surfaces. Those modules stay live at their URLs but are unlisted from public entry points.
+
+## Redesign (new design)
+
+Apply the new frontend design only to:
+
+- Home
+- Blogs
+- Contact
+
+## Remove
+
+Remove these pages from the site (routes, nav links, and related UI entry points):
+
+- Resume Builder
+- Free Online Courses
+
+## Preserve (no design changes; unlisted)
+
+Keep the existing/old design and behavior. Do not change layout, styles, or UX on:
+
+- Cities
+- AI Prompts
+- Post Builder
+
+These pages remain available by direct URL. Do not add or restore links to them from Home, shared nav, Contact, Blogs, or other redesign/marketing pages.
+
+Shared layout/nav changes are allowed only if they do not alter how these preserved pages look or work. Prefer isolating redesign styles so preserved pages keep the old design.

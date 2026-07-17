@@ -1,9 +1,9 @@
 {!! '<?xml version="1.0" encoding="UTF-8" ?>' !!}
 <rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/">
 <channel>
-    <title>Insights and Stories from GujjuTicks Blogs</title>
+    <title>Insights from GujjuTicks — Software, Tech & AI</title>
     <link>{{ route('pages.blog.list') }}</link>
-    <description>Explore insightful blogs on Gujju culture, traditions, cuisine, and more. Discover fascinating stories and tips that celebrate the vibrant spirit of Gujarat, brought to you by GujjuTicks.</description>
+    <description>Articles from GujjuTicks on software, technology, AI products, and building digital tools for modern businesses.</description>
 
     @foreach ($blogs as $blog)
         <item>
