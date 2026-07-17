@@ -45,6 +45,9 @@
     <x-site.footer />
 
     <script src="{{ asset('js/site/site.js') }}" defer></script>
+    @if ($page && file_exists(public_path('js/site/' . $page . '.js')))
+        <script src="{{ asset('js/site/' . $page . '.js') }}" defer></script>
+    @endif
 
     @if (session('message'))
         <script>
