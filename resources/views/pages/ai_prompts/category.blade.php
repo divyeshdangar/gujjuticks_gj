@@ -1,171 +1,181 @@
-<x-layouts.front :showHeader="true" :metaData="$metaData">
+<x-layouts.site :metaData="$metaData" page="ai-prompts">
 
-    <section class="bg-home2" id="home" style="background-color: rgb(48 56 65);">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-7">
-                    <div class="mb-4 pb-3 me-lg-5">
-                        <h6 class="sub-title"><a href="{{ route('pages.ai_prompts.list') }}" class="text-muted">AI Prompts</a> Category</h6>
-                        <h1 class="display-5 fw-semibold mb-3"><span class="text-warning fw-bold">{{ $category->name }}</span> AI Prompts</h1>
-                        <p class="lead text-muted mb-0">{{ $category->meta_description ?? $category->description ?? 'Browse and copy quality ' . Str::lower($category->name) . ' AI prompts.' }}</p>
-                    </div>
-                    <div class="row g-0">
-                        <div class="col-md-4">
-                            <div class="mt-3 mt-md-0 h-100">
-                                <a class="btn btn-warning" href="#prompts-list" style="color: rgb(19, 19, 19) !important;">Start
-                                    Reading</a>
-                            </div>
-                        </div>
-                    </div>
+    @php
+        $searchTerm = request('search');
+        $promptTotal = $dataList->total();
+        $lead = $category->meta_description
+            ?: $category->description
+            ?: 'Ready-made ' . \Illuminate\Support\Str::lower($category->name) . ' prompts you can open, copy, and reuse to finish tasks faster.';
+        $hasCategoryImage = !empty($category->image);
+        $categoryImage = $hasCategoryImage
+            ? asset('images/ai-prompt-categories/' . $category->image)
+            : null;
+    @endphp
+
+    <div class="ap-ambient" aria-hidden="true">
+        <div class="ap-ambient__grid"></div>
+        <div class="ap-ambient__blob ap-ambient__blob--a"></div>
+        <div class="ap-ambient__blob ap-ambient__blob--b"></div>
+        <div class="ap-ambient__blob ap-ambient__blob--c"></div>
+        <div class="ap-ambient__glow" data-ambient-glow></div>
+        <canvas class="ap-ambient__canvas" data-ambient-canvas width="1" height="1"></canvas>
+    </div>
+    <div class="ap-progress" data-scroll-progress aria-hidden="true"></div>
+
+    <header class="ap-detail__hero ap-cat-hero">
+        <div class="ap-wrap ap-detail__hero-grid">
+            <div class="ap-detail__copy">
+                <nav class="ap-crumb" aria-label="Breadcrumb">
+                    <a href="{{ route('pages.ai_prompts.list') }}">AI prompts</a>
+                    <span class="ap-crumb__sep" aria-hidden="true">/</span>
+                    <span aria-current="page">{{ $category->name }}</span>
+                </nav>
+
+                <p class="ap-live">
+                    <span class="ap-live__dot" aria-hidden="true"></span>
+                    Category library
+                </p>
+
+                <h1 class="ap-detail__title">{{ $category->name }} prompts</h1>
+
+                <p class="ap-detail__deck">{{ $lead }}</p>
+
+                <div class="ap-detail__meta">
+                    <span data-count="{{ $promptTotal }}">{{ number_format($promptTotal) }}</span> ready-made prompts
+                    <span class="ap-detail__sep" aria-hidden="true">·</span>
+                    Pick one · Copy · Get the task done
                 </div>
-                <div class="col-lg-5">
-                    <div class="mt-5 mt-lg-0">
-                        @if($category->image)
-                            <img src="{{ asset('images/ai-prompt-categories/' . $category->image) }}" alt="{{ $category->name }}" class="img-fluid rounded-4 shadow" loading="lazy" style="max-height: 200px; object-fit: cover;">
-                        @endif
-                    </div>
+
+                <div class="ap-detail__actions">
+                    <a class="ap-btn ap-btn--solid" href="#prompts-list">Browse prompts</a>
+                    <a class="ap-btn ap-btn--ghost" href="{{ route('pages.ai_prompts.list') }}">All categories</a>
                 </div>
             </div>
+
+            @if ($hasCategoryImage)
+                <div class="ap-cat-media">
+                    <img src="{{ $categoryImage }}" alt="{{ $category->name }}" width="1200" height="900"
+                        loading="eager" decoding="async">
+                    <div class="ap-cat-media__scan" aria-hidden="true"></div>
+                </div>
+            @else
+                <div class="ap-detail__visual" aria-hidden="true">
+                    <canvas class="ap-detail__ai-canvas" data-ap-ai width="1" height="1"></canvas>
+                    <div class="ap-detail__ai-orb ap-detail__ai-orb--a"></div>
+                    <div class="ap-detail__ai-orb ap-detail__ai-orb--b"></div>
+                    <div class="ap-detail__ai-core">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+            @endif
         </div>
-    </section>
+    </header>
 
-    <section class="section" id="prompts-list">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-md-7">
-                    <div class="blog-post">
-                        <form method="get" action="{{ route('pages.ai_prompts.category', ['slug' => $category->slug]) }}" class="mb-4">
-                            <div class="input-group">
-                                <input type="text" name="search" class="form-control" placeholder="Search in this category..." value="{{ request('search') }}">
-                                <button type="submit" class="btn btn-warning" style="color: rgb(19, 19, 19) !important;">Search</button>
-                            </div>
-                        </form>
-
-                        @if (count($dataList) > 0)
-                            <div class="row mt-2">
-                                @foreach ($dataList as $item)
-                                    <div class="col-12 mb-4">
-                                        <div class="card blog-grid-box h-100 border shadow-sm">
-                                            @if($item->image)
-                                                <a href="{{ route('pages.ai_prompts.detail', ['slug' => $item->slug]) }}">
-                                                    <img src="{{ asset('images/ai-prompts/' . $item->image) }}" class="card-img-top" alt="{{ $item->title }}" style="height: 180px; object-fit: cover;" loading="lazy">
-                                                </a>
-                                            @endif
-                                            <div class="card-body">
-                                                <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-2">
-                                                    <div>
-                                                        <span class="badge bg-secondary text-uppercase small">{{ $item->unique_id }}</span>
-                                                        <span class="badge bg-light text-dark ms-1">v{{ $item->prompt_version }}</span>
-                                                    </div>
-                                                    <span class="text-muted small">{{ number_format($item->copy_count) }} copies</span>
-                                                </div>
-                                                <h5 class="card-title mb-2">
-                                                    <a href="{{ route('pages.ai_prompts.detail', ['slug' => $item->slug]) }}" class="text-decoration-none text-dark">{{ $item->title }}</a>
-                                                </h5>
-                                                @if($item->meta_description)
-                                                    <p class="text-muted small mb-3">{{ Str::limit($item->meta_description, 160) }}</p>
-                                                @endif
-                                                <div class="bg-light rounded p-3 mb-3 position-relative">
-                                                    <pre class="mb-0 small text-dark overflow-auto" style="max-height: 180px; white-space: pre-wrap; word-break: break-word;">{{ Str::limit($item->prompt, 400) }}</pre>
-                                                    @if(strlen($item->prompt) > 400)
-                                                        <button type="button" class="btn btn-link btn-sm p-0 mt-1" data-bs-toggle="modal" data-bs-target="#promptModal{{ $item->id }}">Show full prompt</button>
-                                                        <span class="mx-1">|</span>
-                                                        <a href="{{ route('pages.ai_prompts.detail', ['slug' => $item->slug]) }}" class="btn btn-link btn-sm p-0 mt-1">View & share link</a>
-                                                    @endif
-                                                </div>
-                                                <div class="d-flex align-items-center flex-wrap gap-2">
-                                                    <button type="button" class="btn btn-warning btn-sm copy-prompt-btn" style="color: rgb(19, 19, 19) !important;"
-                                                            data-unique-id="{{ $item->unique_id }}"
-                                                            data-prompt="{{ e($item->prompt) }}"
-                                                            data-copy-url="{{ route('pages.ai_prompts.copy', ['uniqueId' => $item->unique_id]) }}">
-                                                        Copy prompt
-                                                    </button>
-                                                    <a href="{{ route('pages.ai_prompts.detail', ['slug' => $item->slug]) }}" class="btn btn-outline-primary btn-sm">View & share</a>
-                                                    <a href="{{ route('pages.ai_prompts.category', ['slug' => $category->slug]) }}" class="btn btn-outline-secondary btn-sm">{{ $category->name }}</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    @if(strlen($item->prompt) > 400)
-                                        <div class="modal fade" id="promptModal{{ $item->id }}" tabindex="-1">
-                                            <div class="modal-dialog modal-lg modal-dialog-scrollable">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title">{{ $item->title }}</h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <pre class="bg-light p-3 rounded small" style="white-space: pre-wrap; word-break: break-word;">{{ $item->prompt }}</pre>
-                                                        <button type="button" class="btn btn-warning btn-sm copy-prompt-btn mt-2" style="color: rgb(19, 19, 19) !important;"
-                                                                data-unique-id="{{ $item->unique_id }}"
-                                                                data-prompt="{{ e($item->prompt) }}"
-                                                                data-copy-url="{{ route('pages.ai_prompts.copy', ['uniqueId' => $item->unique_id]) }}">Copy prompt</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @endif
-                                @endforeach
-                                <div class="col-12 text-center mt-3">
-                                    {{ $dataList->links('vendor.pagination.bootstrap-5-new') }}
-                                </div>
-                            </div>
+    <section class="ap-section" id="prompts-list" aria-label="{{ $category->name }} prompts">
+        <div class="ap-wrap">
+            <div class="ap-bar ap-reveal">
+                <div>
+                    <h2 class="ap-bar__title">
+                        @if ($searchTerm)
+                            Results for “{{ $searchTerm }}”
                         @else
-                            <x-common.empty></x-common.empty>
+                            {{ $category->name }} library
                         @endif
-                    </div>
+                    </h2>
+                    <p class="ap-bar__lead">
+                        Predefined prompts in this category — open one to copy into your AI tool.
+                    </p>
+                </div>
+                <div class="ap-bar__actions">
+                    <form class="ap-search" method="get"
+                        action="{{ route('pages.ai_prompts.category', ['slug' => $category->slug]) }}" role="search">
+                        <label class="visually-hidden" for="ap-cat-search">Search in {{ $category->name }}</label>
+                        <input id="ap-cat-search" type="search" name="search" value="{{ $searchTerm }}"
+                            placeholder="Search this category…" autocomplete="off">
+                        <button type="submit">Go</button>
+                    </form>
+                    @if ($searchTerm)
+                        <a class="ap-clear"
+                            href="{{ route('pages.ai_prompts.category', ['slug' => $category->slug]) }}">Clear</a>
+                    @endif
+                </div>
+            </div>
+
+            <div class="ap-layout">
+                <div class="ap-main">
+                    @if ($dataList->count() > 0)
+                        <div class="ap-list">
+                            @foreach ($dataList as $item)
+                                @php
+                                    $excerpt = \Illuminate\Support\Str::limit($item->meta_description ?: '', 140);
+                                    $promptPeek = \Illuminate\Support\Str::limit($item->prompt, 140);
+                                    $href = route('pages.ai_prompts.detail', ['slug' => $item->slug]);
+                                @endphp
+                                <article class="ap-card ap-reveal">
+                                    @if ($item->image)
+                                        <a href="{{ $href }}" class="ap-card__media">
+                                            <img src="{{ asset('images/ai-prompts/' . $item->image) }}" alt=""
+                                                width="640" height="360" loading="lazy" decoding="async">
+                                        </a>
+                                    @endif
+                                    <div class="ap-card__body">
+                                        <div class="ap-card__meta">
+                                            <span class="ap-chip">{{ $category->name }}</span>
+                                            <span class="ap-card__copies">{{ number_format($item->copy_count) }} copies</span>
+                                        </div>
+                                        <h3 class="ap-card__title">
+                                            <a href="{{ $href }}">{{ $item->title }}</a>
+                                        </h3>
+                                        @if ($excerpt)
+                                            <p class="ap-card__summary">{{ $excerpt }}</p>
+                                        @endif
+                                        <p class="ap-card__prompt">{{ $promptPeek }}</p>
+                                        <div class="ap-card__actions">
+                                            <a class="ap-btn ap-btn--solid ap-btn--sm" href="{{ $href }}">Open prompt</a>
+                                            <button type="button"
+                                                class="ap-btn ap-btn--ghost ap-btn--sm copy-prompt-btn"
+                                                data-prompt="{{ e($item->prompt) }}"
+                                                data-copy-url="{{ route('pages.ai_prompts.copy', ['uniqueId' => $item->unique_id]) }}">
+                                                Copy prompt
+                                            </button>
+                                        </div>
+                                    </div>
+                                </article>
+                            @endforeach
+                        </div>
+
+                        {{ $dataList->links('vendor.pagination.site') }}
+                    @else
+                        <div class="ap-empty" role="status">
+                            @if ($searchTerm)
+                                No prompts matched “{{ $searchTerm }}” in {{ $category->name }}.
+                                <a href="{{ route('pages.ai_prompts.category', ['slug' => $category->slug]) }}">Clear search</a>
+                            @else
+                                Prompts for this category will appear here soon.
+                            @endif
+                        </div>
+                    @endif
                 </div>
 
-                <div class="col-lg-4 col-md-5">
-                    <div class="sidebar ms-lg-4 ps-lg-4 mt-5 mt-lg-0">
-                        <div class="pt-2">
-                            <div class="sd-title">
-                                <h6 class="fs-16 mb-3">Categories</h6>
-                            </div>
-                            <div class="my-3">
-                                <div class="mb-2">
-                                    <a href="{{ route('pages.ai_prompts.list') }}">All categories</a>
-                                </div>
-                                @foreach ($categories as $cat)
-                                    <div class="mb-2 d-flex align-items-center gap-2">
-                                        @if(false && $cat->image) <!--Added false condition -->
-                                            <img src="{{ asset('images/ai-prompt-categories/' . $cat->image) }}" alt="" class="rounded" style="width: 24px; height: 24px; object-fit: cover;">
-                                        @endif
-                                        <a href="{{ route('pages.ai_prompts.category', ['slug' => $cat->slug]) }}" class="{{ $category->id === $cat->id ? 'fw-bold text-warning' : '' }}">{{ $cat->name }}</a>
-                                    </div>
-                                @endforeach
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <aside class="ap-side ap-reveal" id="ap-categories" aria-label="Categories">
+                    <h2 class="ap-side__title">Browse by category</h2>
+                    <p class="ap-side__lead">Switch categories to find prompts for a different kind of task.</p>
+                    <nav class="ap-side__nav">
+                        <a class="ap-side__link" href="{{ route('pages.ai_prompts.list') }}">All prompts</a>
+                        @foreach ($categories as $cat)
+                            <a class="ap-side__link {{ $category->id === $cat->id ? 'is-active' : '' }}"
+                                href="{{ route('pages.ai_prompts.category', ['slug' => $cat->slug]) }}">
+                                {{ $cat->name }}
+                            </a>
+                        @endforeach
+                    </nav>
+                </aside>
             </div>
         </div>
     </section>
 
-    <div id="ai-prompts-csrf" data-csrf="{{ csrf_token() }}" class="d-none"></div>
-    <script>
-        (function() {
-            var csrfEl = document.getElementById('ai-prompts-csrf');
-            var csrfToken = csrfEl ? csrfEl.getAttribute('data-csrf') : '';
-            document.querySelectorAll('.copy-prompt-btn').forEach(function(btn) {
-                btn.addEventListener('click', function() {
-                    var prompt = this.getAttribute('data-prompt');
-                    var url = this.getAttribute('data-copy-url');
-                    if (!prompt) return;
-                    navigator.clipboard.writeText(prompt).then(function() {
-                        var label = btn.innerHTML;
-                        btn.innerHTML = 'Copied!';
-                        btn.disabled = true;
-                        setTimeout(function() { btn.innerHTML = label; btn.disabled = false; }, 2000);
-                        if (url && csrfToken) {
-                            var fd = new FormData();
-                            fd.append('_token', csrfToken);
-                            fetch(url, { method: 'POST', body: fd, headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' } }).catch(function() {});
-                        }
-                    });
-                });
-            });
-        })();
-    </script>
-</x-layouts.front>
+    <div id="ai-prompts-csrf" data-csrf="{{ csrf_token() }}" hidden></div>
+
+</x-layouts.site>

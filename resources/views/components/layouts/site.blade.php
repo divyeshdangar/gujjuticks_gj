@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="theme-color" content="{{ in_array(($page ?? ''), ['blogs', 'contact', 'home', 'marketing'], true) ? '#f4f5f7' : '#f7f8fa' }}">
+    <meta name="theme-color" content="{{ in_array(($page ?? ''), ['blogs', 'contact', 'home', 'marketing', 'cities', 'ai-prompts', 'news-post', 'image-editor', 'news'], true) ? '#f4f5f7' : '#f7f8fa' }}">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,6 +27,7 @@
     @if ($page)
         <link rel="stylesheet" href="{{ asset('css/site/' . $page . '.css') }}">
     @endif
+    {{ $styles ?? '' }}
 
     @production
         <meta name="p:domain_verify" content="66da8104105f0a877307b47e093de2ef" />
@@ -48,6 +49,7 @@
     @if ($page && file_exists(public_path('js/site/' . $page . '.js')))
         <script src="{{ asset('js/site/' . $page . '.js') }}" defer></script>
     @endif
+    {{ $scripts ?? '' }}
 
     @if (session('message'))
         <script>

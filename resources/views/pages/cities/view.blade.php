@@ -1,134 +1,188 @@
-<x-layouts.front :showHeader="true" :metaData="$metaData">
+<x-layouts.site :metaData="$metaData" page="cities">
 
-    <section class="bg-home2" id="home" style="background-color: rgb(48 56 65);">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-7">
-                    <div class="mb-4 pb-3 me-lg-5">
-                        <h6 class="sub-title">Businesses on GujjuTicks</h6>
+    @php
+        $cityImage = !empty($dataDetail->image)
+            ? URL::asset('/images/cities/' . $dataDetail->image)
+            : asset('images/creative/gujarat.png');
+        $lead = $dataDetail->meta_description
+            ?: \Illuminate\Support\Str::limit(strip_tags($dataDetail->description ?: ''), 180);
+        $hasEn = filled(trim(strip_tags($dataDetail->description ?? '')));
+        $hasGj = filled(trim(strip_tags($dataDetail->description_gj ?? '')));
+    @endphp
 
-                        <h1 class="display-5 fw-semibold mb-3">{!! str_replace(
-                            $dataDetail->name,
-                            '<span class="text-warning fw-bold">' . $dataDetail->name . '</span>',
-                            $dataDetail->title,
-                        ) !!}</h1>
-
-                        <p class="lead text-muted mb-0">{{ $metaData['description'] }}</p>
-                    </div>
-                    <div class="row g-0">
-                        <div class="col-md-4">
-                            <div class="mt-3 mt-md-0 h-100">
-                                <a class="btn btn-warning" href="#cities"
-                                    style="color: rgb(19, 19, 19) !important;">Start Exploring</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-5">
-                    <div class="mt-5 mt-md-0">
-                        <img loading="lazy" src="{{ URL::asset('/images/cities/' . $dataDetail->image) }}" alt="Gujarat Image"
-                            title="Gujarat Image" class="rounded-4 home-img w-100" />
-                    </div>
-                </div>
+    <section class="cy-hero cy-hero--detail" aria-label="{{ $dataDetail->name }}">
+        <div class="cy-hero__media" aria-hidden="true">
+            <img src="{{ $cityImage }}" alt="" width="1600" height="900" loading="eager" decoding="async">
+        </div>
+        <div class="cy-hero__veil" aria-hidden="true"></div>
+        <div class="cy-wrap cy-hero__copy">
+            <nav class="cy-crumbs" aria-label="Breadcrumb">
+                <a href="{{ route('pages.cities.list') }}">Cities</a>
+                <span aria-hidden="true">/</span>
+                <span>{{ $dataDetail->name }}</span>
+            </nav>
+            <p class="cy-hero__brand">GujjuTicks</p>
+            <h1 class="cy-hero__title">{{ $dataDetail->name }}</h1>
+            @if (!empty($dataDetail->name_gj))
+                <p class="cy-hero__gj">{{ $dataDetail->name_gj }}</p>
+            @endif
+            <p class="cy-hero__lead">
+                {{ $lead ?: ($dataDetail->name . ' local directory — businesses, categories, and a quick city guide.') }}
+            </p>
+            <div class="cy-hero__actions">
+                <a class="cy-btn cy-btn--solid" href="#categories">Browse categories</a>
+                <a class="cy-btn cy-btn--ghost" href="{{ route('pages.business.add') }}">List a business</a>
             </div>
         </div>
     </section>
 
-    <section class="section" id="cities">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-10">
-                    <div class="text-center">
-                        <h2 class="text-warning mb-4">Explore {{ $dataDetail->name }}’s Business Landscape</h2>
-                        <p class="text-muted mb-5">{{ $dataDetail->name }} is home to a wide variety of businesses that
-                            contribute to
-                            its growing economy and vibrant local community. From small enterprises to large
-                            establishments, the city offers opportunities across multiple sectors. This section
-                            highlights a diverse collection of businesses operating in {{ $dataDetail->name }}, making
-                            it easier to
-                            explore local services, connect with providers, or gain insight into the city’s commercial
-                            environment.</p>
-                    </div>
+    <section class="cy-stats" aria-label="{{ $dataDetail->name }} snapshot">
+            <div class="cy-wrap cy-stats__grid">
+                <div class="cy-stats__item">
+                    <p class="cy-stats__value">{{ number_format($stats['businesses']) }}+</p>
+                    <p class="cy-stats__label">Listed businesses</p>
+                </div>
+                <div class="cy-stats__item">
+                    <p class="cy-stats__value">{{ number_format($stats['categories']) }}</p>
+                    <p class="cy-stats__label">Categories to browse</p>
+                </div>
+                <div class="cy-stats__item">
+                    <p class="cy-stats__value">{{ $dataDetail->state }}</p>
+                    <p class="cy-stats__label">{{ $dataDetail->country }}</p>
                 </div>
             </div>
-            <div class="">
-                @if (count($categories) > 0)
-                    <div class="row">
-                        @foreach ($categories as $category)
-                            <div class="col-md-3 col-6 text-center mb-5">
-                                <div class="rounded-4 border p-2 py-3">
-                                    <a href="{{ route('pages.cities.businesses.list', ['slug' => $dataDetail->slug, 'category' => str_replace('_', '-', $category->name)]) }}"
-                                        class="primary-link" style="display: block; overflow: hidden;">
-                                        <img loading="lazy"
-                                            src="{{ route('pages.image.category', ['slug' => str_replace('_', '-', $category->name) . '-in-' . $dataDetail->slug . '.jpg']) }}"
-                                            class="border w-100 rounded-4 mb-2"
-                                            alt="{{ $category->label }} in {{ $dataDetail->name }}"
-                                            title="Gujjuticks {{ $category->label }} in {{ $dataDetail->name }} image">
-                                        <div class="">{{ $category->label }} in {{ $dataDetail->name }}</div>
-                                    </a>
+    </section>
+
+    <section class="cy-section" id="categories" aria-labelledby="cy-cat-heading">
+        <div class="cy-wrap">
+            <div class="cy-section__head">
+                <h2 id="cy-cat-heading">Businesses in {{ $dataDetail->name }}</h2>
+                <p>
+                    Explore local services and shops by category. Each link opens listings for
+                    {{ $dataDetail->name }} in that category.
+                </p>
+            </div>
+
+            @if (count($categories) > 0)
+                <div class="cy-cat-grid">
+                    @foreach ($categories as $category)
+                        @php
+                            $catSlug = str_replace('_', '-', $category->name);
+                            $catLabel = $category->label ?: str_replace('_', ' ', $category->name);
+                            $catImage = route('pages.image.category', [
+                                'slug' => $catSlug . '-in-' . $dataDetail->slug . '.jpg',
+                            ]);
+                        @endphp
+                        <a href="{{ route('pages.cities.businesses.list', ['slug' => $dataDetail->slug, 'category' => $catSlug]) }}"
+                            class="cy-cat">
+                            <figure class="cy-cat__media">
+                                <img src="{{ $catImage }}" alt="" width="480" height="320" loading="lazy"
+                                    decoding="async">
+                            </figure>
+                            <div class="cy-cat__body">
+                                <h3 class="cy-cat__title">{{ $catLabel }}</h3>
+                                <p class="cy-cat__meta">in {{ $dataDetail->name }}</p>
+                                <span class="cy-cat__more">View listings</span>
+                            </div>
+                        </a>
+                    @endforeach
+                </div>
+            @else
+                <div class="cy-empty" role="status">Categories for this city will appear here soon.</div>
+            @endif
+        </div>
+    </section>
+
+    @if ($hasEn)
+        <section class="cy-section cy-section--alt" aria-labelledby="cy-guide-heading">
+            <div class="cy-wrap">
+                <div class="cy-section__head">
+                    <h2 id="cy-guide-heading">Quick guide to {{ $dataDetail->name }}</h2>
+                    <p>A short overview to help you get oriented before browsing listings.</p>
+                </div>
+                <div class="cy-prose">
+                    {!! $dataDetail->description !!}
+                </div>
+            </div>
+        </section>
+    @endif
+
+    @if ($hasGj)
+        <section class="cy-section" aria-labelledby="cy-guide-gj-heading">
+            <div class="cy-wrap">
+                <div class="cy-section__head">
+                    <h2 id="cy-guide-gj-heading">
+                        {{ $dataDetail->name_gj ?: $dataDetail->name }} શહેર વિશે
+                    </h2>
+                    <p>સ્થાનિક વ્યવસાયો જોતા પહેલાં શહેર વિશે ટૂંકી માહિતી.</p>
+                </div>
+                <div class="cy-prose">
+                    {!! $dataDetail->description_gj !!}
+                </div>
+            </div>
+        </section>
+    @endif
+
+    @if (count($dataList) > 0)
+        <section class="cy-section cy-section--alt" aria-labelledby="cy-related-heading">
+            <div class="cy-wrap">
+                <div class="cy-section__head">
+                    <h2 id="cy-related-heading">More cities in Gujarat</h2>
+                    <p>Continue exploring nearby and notable cities across the state.</p>
+                </div>
+                <div class="cy-grid">
+                    @foreach ($dataList as $city)
+                        @php
+                            $excerpt = \Illuminate\Support\Str::limit(
+                                strip_tags($city->meta_description ?: $city->description ?: ''),
+                                120,
+                            );
+                            $image = !empty($city->image)
+                                ? URL::asset('/images/cities/' . $city->image)
+                                : asset('images/creative/gujarat.png');
+                        @endphp
+                        <a href="{{ route('pages.cities.detail', ['slug' => $city->slug]) }}" class="cy-city">
+                            <figure class="cy-city__media">
+                                <img src="{{ $image }}" alt="" width="640" height="400" loading="lazy"
+                                    decoding="async">
+                            </figure>
+                            <div class="cy-city__body">
+                                <div class="cy-city__top">
+                                    <h3 class="cy-city__name">{{ $city->name }}</h3>
+                                    @if (!empty($city->name_gj))
+                                        <span class="cy-city__gj">{{ $city->name_gj }}</span>
+                                    @endif
+                                </div>
+                                <p class="cy-city__place">{{ $city->state }}, {{ $city->country }}</p>
+                                @if ($excerpt)
+                                    <p class="cy-city__summary">{{ $excerpt }}</p>
+                                @endif
+                                <div class="cy-city__meta">
+                                    <span>{{ number_format($city->businesses_count) }} businesses</span>
+                                    <span class="cy-city__more">Open city</span>
                                 </div>
                             </div>
-                        @endforeach
-                    </div>
-                @else
-                    <x-common.empty></x-common.empty>
-                @endif
-            </div>
-        </div>
-    </section>
-
-    <section class="section bg-light">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-10">
-                    <div class="text-center">
-                        <h2 class="text-warning mb-4">Other Famous Cities in Gujarat You Should Know</h2>
-                        <p class="text-muted mb-5">Gujarat is a land of diverse cities, each offering its own unique
-                            blend of culture, history, and modern development. These urban centers are known for their
-                            distinctive local flavors, traditions, and contributions to the state’s identity. Whether
-                            you're a traveler, researcher, or simply curious, exploring these cities gives you a deeper
-                            understanding of Gujarat’s dynamic and evolving landscape.</p>
-                    </div>
+                        </a>
+                    @endforeach
                 </div>
+                <p class="cy-related-more">
+                    <a href="{{ route('pages.cities.list') }}">View all cities</a>
+                </p>
             </div>
-            <div class="blog-post">
-                @if (count($dataList) > 0)
-                    <div class="row">
-                        @foreach ($dataList as $data)
-                            <x-common.blocks.city :data="$data"></x-common.blocks.city>
-                        @endforeach
-                    </div>
-                @else
-                    <x-common.empty></x-common.empty>
-                @endif
+        </section>
+    @endif
+
+    <section class="cy-cta" aria-label="List a business">
+        <div class="cy-wrap cy-cta__box">
+            <div>
+                <p class="cy-cta__eyebrow">Business in {{ $dataDetail->name }}?</p>
+                <p>Add your listing so people searching this city can find you by category.</p>
+            </div>
+            <div class="cy-cta__actions">
+                <a class="cy-btn cy-btn--solid" href="{{ route('pages.business.add') }}">List a business</a>
+                <a class="cy-btn cy-btn--ghost" href="{{ route('pages.cities.list') }}">All cities</a>
             </div>
         </div>
     </section>
 
-    <section class="section">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-12 text-muted">
-                    <h2 class="text-warning text-center mb-4">Quick Guide to {{ $dataDetail->name }} City</h2>
-                    <p class="text-muted text-start">
-                        {!! $dataDetail->description !!}
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="section bg-light">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-12 text-muted">
-                    <h2 class="text-warning text-center mb-4">{{ $dataDetail->name_gj }} શહેર વિશે થોડી માહિતી</h2>
-                    <p class="text-muted text-start">
-                        {!! $dataDetail->description_gj !!}
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-</x-layouts.front>
+</x-layouts.site>

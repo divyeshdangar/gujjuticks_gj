@@ -149,6 +149,16 @@ class MenuSeeder extends Seeder
                 "status" => "1"
             ],
             [
+                "id" => 27,
+                "icon" => "briefcase",
+                "title" => 'dashboard.business_submissions',
+                "route" => "dashboard.business",
+                "order" => 11,
+                "title_only" => "0",
+                "type" => "2",
+                "status" => "1"
+            ],
+            [
                 "id" => 19, 
                 "icon" => "file", 
                 "title" => 'dashboard.pages', 

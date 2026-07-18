@@ -27,6 +27,11 @@ Apply the new frontend design to:
 - Work (`/work`, `/work/{slug}`)
 - About
 - CMS detail pages (`/p/{slug}` from dashboard Pages)
+- Cities list (`/cities`), city detail (`/city/{slug}`), category listings (`/city/{slug}/{category}`), business directory hub (`/business`), and add business (`/business/add`) — use `page="cities"` and [`public/css/site/cities.css`](public/css/site/cities.css)
+- AI Prompts list (`/ai-prompts`), category (`/ai-prompts/{slug}`), and detail (`/ai-prompt/{slug}`) — light animated design matching Home (`page="ai-prompts"`, [`public/css/site/ai-prompts.css`](public/css/site/ai-prompts.css), [`public/js/site/ai-prompts.js`](public/js/site/ai-prompts.js))
+- Post Builder list (`/news-post`) and detail / generator (`/news-post/{slug}`) — light animated news/letters design (`page="news-post"`, [`public/css/site/news-post.css`](public/css/site/news-post.css), [`public/js/site/news-post.js`](public/js/site/news-post.js))
+- Image creator / editor (`/image-editor/{slug}`) — light studio design (`page="image-editor"`, [`public/css/site/image-editor.css`](public/css/site/image-editor.css), [`public/js/site/image-editor.js`](public/js/site/image-editor.js))
+- News hub (`/news`) and category detail (`/news/{slug}`) — light animated news desk design (`page="news"`, [`public/css/site/news.css`](public/css/site/news.css), [`public/js/site/news.js`](public/js/site/news.js))
 
 Shared marketing pages use `page="marketing"` and [`public/css/site/marketing.css`](public/css/site/marketing.css).
 
@@ -38,14 +43,6 @@ Remove these pages from the site (routes, nav links, and related UI entry points
 - Free Online Courses
 - Capabilities *(redirected to Services)*
 
-## Preserve (no design changes; unlisted)
+## Unlisted modules
 
-Keep the existing/old design and behavior. Do not change layout, styles, or UX on:
-
-- Cities
-- AI Prompts
-- Post Builder
-
-These pages remain available by direct URL. Do not add or restore links to them from Home, shared nav, Contact, Blogs, or other redesign/marketing pages.
-
-Shared layout/nav changes are allowed only if they do not alter how these preserved pages look or work. Prefer isolating redesign styles so preserved pages keep the old design.
+Cities, AI Prompts, Post Builder, Image Editor, and News remain available by direct URL. Do not add or restore links to them from Home, shared nav, Contact, Blogs, or other marketing surfaces.

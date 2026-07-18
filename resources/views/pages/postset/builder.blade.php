@@ -1,191 +1,242 @@
-<x-layouts.front :showHeader="true" :metaData="$metaData">
-    <style>
-        .cr-boundary {
-            border-radius: 15px;
-        }
-    </style>
+<x-layouts.site :metaData="$metaData" page="news-post">
+    <x-slot:styles>
+        <link rel="stylesheet" href="{{ asset('assets/plugin/croppie/croppie.css') }}">
+    </x-slot:styles>
 
-    <link rel="stylesheet" href="{{ asset('assets/plugin/croppie/croppie.css') }}">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script type="text/javascript" src="{{ asset('assets/plugin/croppie/croppie.js') }}"></script>
+    @php
+        $posts = $dataDetail->posts ?? collect();
+        $slideCount = $posts->count();
+    @endphp
 
+    <div class="np-ambient" aria-hidden="true">
+        <div class="np-ambient__grid"></div>
+        <div class="np-ambient__blob np-ambient__blob--a"></div>
+        <div class="np-ambient__blob np-ambient__blob--b"></div>
+        <div class="np-ambient__blob np-ambient__blob--c"></div>
+        <div class="np-ambient__glow" data-ambient-glow></div>
+        <canvas class="np-ambient__canvas" data-ambient-canvas width="1" height="1"></canvas>
+    </div>
+    <div class="np-progress" data-scroll-progress aria-hidden="true"></div>
 
-    <section class="bg-home2" id="home" style="background-color: rgb(48 56 65);">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-7">
-                    <div class="mb-4 pb-3 me-lg-5">
-                        <h6 class="sub-title">Boost your professional image</h6>
-                        <h1 class="display-5 fw-semibold mb-3">{{ $dataDetail->title }}</h1>
-                        <p class="lead text-muted mb-4">{{ $dataDetail->meta_description }}</p>
+    <article class="np-detail">
+        <header class="np-detail__hero">
+            <div class="np-wrap np-detail__grid">
+                <div class="np-detail__copy">
+                    <nav class="np-crumb" aria-label="Breadcrumb">
+                        <a href="{{ route('pages.postset.list') }}">News posts</a>
+                        <span class="np-crumb__sep" aria-hidden="true">/</span>
+                        <span aria-current="page">Set</span>
+                    </nav>
 
-                        <lable class="text-muted">Caption</lable>
-                        <p class="text-muted mb-0 p-3 border border-3 rounded-4">{!! $dataDetail->caption !!}</p>
+                    <p class="np-live">
+                        <span class="np-live__dot" aria-hidden="true"></span>
+                        Live wire · Ready to personalize
+                    </p>
+
+                    @if ($dataDetail->topic)
+                        <span class="np-detail__topic">{{ $dataDetail->topic }}</span>
+                    @endif
+
+                    <h1 class="np-detail__title">{{ $dataDetail->title }}</h1>
+
+                    @if ($dataDetail->meta_description)
+                        <p class="np-detail__lead">{{ $dataDetail->meta_description }}</p>
+                    @endif
+
+                    <div class="np-detail__meta">
+                        @if ($slideCount > 0)
+                            <span>{{ $slideCount }} slides</span>
+                            <span class="np-detail__sep" aria-hidden="true">·</span>
+                        @endif
+                        <span>Share-ready carousel</span>
+                    </div>
+
+                    <div class="np-detail__actions">
+                        <a class="np-btn np-btn--solid" href="#slides">Preview slides</a>
+                        <a class="np-btn np-btn--ghost" href="#personalize">Personalize</a>
                     </div>
                 </div>
-                <div class="col-lg-5">
-                    <div class="mt-md-0">
-                        <img loading="lazy" src="{{ route('pages.image.postmain', ['slug' => $dataDetail->slug . '.jpg']) }}"
-                            alt="" class="home-img w-100 rounded-4" alt="{{ $dataDetail->title }}"
-                            title="{{ $dataDetail->title }}">
+
+                <div class="np-detail__visual" aria-hidden="true">
+                    <div class="np-detail__stage">
+                        <span class="np-detail__sheet np-detail__sheet--a"></span>
+                        <span class="np-detail__sheet np-detail__sheet--b"></span>
+                        <span class="np-detail__sheet np-detail__sheet--c"></span>
+                        <span class="np-detail__ring np-detail__ring--a"></span>
+                        <span class="np-detail__ring np-detail__ring--b"></span>
+                        <figure class="np-detail__cover">
+                            <img loading="eager" decoding="async"
+                                src="{{ route('pages.image.postmain', ['slug' => $dataDetail->slug . '.jpg']) }}"
+                                alt="" width="720" height="720">
+                            <span class="np-detail__scan"></span>
+                        </figure>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </header>
 
-    <section class="section">
-        <div class="container">
-            <div class="row justify-content-center align-items-center">
-
-                @if(Auth::check())
-                    <div class="col-lg-5">
-                        <div class="section-title mb-5">
-                            <h3 class="title text-warning">Manage and Update Your Post Content</h3>
-                            <p class="text-muted">Use the tools below to edit your post sets and individual posts with ease. Update titles, descriptions, or visual elements to keep your content fresh, relevant, and aligned with your brand. Whether you're refining a draft or improving live posts, this panel puts full control in your hands.</p>
+        @if ($dataDetail->caption)
+            <section class="np-section np-section--tight" aria-labelledby="caption-heading">
+                <div class="np-wrap">
+                    <div class="np-panel np-reveal">
+                        <div class="np-panel__head">
+                            <h2 id="caption-heading">Caption pack</h2>
+                            <p>Copy-ready caption with hashtags for the full set.</p>
                         </div>
+                        <div class="np-caption">{!! $dataDetail->caption !!}</div>
                     </div>
-                    <div class="col-lg-5">
-                        <form method="post" enctype="multipart/form-data" action="{{ route('pages.postset.business.add') }}" class="contact-form mt-4" name="basicDetailsForm"
-                            id="basicDetailsForm">
-                            {{ csrf_field() }}
-                            <span id="error-msg">
-                                @if ($errors->any())
-                                    <div class="text-danger border border-danger border-2 p-3 rounded-3 mb-3">
-                                        <b>{{ __('dashboard.error') }}:</b>
-                                        <hr>
-                                        <ul>
-                                            @foreach ($errors->all() as $error)
-                                                <li>{{ $error }}</li>
-                                            @endforeach
-                                        </ul>
-                                    </div>
-                                @endif
-                            </span>
-                            <div class="mb-3">
+                </div>
+            </section>
+        @endif
+
+        <section class="np-section np-section--tight" id="personalize" aria-labelledby="personalize-heading">
+            <div class="np-wrap">
+                @if (Auth::check())
+                    <div class="np-personalize np-reveal">
+                        <div class="np-personalize__intro">
+                            <h2 id="personalize-heading">Manage your brand on this set</h2>
+                            <p>Update your Instagram handle and logo so personalized slides stay on-brand.</p>
+                        </div>
+                        <form method="post" enctype="multipart/form-data"
+                            action="{{ route('pages.postset.business.add') }}" class="np-form"
+                            name="basicDetailsForm" id="basicDetailsForm">
+                            @csrf
+                            @if ($errors->any())
+                                <div class="np-form__errors" role="alert">
+                                    <strong>{{ __('dashboard.error') }}:</strong>
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+                            <div class="np-field">
                                 <label for="instagram"
-                                    class="form-label @error('instagram') text-danger @enderror">Instagram Username</label>
-                                <input type="text" value="{{ old('instagram', ($bProfile ? $bProfile->instagram : '')) }}" maxlength="64" name="instagram"
-                                    id="instagram"
-                                    class="form-control @error('instagram') border border-danger border-1 @enderror" required>
+                                    class="@error('instagram') is-invalid @enderror">Instagram username</label>
+                                <input type="text"
+                                    value="{{ old('instagram', $bProfile ? $bProfile->instagram : '') }}"
+                                    maxlength="64" name="instagram" id="instagram" required
+                                    class="@error('instagram') is-invalid @enderror">
                                 @error('instagram')
-                                    <div class="text-danger">{{ $message }}</div>
+                                    <p class="np-form-error">{{ $message }}</p>
                                 @enderror
                             </div>
-                            <div class="mb-3" id="imageFormGroup">
-                                <label for="image" class="form-label @error('image') text-danger @enderror">Image</label>
-                                <input type="file" name="image" id="image"
-                                    class="form-control @error('image') border border-danger border-1 @enderror">
+                            <div class="np-field" id="imageFormGroup">
+                                <label for="image" class="@error('image') is-invalid @enderror">Logo image</label>
+                                <input type="file" name="image" id="image" accept="image/*"
+                                    class="@error('image') is-invalid @enderror">
                                 <input type="hidden" id="croppedImage" name="croppedImage" value="">
                                 @error('image')
-                                    <div class="text-danger">{{ $message }}</div>
+                                    <p class="np-form-error">{{ $message }}</p>
                                 @enderror
                             </div>
-                            <div id="upload-image-image"></div>
-                            <button type="submit" class="btn btn-warning" style="color: rgb(19, 19, 19) !important;">Save</button>
+                            <div id="upload-image-image" class="np-crop"></div>
+                            <button type="submit" class="np-btn np-btn--solid">Save brand details</button>
                         </form>
                     </div>
                 @else
-                    <div class="col-lg-8">
-                        <div class="section-title">
-                            <h3 class="title text-warning text-center">🔒 Login to Unlock Personalization ✨</h3>
-                            <ul class="text-muted">
-                                <li>Want to add your logo, update your contact info, or customize posts with your brand? 🖼️📱🔧</li>
-                                <li>Login to access your personal dashboard and make it your own! 💼🎨</li>
-                                <li>It only takes a moment to get started — and your brand will shine in every post you share. 🌟💬</li>
-                            </ul>
-                        </div>
-                        <div class="mt-3 text-center">
-                            <a class="btn btn-warning" href="{{ route('login') }}" style="color: rgb(19, 19, 19) !important;">🔑 Login Now</a>
-                        </div>
+                    <div class="np-gate np-reveal">
+                        <h2 id="personalize-heading">Login to personalize</h2>
+                        <p>Add your logo and Instagram handle so this set can carry your brand across every slide.</p>
+                        <a class="np-btn np-btn--solid" href="{{ route('login') }}">Login</a>
                     </div>
                 @endif
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section class="section bg-light">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center mb-4">
-                    <div class="section-title mb-5">
-                        <h3 class="title text-warning">Discover Curated Visual Stories</h3>
-                        <p class="text-muted">Explore a growing collection of creative posts covering history, culture,
-                            lifestyle, and more. Each set is uniquely crafted with engaging content and dynamic visuals,
-                            designed to inform, inspire, and spark curiosity. Dive into the stories that matter - one
-                            post at a time.</p>
+        <section class="np-section" id="slides" aria-labelledby="slides-heading">
+            <div class="np-wrap">
+                <div class="np-bar np-reveal">
+                    <div>
+                        <h2 class="np-bar__title" id="slides-heading">Slide stack</h2>
+                        <p class="np-bar__lead">
+                            @if ($slideCount > 0)
+                                {{ $slideCount }} curated frames for this topic.
+                            @else
+                                Slides for this set will appear here.
+                            @endif
+                        </p>
                     </div>
+                    <a class="np-btn np-btn--ghost" href="{{ route('pages.postset.list') }}">All sets</a>
                 </div>
-                @if ($dataDetail && $dataDetail->posts && count($dataDetail->posts) > 0)
-                    @foreach ($dataDetail->posts as $key => $value)
-                        <div class="col-lg-4 mb-4">
-                            <img loading="lazy" src="{{ route('pages.image.postset', ['slug' => $value->slug . '.jpg']) }}"
-                                class="rounded-4 w-100 mb-3" alt="{{ $value->title }}" title="{{ $value->title }}">
-                            <h3 class="h4">{{ $value->title }}</h3>
-                            <p class="text-muted">{{ $value->description }}</p>
-                        </div>
-                    @endforeach
+
+                @if ($slideCount > 0)
+                    <div class="np-slides">
+                        @foreach ($posts as $i => $value)
+                            <article class="np-slide np-reveal" style="--i: {{ $i % 8 }}">
+                                <figure class="np-slide__media">
+                                    <img loading="lazy" decoding="async"
+                                        src="{{ route('pages.image.postset', ['slug' => $value->slug . '.jpg']) }}"
+                                        alt="" width="640" height="640">
+                                    <span class="np-slide__index">{{ str_pad((string) ($i + 1), 2, '0', STR_PAD_LEFT) }}</span>
+                                </figure>
+                                <h3 class="np-slide__title">{{ $value->title }}</h3>
+                                @if ($value->description)
+                                    <p class="np-slide__body">{{ $value->description }}</p>
+                                @endif
+                            </article>
+                        @endforeach
+                    </div>
                 @else
+                    <div class="np-empty" role="status">No slides in this set yet.</div>
                 @endif
             </div>
-        </div>
-    </section>
+        </section>
+    </article>
 
-    <script>
-        var $image_crop;
-        var $banner_crop;
-        var isImageSelected = false;
-        window.addEventListener('load', function(event) {
-            addCropperImage();
-            $("#basicDetailsForm").submit(function(eventObj) {
-                getImage();
-                return true;
-            });
-        });
+    <x-slot:scripts>
+        @if (Auth::check())
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <script src="{{ asset('assets/plugin/croppie/croppie.js') }}"></script>
+            <script>
+                (function() {
+                    var $image_crop;
+                    var isImageSelected = false;
 
-        function getImage() {
-            $('#upload-image-image').croppie('result', {
-                type: 'base64',
-                format: 'png',
-                size: { width: 255, height: 75 }
-                //quality: 0.7
-            }).then(function(resp) {
-                if (resp && isImageSelected) {
-                    $("#croppedImage").val(resp)
-                } else {
-                    $("#croppedImage").val("")
-                }
-            });
-        }
+                    function getImage() {
+                        $('#upload-image-image').croppie('result', {
+                            type: 'base64',
+                            format: 'png',
+                            size: { width: 255, height: 75 }
+                        }).then(function(resp) {
+                            $("#croppedImage").val(resp && isImageSelected ? resp : "");
+                        });
+                    }
 
-        function addCropperImage() {
-            $image_crop = $('#upload-image-image').croppie({
-                //enableExif: true,
-                enableResize: true,
-                viewport: {
-                    width: 255,
-                    height: 75,
-                    type: 'square'
-                },
-                boundary: {
-                    width: $("#imageFormGroup").width(),
-                    height: 150
-                },
-                @if($bProfile && !empty($bProfile->logo))
-                    url: '{{ URL::asset('/images/business/logo/' . $bProfile->logo) }}'
-                @endif
-            });
-            $('#image').on('change', function() {
-                var reader = new FileReader();
-                reader.onload = function(e) {
-                    $image_crop.croppie('bind', {
-                        url: e.target.result
-                    }).then(function() {
-                        isImageSelected = true;
+                    function addCropperImage() {
+                        if (!$('#upload-image-image').length) return;
+                        $image_crop = $('#upload-image-image').croppie({
+                            enableResize: true,
+                            viewport: { width: 255, height: 75, type: 'square' },
+                            boundary: {
+                                width: $("#imageFormGroup").width() || 280,
+                                height: 150
+                            }
+                            @if ($bProfile && !empty($bProfile->logo))
+                                , url: '{{ URL::asset('/images/business/logo/' . $bProfile->logo) }}'
+                            @endif
+                        });
+                        $('#image').on('change', function() {
+                            var reader = new FileReader();
+                            reader.onload = function(e) {
+                                $image_crop.croppie('bind', { url: e.target.result }).then(function() {
+                                    isImageSelected = true;
+                                });
+                            };
+                            if (this.files && this.files[0]) reader.readAsDataURL(this.files[0]);
+                        });
+                    }
+
+                    window.addEventListener('load', function() {
+                        addCropperImage();
+                        $("#basicDetailsForm").on('submit', function() {
+                            getImage();
+                            return true;
+                        });
                     });
-                }
-                reader.readAsDataURL(this.files[0]);
-            });
-        }
-    </script>
-</x-layouts.front>
+                })();
+            </script>
+        @endif
+    </x-slot:scripts>
+</x-layouts.site>

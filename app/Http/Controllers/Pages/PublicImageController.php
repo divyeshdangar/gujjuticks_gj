@@ -56,26 +56,29 @@ class PublicImageController extends Controller
 
     public function try(Request $request, $slug)
     {
-        $dataDetail = Image::where("slug", $slug)->first();
+        $dataDetail = Image::where("slug", $slug)->with(['data'])->first();
         if ($dataDetail) {
-            $background = array(
-                "type" => $dataDetail->type,
-                "height" => $dataDetail->height,
-                "width" => $dataDetail->width,
-                "image" => config('paths.images.dynamic') . $dataDetail->image,
-                "color" => $dataDetail->bg_color,
-                "colors" => explode(",", $dataDetail->colors)
-            );
-            if (empty($background["colors"]) || empty($background["colors"][0])) {
-                $background["colors"][0] = "#000000";
-            }
-
             $slugId = $request->query('id');
-            $imageData = [];
+            $imageData = null;
             if ($slugId && strlen($slugId) == 12) {
                 $imageData = ImageDataGenerated::where('image_id', $dataDetail->id)->where('slug', $slugId)->first();
             }
-            return view('pages.image.view', ['metaData' => [], 'dataDetail' => $dataDetail, 'imageData' => $imageData]);
+
+            $metaData = [
+                "title" => $dataDetail->title . " – Image Creator | GujjuTicks",
+                "description" => $dataDetail->meta_description ?: ("Create a personalized image with the " . $dataDetail->title . " template."),
+                "keywords" => "image creator, template image, personalized image, GujjuTicks",
+                "url" => route('pages.image.editor.detail', ['slug' => $dataDetail->slug]),
+                "image" => !empty($dataDetail->image)
+                    ? asset('images/dynamic/' . $dataDetail->image)
+                    : route('pages.image.detail', ['slug' => $dataDetail->slug]),
+            ];
+
+            return view('pages.image.view', [
+                'metaData' => $metaData,
+                'dataDetail' => $dataDetail,
+                'imageData' => $imageData,
+            ]);
         } else {
             $message = [
                 "message" => [

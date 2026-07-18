@@ -1,299 +1,543 @@
-<x-layouts.front :showHeader="true" :metaData="$metaData">
+<x-layouts.site :metaData="$metaData" page="cities">
+    <x-slot:styles>
+        <link rel="stylesheet" href="{{ asset('assets/plugin/croppie/croppie.css') }}">
+    </x-slot:styles>
 
-    <style>
-        .cr-boundary {
-            border-radius: 15px;
-        }
-    </style>
+    @php
+        $cityCount = number_format($stats['cities'] ?? $cities->count());
+        $categoryCount = number_format($stats['categories'] ?? $categories->count());
+        $businessCount = number_format($stats['businesses'] ?? 0);
+        $sampleCategories = $categories->take(10);
+        $heroCities = $cities->take(6);
+        $heroCategories = $categories->take(6);
+        $previewCity = $heroCities->first();
+        $previewCategory = $heroCategories->first();
+    @endphp
 
-    <link rel="stylesheet" href="{{ asset('assets/plugin/croppie/croppie.css') }}">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script type="text/javascript" src="{{ asset('assets/plugin/croppie/croppie.js') }}"></script>
+    <section class="ba-cover" data-ba-cover aria-label="Add your business">
+        <div class="ba-cover__ambient" aria-hidden="true">
+            <div class="ba-cover__mesh"></div>
+            <div class="ba-cover__orb ba-cover__orb--a"></div>
+            <div class="ba-cover__orb ba-cover__orb--b"></div>
+            <div class="ba-cover__glow" data-ba-glow></div>
+        </div>
 
-    <section class="bg-home2" id="home" style="background-color: rgb(48 56 65);">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-7">
-                    <div class="mb-4 pb-3 me-lg-5">
-                        <h6 class="sub-title">List It. Get Noticed | GujjuTicks</h6>
+        <div class="cy-wrap ba-cover__grid">
+            <div class="ba-cover__copy">
+                <nav class="cy-crumbs cy-crumbs--ink" aria-label="Breadcrumb">
+                    <a href="{{ route('pages.cities.list') }}">Cities</a>
+                    <span aria-hidden="true">/</span>
+                    <span>Add business</span>
+                </nav>
+                <h1 class="ba-cover__title">Get found in your city</h1>
+                <p class="ba-cover__lead">
+                    Free listing in Gujarat’s city directory — appear under the city and category people already browse.
+                    Submit once; we publish after a quick review.
+                </p>
+                <div class="ba-cover__meta" aria-label="Directory snapshot">
+                    <span><strong>{{ $cityCount }}+</strong> cities</span>
+                    <span><strong>{{ $categoryCount }}</strong> categories</span>
+                    <span><strong>{{ $businessCount }}+</strong> live listings</span>
+                </div>
+                <div class="cy-hero__actions ba-cover__actions">
+                    <a class="cy-btn cy-btn--solid" href="#business-form">Fill the listing form</a>
+                    <a class="cy-btn cy-btn--ghost cy-btn--ghost-ink" href="{{ route('pages.cities.list') }}">Explore cities</a>
+                </div>
+            </div>
 
-                        <h1 class="display-5 fw-semibold mb-3">{!! str_replace(
-                            'Business Directory',
-                            '<span class="text-warning fw-bold">Business Directory</span>',
-                            $metaData['title'],
-                        ) !!}</h1>
-
-                        <p class="lead text-muted mb-4">{{ $metaData['description'] }}</p>
-
-                        <p class="lead text-muted mb-0">
-                            Want more people to discover your business? Add your business to our city directory and
-                            reach thousands of local customers actively searching for services like yours. It is quick,
-                            easy, and completely free - simply enter your business details, and we will make sure you
-                            are visible where it matters most.
+            <div class="ba-stage" data-ba-stage>
+                <div class="ba-stage__frame" data-ba-frame>
+                    <p class="ba-stage__label">Live preview</p>
+                    <article class="ba-preview" data-ba-preview>
+                        <div class="ba-preview__top">
+                            <span class="ba-preview__badge" data-ba-status>Pending review</span>
+                            <span class="ba-preview__pulse" aria-hidden="true"></span>
+                        </div>
+                        <h2 class="ba-preview__name" data-ba-name>Your business name</h2>
+                        <p class="ba-preview__place">
+                            <span data-ba-city>{{ $previewCity?->name ?? 'Your city' }}</span>
+                            ·
+                            <span data-ba-category>{{ $previewCategory?->label ?? ($previewCategory?->name ?? 'Category') }}</span>
                         </p>
+                        <p class="ba-preview__blurb" data-ba-blurb>
+                            A short about line helps locals understand what you offer before they call.
+                        </p>
+                        <div class="ba-preview__foot">
+                            <span>Phone on file</span>
+                            <span data-ba-path>{{ ($previewCity?->name ?? 'City') }} / {{ $previewCategory?->label ?? 'Category' }}</span>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="ba-stage__rail" role="group" aria-label="Preview city">
+                    <p class="ba-stage__rail-label">Tap a city</p>
+                    <div class="ba-chips" data-ba-cities>
+                        @foreach ($heroCities as $index => $city)
+                            <button type="button"
+                                class="ba-chip{{ $index === 0 ? ' is-active' : '' }}"
+                                data-ba-city-chip
+                                data-name="{{ $city->name }}"
+                                aria-pressed="{{ $index === 0 ? 'true' : 'false' }}">
+                                {{ $city->name }}
+                            </button>
+                        @endforeach
                     </div>
                 </div>
-                <div class="col-lg-5">
-                    <div class="mt-5 mt-md-0">
-                        <img loading="lazy" src="{{ URL::asset('/images/creative/Add-Your-Business-GujjuTicks-Business-Directory.jpg') }}" alt="Gujarat Add Business Image"
-                            title="Gujarat Add Business Image" class="rounded-4 home-img w-100" />
+
+                <div class="ba-stage__rail" role="group" aria-label="Preview category">
+                    <p class="ba-stage__rail-label">Tap a category</p>
+                    <div class="ba-chips" data-ba-categories>
+                        @foreach ($heroCategories as $index => $category)
+                            @php
+                                $label = $category->label ?: str_replace('_', ' ', $category->name);
+                            @endphp
+                            <button type="button"
+                                class="ba-chip{{ $index === 0 ? ' is-active' : '' }}"
+                                data-ba-category-chip
+                                data-name="{{ $label }}"
+                                aria-pressed="{{ $index === 0 ? 'true' : 'false' }}">
+                                {{ $label }}
+                            </button>
+                        @endforeach
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="section">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-10">
-                    <div class="text-center">
-                        <h2 class="text-warning mb-4">Explore & Discover: 50+ Cities from Gujarat</h2>
-                        <p class="text-muted mb-5">Uncover the vibrant essence of Gujarat through its top 50+ cities.
-                            From historical landmarks to modern hubs, each city has a unique story, culture, and charm
-                            waiting to be explored. Whether you're planning a trip or simply curious, this guide offers
-                            a quick glimpse into the diverse spirit of Gujarat's landscape.</p>
+    <section class="cy-section" aria-labelledby="ba-benefits-heading">
+        <div class="cy-wrap">
+            <div class="cy-section__head">
+                <h2 id="ba-benefits-heading">Why owners list here</h2>
+                <p>Show up where locals already look — by city, then by category.</p>
+            </div>
+            <div class="ba-benefits">
+                <article class="ba-benefits__item">
+                    <span class="ba-benefits__num" aria-hidden="true">01</span>
+                    <h3>City-first discovery</h3>
+                    <p>Your listing sits on the city page people open when they need a service nearby.</p>
+                </article>
+                <article class="ba-benefits__item">
+                    <span class="ba-benefits__num" aria-hidden="true">02</span>
+                    <h3>Category clarity</h3>
+                    <p>Shoppers filter by type — clinics, stores, agencies — so the right intent reaches you.</p>
+                </article>
+                <article class="ba-benefits__item">
+                    <span class="ba-benefits__num" aria-hidden="true">03</span>
+                    <h3>Contact that works</h3>
+                    <p>Phone, address, and optional website/logo give callers what they need without friction.</p>
+                </article>
+                <article class="ba-benefits__item">
+                    <span class="ba-benefits__num" aria-hidden="true">04</span>
+                    <h3>Reviewed before live</h3>
+                    <p>Submissions stay pending until approved — so the directory stays trustworthy.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section class="cy-section cy-section--alt" aria-labelledby="ba-how-heading">
+        <div class="cy-wrap">
+            <div class="cy-section__head">
+                <h2 id="ba-how-heading">From form to live listing</h2>
+                <p>Three clear steps — nothing publishes until review is done.</p>
+            </div>
+            <ol class="cy-steps">
+                <li class="cy-steps__item">
+                    <span class="cy-steps__num">01</span>
+                    <h3>Submit details</h3>
+                    <p>Name, city, category, about text, phone, and address — logo and website are optional.</p>
+                </li>
+                <li class="cy-steps__item">
+                    <span class="cy-steps__num">02</span>
+                    <h3>Admin review</h3>
+                    <p>Your entry is saved as pending and stays off public city pages until someone approves it.</p>
+                </li>
+                <li class="cy-steps__item">
+                    <span class="cy-steps__num">03</span>
+                    <h3>Go live</h3>
+                    <p>Approved listings appear under that city and category for people browsing the directory.</p>
+                </li>
+            </ol>
+        </div>
+    </section>
+
+    <section class="cy-section cy-section--alt ba-form-section" id="business-form" aria-labelledby="ba-form-heading">
+        <div class="cy-wrap">
+            <div class="cy-section__head ba-form-section__head">
+                <h2 id="ba-form-heading">Listing form</h2>
+                <p>Required fields match what we store and show after approval. Optional fields help your listing stand out.</p>
+            </div>
+
+            <div class="ba-layout">
+                <div class="ba-form-panel">
+                    <div class="ba-progress" aria-hidden="true">
+                        <span class="is-on">1 · Basics</span>
+                        <span>2 · Contact</span>
+                        <span>3 · Logo</span>
                     </div>
-                </div>
-                <div class="col-ld-10">
+
                     <form method="post" action="{{ route('pages.business.store') }}" id="basicDetailsForm"
-                        enctype="multipart/form-data">
-                        <div>
-                            <h5 class="fs-17 fw-semibold mb-3 mb-0">Basic Business Details</h5>
+                        enctype="multipart/form-data" class="ba-form" novalidate>
+                        @csrf
 
-                            {{ csrf_field() }}
-                            <span id="error-msg">
-                                @if ($errors->any())
-                                    <div class="text-danger border border-danger border-2 p-3 rounded-3 mb-3">
-                                        <b>{{ __('dashboard.error') }}:</b>
-                                        <hr>
-                                        <ul>
-                                            @foreach ($errors->all() as $error)
-                                                <li>{{ $error }}</li>
-                                            @endforeach
-                                        </ul>
-                                    </div>
-                                @endif
-                            </span>
+                        @if ($errors->any())
+                            <div class="ba-errors" role="alert">
+                                <strong>{{ __('dashboard.error') }}</strong>
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
 
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="mb-3">
-                                        <label for="name"
-                                            class="form-label @error('name') text-danger @enderror">Business
-                                            Name</label>
-                                        <input type="text" value="{{ old('name') }}" name="name" id="name"
-                                            class="form-control @error('name') border border-danger border-1 @enderror"
-                                            placeholder="Enter Business Name" required>
-                                        @error('name')
-                                            <div class="text-danger">{{ $message }}</div>
-                                        @enderror
-                                    </div>
+                        <fieldset class="ba-fieldset">
+                            <legend>
+                                <span class="ba-fieldset__step">1</span>
+                                Basic details
+                            </legend>
+                            <div class="ba-grid">
+                                <div class="ba-field ba-field--full @error('name') is-invalid @enderror">
+                                    <label for="name">Business name <span aria-hidden="true">*</span></label>
+                                    <input type="text" name="name" id="name" value="{{ old('name') }}"
+                                        maxlength="255" placeholder="Registered or trading name" required
+                                        autocomplete="organization">
+                                    @error('name')
+                                        <span class="ba-field__error">{{ $message }}</span>
+                                    @enderror
                                 </div>
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <div class="form-group mb-2">
-                                            <label for="city_id" class="form-label">Select City</label>
-                                            <select
-                                                class="form-control @error('city_id') border border-danger border-1 @enderror"
-                                                name="city_id" id="city_id" required>
-                                                <option value="" class="text-dark">-- Select --</option>
-                                                @foreach ($cities as $key => $value)
-                                                    <option value="{{ $value->id }}" class="text-dark"
-                                                        @if ($value->id == old('city_id')) selected="selected" @endif>
-                                                        {{ $value->name }}</option>
-                                                @endforeach
-                                            </select>
-                                            @error('city_id')
-                                                <div class="text-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
+
+                                <div class="ba-field @error('city_id') is-invalid @enderror">
+                                    <label for="city_id">City <span aria-hidden="true">*</span></label>
+                                    <select name="city_id" id="city_id" required>
+                                        <option value="">Select city</option>
+                                        @foreach ($cities as $city)
+                                            <option value="{{ $city->id }}"
+                                                @selected((string) ($selectedCityId ?? '') === (string) $city->id)>
+                                                {{ $city->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('city_id')
+                                        <span class="ba-field__error">{{ $message }}</span>
+                                    @enderror
                                 </div>
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <div class="form-group mb-2">
-                                            <label for="place_category_id" class="form-label">Select Business
-                                                Category</label>
-                                            <select
-                                                class="form-control @error('place_category_id') border border-danger border-1 @enderror"
-                                                name="place_category_id" id="place_category_id" required>
-                                                <option value="" class="text-dark">-- Select --</option>
-                                                @foreach ($categories as $key => $value)
-                                                    <option value="{{ $value->id }}" class="text-dark"
-                                                        @if ($value->id == old('place_category_id')) selected="selected" @endif>
-                                                        {{ $value->label }}</option>
-                                                @endforeach
-                                            </select>
-                                            @error('place_category_id')
-                                                <div class="text-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
+
+                                <div class="ba-field @error('place_category_id') is-invalid @enderror">
+                                    <label for="place_category_id">Category <span aria-hidden="true">*</span></label>
+                                    <select name="place_category_id" id="place_category_id" required>
+                                        <option value="">Select category</option>
+                                        @foreach ($categories as $category)
+                                            <option value="{{ $category->id }}"
+                                                @selected((string) ($selectedCategoryId ?? '') === (string) $category->id)>
+                                                {{ $category->label ?: str_replace('_', ' ', $category->name) }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('place_category_id')
+                                        <span class="ba-field__error">{{ $message }}</span>
+                                    @enderror
                                 </div>
                             </div>
-                            <!--end row-->
-                        </div>
-                        <!--end account-->
-                        <div class="mt-4">
-                            <h5 class="fs-17 fw-semibold mb-3">About & Contact Details</h5>
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label for="description"
-                                            class="form-label @error('description') text-danger @enderror">Explain About
-                                            Your Business</label>
-                                        <textarea name="description" id="description"
-                                            class="form-control @error('description') border border-danger border-1 @enderror"
-                                            placeholder="Enter About Your Business" rows="6" required>{{ old('description') }}</textarea>
-                                        @error('description')
-                                            <div class="text-danger">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="phone"
-                                            class="form-label @error('phone') text-danger @enderror">Business
-                                            phone</label>
-                                        <input type="tel" value="{{ old('phone') }}" name="phone" id="phone"
-                                            class="form-control @error('phone') border border-danger border-1 @enderror"
-                                            placeholder="Enter Phone" required pattern="[0-9]{10,12}" minlength="10"
-                                            maxlength="12" inputmode="numeric">
-                                        @error('phone')
-                                            <div class="text-danger">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="website"
-                                            class="form-label @error('website') text-danger @enderror">Website</label>
-                                        <input type="url" value="{{ old('website') }}" name="website" id="website"
-                                            class="form-control @error('website') border border-danger border-1 @enderror"
-                                            placeholder="Enter website" maxlength="255">
-                                        @error('website')
-                                            <div class="text-danger">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="address"
-                                            class="form-label @error('address') text-danger @enderror">Address</label>
-                                        <textarea name="address" id="address"
-                                            class="form-control @error('address') border border-danger border-1 @enderror"
-                                            placeholder="Enter Address" rows="3" required>{{ old('address') }}</textarea>
-                                        @error('address')
-                                            <div class="text-danger">{{ $message }}</div>
-                                        @enderror
-                                    </div>
+                        </fieldset>
+
+                        <fieldset class="ba-fieldset">
+                            <legend>
+                                <span class="ba-fieldset__step">2</span>
+                                About &amp; contact
+                            </legend>
+                            <div class="ba-grid">
+                                <div class="ba-field ba-field--full @error('description') is-invalid @enderror">
+                                    <label for="description">About your business <span aria-hidden="true">*</span></label>
+                                    <textarea name="description" id="description" rows="5" maxlength="2048"
+                                        placeholder="What you offer, who you serve, and what makes you local"
+                                        required>{{ old('description') }}</textarea>
+                                    <p class="ba-field__hint">Up to 2048 characters.</p>
+                                    @error('description')
+                                        <span class="ba-field__error">{{ $message }}</span>
+                                    @enderror
                                 </div>
-                                <!--end col-->
-                                <div class="col-lg-6" style="overflow: hidden;">
-                                    <div class="mb-3" id="imageFormGroup">
-                                        <label for="image"
-                                            class="form-label @error('image') text-danger @enderror">Image/Logo</label>
-                                        <input type="file" name="image" id="image"
-                                            class="form-control @error('image') border border-danger border-1 @enderror">
-                                        <input type="hidden" id="croppedImage" name="croppedImage" value="">
-                                        @error('image')
-                                            <div class="text-danger">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                    <div id="upload-image-image"></div>
+
+                                <div class="ba-field @error('phone') is-invalid @enderror">
+                                    <label for="phone">Phone <span aria-hidden="true">*</span></label>
+                                    <input type="tel" name="phone" id="phone" value="{{ old('phone') }}"
+                                        placeholder="10–12 digit number" required pattern="[0-9]{10,12}"
+                                        minlength="10" maxlength="12" inputmode="numeric" autocomplete="tel">
+                                    @error('phone')
+                                        <span class="ba-field__error">{{ $message }}</span>
+                                    @enderror
                                 </div>
-                                <!--end col-->
+
+                                <div class="ba-field @error('website') is-invalid @enderror">
+                                    <label for="website">Website <span class="ba-optional">(optional)</span></label>
+                                    <input type="url" name="website" id="website" value="{{ old('website') }}"
+                                        maxlength="255" placeholder="https://example.com" autocomplete="url">
+                                    @error('website')
+                                        <span class="ba-field__error">{{ $message }}</span>
+                                    @enderror
+                                </div>
+
+                                <div class="ba-field ba-field--full @error('address') is-invalid @enderror">
+                                    <label for="address">Address <span aria-hidden="true">*</span></label>
+                                    <textarea name="address" id="address" rows="3" maxlength="1048"
+                                        placeholder="Street, area, city, PIN" required>{{ old('address') }}</textarea>
+                                    @error('address')
+                                        <span class="ba-field__error">{{ $message }}</span>
+                                    @enderror
+                                </div>
                             </div>
-                            <!--end row-->
-                        </div>
-                        <div class="mt-4 text-end">
-                            <button type="submit" class="btn btn-warning">Submit for Review</button>
+                        </fieldset>
+
+                        <fieldset class="ba-fieldset">
+                            <legend>
+                                <span class="ba-fieldset__step">3</span>
+                                Logo <span class="ba-optional">(optional)</span>
+                            </legend>
+                            <div class="ba-grid">
+                                <div class="ba-field ba-field--full @error('image') is-invalid @enderror" id="imageFormGroup">
+                                    <label for="image">Upload image</label>
+                                    <div class="ba-upload">
+                                        <input type="file" name="image" id="image" accept="image/*">
+                                        <p class="ba-upload__hint">PNG or JPG · square crop · shown on your listing after approval</p>
+                                    </div>
+                                    <input type="hidden" id="croppedImage" name="croppedImage" value="">
+                                    @error('image')
+                                        <span class="ba-field__error">{{ $message }}</span>
+                                    @enderror
+                                    @error('croppedImage')
+                                        <span class="ba-field__error">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                                <div class="ba-crop" id="upload-image-image" hidden></div>
+                            </div>
+                        </fieldset>
+
+                        <div class="ba-actions">
+                            <button type="submit" class="cy-btn cy-btn--solid" id="ba-submit">Submit for review</button>
+                            <p class="ba-actions__note">Saved as <strong>pending</strong> — not public until an admin approves it.</p>
                         </div>
                     </form>
                 </div>
+
+                <aside class="ba-aside" aria-label="Listing tips">
+                    <div class="ba-aside__card">
+                        <p class="ba-aside__eyebrow">Review policy</p>
+                        <h2>Nothing goes live automatically</h2>
+                        <p class="ba-aside__lead">
+                            Every form submission starts as pending. Only approved listings appear in city category pages.
+                        </p>
+                    </div>
+
+                    <div class="ba-aside__block">
+                        <h3>What we collect</h3>
+                        <ul class="ba-checklist">
+                            <li><strong>Name, city, category</strong> — where you show</li>
+                            <li><strong>Description &amp; address</strong> — context and location</li>
+                            <li><strong>Phone</strong> — required (10–12 digits)</li>
+                            <li><strong>Website &amp; logo</strong> — optional</li>
+                        </ul>
+                    </div>
+
+                    <div class="ba-aside__block">
+                        <h3>Tips for faster approval</h3>
+                        <ul class="ba-checklist">
+                            <li>Use a real phone people can reach</li>
+                            <li>Write a clear 2–4 sentence about section</li>
+                            <li>Match the closest category — don’t overclaim</li>
+                            <li>Include area / landmark in the address</li>
+                        </ul>
+                    </div>
+
+                    <a class="cy-btn cy-btn--ghost cy-btn--ghost-ink ba-aside__cta" href="{{ route('pages.cities.list') }}">
+                        View city directory
+                    </a>
+                </aside>
             </div>
         </div>
     </section>
 
-    <section class="section bg-light">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-12 text-muted">
-                    <h2 class="text-warning text-center mb-4">Reach More Local Customers with a Free Business Listing
-                    </h2>
-                    <p class="text-muted text-start">
-                        Getting your business listed online has never been easier, and it is one of the smartest ways to
-                        reach more customers in your city. By adding your business to our directory, you give potential
-                        clients a simple way to discover your products and services exactly when they are searching for
-                        them. A well-crafted listing increases your local visibility, builds credibility, and drives
-                        more inquiries without the need for expensive advertising. Whether you are running a retail
-                        shop, a restaurant, a startup, or a professional service, our platform helps you showcase your
-                        name, location, contact details, operating hours, website links, and a short description that
-                        tells people why they should choose you.
-                    </p>
-                    <p class="text-muted text-start">
-                        Our system is designed to make the process quick and hassle-free. In just a few minutes, you can
-                        submit your details and have your business listed across all supported cities, ensuring you do
-                        not miss out on local traffic. Each listing is optimized to appear in city-specific searches,
-                        helping you stand out from competitors and connect with customers right where they live. Adding
-                        your business is completely free, and you can update or edit your information anytime to keep it
-                        accurate. Do not wait for people to find you by chance - take control of your online presence
-                        today and put your business in front of the audience that matters most.
-                    </p>
+    @if ($sampleCategories->count() > 0)
+        <section class="cy-section" aria-labelledby="ba-cats-heading">
+            <div class="cy-wrap">
+                <div class="cy-section__head">
+                    <h2 id="ba-cats-heading">Categories you can choose</h2>
+                    <p>These are available in the category dropdown above — pick the closest match for your business.</p>
                 </div>
+                <ul class="cy-cats" aria-label="Sample categories">
+                    @foreach ($sampleCategories as $category)
+                        <li class="cy-cats__item">{{ $category->label ?: str_replace('_', ' ', $category->name) }}</li>
+                    @endforeach
+                    @if ($categories->count() > $sampleCategories->count())
+                        <li class="cy-cats__item cy-cats__item--more">+{{ $categories->count() - $sampleCategories->count() }} more in the form</li>
+                    @endif
+                </ul>
+            </div>
+        </section>
+    @endif
+
+    <section class="cy-cta" aria-label="Start listing">
+        <div class="cy-wrap cy-cta__box">
+            <div>
+                <p class="cy-cta__eyebrow">Ready when you are</p>
+                <p>Take a few minutes to submit — review happens before anything is published.</p>
+            </div>
+            <div class="cy-cta__actions">
+                <a class="cy-btn cy-btn--solid" href="#business-form">Back to the form</a>
+                <a class="cy-btn cy-btn--ghost cy-btn--ghost-ink" href="{{ route('form.contact') }}">Contact us</a>
             </div>
         </div>
     </section>
 
-    <script>
-        var $image_crop;
-        var isImageSelected = false;
-        window.addEventListener('load', function(event) {
-            addCropperImage();
-            $("#basicDetailsForm").submit(function(eventObj) {
-                getImage();
-                return true;
-            });
-        });
+    <x-slot:scripts>
+        <script>
+            (function () {
+                var cover = document.querySelector("[data-ba-cover]");
+                if (!cover) return;
 
-        function getImage() {
-            $('#upload-image-image').croppie('result', {
-                type: 'base64',
-                format: 'png',
-                size: {
-                    width: 512,
-                    height: 512
-                }
-            }).then(function(resp) {
-                if (resp && isImageSelected) {
-                    $("#croppedImage").val(resp)
-                } else {
-                    $("#croppedImage").val("")
-                }
-            });
-        }
+                var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+                var glow = cover.querySelector("[data-ba-glow]");
+                var frame = cover.querySelector("[data-ba-frame]");
+                var preview = cover.querySelector("[data-ba-preview]");
+                var cityEl = cover.querySelector("[data-ba-city]");
+                var categoryEl = cover.querySelector("[data-ba-category]");
+                var pathEl = cover.querySelector("[data-ba-path]");
+                var cityChips = cover.querySelectorAll("[data-ba-city-chip]");
+                var categoryChips = cover.querySelectorAll("[data-ba-category-chip]");
 
-        function addCropperImage() {
-            $image_crop = $('#upload-image-image').croppie({
-                //enableExif: true,
-                enableResize: true,
-                viewport: {
-                    width: 200,
-                    height: 200,
-                    type: 'square'
-                },
-                boundary: {
-                    width: $("#imageFormGroup").width(),
-                    height: 300
-                }
-            });
-            $('#image').on('change', function() {
-                var reader = new FileReader();
-                reader.onload = function(e) {
-                    $image_crop.croppie('bind', {
-                        url: e.target.result
-                    }).then(function() {
-                        isImageSelected = true;
+                function setActive(chips, active) {
+                    chips.forEach(function (chip) {
+                        var on = chip === active;
+                        chip.classList.toggle("is-active", on);
+                        chip.setAttribute("aria-pressed", on ? "true" : "false");
                     });
                 }
-                reader.readAsDataURL(this.files[0]);
-            });
-        }
-    </script>
 
-</x-layouts.front>
+                function refreshPath() {
+                    if (!cityEl || !categoryEl || !pathEl) return;
+                    pathEl.textContent = cityEl.textContent + " / " + categoryEl.textContent;
+                }
+
+                function bumpPreview() {
+                    if (!preview || reduce) {
+                        refreshPath();
+                        return;
+                    }
+                    preview.classList.add("is-updating");
+                    window.setTimeout(function () {
+                        refreshPath();
+                        preview.classList.remove("is-updating");
+                    }, 160);
+                }
+
+                cityChips.forEach(function (chip) {
+                    chip.addEventListener("click", function () {
+                        setActive(cityChips, chip);
+                        if (cityEl) cityEl.textContent = chip.getAttribute("data-name") || chip.textContent;
+                        bumpPreview();
+                    });
+                });
+
+                categoryChips.forEach(function (chip) {
+                    chip.addEventListener("click", function () {
+                        setActive(categoryChips, chip);
+                        if (categoryEl) categoryEl.textContent = chip.getAttribute("data-name") || chip.textContent;
+                        bumpPreview();
+                    });
+                });
+
+                if (!reduce && glow) {
+                    cover.addEventListener("pointermove", function (e) {
+                        var rect = cover.getBoundingClientRect();
+                        glow.style.left = e.clientX - rect.left + "px";
+                        glow.style.top = e.clientY - rect.top + "px";
+                        glow.classList.add("is-on");
+                    });
+                    cover.addEventListener("pointerleave", function () {
+                        glow.classList.remove("is-on");
+                    });
+                }
+
+                if (!reduce && frame && window.matchMedia("(min-width: 901px)").matches) {
+                    frame.addEventListener("pointermove", function (e) {
+                        var rect = frame.getBoundingClientRect();
+                        var x = (e.clientX - rect.left) / rect.width - 0.5;
+                        var y = (e.clientY - rect.top) / rect.height - 0.5;
+                        frame.style.transform =
+                            "perspective(900px) rotateX(" + (-y * 6).toFixed(2) + "deg) rotateY(" + (x * 8).toFixed(2) + "deg)";
+                    });
+                    frame.addEventListener("pointerleave", function () {
+                        frame.style.transform = "perspective(900px) rotateX(0deg) rotateY(0deg)";
+                    });
+                }
+            })();
+        </script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="{{ asset('assets/plugin/croppie/croppie.js') }}"></script>
+        <script>
+            (function() {
+                var form = document.getElementById('basicDetailsForm');
+                var cropRoot = document.getElementById('upload-image-image');
+                var fileInput = document.getElementById('image');
+                var croppedInput = document.getElementById('croppedImage');
+                var imageGroup = document.getElementById('imageFormGroup');
+                var $crop = null;
+                var imageSelected = false;
+                var submitting = false;
+
+                function initCroppie() {
+                    if (!window.jQuery || !cropRoot || $crop) return;
+                    var width = imageGroup ? imageGroup.clientWidth : 320;
+                    $crop = $('#upload-image-image').croppie({
+                        enableResize: true,
+                        viewport: { width: 200, height: 200, type: 'square' },
+                        boundary: { width: Math.max(width, 260), height: 300 }
+                    });
+                }
+
+                window.addEventListener('load', function() {
+                    initCroppie();
+                });
+
+                if (fileInput) {
+                    fileInput.addEventListener('change', function() {
+                        if (!this.files || !this.files[0]) return;
+                        if (!$crop) initCroppie();
+                        cropRoot.hidden = false;
+                        var reader = new FileReader();
+                        reader.onload = function(e) {
+                            $('#upload-image-image').croppie('bind', { url: e.target.result }).then(function() {
+                                imageSelected = true;
+                            });
+                        };
+                        reader.readAsDataURL(this.files[0]);
+                    });
+                }
+
+                if (form) {
+                    form.addEventListener('submit', function(event) {
+                        if (submitting) return;
+                        if (!imageSelected || !$crop) {
+                            croppedInput.value = '';
+                            return;
+                        }
+                        event.preventDefault();
+                        $('#upload-image-image').croppie('result', {
+                            type: 'base64',
+                            format: 'png',
+                            size: { width: 512, height: 512 }
+                        }).then(function(resp) {
+                            croppedInput.value = resp || '';
+                            submitting = true;
+                            form.submit();
+                        }).catch(function() {
+                            croppedInput.value = '';
+                            submitting = true;
+                            form.submit();
+                        });
+                    });
+                }
+            })();
+        </script>
+    </x-slot:scripts>
+</x-layouts.site>

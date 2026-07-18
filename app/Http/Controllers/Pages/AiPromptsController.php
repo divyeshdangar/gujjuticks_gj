@@ -28,9 +28,9 @@ class AiPromptsController extends Controller
         }
 
         $metaData = [
-            'title' => 'AI Prompts – Quality Prompts by Category | GujjuTicks',
-            'description' => 'Browse quality AI prompts by category. Find prompts for writing, coding, marketing, and more. Filter, search, and copy with one click.',
-            'keywords' => 'AI prompts, ChatGPT prompts, prompt library, AI writing prompts, prompt categories, copy prompts',
+            'title' => 'AI Prompts by Category – Ready-to-Use Prompt Library | GujjuTicks',
+            'description' => 'Browse predefined AI prompts by category. Copy ready-made prompts for writing, coding, marketing, and more — so you can finish tasks faster without starting from scratch.',
+            'keywords' => 'AI prompts, ChatGPT prompts, prompt library, prompt categories, ready-made prompts, copy prompts',
             'url' => route('pages.ai_prompts.list'),
         ];
 
@@ -49,6 +49,12 @@ class AiPromptsController extends Controller
             'metaData' => $metaData,
             'dataList' => $dataList,
             'categories' => $categories,
+            'searchTerm' => $request->get('search'),
+            'stats' => [
+                'prompts' => AiPrompt::active()->whereNotNull('slug')->count(),
+                'categories' => $categories->count(),
+                'copies' => (int) AiPrompt::active()->sum('copy_count'),
+            ],
         ]);
     }
 
@@ -68,10 +74,10 @@ class AiPromptsController extends Controller
         }
 
         $metaData = [
-            'title' => $category->name . ' AI Prompts – Quality Prompts | GujjuTicks',
+            'title' => $category->name . ' AI Prompts – Ready-to-Use by Category | GujjuTicks',
             'no_title' => true,
-            'description' => $category->meta_description ?? $category->description ?? 'Browse ' . $category->name . ' AI prompts. Copy and use quality prompts for ' . Str::lower($category->name) . '.',
-            'keywords' => $category->meta_keywords ?? 'AI prompts, ' . $category->name . ' prompts, ChatGPT prompts, ' . $category->name,
+            'description' => $category->meta_description ?? $category->description ?? 'Browse ready-made ' . $category->name . ' AI prompts. Open, copy, and reuse predefined prompts to finish tasks faster.',
+            'keywords' => $category->meta_keywords ?? 'AI prompts, ' . $category->name . ' prompts, ChatGPT prompts, ready-made prompts, ' . $category->name,
             'url' => route('pages.ai_prompts.category', ['slug' => $category->slug]),
         ];
 

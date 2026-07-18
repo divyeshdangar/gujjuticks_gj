@@ -1,55 +1,186 @@
-<x-layouts.front :showHeader="true" :metaData="$metaData">
+<x-layouts.site :metaData="$metaData" page="news">
 
-    <div class="p-2">
-        <div class="p-5 d-none d-md-block">
+    @php
+        $categoryCount = (int) ($stats['categories'] ?? $categories->count());
+        $topicCount = (int) ($stats['topics'] ?? 0);
+        $storyCount = (int) ($stats['stories'] ?? 0);
+        $wireLines = $tickerLines ?? [
+            'Morning brief · Gujarat desk',
+            'India headlines refreshing',
+            'Local notes · city updates',
+            'Category wire · topic stack',
+            'Breaking queue cleared',
+            'Evening wrap preparing',
+        ];
+    @endphp
+
+    <div class="nw-hub" data-nw-hub>
+        <div class="nw-ambient" aria-hidden="true">
+            <div class="nw-ambient__grid"></div>
+            <div class="nw-ambient__blob nw-ambient__blob--a"></div>
+            <div class="nw-ambient__blob nw-ambient__blob--b"></div>
+            <div class="nw-ambient__glow" data-nw-glow></div>
+            <canvas class="nw-ambient__canvas" data-nw-particles width="1" height="1"></canvas>
         </div>
-    </div>
+        <div class="nw-progress" data-nw-progress aria-hidden="true"></div>
 
-    <section class="section">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-12">
-                    <div class="text-center mb-5">
-                        <p class="badge text-bg-warning fs-14 mb-2">NEWS on GujjuTicks</p>
-                        <h1 class="h2">{{ $metaData['title'] }}</h1>
-                        <p class="text-muted mb-5">{{ $metaData['description'] }}</p>
-
-                        @if(false)
-                            <img src="{{ URL::asset('/images/cities/' . $dataDetail->image) }}"
-                                alt="{{ $dataDetail->title }} Image" title="{{ $dataDetail->title }} Image"
-                                class="img-fluid rounded-3 mb-5">
-                            <div class="text-muted text-start">
-                                {!! $dataDetail->description !!}
-                            </div>
-                        @endif
+        <section class="nw-hero" aria-label="News">
+            <div class="nw-wrap nw-hero__grid">
+                <div class="nw-hero__copy">
+                    <p class="nw-live">
+                        <span class="nw-live__dot" aria-hidden="true"></span>
+                        Live desk · Gujarat &amp; India
+                    </p>
+                    <p class="nw-hero__brand">GujjuTicks</p>
+                    <h1 class="nw-hero__title">
+                        News by category —
+                        <span class="nw-hero__typed" data-nw-type>Gujarat updates</span><span class="nw-hero__caret"
+                            aria-hidden="true"></span>
+                    </h1>
+                    <p class="nw-hero__lead">
+                        Browse curated news topics from Gujarat and across India. Open a category for the latest
+                        headlines, then dig into the stories that matter.
+                    </p>
+                    <div class="nw-hero__actions">
+                        <a class="nw-btn nw-btn--solid" href="#news-categories">Browse categories</a>
+                        <a class="nw-btn nw-btn--ghost" href="#how-news">How it works</a>
                     </div>
+                    <p class="nw-hero__meta">
+                        <span data-nw-time>—</span>
+                        <span class="nw-hero__sep">·</span>
+                        <strong data-nw-count="{{ $categoryCount }}">{{ number_format($categoryCount) }}</strong> categories
+                    </p>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <h2 class="h3 mb-4">List of NEWS Categories on GujjuTicks</h2>
-                </div>
-                @foreach ($dataList as $column)
-                    <div class="col-lg-4">
-                        <div class="card job-Categories-box bg-light border-0">
-                            <div class="card-body p-4">
-                                <ul class="list-unstyled job-Categories-list mb-0">
-                                    @foreach ($column as $category)
-                                        <li>
-                                            <a href="{{ route('pages.news.detail', ['slug' => $category->slug]) }}"
-                                                class="primary-link" style="display: block; overflow: hidden;">
-                                                <span class="badge bg-info-subtle text-info me-2 d-none">25</span>
-                                                News on {{ $category->name }}
-                                            </a>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            </div>
+
+                <div class="nw-hero__visual" aria-hidden="true">
+                    <canvas class="nw-hero__canvas" data-nw-visual width="1" height="1"></canvas>
+                    <div class="nw-hero__wire">
+                        <div class="nw-hero__wire-track">
+                            @foreach ([1, 2] as $copy)
+                                @foreach ($wireLines as $line)
+                                    <p><span>LIVE</span>{{ $line }}</p>
+                                @endforeach
+                            @endforeach
                         </div>
                     </div>
+                    <div class="nw-hero__pulse"></div>
+                    <p class="nw-hero__label">Headline feed</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="nw-strip" aria-label="News snapshot">
+            <div class="nw-wrap nw-strip__grid">
+                <div class="nw-strip__item nw-reveal">
+                    <p class="nw-strip__value" data-nw-count="{{ $categoryCount }}">{{ number_format($categoryCount) }}</p>
+                    <p class="nw-strip__label">Top categories</p>
+                </div>
+                <div class="nw-strip__item nw-reveal" style="--i: 1">
+                    <p class="nw-strip__value" data-nw-count="{{ $topicCount }}">{{ number_format($topicCount) }}</p>
+                    <p class="nw-strip__label">Topic desks</p>
+                </div>
+                <div class="nw-strip__item nw-reveal" style="--i: 2">
+                    <p class="nw-strip__value" data-nw-count="{{ $storyCount }}">{{ number_format($storyCount) }}</p>
+                    <p class="nw-strip__label">Stories filed</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="nw-marquee" aria-hidden="true">
+            <div class="nw-marquee__track">
+                @foreach ([1, 2] as $copy)
+                    <span>Gujarat news</span>
+                    <span>India headlines</span>
+                    <span>Local updates</span>
+                    <span>Breaking notes</span>
+                    <span>Category desks</span>
+                    <span>Daily briefs</span>
                 @endforeach
             </div>
         </div>
-    </section>
 
-</x-layouts.front>
+        <section class="nw-section" id="news-categories" aria-labelledby="nw-cats-heading">
+            <div class="nw-wrap">
+                <div class="nw-bar nw-reveal">
+                    <div>
+                        <h2 class="nw-bar__title" id="nw-cats-heading">News categories</h2>
+                        <p class="nw-bar__lead">Pick a desk to open topic pages and recent stories.</p>
+                    </div>
+                </div>
+
+                @if ($categories->count() > 0)
+                    <div class="nw-list">
+                        @foreach ($categories as $i => $category)
+                            <a href="{{ route('pages.news.detail', ['slug' => $category->slug]) }}"
+                                class="nw-row nw-reveal" style="--i: {{ $i % 8 }}">
+                                <span class="nw-row__index">{{ str_pad((string) ($i + 1), 2, '0', STR_PAD_LEFT) }}</span>
+                                <div class="nw-row__copy">
+                                    <h3 class="nw-row__title">News on {{ $category->name }}</h3>
+                                    @if ($category->meta_description)
+                                        <p class="nw-row__summary">{{ \Illuminate\Support\Str::limit($category->meta_description, 110) }}</p>
+                                    @else
+                                        <p class="nw-row__summary">Open this category for topic desks and latest stories.</p>
+                                    @endif
+                                </div>
+                                <div class="nw-row__meta">
+                                    @if (($category->children_count ?? 0) > 0)
+                                        <span>{{ $category->children_count }} topics</span>
+                                    @endif
+                                    <span class="nw-row__go">Open</span>
+                                </div>
+                            </a>
+                        @endforeach
+                    </div>
+                @else
+                    <div class="nw-empty" role="status">News categories will appear here soon.</div>
+                @endif
+            </div>
+        </section>
+
+        <section class="nw-section nw-section--alt" id="how-news" aria-labelledby="nw-how-heading">
+            <div class="nw-wrap">
+                <div class="nw-bar nw-reveal">
+                    <div>
+                        <h2 class="nw-bar__title" id="nw-how-heading">How to use this desk</h2>
+                        <p class="nw-bar__lead">A short path from category to story.</p>
+                    </div>
+                </div>
+                <ol class="nw-steps">
+                    <li class="nw-steps__item nw-reveal">
+                        <span class="nw-steps__num">01</span>
+                        <h3>Choose a category</h3>
+                        <p>Start with Gujarat, India, or another top-level desk from the list above.</p>
+                    </li>
+                    <li class="nw-steps__item nw-reveal" style="--i: 1">
+                        <span class="nw-steps__num">02</span>
+                        <h3>Open a topic</h3>
+                        <p>Drill into sub-topics when available to narrow the feed to what you need.</p>
+                    </li>
+                    <li class="nw-steps__item nw-reveal" style="--i: 2">
+                        <span class="nw-steps__num">03</span>
+                        <h3>Read the latest</h3>
+                        <p>Scan recent stories, open a headline, and stay current without the noise.</p>
+                    </li>
+                </ol>
+            </div>
+        </section>
+
+        <section class="nw-section" aria-labelledby="nw-about-heading">
+            <div class="nw-wrap nw-about nw-reveal">
+                <div>
+                    <h2 class="nw-bar__title" id="nw-about-heading">What you’ll find here</h2>
+                    <p class="nw-about__lead">
+                        GujjuTicks News organizes headlines into clear categories so you can move from a statewide
+                        overview to a specific topic without hunting through a single long feed.
+                    </p>
+                </div>
+                <ul class="nw-about__list">
+                    <li>Category desks for Gujarat and India coverage</li>
+                    <li>Topic pages with recent story lists</li>
+                    <li>Short descriptions to help you pick the right desk</li>
+                </ul>
+            </div>
+        </section>
+    </div>
+
+</x-layouts.site>

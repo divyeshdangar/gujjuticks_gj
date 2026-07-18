@@ -107,6 +107,7 @@ return [
     'detail' => 'Detail',
     'district' => 'District',
     'location' => 'Location',
+    'business_submissions' => 'Business submissions',
     'data' => 'Data',
     'height' => 'Height',
     'width' => 'Width',

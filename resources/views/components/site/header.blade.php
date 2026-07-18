@@ -22,6 +22,8 @@
                 class="site-nav__link {{ request()->routeIs('pages.technology*') ? 'is-active' : '' }}">Technology</a>
             <a href="{{ route('pages.work') }}"
                 class="site-nav__link {{ request()->routeIs('pages.work*') ? 'is-active' : '' }}">Work</a>
+            <a href="{{ route('pages.industries') }}"
+                class="site-nav__link {{ request()->routeIs('pages.industries*') ? 'is-active' : '' }}">Industries</a>
             <a href="{{ route('pages.blog.list') }}"
                 class="site-nav__link {{ request()->routeIs('pages.blog.*') ? 'is-active' : '' }}">Journal</a>
             <a href="{{ route('form.contact') }}" class="site-nav__cta">Enquire</a>

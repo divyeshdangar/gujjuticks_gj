@@ -1,180 +1,196 @@
-<x-layouts.front :showHeader="true" :metaData="$metaData">
+<x-layouts.site :metaData="$metaData" page="ai-prompts">
 
-    <section class="bg-home2" id="home" style="background-color: rgb(48 56 65);">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-7">
-                    <div class="mb-4 pb-3 me-lg-5">
-                        @if($dataDetail->category)
-                            <a href="{{ route('pages.ai_prompts.category', ['slug' => $dataDetail->category->slug]) }}" class="text-warning text-decoration-none">
-                                <h6 class="sub-title">{{ $dataDetail->category->name }}</h6>
+    @php
+        $summary = $dataDetail->meta_description ?: $dataDetail->description;
+        $hasImage = !empty($dataDetail->image);
+    @endphp
+
+    <div class="ap-ambient" aria-hidden="true">
+        <div class="ap-ambient__grid"></div>
+        <div class="ap-ambient__blob ap-ambient__blob--a"></div>
+        <div class="ap-ambient__blob ap-ambient__blob--b"></div>
+        <div class="ap-ambient__blob ap-ambient__blob--c"></div>
+        <div class="ap-ambient__glow" data-ambient-glow></div>
+        <canvas class="ap-ambient__canvas" data-ambient-canvas width="1" height="1"></canvas>
+    </div>
+    <div class="ap-progress" data-scroll-progress aria-hidden="true"></div>
+
+    <article class="ap-detail">
+        <header class="ap-detail__hero">
+            <div class="ap-wrap ap-detail__hero-grid">
+                <div class="ap-detail__copy">
+                    <nav class="ap-crumb" aria-label="Breadcrumb">
+                        <a href="{{ route('pages.ai_prompts.list') }}">AI prompts</a>
+                        @if ($dataDetail->category)
+                            <span class="ap-crumb__sep" aria-hidden="true">/</span>
+                            <a href="{{ route('pages.ai_prompts.category', ['slug' => $dataDetail->category->slug]) }}">
+                                {{ $dataDetail->category->name }}
                             </a>
                         @endif
-                        <h1 class="display-6 fw-semibold mb-3">{{ $dataDetail->title }}</h1>
-                        <p class="lead text-muted mb-0">{{ $dataDetail->meta_description ?? $dataDetail->description }}</p>
-                        <ul class="list-inline mt-3 mb-0 text-muted small">
-                            <li class="list-inline-item">
-                                <span class="badge bg-secondary text-uppercase small">{{ $dataDetail->unique_id }}</span>
-                            </li>
-                            <li class="list-inline-item">Version {{ $dataDetail->prompt_version }}</li>
-                            <li class="list-inline-item">{{ number_format($dataDetail->copy_count) }} copies</li>
-                        </ul>
+                    </nav>
+
+                    @if ($dataDetail->category)
+                        <a class="ap-chip"
+                            href="{{ route('pages.ai_prompts.category', ['slug' => $dataDetail->category->slug]) }}">
+                            {{ $dataDetail->category->name }}
+                        </a>
+                    @endif
+
+                    <h1 class="ap-detail__title">{{ $dataDetail->title }}</h1>
+
+                    @if ($summary)
+                        <p class="ap-detail__deck">{{ $summary }}</p>
+                    @endif
+
+                    <div class="ap-detail__meta">
+                        <span>{{ $dataDetail->unique_id }}</span>
+                        <span class="ap-detail__sep" aria-hidden="true">·</span>
+                        <span>v{{ $dataDetail->prompt_version }}</span>
+                        <span class="ap-detail__sep" aria-hidden="true">·</span>
+                        <span data-copy-count>{{ number_format($dataDetail->copy_count) }}</span> copies
+                    </div>
+
+                    <div class="ap-detail__actions">
+                        <a class="ap-btn ap-btn--solid" href="#prompt-text">Use this prompt</a>
+                        <a class="ap-btn ap-btn--ghost" href="{{ route('pages.ai_prompts.list') }}">All prompts</a>
                     </div>
                 </div>
-                @if($dataDetail->image)
-                    <div class="col-lg-5">
-                        <div class="mt-4 mt-lg-0">
-                            <img src="{{ asset('images/ai-prompts/' . $dataDetail->image) }}" alt="{{ $dataDetail->title }}" class="img-fluid rounded-4 shadow" loading="lazy">
-                        </div>
-                    </div>
-                @endif
-            </div>
-        </div>
-    </section>
 
-    <section class="section">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8">
-                    <div class="card border shadow-sm mb-4">
-                        <div class="card-body">
-                            <h5 class="card-title border-bottom pb-2 mb-3">Prompt details</h5>
-                            <div class="d-flex flex-wrap gap-2 mb-3">
-                                <span class="badge bg-secondary text-uppercase small">{{ $dataDetail->unique_id }}</span>
-                                <span class="badge bg-light text-dark">v{{ $dataDetail->prompt_version }}</span>
-                                <span class="badge bg-info text-dark">{{ number_format($dataDetail->copy_count) }} copies</span>
-                                @if($dataDetail->category)
-                                    <a href="{{ route('pages.ai_prompts.category', ['slug' => $dataDetail->category->slug]) }}" class="badge bg-warning text-dark text-decoration-none">{{ $dataDetail->category->name }}</a>
-                                @endif
-                            </div>
-                            @if($dataDetail->description)
-                                <p class="text-muted mb-4">{{ $dataDetail->description }}</p>
-                            @endif
-                            <div class="mb-3">
-                                <label class="form-label fw-semibold">Prompt text</label>
-                                <div class="bg-light rounded p-3 position-relative">
-                                    <pre id="detail-prompt-text" class="mb-0 small text-dark overflow-auto" style="max-height: 400px; white-space: pre-wrap; word-break: break-word;">{{ $dataDetail->prompt }}</pre>
-                                </div>
-                                <button type="button" class="btn btn-warning btn-sm mt-2 copy-prompt-btn" style="color: rgb(19, 19, 19) !important;"
-                                        data-unique-id="{{ $dataDetail->unique_id }}"
-                                        data-prompt="{{ e($dataDetail->prompt) }}"
-                                        data-copy-url="{{ route('pages.ai_prompts.copy', ['uniqueId' => $dataDetail->unique_id]) }}">
+                <div class="ap-detail__visual" aria-hidden="true">
+                    <canvas class="ap-detail__ai-canvas" data-ap-ai width="1" height="1"></canvas>
+                    <div class="ap-detail__ai-orb ap-detail__ai-orb--a"></div>
+                    <div class="ap-detail__ai-orb ap-detail__ai-orb--b"></div>
+                    <div class="ap-detail__ai-core">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        @if ($hasImage)
+            <figure class="ap-detail__cover ap-wrap">
+                <img src="{{ asset('images/ai-prompts/' . $dataDetail->image) }}" alt="" width="1200" height="675"
+                    loading="eager" decoding="async">
+            </figure>
+        @endif
+
+        <div class="ap-section">
+            <div class="ap-wrap ap-layout">
+                <div class="ap-main">
+                    <section class="ap-panel ap-reveal" aria-labelledby="prompt-heading">
+                        <div class="ap-panel__head">
+                            <h2 id="prompt-heading">Ready-to-use prompt</h2>
+                            <p>Copy this predefined prompt into ChatGPT, Claude, Gemini, or any AI tool — then adapt it to your task.</p>
+                        </div>
+
+                        @if ($dataDetail->description && $dataDetail->description !== $summary)
+                            <p class="ap-panel__desc">{{ $dataDetail->description }}</p>
+                        @endif
+
+                        <div class="ap-prompt" id="prompt-text">
+                            <div class="ap-prompt__bar">
+                                <span>Prompt text</span>
+                                <button type="button" class="ap-btn ap-btn--solid ap-btn--sm copy-prompt-btn"
+                                    data-prompt="{{ e($dataDetail->prompt) }}"
+                                    data-copy-url="{{ route('pages.ai_prompts.copy', ['uniqueId' => $dataDetail->unique_id]) }}">
                                     Copy prompt
                                 </button>
                             </div>
+                            <pre class="ap-prompt__body" tabindex="0">{{ $dataDetail->prompt }}</pre>
                         </div>
-                    </div>
+                    </section>
 
-                    <div class="card border shadow-sm mb-4">
-                        <div class="card-body">
-                            <h5 class="card-title border-bottom pb-2 mb-4">Comments ({{ $dataDetail->comments->count() }})</h5>
-
-                            @if(auth()->check())
-                                <form method="post" action="{{ route('pages.ai_prompts.comment.store', ['slug' => $dataDetail->slug]) }}" class="mb-4">
-                                    @csrf
-                                    <div class="mb-3">
-                                        <label for="comment" class="form-label">Add a comment</label>
-                                        <textarea name="comment" id="comment" class="form-control @error('comment') is-invalid @enderror" rows="3" placeholder="Share your experience or tips with this prompt..." maxlength="2000">{{ old('comment') }}</textarea>
-                                        @error('comment')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                        <div class="form-text">Only logged-in users can comment. Be respectful.</div>
-                                    </div>
-                                    <button type="submit" class="btn btn-warning" style="color: rgb(19, 19, 19) !important;">Post comment</button>
-                                </form>
-                            @else
-                                <p class="text-muted mb-4">
-                                    <a href="{{ route('login') }}" class="btn btn-outline-warning btn-sm">Log in</a> to add a comment. You can read all comments below.
-                                </p>
-                            @endif
-
-                            <div class="comments-list">
-                                @forelse($dataDetail->comments as $comment)
-                                    <div class="d-flex gap-3 mb-4 pb-3 border-bottom">
-                                        <div class="flex-shrink-0">
-                                            @if($comment->user)
-                                                <img src="{{ $comment->user->profile() }}" alt="" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover;">
-                                            @else
-                                                <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center text-white" style="width: 40px; height: 40px;">U</div>
-                                            @endif
-                                        </div>
-                                        <div class="flex-grow-1">
-                                            <div class="d-flex align-items-center gap-2 mb-1">
-                                                <span class="fw-semibold">{{ $comment->user ? $comment->user->name : 'User' }}</span>
-                                                <span class="text-muted small">{{ $comment->created_at->diffForHumans() }}</span>
-                                            </div>
-                                            <p class="mb-0 text-muted small">{{ nl2br(e($comment->comment)) }}</p>
-                                        </div>
-                                    </div>
-                                @empty
-                                    <p class="text-muted mb-0">No comments yet. Be the first to share your experience!</p>
-                                @endforelse
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4">
-                    <div class="sidebar ms-lg-4 ps-lg-4">
-                        <div class="card border shadow-sm mb-4">
-                            <div class="card-body">
-                                <h6 class="fs-16 mb-3">Categories</h6>
-                                <div class="my-2">
-                                    <a href="{{ route('pages.ai_prompts.list') }}" class="d-block py-1 text-decoration-none">All categories</a>
-                                    @foreach ($categories as $cat)
-                                        <a href="{{ route('pages.ai_prompts.category', ['slug' => $cat->slug]) }}" class="d-block py-1 text-decoration-none {{ $dataDetail->category && $dataDetail->category->id === $cat->id ? 'fw-bold text-warning' : '' }}">{{ $cat->name }}</a>
-                                    @endforeach
-                                </div>
-                            </div>
+                    <section class="ap-panel ap-reveal" id="comments" aria-labelledby="comments-heading">
+                        <div class="ap-panel__head">
+                            <h2 id="comments-heading">Comments ({{ $dataDetail->comments->count() }})</h2>
+                            <p>Share tips or results from using this prompt.</p>
                         </div>
 
-                        @if($relatedList->isNotEmpty())
-                            <div class="card border shadow-sm">
-                                <div class="card-body">
-                                    <h6 class="fs-16 mb-3">Related prompts</h6>
-                                    <div class="d-flex flex-column gap-2">
-                                        @foreach($relatedList as $rel)
-                                            <a href="{{ route('pages.ai_prompts.detail', ['slug' => $rel->slug]) }}" class="text-decoration-none">
-                                                <div class="p-2 rounded bg-light hover-shadow">
-                                                    <span class="badge bg-secondary small">{{ $rel->unique_id }}</span>
-                                                    <span class="d-block mt-1 small fw-semibold text-dark">{{ $rel->title }}</span>
-                                                    <span class="small text-muted">{{ number_format($rel->copy_count) }} copies</span>
-                                                </div>
-                                            </a>
-                                        @endforeach
-                                    </div>
-                                </div>
-                            </div>
+                        @if (auth()->check())
+                            <form class="ap-comment-form" method="post"
+                                action="{{ route('pages.ai_prompts.comment.store', ['slug' => $dataDetail->slug]) }}">
+                                @csrf
+                                <label class="visually-hidden" for="comment">Add a comment</label>
+                                <textarea name="comment" id="comment"
+                                    class="@error('comment') is-invalid @enderror" rows="4"
+                                    placeholder="What worked well with this prompt?"
+                                    maxlength="2000">{{ old('comment') }}</textarea>
+                                @error('comment')
+                                    <p class="ap-form-error">{{ $message }}</p>
+                                @enderror
+                                <button type="submit" class="ap-btn ap-btn--solid ap-btn--sm">Post comment</button>
+                            </form>
+                        @else
+                            <p class="ap-login-hint">
+                                <a class="ap-btn ap-btn--ghost ap-btn--sm" href="{{ route('login') }}">Log in</a>
+                                to leave a comment. You can still read comments below.
+                            </p>
                         @endif
-                    </div>
+
+                        <div class="ap-comments">
+                            @forelse ($dataDetail->comments as $comment)
+                                <article class="ap-comment">
+                                    <div class="ap-comment__avatar" aria-hidden="true">
+                                        @if ($comment->user)
+                                            <img src="{{ $comment->user->profile() }}" alt="" width="40" height="40"
+                                                loading="lazy" decoding="async">
+                                        @else
+                                            <span>U</span>
+                                        @endif
+                                    </div>
+                                    <div class="ap-comment__body">
+                                        <div class="ap-comment__meta">
+                                            <strong>{{ $comment->user ? $comment->user->name : 'User' }}</strong>
+                                            <time datetime="{{ $comment->created_at->toAtomString() }}">
+                                                {{ $comment->created_at->diffForHumans() }}
+                                            </time>
+                                        </div>
+                                        <p>{!! nl2br(e($comment->comment)) !!}</p>
+                                    </div>
+                                </article>
+                            @empty
+                                <p class="ap-comments__empty">No comments yet. Be the first to share how this prompt helped.</p>
+                            @endforelse
+                        </div>
+                    </section>
                 </div>
+
+                <aside class="ap-side ap-reveal" aria-label="More prompts">
+                    <h2 class="ap-side__title">Browse by category</h2>
+                    <p class="ap-side__lead">Find more ready-made prompts for similar tasks.</p>
+                    <nav class="ap-side__nav">
+                        <a class="ap-side__link" href="{{ route('pages.ai_prompts.list') }}">All prompts</a>
+                        @foreach ($categories as $cat)
+                            <a class="ap-side__link {{ $dataDetail->category && $dataDetail->category->id === $cat->id ? 'is-active' : '' }}"
+                                href="{{ route('pages.ai_prompts.category', ['slug' => $cat->slug]) }}">
+                                {{ $cat->name }}
+                            </a>
+                        @endforeach
+                    </nav>
+
+                    @if ($relatedList->isNotEmpty())
+                        <div class="ap-related">
+                            <h2 class="ap-side__title">Related prompts</h2>
+                            <ul class="ap-related__list">
+                                @foreach ($relatedList as $rel)
+                                    <li>
+                                        <a href="{{ route('pages.ai_prompts.detail', ['slug' => $rel->slug]) }}">
+                                            <span class="ap-related__id">{{ $rel->unique_id }}</span>
+                                            <span class="ap-related__title">{{ $rel->title }}</span>
+                                            <span class="ap-related__copies">{{ number_format($rel->copy_count) }} copies</span>
+                                        </a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                </aside>
             </div>
         </div>
-    </section>
+    </article>
 
-    <div id="ai-prompts-csrf" data-csrf="{{ csrf_token() }}" class="d-none"></div>
-    <script>
-        (function() {
-            var csrfEl = document.getElementById('ai-prompts-csrf');
-            var csrfToken = csrfEl ? csrfEl.getAttribute('data-csrf') : '';
-            document.querySelectorAll('.copy-prompt-btn').forEach(function(btn) {
-                btn.addEventListener('click', function() {
-                    var prompt = this.getAttribute('data-prompt');
-                    var url = this.getAttribute('data-copy-url');
-                    if (!prompt) return;
-                    navigator.clipboard.writeText(prompt).then(function() {
-                        var label = btn.innerHTML;
-                        btn.innerHTML = 'Copied!';
-                        btn.disabled = true;
-                        setTimeout(function() { btn.innerHTML = label; btn.disabled = false; }, 2000);
-                        if (url && csrfToken) {
-                            var fd = new FormData();
-                            fd.append('_token', csrfToken);
-                            fetch(url, { method: 'POST', body: fd, headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' } }).catch(function() {});
-                        }
-                    });
-                });
-            });
-        })();
-    </script>
-</x-layouts.front>
+    <div id="ai-prompts-csrf" data-csrf="{{ csrf_token() }}" hidden></div>
+
+</x-layouts.site>

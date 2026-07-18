@@ -1,349 +1,318 @@
-<x-layouts.front :showHeader="true" :metaData="$metaData">
+<x-layouts.site :metaData="$metaData" page="image-editor">
+    <x-slot:styles>
+        <link rel="stylesheet" href="{{ asset('assets/plugin/croppie/croppie.css') }}">
+    </x-slot:styles>
 
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="{{ asset('assets/plugin/croppie/croppie.css') }}">
-    <script type="text/javascript" src="{{ asset('assets/plugin/croppie/croppie.js') }}"></script>
+    @php
+        $fields = $dataDetail->data ?? collect();
+        $editable = $fields->where('is_editable', true);
+        $saved = (!empty($imageData) && is_array($imageData->options ?? null)) ? $imageData->options : [];
+        $previewUrl = !empty($imageData)
+            ? route('pages.image.detail', ['slug' => $dataDetail->slug, 'id' => $imageData->slug])
+            : route('pages.image.detail', ['slug' => $dataDetail->slug]);
+        $downloadUrl = !empty($imageData)
+            ? route('pages.image.detail', ['slug' => $dataDetail->slug, 'id' => $imageData->slug, 'download' => '1'])
+            : null;
+        $templateImage = !empty($dataDetail->image)
+            ? asset('images/dynamic/' . $dataDetail->image)
+            : $previewUrl;
+        $imgW = max(1, (int) ($dataDetail->width ?: 800));
+        $imgH = max(1, (int) ($dataDetail->height ?: 800));
+    @endphp
 
-    <style>
-        .locked {
-            pointer-events: none;
-        }
+    <div class="ie-hub" data-ie-hub>
+        <div class="ie-ambient" aria-hidden="true">
+            <div class="ie-ambient__grid"></div>
+            <div class="ie-ambient__blob ie-ambient__blob--a"></div>
+            <div class="ie-ambient__blob ie-ambient__blob--b"></div>
+            <div class="ie-ambient__glow" data-ie-glow></div>
+        </div>
+        <div class="ie-progress" data-ie-progress aria-hidden="true"></div>
 
-        #upload-image-image {
-            width: 100%;
-            max-width: 670px;
-            height: auto;
-            margin: 0 auto;
-        }
-    </style>
-
-
-    <section class="bg-home2" id="home" style="background-color: rgb(48 56 65);">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-7">
-                    <div class="mb-4 pb-3 me-lg-5">
-                        <h6 class="sub-title">Create Image Easily</h6>
-                        <h1 class="display-5 fw-semibold mb-3">{!! str_replace(
-                            'Jamnagar Nursing Parivar',
-                            '<span class="text-info fw-bold">Jamnagar Nursing Parivar</span>',
-                            $dataDetail->title,
-                        ) !!}</h1>
-                        <p class="lead text-muted mb-0">{{ $dataDetail->meta_description }}</p>
+        <section class="ie-hero" aria-label="Image creator">
+            <div class="ie-wrap ie-hero__grid">
+                <div class="ie-hero__copy">
+                    <p class="ie-live">
+                        <span class="ie-live__dot" aria-hidden="true"></span>
+                        Template studio · Ready to personalize
+                    </p>
+                    <p class="ie-hero__brand">GujjuTicks</p>
+                    <h1 class="ie-hero__title">{{ $dataDetail->title }}</h1>
+                    @if ($dataDetail->meta_description)
+                        <p class="ie-hero__lead">{{ $dataDetail->meta_description }}</p>
+                    @else
+                        <p class="ie-hero__lead">
+                            Fill in a few details, generate a polished image from this template, then download or share.
+                        </p>
+                    @endif
+                    <div class="ie-hero__actions">
+                        <a class="ie-btn ie-btn--solid" href="#create-now">Create image</a>
+                        @if ($downloadUrl)
+                            <a class="ie-btn ie-btn--ghost" href="{{ $downloadUrl }}">Download last</a>
+                        @endif
                     </div>
-                    <div class="row g-0">
-                        <div class="col-md-4">
-                            <div class="mt-3 mt-md-0 h-100">
-                                <a href="#create-now" class="btn btn-info"
-                                    style="color: rgb(19, 19, 19) !important;">Create Image Now</a>
-                            </div>
-                        </div>
-                    </div>
+                    <p class="ie-hero__meta">
+                        {{ (int) ($dataDetail->width ?? 0) }}×{{ (int) ($dataDetail->height ?? 0) }}
+                        <span class="ie-hero__sep">·</span>
+                        {{ $editable->count() }} editable field{{ $editable->count() === 1 ? '' : 's' }}
+                    </p>
                 </div>
-                <div class="col-lg-5">
-                    <div class="mt-5 mt-md-0">
-                        <img src="{{ asset('images/dynamic/' . $dataDetail->image) }}"
-                            title="{{ $dataDetail->image_title }}" alt="{{ $dataDetail->image_alt }}"
-                            class="rounded home-img w-100" />
-                    </div>
+
+                <div class="ie-hero__visual" aria-hidden="true" style="--ie-w: {{ $imgW }}; --ie-h: {{ $imgH }};">
+                    <div class="ie-hero__frame ie-hero__frame--a"></div>
+                    <div class="ie-hero__frame ie-hero__frame--b"></div>
+                    <figure class="ie-hero__preview">
+                        <img src="{{ $templateImage }}" alt="" width="{{ $imgW }}" height="{{ $imgH }}"
+                            loading="eager" decoding="async">
+                        <span class="ie-hero__scan"></span>
+                    </figure>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section class="section" id="create-now">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-10">
-                    <form method="post" enctype="multipart/form-data" class="contact-form mt-4" name="basicDetailsForm"
-                        id="basicDetailsForm">
-                        {{ csrf_field() }}
-                        <input type="hidden" name="image_id" value="{{ $dataDetail->id }}">
-                        <div class="text-center">
-                            <h2 class="text-warning mb-4">Create Your Image</h2>
-                            <p class="text-muted mb-5">This tool lets you quickly generate a personalized image using a
-                                ready-made template. Just fill in a few details—no design skills needed—and get a
-                                professional image in seconds.</p>
-                            <div class="row text-start justify-content-center">
-                                <div class="col-lg-5">
-                                    @if ($dataDetail->data)
-                                        <div class="row">
-                                            @foreach ($dataDetail->data as $key => $value)
-                                                @if ($value->is_editable)
-                                                    @if ($value->type == 'text')
-                                                        <div class="col-md-12">
-                                                            <div class="mb-3">
-                                                                <label for="{{ $value->random_identity }}"
-                                                                    class="form-label">{{ $value->form_title }}</label>
-                                                                <input type="text"
-                                                                    value="{{ isset($imageData[$value->random_identity]) ? $imageData[$value->random_identity] : $value->text }}"
-                                                                    name="{{ $value->random_identity }}"
-                                                                    id="{{ $value->random_identity }}"
-                                                                    class="form-control mb-1">
-                                                                <small>{{ $value->form_description }}</small>
-                                                            </div>
-                                                        </div>
-                                                    @endif
-                                                    @if ($value->type == 'paragraph')
-                                                        <div class="col-md-12">
-                                                            <div class="mb-3">
-                                                                <label for="{{ $value->random_identity }}"
-                                                                    class="form-label">{{ $value->form_title }}</label>
-                                                                <textarea name="{{ $value->random_identity }}" id="{{ $value->random_identity }}" class="form-control mb-1"
-                                                                    rows="3">{{ isset($imageData[$value->random_identity]) ? $imageData[$value->random_identity] : $value->text }}</textarea>
-                                                                <small>{{ $value->form_description }}</small>
-                                                            </div>
-                                                        </div>
-                                                    @endif
-                                                    @if ($value->type == 'image')
-                                                        <div class="col-md-12">
-                                                            <div class="mb-3">
-                                                                <label for="{{ $value->random_identity }}"
-                                                                    class="form-label">{{ $value->form_title }}</label>
-                                                                <input type="file"
-                                                                    name="{{ $value->random_identity }}"
-                                                                    id="{{ $value->random_identity }}"
-                                                                    height="{{ $value->height }}"
-                                                                    width="{{ $value->width }}"
-                                                                    class="form-control mb-1 image-crop">
-                                                                <small>{{ $value->form_description }}</small>
-                                                                <input type="hidden"
-                                                                    id="{{ $value->random_identity }}--iMage"
-                                                                    name="{{ $value->random_identity }}--iMage"
-                                                                    value="">
-                                                            </div>
-                                                        </div>
-                                                    @endif
-                                                @endif
-                                            @endforeach
-                                        </div>
+        <section class="ie-section" id="create-now" aria-labelledby="ie-create-heading">
+            <div class="ie-wrap">
+                <div class="ie-bar ie-reveal">
+                    <div>
+                        <h2 class="ie-bar__title" id="ie-create-heading">Create your image</h2>
+                        <p class="ie-bar__lead">Update the fields, then generate a fresh preview from this template.</p>
+                    </div>
+                </div>
+
+                <form method="post" enctype="multipart/form-data" class="ie-studio ie-reveal"
+                    name="basicDetailsForm" id="basicDetailsForm"
+                    action="{{ route('pages.image.editor.post', ['slug' => $dataDetail->slug]) }}">
+                    @csrf
+                    <input type="hidden" name="image_id" value="{{ $dataDetail->id }}">
+
+                    <div class="ie-studio__form">
+                        @if ($errors->any())
+                            <div class="ie-errors" role="alert">
+                                <strong>{{ __('dashboard.error') }}:</strong>
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+
+                        @forelse ($editable as $value)
+                            @if ($value->type === 'text')
+                                <div class="ie-field">
+                                    <label for="{{ $value->random_identity }}">{{ $value->form_title }}</label>
+                                    <input type="text" name="{{ $value->random_identity }}"
+                                        id="{{ $value->random_identity }}"
+                                        value="{{ $saved[$value->random_identity] ?? $value->text }}">
+                                    @if ($value->form_description)
+                                        <p class="ie-field__hint">{{ $value->form_description }}</p>
                                     @endif
                                 </div>
-                                <div class="col-lg-5">
-                                    <div class="mt-5 mt-md-0">
-                                        @if (!empty($imageData))
-                                            <img src="{{ route('pages.image.detail', ['slug' => $dataDetail->slug, 'id' => $imageData->slug]) }}"
-                                                title="{{ $dataDetail->image_title }}"
-                                                alt="{{ $dataDetail->image_alt }}" class="rounded home-img w-100" />
-                                        @else
-                                            <img src="{{ route('pages.image.detail', ['slug' => $dataDetail->slug]) }}"
-                                                title="{{ $dataDetail->image_title }}"
-                                                alt="{{ $dataDetail->image_alt }}" class="rounded home-img w-100" />
-                                        @endif
-                                    </div>
+                            @elseif ($value->type === 'paragraph')
+                                <div class="ie-field">
+                                    <label for="{{ $value->random_identity }}">{{ $value->form_title }}</label>
+                                    <textarea name="{{ $value->random_identity }}" id="{{ $value->random_identity }}"
+                                        rows="3">{{ $saved[$value->random_identity] ?? $value->text }}</textarea>
+                                    @if ($value->form_description)
+                                        <p class="ie-field__hint">{{ $value->form_description }}</p>
+                                    @endif
                                 </div>
-                            </div>
+                            @elseif ($value->type === 'image')
+                                <div class="ie-field">
+                                    <label for="{{ $value->random_identity }}">{{ $value->form_title }}</label>
+                                    <input type="file" name="{{ $value->random_identity }}"
+                                        id="{{ $value->random_identity }}" class="image-crop"
+                                        accept="image/*" height="{{ $value->height }}"
+                                        width="{{ $value->width }}">
+                                    <input type="hidden" id="{{ $value->random_identity }}--iMage"
+                                        name="{{ $value->random_identity }}--iMage" value="">
+                                    @if ($value->form_description)
+                                        <p class="ie-field__hint">{{ $value->form_description }}</p>
+                                    @endif
+                                </div>
+                            @endif
+                        @empty
+                            <p class="ie-empty">This template has no editable fields right now.</p>
+                        @endforelse
 
-                            <div class="mt-4 pt-2">
-                                <button type="submit" class="btn btn-warning btn-hover"
-                                    style="color: rgb(19, 19, 19) !important;">Create Now</button>
-
-                                @if (!empty($imageData))
-                                    <a class="btn btn-primary" href="{{ route('pages.image.detail', ['slug' => $dataDetail->slug, 'id' => $imageData->slug, 'download' => '1']) }}">Download</a>
-                                @endif
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="section bg-light">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-6">
-                    <div class="section-title me-5">
-                        <h3 class="title text-info">How It Work</h3>
-                        <p class="text-muted">Post a job to tell us about your project. We'll quickly match you with
-                            the
-                            right freelancers.</p>
-                        <div class="process-menu nav flex-column nav-pills" id="v-pills-tab" role="tablist"
-                            aria-orientation="vertical">
-                            <a class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill"
-                                href="#v-pills-home" role="tab" aria-controls="v-pills-home"
-                                aria-selected="true">
-                                <div class="d-flex">
-                                    <div class="number flex-shrink-0">
-                                        1
-                                    </div>
-                                    <div class="flex-grow-1 text-start ms-3">
-                                        <h5 class="fs-18">Fill In Your Details</h5>
-                                        <p class="text-muted mb-0">Enter the required information in our simple
-                                            form—like name, title, message, or location—depending on the image. The form
-                                            is tailored for this specific template, so it’s quick and easy.</p>
-                                    </div>
-                                </div>
-                            </a>
-                            <a class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill"
-                                href="#v-pills-profile" role="tab" aria-controls="v-pills-profile"
-                                aria-selected="false">
-                                <div class="d-flex">
-                                    <div class="number flex-shrink-0">
-                                        2
-                                    </div>
-                                    <div class="flex-grow-1 text-start ms-3">
-                                        <h5 class="fs-18">We Generate the Image Automatically</h5>
-                                        <p class="text-muted mb-0">Once you submit the form, we instantly place your
-                                            data into a pre-designed image template. No design skills needed—everything
-                                            is handled behind the scenes.</p>
-                                    </div>
-                                </div>
-                            </a>
-                            <a class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill"
-                                href="#v-pills-messages" role="tab" aria-controls="v-pills-messages"
-                                aria-selected="false">
-                                <div class=" d-flex">
-                                    <div class="number flex-shrink-0">
-                                        3
-                                    </div>
-                                    <div class="flex-grow-1 text-start ms-3">
-                                        <h5 class="fs-18">Download or Share the Image</h5>
-                                        <p class="text-muted mb-0">Preview your personalized image and download it in
-                                            high quality. It's ready to post, print, or share on social media right
-                                            away.</p>
-                                    </div>
-                                </div>
-                            </a>
+                        <div class="ie-studio__actions">
+                            <button type="submit" class="ie-btn ie-btn--solid">Create now</button>
+                            @if ($downloadUrl)
+                                <a class="ie-btn ie-btn--ghost" href="{{ $downloadUrl }}">Download</a>
+                            @endif
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="tab-content" id="v-pills-tabContent">
-                        <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel"
-                            aria-labelledby="v-pills-home-tab">
-                            <img src="{{ asset('files/images/fill-in-details.png') }}" alt=""
-                                class="img-fluid">
-                        </div>
-                        <div class="tab-pane fade" id="v-pills-profile" role="tabpanel"
-                            aria-labelledby="v-pills-profile-tab">
-                            <img src="{{ asset('files/images/generate-the-image.png') }}" alt=""
-                                class="img-fluid">
-                        </div>
-                        <div class="tab-pane fade" id="v-pills-messages" role="tabpanel"
-                            aria-labelledby="v-pills-messages-tab">
-                            <img src="{{ asset('files/images/download-and-share-image.png') }}" alt=""
-                                class="img-fluid">
-                        </div>
+
+                    <div class="ie-studio__preview" style="--ie-w: {{ $imgW }}; --ie-h: {{ $imgH }};">
+                        <p class="ie-studio__preview-label">
+                            @if (!empty($imageData))
+                                Your generated preview
+                            @else
+                                Template preview
+                            @endif
+                        </p>
+                        <figure class="ie-studio__frame">
+                            <img src="{{ $previewUrl }}"
+                                title="{{ $dataDetail->image_title }}"
+                                alt="{{ $dataDetail->image_alt ?: $dataDetail->title }}"
+                                width="{{ $imgW }}"
+                                height="{{ $imgH }}"
+                                loading="lazy" decoding="async">
+                        </figure>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <section class="ie-section ie-section--alt" aria-labelledby="ie-how-heading">
+            <div class="ie-wrap">
+                <div class="ie-bar ie-reveal">
+                    <div>
+                        <h2 class="ie-bar__title" id="ie-how-heading">How it works</h2>
+                        <p class="ie-bar__lead">Three steps from form fields to a share-ready image.</p>
                     </div>
                 </div>
+                <ol class="ie-steps">
+                    <li class="ie-steps__item ie-reveal">
+                        <span class="ie-steps__num">01</span>
+                        <h3>Fill in your details</h3>
+                        <p>Enter the text and images this template needs — only the fields that matter for this design.</p>
+                    </li>
+                    <li class="ie-steps__item ie-reveal" style="--i: 1">
+                        <span class="ie-steps__num">02</span>
+                        <h3>Generate automatically</h3>
+                        <p>We place your inputs into the ready-made layout. No design tools or resizing required.</p>
+                    </li>
+                    <li class="ie-steps__item ie-reveal" style="--i: 2">
+                        <span class="ie-steps__num">03</span>
+                        <h3>Download or share</h3>
+                        <p>Preview the result, then download a high-quality image ready to post or print.</p>
+                    </li>
+                </ol>
             </div>
-        </div>
-    </section>
-
-    <button id="modalButton" type="button" class="btn btn-primary text-white py-2 px-4 fw-semibold d-none"
-        data-bs-toggle="modal" data-bs-target="#cropperModal">
-        Open Cropper
-    </button>
-    <div class="modal fade" id="cropperModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-        aria-labelledby="cropperModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="cropperModalLabel">Modal title</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body" id="canvasContainer">
-                    <div id="upload-image-image"></div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-sm btn-danger text-white"
-                        data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-sm btn-primary text-white" onclick="getImage()">Set
-                        Image</button>
-                </div>
-            </div>
-        </div>
+        </section>
     </div>
 
-    <script>
-        var $image_crop;
-        var containerWidth;
-        var viewportHeight;
-        var selectedImage = undefined;
-        window.addEventListener('load', function(event) {
-            addCropperImage();
+    <dialog class="ie-crop" data-ie-crop aria-labelledby="ie-crop-title">
+        <div class="ie-crop__panel">
+            <div class="ie-crop__head">
+                <h2 id="ie-crop-title">Crop image</h2>
+                <button type="button" class="ie-crop__close" data-ie-crop-close aria-label="Close">&times;</button>
+            </div>
+            <div class="ie-crop__body" id="canvasContainer">
+                <div id="upload-image-image"></div>
+            </div>
+            <div class="ie-crop__foot">
+                <button type="button" class="ie-btn ie-btn--ghost" data-ie-crop-close>Close</button>
+                <button type="button" class="ie-btn ie-btn--solid" data-ie-crop-set>Set image</button>
+            </div>
+        </div>
+    </dialog>
 
-            var cropImageModal = document.getElementById('cropperModal');
-            cropImageModal.addEventListener('shown.bs.modal', function() {
-                bindCropper()
-            });
+    <x-slot:scripts>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+        <script src="{{ asset('assets/plugin/croppie/croppie.js') }}"></script>
+        <script>
+            (function() {
+                var $image_crop;
+                var selectedImage;
+                var isImageSelected = false;
+                var cropDialog = document.querySelector("[data-ie-crop]");
 
-            cropImageModal.addEventListener('hidden.bs.modal', function() {});
-
-        });
-
-        function getImage() {
-            $('#upload-image-image').croppie('result', {
-                type: 'base64',
-                format: 'png',
-                size: {
-                    width: selectedImage.width,
-                    height: selectedImage.height
-                }, // Fixed result size
-                quality: 0.7
-            }).then(function(resp) {
-                if (resp && isImageSelected) {
-                    setTimeout(() => {
-                        $('#' + selectedImage.element).val(resp);
-                        openClick('modalButton');
-                    }, 200);
+                function openCrop() {
+                    if (cropDialog && cropDialog.showModal) cropDialog.showModal();
+                    else if (cropDialog) cropDialog.setAttribute("open", "");
                 }
-            });
-        }
 
-        function bindCropper() {
-            containerWidth = document.getElementById('upload-image-image').offsetWidth;
-            viewportHeight = (containerWidth / selectedImage.width) * selectedImage.height; // Scale height based on width
-
-            if (!$image_crop) {
-                $image_crop = $('#upload-image-image').croppie({
-                    enableResize: true,
-                    viewport: {
-                        width: containerWidth / 2,
-                        height: viewportHeight / 2,
-                        type: 'square'
-                    },
-                    boundary: {
-                        width: containerWidth,
-                        height: viewportHeight / 2
-                    }
-                });
-            }
-        }
-
-        function addCropperImage() {
-            selectedImage = undefined;
-            $('.image-crop').on('change', function() {
-                var reader = new FileReader();
-                selectedImage = {
-                    element: $(this).attr('name') +
-                        '--iMage', //hidden input where we storing cropped base64 image
-                    height: $(this).attr('height'),
-                    width: $(this).attr('width')
+                function closeCrop() {
+                    if (cropDialog && cropDialog.close) cropDialog.close();
+                    else if (cropDialog) cropDialog.removeAttribute("open");
                 }
-                reader.onload = function(e) {
-                    openClick('modalButton');
-                    setTimeout(() => {
-                        $image_crop.croppie('bind', {
-                            url: e.target.result
-                        }).then(function() {
-                            isImageSelected = true;
+
+                function getImage() {
+                    if (!$image_crop || !selectedImage) return;
+                    $("#upload-image-image").croppie("result", {
+                        type: "base64",
+                        format: "png",
+                        size: {
+                            width: selectedImage.width,
+                            height: selectedImage.height
+                        },
+                        quality: 0.7
+                    }).then(function(resp) {
+                        if (resp && isImageSelected) {
+                            $("#" + selectedImage.element).val(resp);
+                            closeCrop();
+                        }
+                    });
+                }
+
+                function bindCropper() {
+                    var el = document.getElementById("upload-image-image");
+                    if (!el || !selectedImage) return;
+                    var containerWidth = el.offsetWidth || 320;
+                    var viewportHeight = (containerWidth / selectedImage.width) * selectedImage.height;
+
+                    if (!$image_crop) {
+                        $image_crop = $("#upload-image-image").croppie({
+                            enableResize: true,
+                            viewport: {
+                                width: containerWidth / 2,
+                                height: viewportHeight / 2,
+                                type: "square"
+                            },
+                            boundary: {
+                                width: containerWidth,
+                                height: viewportHeight / 2
+                            }
                         });
-                    }, 500);
+                    }
                 }
-                reader.readAsDataURL(this.files[0]);
-            });
-        }
 
-        function openClick(id, setElement = '') {
-            var ele = document.getElementById(id);
-            if (typeof ele.click == 'function') {
-                ele.click()
-            } else if (typeof ele.onclick == 'function') {
-                ele.onclick()
-            }
-        }
-    </script>
-</x-layouts.front>
+                window.addEventListener("load", function() {
+                    document.querySelectorAll("[data-ie-crop-close]").forEach(function(btn) {
+                        btn.addEventListener("click", closeCrop);
+                    });
+                    var setBtn = document.querySelector("[data-ie-crop-set]");
+                    if (setBtn) setBtn.addEventListener("click", getImage);
+
+                    if (cropDialog) {
+                        cropDialog.addEventListener("close", function() {});
+                        // Re-bind after open when dialog is shown
+                        var observer = new MutationObserver(function() {
+                            if (cropDialog.open) {
+                                window.setTimeout(bindCropper, 40);
+                            }
+                        });
+                        observer.observe(cropDialog, { attributes: true, attributeFilter: ["open"] });
+                    }
+
+                    $(".image-crop").on("change", function() {
+                        var input = this;
+                        var reader = new FileReader();
+                        selectedImage = {
+                            element: $(input).attr("name") + "--iMage",
+                            height: parseInt($(input).attr("height"), 10) || 300,
+                            width: parseInt($(input).attr("width"), 10) || 300
+                        };
+                        reader.onload = function(e) {
+                            openCrop();
+                            window.setTimeout(function() {
+                                bindCropper();
+                                if ($image_crop) {
+                                    $image_crop.croppie("bind", {
+                                        url: e.target.result
+                                    }).then(function() {
+                                        isImageSelected = true;
+                                    });
+                                }
+                            }, 180);
+                        };
+                        if (input.files && input.files[0]) reader.readAsDataURL(input.files[0]);
+                    });
+                });
+            })();
+        </script>
+    </x-slot:scripts>
+</x-layouts.site>

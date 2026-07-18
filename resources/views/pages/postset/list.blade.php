@@ -1,123 +1,198 @@
-<x-layouts.front :showHeader="true" :metaData="$metaData">
-    <section class="bg-home2" id="home" style="background-color: rgb(48 56 65);">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-7">
-                    <div class="mb-4 pb-3 me-lg-5">
-                        <h6 class="sub-title">Readymade post builder</h6>
-                        <h1 class="display-5 fw-semibold mb-3">Editable Carousel <span class="text-warning fw-bold">Post Sets</span> for Instagram and Knowledge Sharing</h1>
-                        <p class="lead text-muted mb-0">{{ $metaData['description'] }}</p>
-                    </div>
+<x-layouts.site :metaData="$metaData" page="news-post">
 
-                    @if(auth()->user() && auth()->user()->is_admin())
-                        <div class="row g-0">
-                            <div class="col-md-4">
-                                <div class="mt-3 mt-md-0 h-100">
-                                    <button class="btn btn-warning" style="color: rgb(19, 19, 19) !important;"
-                                        data-bs-toggle="modal" data-bs-target="#startBuilding">Start Building Now</button>
-                                </div>
-                            </div>
-                        </div>
+    @php
+        $searchTerm = request('search');
+        $setCount = (int) ($setCount ?? $dataList->total());
+        $wireLines = [
+            'Morning brief ready for review',
+            'Carousel pack · 9 slides queued',
+            'Letter set · caption + hashtags',
+            'Topic wire · knowledge share',
+            'Headline stack refreshing',
+            'Share-ready news update',
+            'Visual story · audience note',
+            'Desk clear · next topic lined up',
+        ];
+    @endphp
+
+    <div class="np-ambient" aria-hidden="true">
+        <div class="np-ambient__grid"></div>
+        <div class="np-ambient__blob np-ambient__blob--a"></div>
+        <div class="np-ambient__blob np-ambient__blob--b"></div>
+        <div class="np-ambient__blob np-ambient__blob--c"></div>
+        <div class="np-ambient__glow" data-ambient-glow></div>
+        <canvas class="np-ambient__canvas" data-ambient-canvas width="1" height="1"></canvas>
+    </div>
+    <div class="np-progress" data-scroll-progress aria-hidden="true"></div>
+
+    <section class="np-hero">
+        <div class="np-wrap np-hero__grid">
+            <div class="np-hero__copy">
+                <p class="np-live">
+                    <span class="np-live__dot" aria-hidden="true"></span>
+                    Live wire · News &amp; letter sets
+                </p>
+                <p class="np-hero__signal">News</p>
+                <h1 class="np-hero__title">
+                    Topic post sets you can open, adapt, and share —
+                    <span class="np-hero__typed" data-type-rotate>as a news brief</span><span class="np-hero__caret"
+                        aria-hidden="true"></span>
+                </h1>
+                <p class="np-hero__lead">
+                    A library of ready-made carousel sets for news updates and letter-style storytelling.
+                    Pick a topic, preview the slides, personalize, then publish.
+                </p>
+                <div class="np-hero__actions">
+                    <a class="np-btn np-btn--solid" href="#post-sets">Browse sets</a>
+                    @if (auth()->user() && auth()->user()->is_admin())
+                        <button type="button" class="np-btn np-btn--ghost" data-np-open-build>Start building</button>
                     @endif
                 </div>
-                <div class="col-lg-5">
-                    <div class="mt-5 mt-md-0">
-                        <img loading="lazy" src="{{ asset('files/images/gujjuticks-dynamic-post-builder.png') }}" alt="Gujjuticks Dynamic Post/News Builder"
-                            class="home-img w-100" />
+                <p class="np-hero__meta">
+                    <span data-local-time>—</span>
+                    <span class="np-hero__sep">·</span>
+                    <strong data-count="{{ $setCount }}">{{ number_format($setCount) }}</strong> sets on the wire
+                </p>
+            </div>
+
+            <div class="np-hero__visual" aria-hidden="true">
+                <canvas class="np-hero__canvas" data-np-visual width="1" height="1"></canvas>
+                <div class="np-hero__wire">
+                    <div class="np-hero__wire-track">
+                        @foreach ([1, 2] as $copy)
+                            @foreach ($wireLines as $line)
+                                <p><span>WIRE</span>{{ $line }}</p>
+                            @endforeach
+                        @endforeach
                     </div>
                 </div>
+                <div class="np-hero__pulse"></div>
             </div>
         </div>
     </section>
 
-    <section class="section">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center mb-4">
-                    <div class="section-title mb-5">
-                        <h3 class="title text-warning">Explore Visual Post Sets by Topic</h3>
-                        <p class="text-muted">
-                            Browse through our growing library of visual post sets, each designed to simplify complex
-                            topics into shareable content. Navigate by page to discover unique sets ready for
-                            customization and use.
-                        </p>
-                    </div>
-                </div>
-
-                @if (count($dataList) > 0)
-                    @foreach ($dataList as $data)
-                        <div class="col-lg-4 mb-4">
-                            <a href="{{ route('pages.postset.post.generator', ['slug' => $data->slug]) }}">
-                                <img loading="lazy" src="{{ route('pages.image.postmain', ['slug' => $data->slug . '.jpg']) }}"
-                                    class="rounded-4 w-100 mb-3" alt="{{ $data->title }} Image"
-                                    title="{{ $data->title }} Image">
-                                <h3 class="h4 text-dark">{{ $data->title }}</h3>
-                            </a>
-                        </div>
-                    @endforeach
-                    <div class="col-12 text-center">
-                        {{ $dataList->links('vendor.pagination.bootstrap-5-new') }}
-                    </div>
-                @else
-                    <div class="col-md-12">
-                        <x-common.empty></x-common.empty>
-                    </div>
-                @endif
-            </div>
+    <div class="np-marquee" aria-hidden="true">
+        <div class="np-marquee__track">
+            @foreach ([1, 2] as $copy)
+                <span>News briefs</span>
+                <span>Letter sets</span>
+                <span>Topic carousels</span>
+                <span>Caption packs</span>
+                <span>Shareable updates</span>
+                <span>Knowledge posts</span>
+            @endforeach
         </div>
-    </section>
+    </div>
 
-    @if(auth()->user() && auth()->user()->is_admin())
-        <div id="startBuilding" class="modal fade" tabindex="-1" aria-labelledby="startBuildingLabel"
-            style="display: none;" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <form method="post">
-                        {{ csrf_field() }}
-                        <div class="modal-header">
-                            <h5 class="modal-title text-warning mt-0" id="startBuildingLabel">Start Adding Post</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <span id="error-msg">
-                                @if ($errors->any())
-                                    <div class="text-danger border border-danger border-2 p-3 rounded-3 mb-3">
-                                        <b>{{ __('dashboard.error') }}:</b>
-                                        <hr>
-                                        <ul>
-                                            @foreach ($errors->all() as $error)
-                                                <li>{{ $error }}</li>
-                                            @endforeach
-                                        </ul>
-                                    </div>
+    <section class="np-section" id="post-sets" aria-label="Post sets">
+        <div class="np-wrap">
+            <div class="np-bar np-reveal">
+                <div>
+                    <h2 class="np-bar__title">
+                        @if ($searchTerm)
+                            Results for “{{ $searchTerm }}”
+                        @else
+                            On the wire
+                        @endif
+                    </h2>
+                    <p class="np-bar__lead">Open a set to preview slides, then personalize for your audience.</p>
+                </div>
+                <form class="np-search" method="get" action="{{ route('pages.postset.list') }}" role="search">
+                    <label class="visually-hidden" for="np-search">Search post sets</label>
+                    <input id="np-search" type="search" name="search" value="{{ $searchTerm }}"
+                        placeholder="Search topics…" autocomplete="off">
+                    <button type="submit">Go</button>
+                </form>
+            </div>
+
+            @if ($dataList->count() > 0)
+                <div class="np-list">
+                    @foreach ($dataList as $i => $data)
+                        <a href="{{ route('pages.postset.post.generator', ['slug' => $data->slug]) }}"
+                            class="np-row np-reveal" style="--i: {{ $i % 8 }}">
+                            <span class="np-row__index">{{ str_pad((string) ($dataList->firstItem() + $i), 2, '0', STR_PAD_LEFT) }}</span>
+                            <figure class="np-row__media">
+                                <img loading="lazy" decoding="async"
+                                    src="{{ route('pages.image.postmain', ['slug' => $data->slug . '.jpg']) }}"
+                                    alt="" width="320" height="320">
+                            </figure>
+                            <div class="np-row__copy">
+                                @if ($data->topic)
+                                    <span class="np-row__topic">{{ $data->topic }}</span>
                                 @endif
-                            </span>
-                            <p class="mb-4">Start building your resume by entering a few basic details. No sign-up needed
-                                - just fill in your name and mobile number to continue.</p>
-                            <div class="mb-3">
-                                <label for="prompt" class="form-label">Prompt</label>
-                                <textarea name="prompt" id="prompt" class="form-control" rows="4" style="width: 100%">{{ old('prompt', $prompt) }}</textarea>
-                                @error('prompt')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
+                                <h3 class="np-row__title">{{ $data->title }}</h3>
+                                @if ($data->meta_description)
+                                    <p class="np-row__summary">{{ \Illuminate\Support\Str::limit($data->meta_description, 120) }}</p>
+                                @endif
                             </div>
-                            <div class="mb-3">
-                                <label for="data" class="form-label">Data</label>
-                                <textarea name="data" id="data" class="form-control" rows="10" style="width: 100%">{{ old('data') }}</textarea>
-                                @error('data')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
+                            <div class="np-row__meta">
+                                @if (($data->posts_count ?? 0) > 0)
+                                    <span>{{ $data->posts_count }} slides</span>
+                                @endif
+                                <span class="np-row__go">Open</span>
                             </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary waves-effect"
-                                data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-warning waves-effect waves-light"
-                                style="color: rgb(19, 19, 19) !important;">Start Process</button>
-                        </div>
-                    </form>
+                        </a>
+                    @endforeach
                 </div>
-            </div>
+
+                {{ $dataList->links('vendor.pagination.site') }}
+            @else
+                <div class="np-empty" role="status">
+                    @if ($searchTerm)
+                        No post sets matched “{{ $searchTerm }}”.
+                    @else
+                        New sets will appear on the wire soon.
+                    @endif
+                </div>
+            @endif
         </div>
+    </section>
+
+    @if (auth()->user() && auth()->user()->is_admin())
+        <dialog class="np-dialog" data-np-dialog>
+            <form method="post" action="{{ route('pages.postset.post') }}" class="np-dialog__panel">
+                @csrf
+                <div class="np-dialog__head">
+                    <h2>Start adding a post set</h2>
+                    <button type="button" class="np-dialog__close" data-np-close-build aria-label="Close">&times;</button>
+                </div>
+                <div class="np-dialog__body">
+                    @if ($errors->any())
+                        <div class="np-dialog__errors">
+                            <strong>{{ __('dashboard.error') }}:</strong>
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                    <p>Paste the associative array output to create a new topic-based post set.</p>
+                    <label for="prompt">Prompt</label>
+                    <textarea name="prompt" id="prompt" rows="4">{{ old('prompt', $prompt) }}</textarea>
+                    @error('prompt')
+                        <p class="np-form-error">{{ $message }}</p>
+                    @enderror
+                    <label for="data">Data</label>
+                    <textarea name="data" id="data" rows="10">{{ old('data') }}</textarea>
+                    @error('data')
+                        <p class="np-form-error">{{ $message }}</p>
+                    @enderror
+                </div>
+                <div class="np-dialog__foot">
+                    <button type="button" class="np-btn np-btn--ghost" data-np-close-build>Close</button>
+                    <button type="submit" class="np-btn np-btn--solid">Start process</button>
+                </div>
+            </form>
+        </dialog>
+        @if ($errors->any())
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    var d = document.querySelector('[data-np-dialog]');
+                    if (d && d.showModal) d.showModal();
+                });
+            </script>
+        @endif
     @endif
-</x-layouts.front>
+
+</x-layouts.site>

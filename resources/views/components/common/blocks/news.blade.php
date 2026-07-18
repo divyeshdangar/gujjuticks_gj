@@ -1,12 +1,25 @@
-<div class="{{ $class }}">
-    <div class="job-box bookmark-post card mb-5">
-        <div class="p-4">
-            <img src="{{ route('pagpages.image.cool', ['slug' => 'characters-' . CommonHelper::getInitials($data->title) . '.jpg']) }}"
-                alt="" class="img-fluid rounded-3">
-            <h3 class="h4 my-3 text-dark" style="display: inline-block">
-                {!! $data->title !!}
+<div class="{{ $class ?? '' }}">
+    @php
+        $initials = \App\Helpers\CommonHelper::getInitials($data->title);
+        $thumb = route('pages.image.cool', ['slug' => 'characters-' . $initials . '.jpg']);
+        $excerpt = \Illuminate\Support\Str::limit(strip_tags($data->content ?? ''), 160);
+        $href = !empty($data->link) ? $data->link : null;
+    @endphp
+    <article class="nw-story">
+        <figure class="nw-story__media">
+            <img src="{{ $thumb }}" alt="" width="320" height="200" loading="lazy" decoding="async">
+        </figure>
+        <div class="nw-story__body">
+            <h3 class="nw-story__title">
+                @if ($href)
+                    <a href="{{ $href }}" rel="noopener noreferrer" target="_blank">{!! $data->title !!}</a>
+                @else
+                    {!! $data->title !!}
+                @endif
             </h3>
-            <p class="text-muted fs-14 mb-0">{!! $data->content !!}</p>
+            @if ($excerpt)
+                <p class="nw-story__excerpt">{{ $excerpt }}</p>
+            @endif
         </div>
-    </div>
+    </article>
 </div>

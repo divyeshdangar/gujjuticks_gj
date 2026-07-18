@@ -17,10 +17,9 @@ class PostSetController extends Controller
     public function index(Request $request): View
     {
         $metaData = [
-            "title" => "Editable Carousel Post Sets for Instagram and Knowledge Sharing | GujjuTicks Post Builder",
-            "description" => "Explore a curated library of customizable post sets covering various topics with visual storytelling. Ideal for Instagram carousels, knowledge hubs, and branded content - easily personalize and share as your own.",
-            //"image" => "",
-            "keywords" => "customizable Instagram posts, editable carousels, knowledge post sets, shareable visual content, educational content builder, dynamic post templates, branding-ready content, topic-based image posts, carousel content ideas, Instagram knowledge cards",
+            "title" => "News & Letter Post Sets – Ready-to-Share Topics | GujjuTicks",
+            "description" => "Browse ready-made news and letter post sets by topic. Open a set, personalize the slides, and share clear storytelling without starting from scratch.",
+            "keywords" => "news post sets, letter templates, Instagram carousels, knowledge posts, shareable visual content, topic-based posts, caption-ready content",
             "url" => route('pages.postset.list')
         ];
         $prompt = "Give me 9 point for 'history of Jamnagar' with 1 title, keywords, meta description, to create 10 Instagram post, also give me 1 proper caption with rich hashtags and whatever best for Instagram. Make sure you give it all in proper associative array in below format. Do not include emojis in title or posts, but you can in caption.
@@ -37,11 +36,19 @@ class PostSetController extends Controller
         'meta_description' => ''
         ]";
 
-        $dataList = PostSet::where('image_id', '>', '0')->where('status', 'created')->orderBy('id', 'DESC');
+        $dataList = PostSet::where('image_id', '>', '0')
+            ->where('status', 'created')
+            ->withCount('posts')
+            ->orderBy('id', 'DESC');
         $dataList = $dataList->searching()->paginate(10)->withQueryString();
         $metaData['prev'] = $dataList->previousPageUrl() ?? null;
 
-        return view('pages.postset.list', ['metaData' => $metaData, 'prompt' => $prompt, 'dataList' => $dataList]);
+        return view('pages.postset.list', [
+            'metaData' => $metaData,
+            'prompt' => $prompt,
+            'dataList' => $dataList,
+            'setCount' => PostSet::where('image_id', '>', '0')->where('status', 'created')->count(),
+        ]);
     }
 
     public function post(Request $request)
@@ -99,7 +106,11 @@ class PostSetController extends Controller
 
     public function generator(Request $request, $slug)
     {
-        $dataDetail = PostSet::where("slug", $slug)->first();
+        $dataDetail = PostSet::where("slug", $slug)
+            ->with(['posts' => function ($q) {
+                $q->orderBy('order');
+            }])
+            ->first();
         if ($dataDetail) {
             $bProfile = Auth::check() ? Auth::user()->businessProfile : null;
             $metaData = [
@@ -107,7 +118,7 @@ class PostSetController extends Controller
                 "description" => $dataDetail->meta_description,
                 "image" => route('pages.image.postmain', ['slug' => $dataDetail->slug . '.jpg']),
                 "keywords" => $dataDetail->keywords,
-                "url" => route('pages.resume.list'),
+                "url" => route('pages.postset.post.generator', ['slug' => $dataDetail->slug]),
                 "schema" => [
                     "@context" => "https://schema.org",
                     "@type" => "NewsArticle",

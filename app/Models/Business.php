@@ -70,4 +70,27 @@ class Business extends Model
     {
         return $this->belongsTo(PlaceCategory::class);
     }
+
+    /** Public directory listings (imported / approved). */
+    public function scopePublished($query)
+    {
+        return $query->where('status', 'success');
+    }
+
+    /** User form submissions awaiting admin review. */
+    public function scopeAwaitingReview($query)
+    {
+        return $query->where('status', 'pending')
+            ->where('place_id', 'like', 'manual-%');
+    }
+
+    public function isPublished(): bool
+    {
+        return $this->status === 'success';
+    }
+
+    public function isUserSubmission(): bool
+    {
+        return is_string($this->place_id) && str_starts_with($this->place_id, 'manual-');
+    }
 }

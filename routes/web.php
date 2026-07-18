@@ -12,6 +12,7 @@ use App\Http\Controllers\Dashboard\UserController;
 use App\Http\Controllers\Dashboard\DashboardoController;
 use App\Http\Controllers\Dashboard\PostsController;
 use App\Http\Controllers\Dashboard\LocationController;
+use App\Http\Controllers\Dashboard\BusinessController as DashboardBusinessController;
 use App\Http\Controllers\Dashboard\PagesController;
 use App\Http\Controllers\Dashboard\TemplateController;
 use App\Http\Controllers\Dashboard\SocialMediaController;
@@ -146,6 +147,11 @@ Route::middleware([CheckIfLogin::class, CheckLanguage::class])->group(function (
     Route::post('dashboard/profile/edit', [ProfileController::class, 'store'])->name('dashboard.profile.edit.post');
 
     Route::get('dashboard/contact', [ContactController::class, 'index'])->name('dashboard.contact');
+
+    Route::get('dashboard/business', [DashboardBusinessController::class, 'index'])->name('dashboard.business');
+    Route::get('dashboard/business/view/{id}', [DashboardBusinessController::class, 'view'])->name('dashboard.business.view');
+    Route::get('dashboard/business/approve/{id}', [DashboardBusinessController::class, 'approve'])->name('dashboard.business.approve');
+    Route::get('dashboard/business/reject/{id}', [DashboardBusinessController::class, 'reject'])->name('dashboard.business.reject');
     
     Route::get('dashboard/image', [ImageController::class, 'index'])->name('dashboard.image');
     Route::get('dashboard/image/create', [ImageController::class, 'create'])->name('dashboard.image.create');
