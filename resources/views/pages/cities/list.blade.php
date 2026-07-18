@@ -92,7 +92,7 @@
                         @endphp
                         <a href="{{ route('pages.cities.detail', ['slug' => $city->slug]) }}" class="cy-city">
                             <figure class="cy-city__media">
-                                <img src="{{ $image }}" alt="" width="640" height="400" loading="lazy"
+                                <img src="{{ $image }}" alt="{{ $city->name }}" width="640" height="400" loading="lazy"
                                     decoding="async">
                             </figure>
                             <div class="cy-city__body">

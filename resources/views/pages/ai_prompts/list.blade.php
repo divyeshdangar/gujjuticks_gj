@@ -110,7 +110,7 @@
                                 <article class="ap-card ap-reveal">
                                     @if ($item->image)
                                         <a href="{{ $href }}" class="ap-card__media">
-                                            <img src="{{ asset('images/ai-prompts/' . $item->image) }}" alt=""
+                                            <img src="{{ asset('images/ai-prompts/' . $item->image) }}" alt="{{ $item->title }}"
                                                 width="640" height="360" loading="lazy" decoding="async">
                                         </a>
                                     @endif

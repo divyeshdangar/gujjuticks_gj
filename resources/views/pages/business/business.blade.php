@@ -128,7 +128,7 @@
                                 class="bd-row bd-reveal" style="--i: {{ $i % 8 }}">
                                 <span class="bd-row__index">{{ str_pad((string) ($i + 1), 2, '0', STR_PAD_LEFT) }}</span>
                                 <figure class="bd-row__media">
-                                    <img src="{{ $image }}" alt="" width="160" height="160" loading="lazy"
+                                    <img src="{{ $image }}" alt="{{ $city->name }}" width="160" height="160" loading="lazy"
                                         decoding="async">
                                 </figure>
                                 <div class="bd-row__copy">

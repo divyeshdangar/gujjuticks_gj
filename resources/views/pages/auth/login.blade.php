@@ -42,13 +42,13 @@
 
                 <div class="lg-actions">
                     <a class="lg-btn lg-btn--google" href="{{ route('google.redirect') }}">
-                        <img src="{{ asset('assets/images/google.svg') }}" alt="" width="20" height="20">
+                        <img src="{{ asset('assets/images/google.svg') }}" alt="Google" width="20" height="20">
                         <span>Continue with Google</span>
                     </a>
 
                     <button type="button" class="lg-btn lg-btn--muted" disabled
                         title="Facebook sign-in will be available soon">
-                        <img src="{{ asset('assets/images/facebook.svg') }}" alt="" width="20" height="20">
+                        <img src="{{ asset('assets/images/facebook.svg') }}" alt="Facebook" width="20" height="20">
                         <span>Continue with Facebook</span>
                         <em class="lg-soon">Soon</em>
                     </button>

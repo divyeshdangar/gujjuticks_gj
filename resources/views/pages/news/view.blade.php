@@ -142,7 +142,7 @@
                     @if ($hasImage)
                         <figure class="nw-overview__media">
                             <img src="{{ URL::asset('/images/news/' . $dataDetail->image) }}"
-                                alt="" width="960" height="540" loading="eager" decoding="async">
+                                alt="{{ $dataDetail->name }}" width="960" height="540" loading="eager" decoding="async">
                         </figure>
                     @endif
                     <div class="nw-overview__copy">
@@ -208,7 +208,7 @@
                             @endphp
                             <article class="nw-story nw-reveal" style="--i: {{ $i % 9 }}">
                                 <figure class="nw-story__media">
-                                    <img src="{{ $thumb }}" alt="" width="320" height="200" loading="lazy"
+                                    <img src="{{ $thumb }}" alt="{{ strip_tags($data->title) }}" width="320" height="200" loading="lazy"
                                         decoding="async">
                                 </figure>
                                 <div class="nw-story__body">

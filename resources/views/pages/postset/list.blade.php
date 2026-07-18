@@ -114,7 +114,7 @@
                             <figure class="np-row__media">
                                 <img loading="lazy" decoding="async"
                                     src="{{ route('pages.image.postmain', ['slug' => $data->slug . '.jpg']) }}"
-                                    alt="" width="320" height="320">
+                                    alt="{{ $data->title }}" width="320" height="320">
                             </figure>
                             <div class="np-row__copy">
                                 @if ($data->topic)

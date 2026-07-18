@@ -71,7 +71,7 @@
 
         @if ($hasImage)
             <figure class="ap-detail__cover ap-wrap">
-                <img src="{{ asset('images/ai-prompts/' . $dataDetail->image) }}" alt="" width="1200" height="675"
+                <img src="{{ asset('images/ai-prompts/' . $dataDetail->image) }}" alt="{{ $dataDetail->title }}" width="1200" height="675"
                     loading="eager" decoding="async">
             </figure>
         @endif
@@ -134,7 +134,7 @@
                                 <article class="ap-comment">
                                     <div class="ap-comment__avatar" aria-hidden="true">
                                         @if ($comment->user)
-                                            <img src="{{ $comment->user->profile() }}" alt="" width="40" height="40"
+                                            <img src="{{ $comment->user->profile() }}" alt="{{ $comment->user->name ?? 'User' }}" width="40" height="40"
                                                 loading="lazy" decoding="async">
                                         @else
                                             <span>U</span>

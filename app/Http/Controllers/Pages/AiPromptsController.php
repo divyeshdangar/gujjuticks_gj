@@ -32,6 +32,11 @@ class AiPromptsController extends Controller
             'description' => 'Browse predefined AI prompts by category. Copy ready-made prompts for writing, coding, marketing, and more — so you can finish tasks faster without starting from scratch.',
             'keywords' => 'AI prompts, ChatGPT prompts, prompt library, prompt categories, ready-made prompts, copy prompts',
             'url' => route('pages.ai_prompts.list'),
+            'image' => asset('brand/pages/gujjuticks-homepage.png'),
+            'image_alt' => 'AI Prompts library',
+            'robots' => $request->filled('search')
+                ? 'noindex, follow'
+                : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
         ];
 
         $query = AiPrompt::with('category')
@@ -43,7 +48,27 @@ class AiPromptsController extends Controller
         $dataList = $query->paginate(12)->withQueryString();
         $categories = AiPromptCategory::active()->orderBy('sort_order')->orderBy('name')->get();
 
-        $metaData['prev'] = $dataList->previousPageUrl() ?? null;
+        $metaData['prev'] = $dataList->previousPageUrl();
+        $metaData['next'] = $dataList->nextPageUrl();
+        $metaData['schema'] = [
+            '@context' => 'https://schema.org',
+            '@graph' => [
+                [
+                    '@type' => 'CollectionPage',
+                    '@id' => $metaData['url'] . '#webpage',
+                    'url' => $metaData['url'],
+                    'name' => $metaData['title'],
+                    'description' => $metaData['description'],
+                ],
+                [
+                    '@type' => 'BreadcrumbList',
+                    'itemListElement' => [
+                        ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => route('home')],
+                        ['@type' => 'ListItem', 'position' => 2, 'name' => 'AI Prompts', 'item' => $metaData['url']],
+                    ],
+                ],
+            ],
+        ];
 
         return view('pages.ai_prompts.list', [
             'metaData' => $metaData,
@@ -79,6 +104,9 @@ class AiPromptsController extends Controller
             'description' => $category->meta_description ?? $category->description ?? 'Browse ready-made ' . $category->name . ' AI prompts. Open, copy, and reuse predefined prompts to finish tasks faster.',
             'keywords' => $category->meta_keywords ?? 'AI prompts, ' . $category->name . ' prompts, ChatGPT prompts, ready-made prompts, ' . $category->name,
             'url' => route('pages.ai_prompts.category', ['slug' => $category->slug]),
+            'robots' => $request->filled('search')
+                ? 'noindex, follow'
+                : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
         ];
 
         if (!empty($category->image)) {
@@ -95,7 +123,8 @@ class AiPromptsController extends Controller
         $dataList = $query->paginate(12)->withQueryString();
         $categories = AiPromptCategory::active()->orderBy('sort_order')->orderBy('name')->get();
 
-        $metaData['prev'] = $dataList->previousPageUrl() ?? null;
+        $metaData['prev'] = $dataList->previousPageUrl();
+        $metaData['next'] = $dataList->nextPageUrl();
 
         // JSON-LD: CollectionPage + ItemList for category page
         $baseUrl = rtrim(config('app.url'), '/');
@@ -163,6 +192,44 @@ class AiPromptsController extends Controller
             'description' => $dataDetail->meta_description ?? $dataDetail->description ?? Str::limit(strip_tags($dataDetail->prompt), 160),
             'keywords' => $dataDetail->meta_keywords ?? 'AI prompt, ' . $dataDetail->title,
             'url' => route('pages.ai_prompts.detail', ['slug' => $dataDetail->slug]),
+            'robots' => 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
+            'image' => ! empty($dataDetail->image)
+                ? URL::asset('images/ai-prompts/' . $dataDetail->image)
+                : asset('brand/pages/gujjuticks-homepage.png'),
+            'image_alt' => $dataDetail->title,
+            'schema' => [
+                '@context' => 'https://schema.org',
+                '@graph' => [
+                    [
+                        '@type' => 'WebPage',
+                        '@id' => route('pages.ai_prompts.detail', ['slug' => $dataDetail->slug]) . '#webpage',
+                        'url' => route('pages.ai_prompts.detail', ['slug' => $dataDetail->slug]),
+                        'name' => $dataDetail->title,
+                        'description' => $dataDetail->meta_description ?? $dataDetail->description ?? Str::limit(strip_tags((string) $dataDetail->prompt), 160),
+                    ],
+                    [
+                        '@type' => 'BreadcrumbList',
+                        'itemListElement' => array_values(array_filter([
+                            ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => route('home')],
+                            ['@type' => 'ListItem', 'position' => 2, 'name' => 'AI Prompts', 'item' => route('pages.ai_prompts.list')],
+                            $dataDetail->category
+                                ? [
+                                    '@type' => 'ListItem',
+                                    'position' => 3,
+                                    'name' => $dataDetail->category->name,
+                                    'item' => route('pages.ai_prompts.category', ['slug' => $dataDetail->category->slug]),
+                                ]
+                                : null,
+                            [
+                                '@type' => 'ListItem',
+                                'position' => $dataDetail->category ? 4 : 3,
+                                'name' => $dataDetail->title,
+                                'item' => route('pages.ai_prompts.detail', ['slug' => $dataDetail->slug]),
+                            ],
+                        ])),
+                    ],
+                ],
+            ],
         ];
 
         if (!empty($dataDetail->image)) {

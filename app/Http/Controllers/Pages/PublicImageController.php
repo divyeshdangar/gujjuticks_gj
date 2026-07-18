@@ -72,6 +72,24 @@ class PublicImageController extends Controller
                 "image" => !empty($dataDetail->image)
                     ? asset('images/dynamic/' . $dataDetail->image)
                     : route('pages.image.detail', ['slug' => $dataDetail->slug]),
+                "image_alt" => $dataDetail->title,
+                "robots" => $slugId
+                    ? 'noindex, follow'
+                    : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
+                "schema" => [
+                    '@context' => 'https://schema.org',
+                    '@type' => 'WebApplication',
+                    'name' => $dataDetail->title . ' Image Creator',
+                    'description' => $dataDetail->meta_description ?: ('Create a personalized image with the ' . $dataDetail->title . ' template.'),
+                    'url' => route('pages.image.editor.detail', ['slug' => $dataDetail->slug]),
+                    'applicationCategory' => 'DesignApplication',
+                    'operatingSystem' => 'Web',
+                    'publisher' => [
+                        '@type' => 'Organization',
+                        'name' => 'GujjuTicks',
+                        'url' => 'https://www.gujjuticks.com/',
+                    ],
+                ],
             ];
 
             return view('pages.image.view', [

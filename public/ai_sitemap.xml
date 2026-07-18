@@ -2,7 +2,8 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
     <url>
     <loc>http://localhost:8000/ai-prompts</loc>
-    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
             </url>
     <url>
     <loc>http://localhost:8000/ai-prompts/image-generation</loc>
@@ -233,7 +234,7 @@
             </url>
     <url>
     <loc>http://localhost:8000/ai-prompt/pitch-deck-outline</loc>
-    <lastmod>2026-02-27T23:55:31+05:30</lastmod>
+    <lastmod>2026-02-28T19:58:11+05:30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
             </url>
@@ -473,7 +474,7 @@
             </url>
     <url>
     <loc>http://localhost:8000/ai-prompt/structured-output-prompts</loc>
-    <lastmod>2026-02-27T23:55:31+05:30</lastmod>
+    <lastmod>2026-02-28T15:56:18+05:30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
             </url>
@@ -515,7 +516,7 @@
             </url>
     <url>
     <loc>http://localhost:8000/ai-prompt/mini-game-ideas</loc>
-    <lastmod>2026-02-27T23:55:31+05:30</lastmod>
+    <lastmod>2026-02-28T16:42:43+05:30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
             </url>

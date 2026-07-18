@@ -67,7 +67,7 @@
                         <figure class="np-detail__cover">
                             <img loading="eager" decoding="async"
                                 src="{{ route('pages.image.postmain', ['slug' => $dataDetail->slug . '.jpg']) }}"
-                                alt="" width="720" height="720">
+                                alt="{{ $dataDetail->title }}" width="720" height="720">
                             <span class="np-detail__scan"></span>
                         </figure>
                     </div>
@@ -168,7 +168,7 @@
                                 <figure class="np-slide__media">
                                     <img loading="lazy" decoding="async"
                                         src="{{ route('pages.image.postset', ['slug' => $value->slug . '.jpg']) }}"
-                                        alt="" width="640" height="640">
+                                        alt="{{ $value->title }}" width="640" height="640">
                                     <span class="np-slide__index">{{ str_pad((string) ($i + 1), 2, '0', STR_PAD_LEFT) }}</span>
                                 </figure>
                                 <h3 class="np-slide__title">{{ $value->title }}</h3>

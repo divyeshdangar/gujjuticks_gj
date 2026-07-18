@@ -34,6 +34,7 @@ class BusinessController extends Controller
             "keywords" => "local business directory, business listing, find local businesses, city directory, nearby services, shops near me, GujjuTicks business directory",
             "url" => route('pages.business'),
             "image" => asset('images/creative/Local-Business-Directory-Trusted-Businesses-on-GujjuTicks.jpg'),
+            "robots" => "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
             "schema" => [
                 "@context" => "https://schema.org",
                 "@type" => "WebSite",
@@ -117,7 +118,10 @@ class BusinessController extends Controller
             "title" => "Add Your Business - Get Listed in GujjuTicks Business Directory",
             "description" => "List your business for free in our city directory. Increase visibility, attract local customers, and grow your brand online in just a few minutes.",
             "keywords" => "add business, list business online, city business directory, local listing, free business listing, promote business, online directory, business registration",
-            "url" => route('pages.business.add')
+            "url" => route('pages.business.add'),
+            "robots" => "noindex, follow",
+            "image" => asset('images/creative/Local-Business-Directory-Trusted-Businesses-on-GujjuTicks.jpg'),
+            "image_alt" => "Add your business to the GujjuTicks directory",
         ];
 
         return view('pages.business.add', [

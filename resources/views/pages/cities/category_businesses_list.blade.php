@@ -87,7 +87,7 @@
                         <li class="cy-biz">
                             <span class="cy-biz__index" aria-hidden="true">{{ str_pad((string) $index, 2, '0', STR_PAD_LEFT) }}</span>
                             <figure class="cy-biz__avatar">
-                                <img src="{{ $initialsImage }}" alt="" width="112" height="112" loading="lazy"
+                                <img src="{{ $initialsImage }}" alt="{{ $data->name }}" width="112" height="112" loading="lazy"
                                     decoding="async">
                             </figure>
                             <div class="cy-biz__body">
@@ -179,7 +179,7 @@
                         <a href="{{ route('pages.cities.businesses.list', ['slug' => $city->slug, 'category' => $catSlug]) }}"
                             class="cy-city">
                             <figure class="cy-city__media">
-                                <img src="{{ $image }}" alt="" width="640" height="400" loading="lazy"
+                                <img src="{{ $image }}" alt="{{ $city->name }}" width="640" height="400" loading="lazy"
                                     decoding="async">
                             </figure>
                             <div class="cy-city__body">

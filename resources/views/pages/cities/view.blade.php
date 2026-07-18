@@ -76,7 +76,7 @@
                         <a href="{{ route('pages.cities.businesses.list', ['slug' => $dataDetail->slug, 'category' => $catSlug]) }}"
                             class="cy-cat">
                             <figure class="cy-cat__media">
-                                <img src="{{ $catImage }}" alt="" width="480" height="320" loading="lazy"
+                                <img src="{{ $catImage }}" alt="{{ $catLabel }} in {{ $dataDetail->name }}" width="480" height="320" loading="lazy"
                                     decoding="async">
                             </figure>
                             <div class="cy-cat__body">
@@ -143,7 +143,7 @@
                         @endphp
                         <a href="{{ route('pages.cities.detail', ['slug' => $city->slug]) }}" class="cy-city">
                             <figure class="cy-city__media">
-                                <img src="{{ $image }}" alt="" width="640" height="400" loading="lazy"
+                                <img src="{{ $image }}" alt="{{ $city->name }}" width="640" height="400" loading="lazy"
                                     decoding="async">
                             </figure>
                             <div class="cy-city__body">

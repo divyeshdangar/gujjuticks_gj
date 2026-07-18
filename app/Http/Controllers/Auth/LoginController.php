@@ -28,6 +28,7 @@ class LoginController extends Controller
                 "description" => "Sign in to your GujjuTicks workspace to manage projects, content, and delivery tools. Continue securely with Google.",
                 "url" => route('login'),
                 "keywords" => "GujjuTicks login, dashboard access, Google sign in, workspace login, GujjuTicks account",
+                "robots" => "noindex, follow",
             ];
             return view('pages.auth.login', ['metaData' => $metaData]);
         }

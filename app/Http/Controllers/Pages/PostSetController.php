@@ -20,7 +20,10 @@ class PostSetController extends Controller
             "title" => "News & Letter Post Sets – Ready-to-Share Topics | GujjuTicks",
             "description" => "Browse ready-made news and letter post sets by topic. Open a set, personalize the slides, and share clear storytelling without starting from scratch.",
             "keywords" => "news post sets, letter templates, Instagram carousels, knowledge posts, shareable visual content, topic-based posts, caption-ready content",
-            "url" => route('pages.postset.list')
+            "url" => route('pages.postset.list'),
+            "robots" => $request->filled('search')
+                ? 'noindex, follow'
+                : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
         ];
         $prompt = "Give me 9 point for 'history of Jamnagar' with 1 title, keywords, meta description, to create 10 Instagram post, also give me 1 proper caption with rich hashtags and whatever best for Instagram. Make sure you give it all in proper associative array in below format. Do not include emojis in title or posts, but you can in caption.
         [
@@ -41,7 +44,29 @@ class PostSetController extends Controller
             ->withCount('posts')
             ->orderBy('id', 'DESC');
         $dataList = $dataList->searching()->paginate(10)->withQueryString();
-        $metaData['prev'] = $dataList->previousPageUrl() ?? null;
+        $metaData['prev'] = $dataList->previousPageUrl();
+        $metaData['next'] = $dataList->nextPageUrl();
+        $metaData['image'] = asset('brand/pages/gujjuticks-homepage.png');
+        $metaData['image_alt'] = $metaData['title'];
+        $metaData['schema'] = [
+            '@context' => 'https://schema.org',
+            '@graph' => [
+                [
+                    '@type' => 'CollectionPage',
+                    '@id' => $metaData['url'] . '#webpage',
+                    'url' => $metaData['url'],
+                    'name' => $metaData['title'],
+                    'description' => $metaData['description'],
+                ],
+                [
+                    '@type' => 'BreadcrumbList',
+                    'itemListElement' => [
+                        ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => route('home')],
+                        ['@type' => 'ListItem', 'position' => 2, 'name' => 'Post Builder', 'item' => $metaData['url']],
+                    ],
+                ],
+            ],
+        ];
 
         return view('pages.postset.list', [
             'metaData' => $metaData,
@@ -114,16 +139,22 @@ class PostSetController extends Controller
         if ($dataDetail) {
             $bProfile = Auth::check() ? Auth::user()->businessProfile : null;
             $metaData = [
-                "title" => $dataDetail->title,
-                "description" => $dataDetail->meta_description,
+                "title" => $dataDetail->title . ' | GujjuTicks Post Builder',
+                "description" => trim((string) ($dataDetail->meta_description ?? '')) !== ''
+                    ? $dataDetail->meta_description
+                    : ('Ready-to-share post set: ' . $dataDetail->title . '. Open, personalize, and publish.'),
                 "image" => route('pages.image.postmain', ['slug' => $dataDetail->slug . '.jpg']),
+                "image_alt" => $dataDetail->title,
                 "keywords" => $dataDetail->keywords,
                 "url" => route('pages.postset.post.generator', ['slug' => $dataDetail->slug]),
+                "robots" => "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
                 "schema" => [
                     "@context" => "https://schema.org",
                     "@type" => "NewsArticle",
                     "headline" => $dataDetail->title,
-                    "description" => $dataDetail->meta_description,
+                    "description" => trim((string) ($dataDetail->meta_description ?? '')) !== ''
+                        ? $dataDetail->meta_description
+                        : ('Ready-to-share post set: ' . $dataDetail->title),
                     "datePublished" => $dataDetail->created_at->toIso8601String(),
                     "url" => url()->current(),
                     "author" => [

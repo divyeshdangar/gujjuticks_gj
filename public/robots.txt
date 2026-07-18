@@ -1,2 +1,31 @@
 User-agent: *
-Disallow:
+Allow: /
+
+# Auth & dashboard
+Disallow: /login
+Disallow: /dashboard
+Disallow: /auth/
+
+# Unlisted project tools (noindex pages)
+Disallow: /project-brief
+Disallow: /project-estimate
+Disallow: /tech-stack
+
+# Forms / auth helpers
+Disallow: /business/add
+
+# Removed / redirected modules
+Disallow: /resume-builder
+Disallow: /generate-resume
+
+# Utility / binary endpoints
+Disallow: /city/generate-image
+Disallow: /cool-image/
+Disallow: /news-image/
+Disallow: /city-business-category-image/
+Disallow: /post-image/
+Disallow: /post-main/
+
+Sitemap: http://localhost:8000/sitemap.xml
+Sitemap: http://localhost:8000/news_sitemap.xml
+Sitemap: http://localhost:8000/ai_sitemap.xml
