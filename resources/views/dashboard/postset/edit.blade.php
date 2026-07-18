@@ -73,7 +73,7 @@
                                         <select class="form-select form-control ps-5 h-58" name="image_id"
                                             required aria-label="Parent category selection">
                                             <option value="" class="text-dark">{{ __('dashboard.select') }}
-                                                {{ __('dashboard.card_category') }}</option>
+                                                {{ __('dashboard.image') }}</option>
                                             @foreach ($imageData as $data)
                                                 <option value="{{ $data->id }}" class="text-dark"
                                                     @if ($data->id == old('image_id', $dataDetail->image_id)) selected="selected" @endif>

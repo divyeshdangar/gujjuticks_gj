@@ -51,10 +51,6 @@ class Notification extends Model
     public function extra($type)
     {
         switch ($type) {
-            case 'msg.new_webpage_created':
-                return Webpage::where('id', $this->extra_id)->first();
-                break;
-            
             default:
                 # code...
                 break;

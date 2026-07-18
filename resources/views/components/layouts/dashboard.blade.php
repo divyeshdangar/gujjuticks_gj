@@ -15,7 +15,6 @@
     <link rel="stylesheet" href="{{ asset('assets/css/prism.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/rangeslider.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/sweetalert.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/plugin/jkanban/jkanban.css') }}">
     <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.0.0/ckeditor5.css">
     <link rel="stylesheet" href="{{ asset('assets/plugin/croppie/croppie.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
@@ -373,7 +372,6 @@
     <!-- Link Of JS File -->
     <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('assets/js/sidebar-menu.js') }}"></script>
-    <script src="{{ asset('assets/js/dragdrop.js') }}"></script>
     <script src="{{ asset('assets/js/rangeslider.min.js') }}"></script>
     <script src="{{ asset('assets/js/sweetalert.js') }}"></script>
     <script src="{{ asset('assets/js/data-table.js') }}"></script>
@@ -385,7 +383,6 @@
     {{-- <script src="{{ asset('assets/js/amcharts.js') }}"></script> --}}
     {{-- <script src="{{ asset('assets/js/custom/ecommerce-chart.js') }}"></script> --}}
     {{-- <script src="{{ asset('assets/js/custom/profile.js') }}"></script> --}}
-    <script src="{{ asset('assets/plugin/jkanban/jkanban.js') }}"></script>
     {{-- <script src="https://unpkg.com/fabric/dist/fabric.min.js"></script> --}}
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/2.3.6/fabric.min.js"></script>

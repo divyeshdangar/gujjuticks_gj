@@ -3,7 +3,6 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -91,16 +90,6 @@ class User extends Authenticatable
         return $this->hasOne(UserMenu::class, 'user_id');
     }
 
-    public function members(): HasMany
-    {
-        return $this->hasMany(Member::class);
-    }
-
-    public function confirmMembers(): HasMany
-    {
-        return $this->hasMany(Member::class)->where(["status" => "0"]);
-    }
-
     public function profile()
     {
         if (strlen($this->profile) < 20) {
@@ -122,11 +111,6 @@ class User extends Authenticatable
     public function is_company()
     {
         return $this->user_type == User::Company ? true : false;
-    }
-
-    public function webpages()
-    {
-        return $this->hasMany(Webpage::class);
     }
 
     public function businessProfile()

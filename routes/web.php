@@ -8,21 +8,13 @@ use App\Http\Controllers\Dashboard\ContactController;
 use App\Http\Controllers\Dashboard\ImageController;
 use App\Http\Controllers\Dashboard\BlogController;
 use App\Http\Controllers\Dashboard\BlogCategoryController;
-use App\Http\Controllers\Dashboard\MemberController;
 use App\Http\Controllers\Dashboard\UserController;
 use App\Http\Controllers\Dashboard\DashboardoController;
-use App\Http\Controllers\Dashboard\BoardController;
-use App\Http\Controllers\Dashboard\BoardItemController;
 use App\Http\Controllers\Dashboard\PostsController;
 use App\Http\Controllers\Dashboard\LocationController;
 use App\Http\Controllers\Dashboard\PagesController;
 use App\Http\Controllers\Dashboard\TemplateController;
 use App\Http\Controllers\Dashboard\SocialMediaController;
-use App\Http\Controllers\Dashboard\WebpageController;
-use App\Http\Controllers\Dashboard\WebpageAnalyticsController;
-use App\Http\Controllers\Dashboard\CardsController;
-use App\Http\Controllers\Dashboard\CardsCategoryController;
-
 use App\Http\Middleware\CheckIfLogin;
 use App\Http\Middleware\CheckLanguage;
 
@@ -35,7 +27,6 @@ use App\Http\Controllers\Pages\HomeController;
 use App\Http\Controllers\Pages\MarketingController;
 use App\Http\Controllers\Pages\CitiesController;
 use App\Http\Controllers\Pages\NewsController;
-use App\Http\Controllers\Pages\CardsController as PublicCardsController;
 use App\Http\Controllers\Pages\AiPromptsController;
 
 use App\Http\Controllers\Auth\LoginController;
@@ -45,7 +36,6 @@ use App\Http\Controllers\Auth\InstagramController;
 use App\Http\Controllers\Api\V1\BlogController as ApiBlogController;
 use App\Http\Controllers\Dashboard\PostSetController as DashboardPostSetController;
 use App\Http\Controllers\Pages\BusinessController;
-use App\Http\Controllers\Pages\GujjuMeController;
 use App\Http\Controllers\Pages\PostSetController;
 use App\Http\Controllers\RssFeedController;
 
@@ -87,10 +77,6 @@ Route::middleware([CheckLanguage::class])->group(function () {
     Route::get('blogs', [PublicBlogController::class, 'index'])->name('pages.blog.list');
     Route::get('blog-on-{slug}', [PublicBlogController::class, 'category'])->name('pages.blog.category.detail');
     Route::get('blog/{slug}', [PublicBlogController::class, 'view'])->name('pages.blog.detail');
-
-    Route::get('cards', [PublicCardsController::class, 'index'])->name('pages.card.list');
-    Route::get('cards/{slug}', [PublicCardsController::class, 'category'])->name('pages.card.category.detail');
-    Route::get('card/{slug}', [PublicCardsController::class, 'view'])->name('pages.card.detail');
 
     Route::get('news', [NewsController::class, 'index'])->name('pages.news.list');
     Route::get('news/{slug}', [NewsController::class, 'view'])->name('pages.news.detail');
@@ -135,9 +121,6 @@ Route::middleware([CheckLanguage::class])->group(function () {
     Route::get('business', [BusinessController::class, 'business'])->name('pages.business');
     Route::get('business/add', [BusinessController::class, 'add'])->name('pages.business.add');
     Route::post('business/add', [BusinessController::class, 'store'])->name('pages.business.store');
-
-    Route::get('link-page-builder', [GujjuMeController::class, 'index'])->name('pages.link.index');
-    Route::post('link-page-builder', [GujjuMeController::class, 'post'])->name('pages.link.post');
 });
 
 Route::get('language/{locale}', function ($locale) {
@@ -186,15 +169,6 @@ Route::middleware([CheckIfLogin::class, CheckLanguage::class])->group(function (
     Route::get('dashboard/blog/delete/{id}', [BlogController::class, 'delete'])->name('dashboard.blog.delete');
     Route::get('dashboard/blog/restore/{id}', [BlogController::class, 'restore'])->name('dashboard.blog.restore');
 
-    Route::get('dashboard/card', [CardsController::class, 'index'])->name('dashboard.card');
-    Route::get('dashboard/card/create', [CardsController::class, 'create'])->name('dashboard.card.create');
-    Route::get('dashboard/card/edit/{id}', [CardsController::class, 'edit'])->name('dashboard.card.edit');
-    Route::post('dashboard/card/edit/{id}', [CardsController::class, 'store'])->name('dashboard.card.edit.post');
-    Route::get('dashboard/card/delete/{id}', [CardsController::class, 'delete'])->name('dashboard.card.delete');
-    Route::get('dashboard/card/restore/{id}', [CardsController::class, 'restore'])->name('dashboard.card.restore');
-
-    Route::get('dashboard/card-order', [CardsController::class, 'test'])->name('dashboard.card.order');
-
     Route::get('dashboard/postset', [DashboardPostSetController::class, 'index'])->name('dashboard.postset');
     Route::get('dashboard/postset/create', [DashboardPostSetController::class, 'create'])->name('dashboard.postset.create');
     Route::post('dashboard/postset/create', [DashboardPostSetController::class, 'smallStore'])->name('dashboard.postset.add.post');  
@@ -204,13 +178,6 @@ Route::middleware([CheckIfLogin::class, CheckLanguage::class])->group(function (
     Route::get('dashboard/postset/list/{id}', [DashboardPostSetController::class, 'list'])->name('dashboard.postset.list');
     Route::get('dashboard/postset/delete/{id}', [DashboardPostSetController::class, 'delete'])->name('dashboard.postset.delete');
     Route::get('dashboard/postset/restore/{id}', [DashboardPostSetController::class, 'restore'])->name('dashboard.postset.restore');
-
-    Route::get('dashboard/card-category', [CardsCategoryController::class, 'index'])->name('dashboard.card.category');
-    Route::get('dashboard/card-category/create', [CardsCategoryController::class, 'create'])->name('dashboard.card.category.create');
-    Route::get('dashboard/card-category/edit/{id}', [CardsCategoryController::class, 'edit'])->name('dashboard.card.category.edit');
-    Route::post('dashboard/card-category/edit/{id}', [CardsCategoryController::class, 'store'])->name('dashboard.card.category.edit.post');
-    Route::get('dashboard/card-category/delete/{id}', [CardsCategoryController::class, 'delete'])->name('dashboard.card.category.delete');
-    Route::get('dashboard/card-category/restore/{id}', [CardsCategoryController::class, 'restore'])->name('dashboard.card.category.restore');
 
     Route::get('dashboard/pages', [PagesController::class, 'index'])->name('dashboard.pages');
     Route::get('dashboard/pages/create', [PagesController::class, 'create'])->name('dashboard.pages.create');
@@ -250,20 +217,6 @@ Route::middleware([CheckIfLogin::class, CheckLanguage::class])->group(function (
     Route::get('dashboard/blog-category/view/{id}', [BlogCategoryController::class, 'view'])->name('dashboard.blog.category.view');
     Route::get('dashboard/blog-category/delete/{id}', [BlogCategoryController::class, 'delete'])->name('dashboard.blog.category.delete');
 
-    Route::get('dashboard/board', [BoardController::class, 'index'])->name('dashboard.board');
-    Route::get('dashboard/board/create', [BoardController::class, 'create'])->name('dashboard.board.create');
-    Route::get('dashboard/board/edit/{id}', [BoardController::class, 'edit'])->name('dashboard.board.edit');
-    Route::post('dashboard/board/edit/{id}', [BoardController::class, 'store'])->name('dashboard.board.edit.post');
-    Route::get('dashboard/board/delete/{id}', [BoardController::class, 'delete'])->name('dashboard.board.delete');
-    Route::get('dashboard/board/{id}', [BoardController::class, 'view'])->name('dashboard.board.items');
-    Route::get('dashboard/board/add-item/{id}', [BoardController::class, 'view'])->name('dashboard.board.items.add');
-    Route::post('dashboard/work-item/edit', [BoardItemController::class, 'updateItem'])->name('dashboard.work_item.edit.post');
-
-    Route::get('dashboard/member', [MemberController::class, 'index'])->name('dashboard.member');
-    Route::get('dashboard/member/import', [MemberController::class, 'import'])->name('dashboard.member.import');
-    Route::post('dashboard/member/import', [MemberController::class, 'import_file'])->name('dashboard.member.import.post');
-    Route::post('dashboard/member/add', [MemberController::class, 'store'])->name('dashboard.member.add');  
-
     Route::get('dashboard/user', [UserController::class, 'index'])->name('dashboard.user');
     Route::post('dashboard/user/create', [UserController::class, 'store'])->name('dashboard.user.create');
     Route::get('dashboard/user/edit/{id}', [UserController::class, 'edit'])->name('dashboard.user.edit');
@@ -271,17 +224,6 @@ Route::middleware([CheckIfLogin::class, CheckLanguage::class])->group(function (
     Route::get('dashboard/user/view/{id}', [UserController::class, 'view'])->name('dashboard.user.view');
     Route::post('dashboard/user/access/{id}', [UserController::class, 'access'])->name('dashboard.user.access');
     Route::get('dashboard/user/delete/{id}', [UserController::class, 'delete'])->name('dashboard.user.delete');
-
-    Route::get('dashboard/webpage', [WebpageController::class, 'index'])->name('dashboard.webpage');
-    Route::post('dashboard/webpage/create', [WebpageController::class, 'store'])->name('dashboard.webpage.create');
-    Route::get('dashboard/webpage/delete/{id}', [WebpageController::class, 'delete'])->name('dashboard.webpage.delete');
-    Route::get('dashboard/webpage/restore/{id}', [WebpageController::class, 'restore'])->name('dashboard.webpage.restore');
-    Route::get('dashboard/webpage/analytics/{id}', [WebpageAnalyticsController::class, 'index'])->name('dashboard.webpage.analytics');
-    Route::get('dashboard/webpage/edit/{id}/{section?}', [WebpageController::class, 'edit'])->name('dashboard.webpage.edit');
-    //Route::post('dashboard/webpage/section-edit/{id}', [WebpageController::class, 'store_edit'])->name('dashboard.webpage.edit.section.post');
-    Route::get('dashboard/webpage/delete-sub/{id}/{section}/{sub_id}', [WebpageController::class, 'delete_main'])->name('dashboard.webpage.delete.main');
-    Route::post('dashboard/webpage/edit/{id}', [WebpageController::class, 'store_edit'])->name('dashboard.webpage.edit.post');
-    Route::get('dashboard/webpage/refresh/{id}', [WebpageController::class, 'refresh'])->name('dashboard.webpage.refresh');
 
     Route::get('dashboard/social-media', [SocialMediaController::class, 'index'])->name('dashboard.social');
     Route::get('dashboard/social-media/view/{id}', [SocialMediaController::class, 'view'])->name('dashboard.social.view');

@@ -29,36 +29,6 @@ class MenuSeeder extends Seeder
                 "status" => "1"
             ],
             [
-                "id" => 2, 
-                "icon" => "", 
-                "title" => 'dashboard.manage_work', 
-                "route" => "",
-                "order" => 2,
-                "title_only" => "1",
-                "type" => "2",
-                "status" => "1"
-            ],
-            [
-                "id" => 3, 
-                "icon" => "clipboard", 
-                "title" => 'dashboard.board', 
-                "route" => "dashboard.board",
-                "order" => 3,
-                "title_only" => "0",
-                "type" => "2",
-                "status" => "1"
-            ],
-            [
-                "id" => 4, 
-                "icon" => "user", 
-                "title" => 'dashboard.member', 
-                "route" => "dashboard.member",
-                "order" => 4,
-                "title_only" => "0",
-                "type" => "2",
-                "status" => "1"
-            ],
-            [
                 "id" => 16, 
                 "icon" => "square", 
                 "title" => 'dashboard.posts', 
@@ -114,56 +84,6 @@ class MenuSeeder extends Seeder
                 "title" => 'dashboard.social_media', 
                 "route" => "dashboard.social",
                 "order" => 6,
-                "title_only" => "0",
-                "type" => "2",
-                "status" => "1"
-            ],
-            [
-                "id" => 20, 
-                "icon" => "link", 
-                "title" => 'dashboard.webpage', 
-                "route" => "dashboard.webpage",
-                "order" => 6,
-                "title_only" => "0",
-                "type" => "2",
-                "status" => "1"
-            ],
-            [
-                "id" => 22, 
-                "icon" => "", 
-                "title" => 'dashboard.manage_cards', 
-                "route" => "",
-                "order" => 14,
-                "title_only" => "1",
-                "type" => "2",
-                "status" => "1"
-            ],
-            [
-                "id" => 23, 
-                "icon" => "tablet", 
-                "title" => 'dashboard.card', 
-                "route" => "dashboard.card",
-                "order" => 15,
-                "title_only" => "0",
-                "type" => "2",
-                "status" => "1"
-            ],
-            [
-                "id" => 24, 
-                "icon" => "sidebar", 
-                "title" => 'dashboard.card_category', 
-                "route" => "dashboard.card.category",
-                "order" => 16,
-                "title_only" => "0",
-                "type" => "2",
-                "status" => "1"
-            ],
-            [
-                "id" => 25, 
-                "icon" => "check-square", 
-                "title" => 'dashboard.card_order', 
-                "route" => "dashboard.card.order",
-                "order" => 17,
                 "title_only" => "0",
                 "type" => "2",
                 "status" => "1"

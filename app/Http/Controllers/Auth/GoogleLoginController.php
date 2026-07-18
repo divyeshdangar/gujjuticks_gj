@@ -50,7 +50,7 @@ class GoogleLoginController extends Controller
 
                 $dataDetail = new UserMenu();
                 $dataDetail->user_id = $user->id;
-                $dataDetail->menuIds = implode(",", [5,9,10,12,20]); // default menus
+                $dataDetail->menuIds = implode(",", [5,9,10,12]); // default menus
                 $dataDetail->save();
 
             } else {

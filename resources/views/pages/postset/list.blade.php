@@ -5,11 +5,7 @@
                 <div class="col-lg-7">
                     <div class="mb-4 pb-3 me-lg-5">
                         <h6 class="sub-title">Readymade post builder</h6>
-                        <h1 class="display-5 fw-semibold mb-3">{!! str_replace(
-                            'Post Sets',
-                            '<a href="https://gujju.me"><span class="text-warning fw-bold">Post Sets</span></a>',
-                            'Editable Carousel Post Sets for Instagram and Knowledge Sharing',
-                        ) !!}</h1>
+                        <h1 class="display-5 fw-semibold mb-3">Editable Carousel <span class="text-warning fw-bold">Post Sets</span> for Instagram and Knowledge Sharing</h1>
                         <p class="lead text-muted mb-0">{{ $metaData['description'] }}</p>
                     </div>
 
