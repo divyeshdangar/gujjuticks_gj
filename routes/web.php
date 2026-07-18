@@ -66,6 +66,7 @@ Route::middleware([CheckLanguage::class])->group(function () {
     });
     Route::get('about', [MarketingController::class, 'about'])->name('pages.about');
     Route::get('how-we-work', [MarketingController::class, 'howWeWork'])->name('pages.how-we-work');
+    Route::get('industries', [MarketingController::class, 'industries'])->name('pages.industries');
     Route::get('engagements', fn () => redirect()->route('pages.services', [], 301));
     Route::get('faq', [MarketingController::class, 'faq'])->name('pages.faq');
     Route::get('careers', [MarketingController::class, 'careers'])->name('pages.careers');

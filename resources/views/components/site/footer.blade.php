@@ -18,6 +18,7 @@
             <a href="{{ route('pages.work') }}">Work</a>
             <a href="{{ route('pages.about') }}">About</a>
             <a href="{{ route('pages.how-we-work') }}">How we work</a>
+            <a href="{{ route('pages.industries') }}">Industries</a>
             <a href="{{ route('pages.faq') }}">FAQ</a>
             <a href="{{ route('pages.careers') }}">Careers</a>
             <a href="{{ route('pages.blog.list') }}">Journal</a>

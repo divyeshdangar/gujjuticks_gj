@@ -159,6 +159,11 @@ class MarketingController extends Controller
         return $this->renderCompanyPage('how_we_work', 'pages.how-we-work', 'pages.marketing.how-we-work', 'How we work');
     }
 
+    public function industries(Request $request): View
+    {
+        return $this->renderCompanyPage('industries', 'pages.industries', 'pages.marketing.industries', 'Industries');
+    }
+
     public function faq(Request $request): View
     {
         return $this->renderCompanyPage('faq', 'pages.faq', 'pages.marketing.faq', 'FAQ');
