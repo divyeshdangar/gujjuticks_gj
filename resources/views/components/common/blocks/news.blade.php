@@ -7,7 +7,7 @@
     @endphp
     <article class="nw-story">
         <figure class="nw-story__media">
-            <img src="{{ $thumb }}" alt="" width="320" height="200" loading="lazy" decoding="async">
+            <img src="{{ $thumb }}" alt="{{ strip_tags($data->title) }}" width="320" height="200" loading="lazy" decoding="async">
         </figure>
         <div class="nw-story__body">
             <h3 class="nw-story__title">

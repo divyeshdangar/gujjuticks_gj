@@ -51,6 +51,11 @@
     <priority>0.7</priority>
             </url>
     <url>
+    <loc>http://localhost:8000/compare</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+            </url>
+    <url>
     <loc>http://localhost:8000/blogs</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
@@ -317,6 +322,26 @@
             </url>
     <url>
     <loc>http://localhost:8000/industries/travel-hospitality</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+            </url>
+    <url>
+    <loc>http://localhost:8000/compare/build-vs-buy</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+            </url>
+    <url>
+    <loc>http://localhost:8000/compare/in-house-vs-agency</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+            </url>
+    <url>
+    <loc>http://localhost:8000/compare/mvp-vs-freelancers</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+            </url>
+    <url>
+    <loc>http://localhost:8000/compare/website-vs-custom-app</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
             </url>

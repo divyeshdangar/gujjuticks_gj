@@ -79,6 +79,16 @@
                     <h3 class="mk-card__title">Services</h3>
                     <p class="mk-card__summary">Custom apps, websites, and software.</p>
                 </a>
+                <a href="{{ route('pages.compare') }}" class="mk-card">
+                    <p class="mk-card__tag">Decide</p>
+                    <h3 class="mk-card__title">Compare</h3>
+                    <p class="mk-card__summary">In-house, freelancers, website vs app.</p>
+                </a>
+                <a href="{{ route('pages.how-we-work') }}" class="mk-card">
+                    <p class="mk-card__tag">Process</p>
+                    <h3 class="mk-card__title">How we work</h3>
+                    <p class="mk-card__summary">Discovery through launch.</p>
+                </a>
                 <a href="{{ route('pages.work') }}" class="mk-card">
                     <p class="mk-card__tag">Proof</p>
                     <h3 class="mk-card__title">Work</h3>

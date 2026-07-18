@@ -24,8 +24,8 @@
                     aria-hidden="true"></span>
             </p>
             <p class="hm-hero__lead">
-                GujjuTicks is a software startup that designs and develops custom applications, modern websites,
-                and business software so you can launch faster and operate with confidence.
+                GujjuTicks designs and develops custom applications, modern websites, and business software
+                so startups and growing teams can launch a clear v1 faster — with weekly demos and ownership you can run.
             </p>
             <div class="hm-hero__actions">
                 <a class="hm-btn hm-btn--solid" href="{{ route('form.contact') }}">Start a project</a>
@@ -40,7 +40,7 @@
             </p>
         </div>
         <div class="hm-hero__visual">
-            <img src="{{ asset('brand/pages/gujjuticks-homepage.png') }}" alt="" width="1600" height="900"
+            <img src="{{ asset('brand/pages/gujjuticks-homepage.png') }}" alt="GujjuTicks — custom apps, websites and software" width="1600" height="900"
                 loading="eager" decoding="async">
             <div class="hm-hero__orb" aria-hidden="true"></div>
             <div class="hm-hero__scan" aria-hidden="true"></div>
@@ -288,7 +288,7 @@
                         <article class="hm-reveal">
                             <a href="{{ $href }}" class="hm-card">
                                 <figure class="hm-card__media">
-                                    <img src="{{ $image }}" alt="" width="640" height="360" loading="lazy"
+                                    <img src="{{ $image }}" alt="{{ $data->title }}" width="640" height="360" loading="lazy"
                                         decoding="async">
                                 </figure>
                                 <div class="hm-card__body">

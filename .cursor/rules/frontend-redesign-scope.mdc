@@ -26,6 +26,7 @@ Apply the new frontend design to:
 - Technology (`/technology`, `/technology/{slug}`)
 - Work (`/work`, `/work/{slug}`)
 - About
+- Compare / decision guides (`/compare`, `/compare/{slug}`)
 - CMS detail pages (`/p/{slug}` from dashboard Pages)
 - Cities list (`/cities`), city detail (`/city/{slug}`), category listings (`/city/{slug}/{category}`), business directory hub (`/business`), and add business (`/business/add`) — use `page="cities"` and [`public/css/site/cities.css`](public/css/site/cities.css)
 - AI Prompts list (`/ai-prompts`), category (`/ai-prompts/{slug}`), and detail (`/ai-prompt/{slug}`) — light animated design matching Home (`page="ai-prompts"`, [`public/css/site/ai-prompts.css`](public/css/site/ai-prompts.css), [`public/js/site/ai-prompts.js`](public/js/site/ai-prompts.js))

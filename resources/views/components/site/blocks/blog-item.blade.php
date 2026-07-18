@@ -12,7 +12,7 @@
 <article>
     <a href="{{ $href }}" class="jn-card">
         <figure class="jn-card__media">
-            <img src="{{ $image }}" alt="" width="640" height="360" loading="lazy" decoding="async">
+            <img src="{{ $image }}" alt="{{ $data->title }}" width="640" height="360" loading="lazy" decoding="async">
         </figure>
         <div class="jn-card__body">
             <div class="jn-meta">

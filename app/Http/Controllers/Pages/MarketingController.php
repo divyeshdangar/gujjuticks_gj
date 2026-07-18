@@ -199,7 +199,111 @@ class MarketingController extends Controller
 
     public function faq(Request $request): View
     {
-        return $this->renderCompanyPage('faq', 'pages.faq', 'pages.marketing.faq', 'FAQ');
+        $page = SitePages::section('faq');
+        $url = route('pages.faq');
+        $meta = $this->meta(
+            $page['meta_title'],
+            $page['meta_description'],
+            $url,
+            [
+                ['name' => 'Home', 'item' => route('home')],
+                ['name' => 'FAQ', 'item' => $url],
+            ]
+        );
+
+        $faqEntities = [];
+        foreach ($page['groups'] ?? [] as $group) {
+            foreach ($group['items'] ?? [] as $item) {
+                if (empty($item['q']) || empty($item['a'])) {
+                    continue;
+                }
+                $faqEntities[] = [
+                    '@type' => 'Question',
+                    'name' => $item['q'],
+                    'acceptedAnswer' => [
+                        '@type' => 'Answer',
+                        'text' => $item['a'],
+                    ],
+                ];
+            }
+        }
+
+        if ($faqEntities !== []) {
+            $meta['schema']['@graph'][] = [
+                '@type' => 'FAQPage',
+                '@id' => $url . '#faq',
+                'mainEntity' => $faqEntities,
+            ];
+        }
+
+        return view('pages.marketing.faq', [
+            'page' => $page,
+            'metaData' => $meta,
+        ]);
+    }
+
+    public function compareHub(Request $request): View
+    {
+        $hub = SitePages::get('compare.hub');
+        $url = route('pages.compare');
+
+        return view('pages.marketing.compare-index', [
+            'hub' => $hub,
+            'items' => $hub['items'] ?? [],
+            'metaData' => $this->meta(
+                $hub['meta_title'],
+                $hub['meta_description'],
+                $url,
+                [
+                    ['name' => 'Home', 'item' => route('home')],
+                    ['name' => 'Compare', 'item' => $url],
+                ]
+            ),
+        ]);
+    }
+
+    public function compareShow(Request $request, string $slug): View
+    {
+        $page = SitePages::page('compare', $slug);
+        if ($page === null) {
+            abort(404);
+        }
+
+        $hub = SitePages::get('compare.hub');
+        $url = route('pages.compare.show', ['slug' => $slug]);
+        $siblings = collect($hub['items'] ?? [])
+            ->reject(fn ($item) => ($item['slug'] ?? '') === $slug)
+            ->take(3)
+            ->values()
+            ->all();
+
+        $meta = $this->meta(
+            $page['meta_title'],
+            $page['meta_description'],
+            $url,
+            [
+                ['name' => 'Home', 'item' => route('home')],
+                ['name' => 'Compare', 'item' => route('pages.compare')],
+                ['name' => $page['label'], 'item' => $url],
+            ]
+        );
+
+        if (! empty($page['answer'])) {
+            $meta['schema']['@graph'][] = [
+                '@type' => 'WebPage',
+                '@id' => $url . '#answer',
+                'name' => $page['heading'],
+                'description' => $page['answer'],
+                'url' => $url,
+            ];
+        }
+
+        return view('pages.marketing.compare-show', [
+            'slug' => $slug,
+            'page' => $page,
+            'siblings' => $siblings,
+            'metaData' => $meta,
+        ]);
     }
 
     public function careers(Request $request): View

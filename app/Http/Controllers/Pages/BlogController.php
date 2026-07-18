@@ -159,7 +159,10 @@ class BlogController extends Controller
 
     public function view(Request $request, $slug)
     {
-        $dataDetail = Blog::with(['user', 'category'])->where('slug', $slug)->first();
+        $dataDetail = Blog::with(['user', 'category'])
+            ->where('slug', $slug)
+            ->where('status', '1')
+            ->first();
         if ($dataDetail) {
             $image = URL::asset('/images/blog/' . $dataDetail->image);
             $url = route('pages.blog.detail', ['slug' => $dataDetail->slug]);

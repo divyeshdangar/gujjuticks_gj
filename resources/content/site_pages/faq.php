@@ -2,10 +2,10 @@
 
 return array (
   'label' => 'FAQ',
-  'heading' => 'Questions buyers ask before they start',
-  'lead' => 'Practical answers about timelines, ownership, how we work, and what happens after launch.',
-  'meta_title' => 'FAQ | GujjuTicks',
-  'meta_description' => 'Frequently asked questions about working with GujjuTicks — timelines, ownership, pricing shape, remote work, and launch support.',
+  'heading' => 'Practical answers before you start a software project',
+  'lead' => 'GujjuTicks answers the questions founders ask first — timelines, ownership, pricing shape, remote work, and what happens after launch.',
+  'meta_title' => 'FAQ | GujjuTicks Custom Apps, Websites & Software',
+  'meta_description' => 'FAQ for working with GujjuTicks: how projects start, timelines, code ownership, pricing shape, stack choices, and launch support.',
   'intro' => 'Service pages have deeper FAQs for specific offers. This page covers the cross-cutting questions most founders and operators ask first.',
   'groups' => 
   array (

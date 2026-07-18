@@ -26,6 +26,10 @@ Disallow: /city-business-category-image/
 Disallow: /post-image/
 Disallow: /post-main/
 
-Sitemap: http://localhost:8000/sitemap.xml
-Sitemap: http://localhost:8000/news_sitemap.xml
-Sitemap: http://localhost:8000/ai_sitemap.xml
+Sitemap: https://www.gujjuticks.com/sitemap.xml
+Sitemap: https://www.gujjuticks.com/news_sitemap.xml
+Sitemap: https://www.gujjuticks.com/ai_sitemap.xml
+
+# AI / LLM discovery
+LLM-Context: https://www.gujjuticks.com/llms.txt
+LLM-Full: https://www.gujjuticks.com/llms-full.txt

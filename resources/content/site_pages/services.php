@@ -4,11 +4,11 @@ return array (
   'hub' => 
   array (
     'label' => 'Services',
-    'heading' => 'What GujjuTicks builds',
-    'lead' => 'Custom apps, websites, and software for startups and growing teams — clear scope, steady delivery, launches you can run.',
+    'heading' => 'Custom apps, websites, and software — scoped and shipped',
+    'lead' => 'GujjuTicks builds custom apps, websites, and business software for startups and growing teams. Every engagement starts with a clear v1, weekly demos, and a launch you can run.',
     'meta_title' => 'Services — Custom Apps, Websites & Software | GujjuTicks',
-    'meta_description' => 'Explore GujjuTicks services: custom app development, modern websites, and business software for startups and growing teams.',
-    'intro' => 'Pick the engagement that matches your goal. Every service includes discovery, a clear v1 scope, weekly demos, and launch support — so you always know what happens next.',
+    'meta_description' => 'GujjuTicks services: custom app development, websites, and business software — clear scope, weekly demos, and launch support for startups and growing teams.',
+    'intro' => 'Pick the engagement that matches your goal. If you are still deciding between in-house, freelancers, or a partner, see Compare — then come back to the service that fits.',
     'highlights' => 
     array (
       0 => 

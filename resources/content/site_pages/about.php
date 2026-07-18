@@ -2,10 +2,10 @@
 
 return array (
   'label' => 'About',
-  'heading' => 'A software startup that builds with you',
-  'lead' => 'GujjuTicks designs and develops custom apps, websites, and business software for startups and growing teams — from Gujarat, India, working with clients locally and online.',
+  'heading' => 'GujjuTicks builds custom apps, websites, and software',
+  'lead' => 'We are a software startup in Gujarat, India: we design and develop custom applications, modern websites, and business software for startups and growing teams — locally and online.',
   'meta_title' => 'About GujjuTicks | Custom Apps, Websites & Software',
-  'meta_description' => 'GujjuTicks is a software startup in Gujarat, India building custom apps, websites, and software for startups and growing businesses.',
+  'meta_description' => 'GujjuTicks is a software startup in Gujarat, India that builds custom apps, websites, and software for startups and growing businesses — clear scope, weekly demos, launches you can run.',
   'story' => 
   array (
     'heading' => 'Why GujjuTicks exists',

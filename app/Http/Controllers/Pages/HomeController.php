@@ -19,7 +19,7 @@ class HomeController extends Controller
     {
         $url = route('home');
         $title = 'GujjuTicks — Custom Apps, Websites & Software';
-        $description = 'GujjuTicks is a software startup building custom apps, websites, and business software for startups and growing teams. Clear scope, steady delivery, and launches you can run.';
+        $description = 'GujjuTicks builds custom apps, websites, and business software for startups and growing teams. Clear v1 scope, weekly demos, and launches you can run — from Gujarat, India, working locally and online.';
 
         $metaData = [
             'title' => $title,

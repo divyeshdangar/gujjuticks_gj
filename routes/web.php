@@ -80,6 +80,8 @@ Route::middleware([CheckLanguage::class])->group(function () {
     Route::get('engagements', fn () => redirect()->route('pages.services', [], 301));
     Route::get('faq', [MarketingController::class, 'faq'])->name('pages.faq');
     Route::get('careers', [MarketingController::class, 'careers'])->name('pages.careers');
+    Route::get('compare', [MarketingController::class, 'compareHub'])->name('pages.compare');
+    Route::get('compare/{slug}', [MarketingController::class, 'compareShow'])->name('pages.compare.show');
     Route::get('work', [MarketingController::class, 'workHub'])->name('pages.work');
     Route::get('work/{slug}', [MarketingController::class, 'workShow'])->name('pages.work.show');
 

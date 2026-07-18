@@ -50,6 +50,7 @@ class GenerateSitemap extends Command
             ['route' => 'pages.industries', 'priority' => 0.8, 'freq' => Url::CHANGE_FREQUENCY_MONTHLY],
             ['route' => 'pages.faq', 'priority' => 0.7, 'freq' => Url::CHANGE_FREQUENCY_MONTHLY],
             ['route' => 'pages.careers', 'priority' => 0.7, 'freq' => Url::CHANGE_FREQUENCY_MONTHLY],
+            ['route' => 'pages.compare', 'priority' => 0.85, 'freq' => Url::CHANGE_FREQUENCY_MONTHLY],
             ['route' => 'pages.blog.list', 'priority' => 0.8, 'freq' => Url::CHANGE_FREQUENCY_DAILY],
             ['route' => 'pages.news.list', 'priority' => 0.7, 'freq' => Url::CHANGE_FREQUENCY_DAILY],
             ['route' => 'pages.cities.list', 'priority' => 0.7, 'freq' => Url::CHANGE_FREQUENCY_WEEKLY],
@@ -70,6 +71,7 @@ class GenerateSitemap extends Command
         $this->addSitePageSection($sitemap, 'technology', 'pages.technology.show', 0.8);
         $this->addSitePageSection($sitemap, 'work', 'pages.work.show', 0.8);
         $this->addSitePageSection($sitemap, 'industries', 'pages.industries.show', 0.75);
+        $this->addSitePageSection($sitemap, 'compare', 'pages.compare.show', 0.8);
 
         Blog::query()
             ->where('status', '1')
@@ -227,6 +229,10 @@ class GenerateSitemap extends Command
             "Sitemap: {$base}/sitemap.xml",
             "Sitemap: {$base}/news_sitemap.xml",
             "Sitemap: {$base}/ai_sitemap.xml",
+            '',
+            "# AI / LLM discovery",
+            "LLM-Context: {$base}/llms.txt",
+            "LLM-Full: {$base}/llms-full.txt",
             '',
         ];
 

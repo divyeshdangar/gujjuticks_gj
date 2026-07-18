@@ -70,7 +70,7 @@
                     @endphp
                     <a href="{{ $featuredHref }}" class="jn-featured">
                         <figure class="jn-featured__media">
-                            <img src="{{ $featuredImage }}" alt="" width="1600" height="900" loading="eager"
+                            <img src="{{ $featuredImage }}" alt="{{ $featured->title }}" width="1600" height="900" loading="eager"
                                 decoding="async">
                         </figure>
                         <div class="jn-featured__body">
