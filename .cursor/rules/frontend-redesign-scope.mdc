@@ -26,8 +26,7 @@ Apply the new frontend design to:
 - Technology (`/technology`, `/technology/{slug}`)
 - Work (`/work`, `/work/{slug}`)
 - About
-- Privacy
-- Terms
+- CMS detail pages (`/p/{slug}` from dashboard Pages)
 
 Shared marketing pages use `page="marketing"` and [`public/css/site/marketing.css`](public/css/site/marketing.css).
 

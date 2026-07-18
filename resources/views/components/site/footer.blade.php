@@ -23,8 +23,6 @@
             <a href="{{ route('pages.careers') }}">Careers</a>
             <a href="{{ route('pages.blog.list') }}">Journal</a>
             <a href="{{ route('form.contact') }}">Contact</a>
-            <a href="{{ route('pages.privacy') }}">Privacy</a>
-            <a href="{{ route('pages.terms') }}">Terms</a>
         </nav>
         <p class="site-footer__copy">&copy; {{ date('Y') }} GujjuTicks</p>
     </div>

@@ -42,7 +42,6 @@ body.site-body--marketing .site-footer {
 
 .mk-hero {
     padding: 3.5rem 0 2rem;
-    border-bottom: 1px solid var(--site-line);
     animation: mk-in 0.85s var(--site-ease) both;
 }
 
@@ -276,6 +275,177 @@ body.site-body--marketing .site-footer {
 
 .mk-block li::marker {
     color: var(--site-accent);
+}
+
+/* CMS detail pages (/p/{slug}) — rich HTML from dashboard */
+.mk-cms {
+    max-width: 40rem;
+    color: var(--site-ink-soft);
+    font-size: 1.02rem;
+    line-height: 1.7;
+    animation: mk-in 0.9s var(--site-ease) 0.08s both;
+}
+
+.mk-cms > *:first-child {
+    margin-top: 0;
+}
+
+.mk-cms h1,
+.mk-cms h2,
+.mk-cms h3,
+.mk-cms h4,
+.mk-cms h5,
+.mk-cms h6 {
+    margin: 2rem 0 0.65rem;
+    color: var(--site-ink);
+    font-family: var(--site-font-display);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+}
+
+.mk-cms h1 {
+    font-size: 1.75rem;
+}
+
+.mk-cms h2 {
+    font-size: 1.35rem;
+}
+
+.mk-cms h3 {
+    font-size: 1.15rem;
+}
+
+.mk-cms h4,
+.mk-cms h5,
+.mk-cms h6 {
+    font-size: 1.05rem;
+}
+
+.mk-cms p {
+    margin: 0 0 1rem;
+}
+
+.mk-cms ul,
+.mk-cms ol {
+    margin: 0 0 1.15rem;
+    padding-left: 1.25rem;
+}
+
+.mk-cms li {
+    margin-bottom: 0.4rem;
+}
+
+.mk-cms li::marker {
+    color: var(--site-accent);
+}
+
+.mk-cms a {
+    color: var(--site-accent);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+}
+
+.mk-cms a:hover {
+    color: var(--site-ink);
+}
+
+.mk-cms strong,
+.mk-cms b {
+    color: var(--site-ink);
+    font-weight: 700;
+}
+
+.mk-cms hr {
+    margin: 2rem 0;
+    border: 0;
+    border-top: 1px solid var(--site-line);
+}
+
+.mk-cms blockquote {
+    margin: 1.5rem 0;
+    padding: 0.85rem 0 0.85rem 1.15rem;
+    border-left: 3px solid var(--site-accent);
+    color: var(--site-ink-soft);
+    font-style: italic;
+}
+
+.mk-cms img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 1.5rem 0;
+    border-radius: 0.75rem;
+}
+
+.mk-cms table {
+    width: 100%;
+    margin: 1.5rem 0;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+}
+
+.mk-cms th,
+.mk-cms td {
+    padding: 0.65rem 0.75rem;
+    border: 1px solid var(--site-line);
+    text-align: left;
+}
+
+.mk-cms th {
+    background: rgba(255, 255, 255, 0.7);
+    color: var(--site-ink);
+    font-weight: 700;
+}
+
+.mk-cms figure {
+    margin: 1.5rem 0;
+}
+
+.mk-cms figcaption {
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--site-muted);
+}
+
+/* Centered CMS detail pages (/p/{slug}) */
+.mk-page-hero__inner {
+    max-width: 46rem;
+    margin-inline: auto;
+    text-align: center;
+}
+
+.mk-page-hero .mk-lead,
+.mk-page-hero .mk-meta {
+    margin-inline: auto;
+}
+
+.mk-page-body__inner {
+    max-width: 46rem;
+    margin-inline: auto;
+}
+
+.mk-page-media-section {
+    padding: 0 0 0.5rem;
+}
+
+.mk-page-media {
+    margin: 0;
+}
+
+.mk-page-media img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 1rem;
+    border: 1px solid var(--site-line);
+    background: var(--site-surface);
+}
+
+.mk-page-body .mk-cms {
+    max-width: none;
+    text-align: left;
 }
 
 .mk-cta {

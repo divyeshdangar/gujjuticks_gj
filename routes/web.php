@@ -71,8 +71,6 @@ Route::middleware([CheckLanguage::class])->group(function () {
     Route::get('careers', [MarketingController::class, 'careers'])->name('pages.careers');
     Route::get('work', [MarketingController::class, 'workHub'])->name('pages.work');
     Route::get('work/{slug}', [MarketingController::class, 'workShow'])->name('pages.work.show');
-    Route::get('privacy', [MarketingController::class, 'privacy'])->name('pages.privacy');
-    Route::get('terms', [MarketingController::class, 'terms'])->name('pages.terms');
 
     Route::get('blogs', [PublicBlogController::class, 'index'])->name('pages.blog.list');
     Route::get('blog-on-{slug}', [PublicBlogController::class, 'category'])->name('pages.blog.category.detail');

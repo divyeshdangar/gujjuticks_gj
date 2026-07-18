@@ -246,16 +246,6 @@ class MarketingController extends Controller
         ]);
     }
 
-    public function privacy(Request $request): View
-    {
-        return $this->renderLegal('privacy', 'pages.privacy');
-    }
-
-    public function terms(Request $request): View
-    {
-        return $this->renderLegal('terms', 'pages.terms');
-    }
-
     private function renderHub(string $section, string $routeName): View
     {
         $hub = SitePages::get("{$section}.hub");
@@ -329,25 +319,6 @@ class MarketingController extends Controller
                 [
                     ['name' => 'Home', 'item' => route('home')],
                     ['name' => $crumbLabel, 'item' => $url],
-                ]
-            ),
-        ]);
-    }
-
-    private function renderLegal(string $key, string $routeName): View
-    {
-        $page = SitePages::get("legal.{$key}");
-        $url = route($routeName);
-
-        return view('pages.marketing.legal', [
-            'page' => $page,
-            'metaData' => $this->meta(
-                $page['meta_title'],
-                $page['meta_description'],
-                $url,
-                [
-                    ['name' => 'Home', 'item' => route('home')],
-                    ['name' => $page['heading'], 'item' => $url],
                 ]
             ),
         ]);

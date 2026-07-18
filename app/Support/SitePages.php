@@ -7,7 +7,7 @@ namespace App\Support;
  * so each request only parses the sections (and detail pages) it needs.
  *
  * Layout:
- * - {section}.php              hub / company page / legal bundle
+ * - {section}.php              hub / company page
  * - {section}_pages/{slug}.php detail pages for services, technology, work
  */
 class SitePages
