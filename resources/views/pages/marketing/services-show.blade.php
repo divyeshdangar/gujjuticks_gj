@@ -2,10 +2,6 @@
 
     @php
         $rich = !empty($page['overview']) || !empty($page['deliverables']);
-        $serviceSiblings = collect(config('site_pages.services.hub.items', []))
-            ->reject(fn ($item) => ($item['slug'] ?? '') === $slug)
-            ->take(3)
-            ->values();
     @endphp
 
     @if ($rich)

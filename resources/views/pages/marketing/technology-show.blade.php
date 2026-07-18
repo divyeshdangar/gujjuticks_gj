@@ -1,12 +1,5 @@
 <x-layouts.site :metaData="$metaData" page="marketing">
 
-    @php
-        $related = collect(config('site_pages.technology.hub.items', []))
-            ->reject(fn ($item) => ($item['slug'] ?? '') === $slug)
-            ->take(3)
-            ->values();
-    @endphp
-
     <article class="cs">
         <header class="cs-hero">
             <div class="mk-wrap cs-hero__inner">

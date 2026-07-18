@@ -2,11 +2,6 @@
 
     @php
         $rich = !empty($page['challenge']) || !empty($page['highlights']);
-        $related = collect(config('site_pages.work.pages', []))
-            ->reject(fn ($_, $key) => $key === $slug)
-            ->map(fn ($item, $key) => array_merge($item, ['slug' => $key]))
-            ->take(2)
-            ->values();
     @endphp
 
     <article class="cs">

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Pages;
 
 use App\Http\Controllers\Controller;
+use App\Support\SitePages;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -10,8 +11,8 @@ class MarketingController extends Controller
 {
     public function servicesHub(Request $request): View
     {
-        $hub = config('site_pages.services.hub');
-        $pages = config('site_pages.services.pages', []);
+        $hub = SitePages::get('services.hub');
+        $pages = SitePages::get('services.pages', []);
 
         $items = collect($hub['items'] ?? [])->map(function ($item) use ($pages) {
             $page = $pages[$item['slug']] ?? [];
@@ -48,20 +49,25 @@ class MarketingController extends Controller
 
     public function servicesShow(Request $request, string $slug): View
     {
-        $pages = config('site_pages.services.pages', []);
-        if (! isset($pages[$slug])) {
+        $page = SitePages::page('services', $slug);
+        if ($page === null) {
             abort(404);
         }
 
-        $page = $pages[$slug];
-        $hub = config('site_pages.services.hub');
+        $hub = SitePages::get('services.hub');
         $url = route('pages.services.show', ['slug' => $slug]);
+
+        $serviceSiblings = collect($hub['items'] ?? [])
+            ->reject(fn ($item) => ($item['slug'] ?? '') === $slug)
+            ->take(3)
+            ->values();
 
         return view('pages.marketing.services-show', [
             'slug' => $slug,
             'page' => $page,
             'hubLabel' => $hub['label'],
             'hubRoute' => 'pages.services',
+            'serviceSiblings' => $serviceSiblings,
             'metaData' => $this->meta(
                 $page['meta_title'],
                 $page['meta_description'],
@@ -77,8 +83,8 @@ class MarketingController extends Controller
 
     public function technologyHub(Request $request): View
     {
-        $hub = config('site_pages.technology.hub');
-        $pages = config('site_pages.technology.pages', []);
+        $hub = SitePages::get('technology.hub');
+        $pages = SitePages::get('technology.pages', []);
 
         $items = collect($hub['items'] ?? [])->map(function ($item) use ($pages) {
             $page = $pages[$item['slug']] ?? [];
@@ -113,17 +119,23 @@ class MarketingController extends Controller
 
     public function technologyShow(Request $request, string $slug): View
     {
-        $pages = config('site_pages.technology.pages', []);
-        if (! isset($pages[$slug])) {
+        $page = SitePages::page('technology', $slug);
+        if ($page === null) {
             abort(404);
         }
 
-        $page = $pages[$slug];
+        $hub = SitePages::get('technology.hub');
         $url = route('pages.technology.show', ['slug' => $slug]);
+
+        $related = collect($hub['items'] ?? [])
+            ->reject(fn ($item) => ($item['slug'] ?? '') === $slug)
+            ->take(3)
+            ->values();
 
         return view('pages.marketing.technology-show', [
             'slug' => $slug,
             'page' => $page,
+            'related' => $related,
             'metaData' => $this->meta(
                 $page['meta_title'],
                 $page['meta_description'],
@@ -164,8 +176,8 @@ class MarketingController extends Controller
 
     public function workHub(Request $request): View
     {
-        $hub = config('site_pages.work.hub');
-        $items = collect(config('site_pages.work.pages'))->map(function ($item, $slug) {
+        $hub = SitePages::get('work.hub');
+        $items = collect(SitePages::get('work.pages', []))->map(function ($item, $slug) {
             return [
                 'slug' => $slug,
                 'title' => $item['heading'],
@@ -196,17 +208,31 @@ class MarketingController extends Controller
 
     public function workShow(Request $request, string $slug): View
     {
-        $pages = config('site_pages.work.pages', []);
-        if (! isset($pages[$slug])) {
+        $page = SitePages::page('work', $slug);
+        if ($page === null) {
             abort(404);
         }
 
-        $page = $pages[$slug];
         $url = route('pages.work.show', ['slug' => $slug]);
+
+        $related = collect(SitePages::get('work.hub.page_order', []))
+            ->reject(fn ($key) => $key === $slug)
+            ->take(2)
+            ->map(function ($key) {
+                $item = SitePages::page('work', $key);
+                if ($item === null) {
+                    return null;
+                }
+
+                return array_merge($item, ['slug' => $key]);
+            })
+            ->filter()
+            ->values();
 
         return view('pages.marketing.work-show', [
             'slug' => $slug,
             'page' => $page,
+            'related' => $related,
             'metaData' => $this->meta(
                 $page['meta_title'],
                 $page['meta_description'],
@@ -232,7 +258,7 @@ class MarketingController extends Controller
 
     private function renderHub(string $section, string $routeName): View
     {
-        $hub = config("site_pages.{$section}.hub");
+        $hub = SitePages::get("{$section}.hub");
         $url = route($routeName);
 
         return view('pages.marketing.hub', [
@@ -254,13 +280,12 @@ class MarketingController extends Controller
 
     private function renderDetail(string $section, string $slug, string $routeName, string $hubRoute): View
     {
-        $pages = config("site_pages.{$section}.pages", []);
-        if (! isset($pages[$slug])) {
+        $page = SitePages::page($section, $slug);
+        if ($page === null) {
             abort(404);
         }
 
-        $page = $pages[$slug];
-        $hub = config("site_pages.{$section}.hub");
+        $hub = SitePages::get("{$section}.hub");
         $url = route($routeName, ['slug' => $slug]);
 
         $siblings = collect($hub['items'] ?? [])
@@ -292,7 +317,7 @@ class MarketingController extends Controller
 
     private function renderCompanyPage(string $configKey, string $routeName, string $view, string $crumbLabel): View
     {
-        $page = config("site_pages.{$configKey}");
+        $page = SitePages::section($configKey);
         $url = route($routeName);
 
         return view($view, [
@@ -311,7 +336,7 @@ class MarketingController extends Controller
 
     private function renderLegal(string $key, string $routeName): View
     {
-        $page = config("site_pages.legal.{$key}");
+        $page = SitePages::get("legal.{$key}");
         $url = route($routeName);
 
         return view('pages.marketing.legal', [
