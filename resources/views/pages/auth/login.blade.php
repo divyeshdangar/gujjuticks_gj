@@ -1,65 +1,69 @@
-<x-layouts.simple-layout :showHeader="false" :metaData="$metaData">
-    <div class="container-fluid">
-        <div class="main-content d-flex flex-column px-0">
-            <div class="m-auto mw-510 py-5">
-                <form method="post" id="formToValidate" action="{{ route('login.post') }}">
-                    {{ csrf_field() }}
-                    <div class="d-flex align-items-center gap-4 mb-3">
-                        <h4 class="fs-3 mb-0">{{ __('contact.get_started') }}</h4>
-                        <a href="{{ route('home') }}">
-                            <img src="{{ asset('brand/full-logo-black.png') }}" alt="logo">
-                        </a>
-                    </div>
-                    <p class="fs-18 mb-5">Don’t have an account? Don't worry it will be created!</p>
-                    <div class="d-sm-flex gap-3 mb-4">
-                        <a href="{{ route('google.redirect') }}" class="btn btn-outline-primary fs-16 fw-semibold text-dark heading-fornt py-2 py-md-3 px-4 hover-white w-sm-100">
-                            <img src="{{ asset('assets/images/google.svg') }}" alt="google">
-                            <span class="ms-2">Sign In With Google</span>
-                        </a>
-                        <button data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="It will be available soon!" class="btn btn-primary fs-16 fw-semibold text-dark heading-fornt py-2 py-md-3 px-4 text-white w-sm-100 mt-3 mt-sm-0">
-                            <img src="{{ asset('assets/images/facebook.svg') }}" alt="google">
-                            <span class="ms-2">Sign In With Facebook</span>
-                        </button>
-                    </div>
+<x-layouts.site :metaData="$metaData" page="login">
 
-                    @if(false)
-                        <span class="d-block fs-18 fw-semibold text-center or mb-4">
-                            <span class="bg-body-bg d-inline-block py-1 px-3">or</span>
-                        </span>
-                        <div class="card bg-white border-0 rounded-10 mb-4">
-                            <div class="card-body p-4">
-                                <div class="form-group mb-4">
-                                    <label class="label">Email</label>
-                                    <input type="email" name="email" class="form-control h-58" required placeholder="anything@info.com">
-                                </div>
-                                <div class="form-group mb-0">
-                                    <label class="label">Password</label>
-                                    <div class="form-group">
-                                        <div class="password-wrapper position-relative">
-                                            <input type="password" name="password" id="password" required class="form-control h-58 text-dark">
-                                            <i style="color: #A9A9C8; font-size: 16px; right: 15px !important;" class="ri-eye-off-line password-toggle-icon translate-middle-y top-50 end-0 position-absolute" aria-hidden="true"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>                        
-                        <div class="d-sm-flex justify-content-between mb-4">
-                            <div class="form-check">
-                                <input class="form-check-input position-relative" style="top: 1.1px;" type="checkbox" value="" id="flexCheckDefault">
-                                <label class="form-check-label fs-16 text-gray-light" for="flexCheckDefault">
-                                    Remember me
-                                </label>
-                            </div>
-                            <a href="" class="fs-16 text-primary text-decoration-none mt-2 mt-sm-0 d-block">
-                                Forgot your password?
-                            </a>
-                        </div>
-                        <button type="submit" class="btn btn-primary fs-16 fw-semibold text-dark heading-fornt py-2 py-md-3 px-4 text-white w-100">
-                            Login
-                        </button>
-                    @endif
-                </form>
-            </div>
+    <div class="lg-page" data-lg-page>
+        <div class="lg-ambient" aria-hidden="true">
+            <div class="lg-ambient__grid"></div>
+            <div class="lg-ambient__blob lg-ambient__blob--a"></div>
+            <div class="lg-ambient__blob lg-ambient__blob--b"></div>
         </div>
+
+        <section class="lg-shell" aria-label="Sign in">
+            <div class="lg-copy">
+                <p class="lg-kicker">Account access</p>
+                <p class="lg-brand">GujjuTicks</p>
+                <h1 class="lg-title">Sign in to your workspace</h1>
+                <p class="lg-lead">
+                    Access the dashboard to manage projects, content, and delivery tools.
+                    New here? Signing in with Google creates your account automatically.
+                </p>
+                <ul class="lg-points">
+                    <li>Secure Google sign-in</li>
+                    <li>Dashboard for your team tools</li>
+                    <li>Same account across GujjuTicks products</li>
+                </ul>
+            </div>
+
+            <div class="lg-panel">
+                <div class="lg-panel__head">
+                    <h2 class="lg-panel__title">Continue</h2>
+                    <p class="lg-panel__hint">Use Google to sign in or create an account.</p>
+                </div>
+
+                @if ($errors->any())
+                    <div class="lg-alert" role="alert">
+                        <strong>Couldn’t sign in</strong>
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
+                <div class="lg-actions">
+                    <a class="lg-btn lg-btn--google" href="{{ route('google.redirect') }}">
+                        <img src="{{ asset('assets/images/google.svg') }}" alt="" width="20" height="20">
+                        <span>Continue with Google</span>
+                    </a>
+
+                    <button type="button" class="lg-btn lg-btn--muted" disabled
+                        title="Facebook sign-in will be available soon">
+                        <img src="{{ asset('assets/images/facebook.svg') }}" alt="" width="20" height="20">
+                        <span>Continue with Facebook</span>
+                        <em class="lg-soon">Soon</em>
+                    </button>
+                </div>
+
+                <p class="lg-note">
+                    By continuing, you agree to use your account for GujjuTicks workspace access.
+                </p>
+
+                <div class="lg-links">
+                    <a href="{{ route('home') }}">Back to home</a>
+                    <a href="{{ route('form.contact') }}">Need help?</a>
+                </div>
+            </div>
+        </section>
     </div>
-</x-layouts.simple-layout>
+
+</x-layouts.site>

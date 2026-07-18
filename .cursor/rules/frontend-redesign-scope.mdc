@@ -32,6 +32,8 @@ Apply the new frontend design to:
 - Post Builder list (`/news-post`) and detail / generator (`/news-post/{slug}`) — light animated news/letters design (`page="news-post"`, [`public/css/site/news-post.css`](public/css/site/news-post.css), [`public/js/site/news-post.js`](public/js/site/news-post.js))
 - Image creator / editor (`/image-editor/{slug}`) — light studio design (`page="image-editor"`, [`public/css/site/image-editor.css`](public/css/site/image-editor.css), [`public/js/site/image-editor.js`](public/js/site/image-editor.js))
 - News hub (`/news`) and category detail (`/news/{slug}`) — light animated news desk design (`page="news"`, [`public/css/site/news.css`](public/css/site/news.css), [`public/js/site/news.js`](public/js/site/news.js))
+- Login (`/login`) — light workspace sign-in (`page="login"`, [`public/css/site/login.css`](public/css/site/login.css), [`public/js/site/login.js`](public/js/site/login.js))
+- Error pages (`403`, `404`, `419`, `429`, `500`, `503`) — shared signal-desk design (`page="error"`, [`public/css/site/error.css`](public/css/site/error.css), [`public/js/site/error.js`](public/js/site/error.js)); local previews at `/dev/errors`
 
 Shared marketing pages use `page="marketing"` and [`public/css/site/marketing.css`](public/css/site/marketing.css).
 

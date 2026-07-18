@@ -23,13 +23,11 @@ class LoginController extends Controller
             ];
             return redirect()->route('dashboard')->with($message);
         } else {
-            // to set meta data of page
             $metaData = [
-                "title" => "Login to GujjuTicks",
-                "description" => "Securely log in to your GujjuTicks account to manage content, explore insights, and stay updated with the latest from Gujarat's vibrant culture. Fast, secure, and easy access to your dashboard.",
-                //"image" => "",
+                "title" => "Login | GujjuTicks",
+                "description" => "Sign in to your GujjuTicks workspace to manage projects, content, and delivery tools. Continue securely with Google.",
                 "url" => route('login'),
-                "keywords" => "GujjuTicks login, user dashboard, login Gujarat blog, GujjuTicks account access, secure login, Gujarat culture portal, manage GujjuTicks content"
+                "keywords" => "GujjuTicks login, dashboard access, Google sign in, workspace login, GujjuTicks account",
             ];
             return view('pages.auth.login', ['metaData' => $metaData]);
         }

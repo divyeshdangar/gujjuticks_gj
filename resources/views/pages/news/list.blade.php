@@ -52,19 +52,67 @@
                     </p>
                 </div>
 
-                <div class="nw-hero__visual" aria-hidden="true">
-                    <canvas class="nw-hero__canvas" data-nw-visual width="1" height="1"></canvas>
-                    <div class="nw-hero__wire">
-                        <div class="nw-hero__wire-track">
-                            @foreach ([1, 2] as $copy)
-                                @foreach ($wireLines as $line)
-                                    <p><span>LIVE</span>{{ $line }}</p>
+                @php
+                    $editionCats = $categories->take(8)->values();
+                    if ($editionCats->isEmpty()) {
+                        $editionCats = collect([
+                            (object) ['name' => 'Gujarat desk', 'children_count' => 0, 'slug' => null],
+                            (object) ['name' => 'India desk', 'children_count' => 0, 'slug' => null],
+                            (object) ['name' => 'Local briefs', 'children_count' => 0, 'slug' => null],
+                        ]);
+                    }
+                    $laneSets = [
+                        array_slice($wireLines, 0, 4),
+                        array_slice($wireLines, 2, 4) ?: array_slice($wireLines, 0, 4),
+                        array_slice($wireLines, 4, 4) ?: array_slice($wireLines, 0, 4),
+                    ];
+                @endphp
+
+                <div class="nw-hero__visual" aria-hidden="true" data-nw-edition>
+                    <div class="nw-edition">
+                        <div class="nw-edition__mast">
+                            <span class="nw-edition__mast-mark">The desk</span>
+                            <span class="nw-edition__mast-date" data-nw-edition-date>—</span>
+                        </div>
+
+                        <div class="nw-edition__plate">
+                            <p class="nw-edition__kicker">Now filing</p>
+                            <div class="nw-edition__flip" data-nw-edition-flip>
+                                @foreach ($editionCats as $i => $cat)
+                                    <p class="nw-edition__name{{ $i === 0 ? ' is-on' : '' }}"
+                                        data-nw-edition-name
+                                        data-topics="{{ (int) ($cat->children_count ?? 0) }}">
+                                        {{ $cat->name }}
+                                    </p>
                                 @endforeach
+                            </div>
+                            <p class="nw-edition__sub" data-nw-edition-sub>
+                                @if (($editionCats[0]->children_count ?? 0) > 0)
+                                    {{ $editionCats[0]->children_count }} topic desks inside
+                                @else
+                                    Open the category for latest stories
+                                @endif
+                            </p>
+                            <span class="nw-edition__ink"></span>
+                        </div>
+
+                        <div class="nw-edition__lanes">
+                            @foreach ($laneSets as $li => $lines)
+                                <div class="nw-edition__lane" style="--dur: {{ 18 + $li * 6 }}s; --delay: -{{ $li * 4 }}s">
+                                    <div class="nw-edition__lane-track">
+                                        @foreach ([1, 2] as $copy)
+                                            @foreach ($lines as $line)
+                                                <span>{{ $line }}</span>
+                                            @endforeach
+                                        @endforeach
+                                    </div>
+                                </div>
                             @endforeach
                         </div>
+
+                        <div class="nw-edition__stamp">GT</div>
                     </div>
-                    <div class="nw-hero__pulse"></div>
-                    <p class="nw-hero__label">Headline feed</p>
+                    <p class="nw-hero__label">Edition plate</p>
                 </div>
             </div>
         </section>
@@ -89,12 +137,9 @@
         <div class="nw-marquee" aria-hidden="true">
             <div class="nw-marquee__track">
                 @foreach ([1, 2] as $copy)
-                    <span>Gujarat news</span>
-                    <span>India headlines</span>
-                    <span>Local updates</span>
-                    <span>Breaking notes</span>
-                    <span>Category desks</span>
-                    <span>Daily briefs</span>
+                    @foreach ($wireLines as $line)
+                        <span>{{ \Illuminate\Support\Str::limit(strip_tags($line), 42) }}</span>
+                    @endforeach
                 @endforeach
             </div>
         </div>
@@ -109,25 +154,28 @@
                 </div>
 
                 @if ($categories->count() > 0)
-                    <div class="nw-list">
+                    <div class="nw-desks">
                         @foreach ($categories as $i => $category)
                             <a href="{{ route('pages.news.detail', ['slug' => $category->slug]) }}"
-                                class="nw-row nw-reveal" style="--i: {{ $i % 8 }}">
-                                <span class="nw-row__index">{{ str_pad((string) ($i + 1), 2, '0', STR_PAD_LEFT) }}</span>
-                                <div class="nw-row__copy">
-                                    <h3 class="nw-row__title">News on {{ $category->name }}</h3>
+                                class="nw-desk nw-reveal" style="--i: {{ $i % 8 }}">
+                                <span class="nw-desk__index">{{ str_pad((string) ($i + 1), 2, '0', STR_PAD_LEFT) }}</span>
+                                <div class="nw-desk__copy">
+                                    <h3 class="nw-desk__title">{{ $category->name }}</h3>
                                     @if ($category->meta_description)
-                                        <p class="nw-row__summary">{{ \Illuminate\Support\Str::limit($category->meta_description, 110) }}</p>
+                                        <p class="nw-desk__summary">{{ \Illuminate\Support\Str::limit($category->meta_description, 100) }}</p>
                                     @else
-                                        <p class="nw-row__summary">Open this category for topic desks and latest stories.</p>
+                                        <p class="nw-desk__summary">Topic desks and latest stories for this category.</p>
                                     @endif
                                 </div>
-                                <div class="nw-row__meta">
+                                <div class="nw-desk__meta">
                                     @if (($category->children_count ?? 0) > 0)
-                                        <span>{{ $category->children_count }} topics</span>
+                                        <span class="nw-desk__topics">{{ $category->children_count }} topics</span>
+                                    @else
+                                        <span class="nw-desk__topics">Stories</span>
                                     @endif
-                                    <span class="nw-row__go">Open</span>
+                                    <span class="nw-desk__go">Open</span>
                                 </div>
+                                <span class="nw-desk__sweep" aria-hidden="true"></span>
                             </a>
                         @endforeach
                     </div>

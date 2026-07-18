@@ -3,13 +3,38 @@
     @php
         $hasImage = !empty($dataDetail->image)
             && file_exists(public_path('images/news/' . $dataDetail->image));
-        $storyTitles = $dataListNews->pluck('title')->filter()->take(6)->values();
-        if ($storyTitles->isEmpty()) {
-            $storyTitles = collect([
-                'Desk brief updating…',
-                'Topic notes lined up',
-                'Next headline queued',
-                'Category feed ready',
+
+        $storyCards = $dataListNews->take(6)->map(function ($story) {
+            $excerpt = \Illuminate\Support\Str::limit(strip_tags($story->content ?? ''), 78);
+            return [
+                'title' => \Illuminate\Support\Str::limit(strip_tags($story->title ?? ''), 72),
+                'place' => $story->location ?: null,
+                'excerpt' => $excerpt ?: null,
+            ];
+        })->filter(fn ($card) => filled($card['title']))->values();
+
+        if ($storyCards->isEmpty()) {
+            $storyCards = collect([
+                [
+                    'title' => 'Desk brief updating…',
+                    'place' => $dataDetail->name,
+                    'excerpt' => 'Fresh notes are lining up for this category desk.',
+                ],
+                [
+                    'title' => 'Topic notes lined up',
+                    'place' => 'Gujarat desk',
+                    'excerpt' => 'Editors are sorting local briefs into the queue.',
+                ],
+                [
+                    'title' => 'Next headline queued',
+                    'place' => 'Live wire',
+                    'excerpt' => 'Placeholder copy holds the reel until stories arrive.',
+                ],
+                [
+                    'title' => 'Category feed ready',
+                    'place' => $dataDetail->name,
+                    'excerpt' => 'Watch the prompter while new reports come in.',
+                ],
             ]);
         }
     @endphp
@@ -58,43 +83,55 @@
                     </div>
                 </div>
 
-                <div class="nw-detail-hero__visual" aria-hidden="true" data-nw-stage>
-                    <div class="nw-stage">
-                        <div class="nw-stage__rings">
-                            <span class="nw-stack__orbit nw-stack__orbit--a"></span>
-                            <span class="nw-stack__orbit nw-stack__orbit--b"></span>
-                            <span class="nw-stack__orbit nw-stack__orbit--c"></span>
-                            <span class="nw-stage__arm nw-stage__arm--a"><span class="nw-stage__dot"></span></span>
-                            <span class="nw-stage__arm nw-stage__arm--b"><span class="nw-stage__dot nw-stage__dot--dark"></span></span>
-                            <span class="nw-stage__arm nw-stage__arm--c"><span class="nw-stage__dot nw-stage__dot--soft"></span></span>
+                <div class="nw-detail-hero__visual" aria-hidden="true" data-nw-prompter>
+                    <div class="nw-prompter">
+                        <div class="nw-prompter__chrome">
+                            <span class="nw-prompter__pill">
+                                <span class="nw-prompter__pill-dot"></span>
+                                On air
+                            </span>
+                            <span class="nw-prompter__desk">{{ $dataDetail->name }}</span>
+                            <span class="nw-prompter__clock" data-nw-prompter-clock>—</span>
                         </div>
 
-                        <div class="nw-stack" data-nw-stack>
-                            @foreach ($storyTitles as $i => $title)
-                                <article class="nw-stack__card" style="--i: {{ $i }}" data-nw-card>
-                                    <div class="nw-stack__card-top">
-                                        <p class="nw-stack__label">Headline {{ $i + 1 }}</p>
-                                        <span class="nw-stack__badge">Live</span>
-                                    </div>
-                                    <p class="nw-stack__title">{{ \Illuminate\Support\Str::limit(strip_tags($title), 72) }}</p>
-                                    <div class="nw-stack__meter" data-nw-meter>
-                                        <span class="nw-stack__meter-fill"></span>
-                                    </div>
-                                    <span class="nw-stack__scan"></span>
-                                </article>
-                            @endforeach
-                        </div>
-
-                        <div class="nw-stage__rail">
-                            <div class="nw-stage__pips" data-nw-pips>
-                                @foreach ($storyTitles as $i => $title)
-                                    <span class="nw-stage__pip{{ $i === 0 ? ' is-on' : '' }}"></span>
+                        <div class="nw-prompter__viewport">
+                            <div class="nw-prompter__fade nw-prompter__fade--top"></div>
+                            <div class="nw-prompter__fade nw-prompter__fade--bottom"></div>
+                            <div class="nw-prompter__focus"></div>
+                            <div class="nw-prompter__beam"></div>
+                            <div class="nw-prompter__track" data-nw-prompter-track>
+                                @foreach ($storyCards as $i => $card)
+                                    <article class="nw-prompter__item{{ $i === 0 ? ' is-active' : '' }}"
+                                        style="--i: {{ $i }}" data-nw-prompter-item>
+                                        <span class="nw-prompter__idx">{{ str_pad((string) ($i + 1), 2, '0', STR_PAD_LEFT) }}</span>
+                                        <div class="nw-prompter__body">
+                                            <p class="nw-prompter__title">{{ $card['title'] }}</p>
+                                            @if (!empty($card['excerpt']))
+                                                <p class="nw-prompter__excerpt">{{ $card['excerpt'] }}</p>
+                                            @else
+                                                <div class="nw-prompter__ph">
+                                                    <span></span><span></span>
+                                                </div>
+                                            @endif
+                                            <p class="nw-prompter__place">
+                                                {{ $card['place'] ?: ($dataDetail->name . ' desk') }}
+                                            </p>
+                                        </div>
+                                    </article>
                                 @endforeach
                             </div>
-                            <p class="nw-stage__status" data-nw-status>Queue 01 / {{ str_pad((string) max(1, $storyTitles->count()), 2, '0', STR_PAD_LEFT) }}</p>
+                        </div>
+
+                        <div class="nw-prompter__footer">
+                            <div class="nw-prompter__bar" aria-hidden="true">
+                                <span class="nw-prompter__bar-fill" data-nw-prompter-bar></span>
+                            </div>
+                            <p class="nw-prompter__status" data-nw-prompter-status>
+                                Reading 01 / {{ str_pad((string) max(1, $storyCards->count()), 2, '0', STR_PAD_LEFT) }}
+                            </p>
                         </div>
                     </div>
-                    <p class="nw-hero__label">Story reel</p>
+                    <p class="nw-hero__label">Desk prompter</p>
                 </div>
             </div>
         </header>
