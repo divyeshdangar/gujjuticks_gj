@@ -40,7 +40,7 @@
                 <h1 class="er-title" id="er-title">{{ $title }}</h1>
                 <p class="er-lead">{{ $lead }}</p>
 
-                @if ($showPath && $tried && $tried !== '/' && !str_starts_with($tried, 'dev/errors'))
+                @if ($showPath && $tried && $tried !== '/')
                     <p class="er-path">
                         <span>Requested</span>
                         <code data-er-path>/{{ ltrim($tried, '/') }}</code>

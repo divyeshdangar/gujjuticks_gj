@@ -40,19 +40,6 @@ use App\Http\Controllers\Pages\BusinessController;
 use App\Http\Controllers\Pages\PostSetController;
 use App\Http\Controllers\RssFeedController;
 
-if (app()->environment('local')) {
-    Route::get('dev/errors', function () {
-        return response()->view('errors.preview-index');
-    })->name('dev.errors');
-
-    Route::get('dev/errors/{code}', function (string $code) {
-        $allowed = ['403', '404', '419', '429', '500', '503'];
-        abort_unless(in_array($code, $allowed, true), 404);
-
-        return response()->view('errors.' . $code, [], (int) $code);
-    })->where('code', '403|404|419|429|500|503')->name('dev.errors.show');
-}
-
 Route::middleware([CheckLanguage::class])->group(function () {
     Route::get('/', [HomeController::class, 'show'])->name('home');    
     Route::get('login', [LoginController::class, 'authenticate'])->name('login');

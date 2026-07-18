@@ -214,43 +214,6 @@ body.site-body--error .site-footer {
     color: var(--site-accent);
 }
 
-.er-preview-list {
-    list-style: none;
-    margin: 1.5rem 0 0;
-    padding: 0;
-    display: grid;
-    gap: 0.65rem;
-}
-
-.er-preview-list a {
-    display: flex;
-    align-items: baseline;
-    gap: 0.85rem;
-    padding: 0.85rem 1rem;
-    border: 1px solid var(--site-line);
-    border-radius: 0.85rem;
-    background: rgba(255, 255, 255, 0.8);
-    text-decoration: none;
-    color: inherit;
-    transition: border-color 0.2s ease, transform 0.25s var(--site-ease);
-}
-
-.er-preview-list a:hover {
-    border-color: rgba(225, 29, 72, 0.35);
-    transform: translateY(-1px);
-}
-
-.er-preview-list strong {
-    font-variant-numeric: tabular-nums;
-    color: var(--site-accent);
-    min-width: 2.5rem;
-}
-
-.er-preview-list span {
-    font-size: 0.925rem;
-    color: var(--site-ink-soft);
-}
-
 .er-actions {
     display: flex;
     flex-wrap: wrap;
