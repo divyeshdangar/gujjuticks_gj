@@ -30,6 +30,8 @@
     var panelTitle = panel.querySelector('[data-ind-panel-title]');
     var panelDetail = panel.querySelector('[data-ind-panel-detail]');
     var panelBuilds = panel.querySelector('[data-ind-panel-builds]');
+    var panelGuide = panel.querySelector('[data-ind-panel-guide]');
+    var showBase = (root.getAttribute('data-ind-show-base') || '/industries').replace(/\/$/, '');
     var mq = window.matchMedia('(max-width: 900px)');
 
     function parseBuilds(el) {
@@ -115,6 +117,10 @@
         swapIcon(panelIcon, slug, 'lg', 'is-swap');
         syncOrbit(slug);
 
+        if (panelGuide) {
+            panelGuide.href = showBase + '/' + slug;
+        }
+
         items.forEach(function (el) {
             var mobile = el.querySelector('[data-ind-mobile-detail]');
             if (!mobile) {
@@ -123,11 +129,15 @@
             if (el === item && mq.matches) {
                 var text = mobile.querySelector('[data-ind-mobile-text]');
                 var buildsUl = mobile.querySelector('[data-ind-mobile-builds]');
+                var mobileGuide = mobile.querySelector('[data-ind-mobile-guide]');
                 if (text) {
                     text.textContent = detail;
                 }
                 if (buildsUl) {
                     fillBuilds(buildsUl, builds);
+                }
+                if (mobileGuide) {
+                    mobileGuide.href = showBase + '/' + slug;
                 }
                 mobile.hidden = false;
             } else {
@@ -201,7 +211,10 @@
     });
 
     items.forEach(function (item) {
-        item.addEventListener('click', function () {
+        item.addEventListener('click', function (event) {
+            if (event.target.closest('a')) {
+                return;
+            }
             selectItem(item, false);
         });
 
@@ -247,7 +260,15 @@
 
     orbitNodes.forEach(function (node) {
         node.addEventListener('click', function () {
-            selectBySlug(node.getAttribute('data-ind-slug'), true);
+            var slug = node.getAttribute('data-ind-slug');
+            selectBySlug(slug, true);
+        });
+
+        node.addEventListener('dblclick', function () {
+            var slug = node.getAttribute('data-ind-slug');
+            if (slug) {
+                window.location.href = showBase + '/' + slug;
+            }
         });
     });
 

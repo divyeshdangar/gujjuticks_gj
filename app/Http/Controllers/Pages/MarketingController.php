@@ -164,6 +164,39 @@ class MarketingController extends Controller
         return $this->renderCompanyPage('industries', 'pages.industries', 'pages.marketing.industries', 'Industries');
     }
 
+    public function industriesShow(Request $request, string $slug): View
+    {
+        $page = SitePages::page('industries', $slug);
+        if ($page === null) {
+            abort(404);
+        }
+
+        $hub = SitePages::section('industries');
+        $url = route('pages.industries.show', ['slug' => $slug]);
+
+        $siblings = collect($hub['industries'] ?? [])
+            ->reject(fn ($item) => ($item['slug'] ?? '') === $slug)
+            ->take(3)
+            ->values();
+
+        return view('pages.marketing.industries-show', [
+            'slug' => $slug,
+            'page' => $page,
+            'siblings' => $siblings,
+            'groupLabel' => ($hub['groups'][$page['group'] ?? ''] ?? null) ?: ($page['group_label'] ?? 'Industry'),
+            'metaData' => $this->meta(
+                $page['meta_title'],
+                $page['meta_description'],
+                $url,
+                [
+                    ['name' => 'Home', 'item' => route('home')],
+                    ['name' => 'Industries', 'item' => route('pages.industries')],
+                    ['name' => $page['label'], 'item' => $url],
+                ]
+            ),
+        ]);
+    }
+
     public function faq(Request $request): View
     {
         return $this->renderCompanyPage('faq', 'pages.faq', 'pages.marketing.faq', 'FAQ');

@@ -53,7 +53,7 @@
                     @endif
                 </div>
 
-                <div class="ind-explorer" data-ind-explorer data-ind-groups='@json($page['groups'])'>
+                <div class="ind-explorer" data-ind-explorer data-ind-groups='@json($page['groups'])' data-ind-show-base="{{ url('/industries') }}">
                     <div class="ind-explorer__filters" role="group" aria-label="Filter industries by group">
                         <button type="button" class="ind-filter is-active" data-ind-filter="all" aria-pressed="true">
                             All
@@ -86,14 +86,22 @@
                                     <span class="ind-list__text">
                                         <span class="ind-list__name">{{ $industry['name'] }}</span>
                                         <span class="ind-list__summary">{{ $industry['summary'] }}</span>
+                                        <a class="ind-list__open" href="{{ route('pages.industries.show', ['slug' => $industry['slug']]) }}" data-ind-open>
+                                            Full industry guide
+                                        </a>
                                     </span>
                                     <div class="ind-list__mobile-detail" data-ind-mobile-detail hidden>
                                         <p class="ind-panel__detail" data-ind-mobile-text></p>
                                         <p class="ind-panel__builds-label">Typical builds</p>
                                         <ul class="mk-include-list" data-ind-mobile-builds></ul>
-                                        <a class="mk-btn mk-btn--solid ind-panel__cta" href="{{ route('form.contact') }}">
-                                            Talk about this project
-                                        </a>
+                                        <div class="ind-panel__actions">
+                                            <a class="mk-btn mk-btn--solid ind-panel__cta" href="{{ route('form.contact') }}">
+                                                Talk about this project
+                                            </a>
+                                            <a class="mk-btn mk-btn--ghost" href="{{ route('pages.industries.show', ['slug' => $industry['slug']]) }}" data-ind-mobile-guide>
+                                                Full guide
+                                            </a>
+                                        </div>
                                     </div>
                                 </li>
                             @endforeach
@@ -113,15 +121,20 @@
                             <h3 class="ind-panel__title" data-ind-panel-title>{{ $first['name'] }}</h3>
                             <p class="ind-panel__detail" data-ind-panel-detail>{{ $first['detail'] }}</p>
                             <p class="ind-panel__builds-label">Typical builds</p>
-                            <ul class="mk-include-list ind-panel__builds" data-ind-panel-builds>
-                                @foreach ($first['builds'] as $build)
-                                    <li>{{ $build }}</li>
-                                @endforeach
-                            </ul>
+                        <ul class="mk-include-list ind-panel__builds" data-ind-panel-builds>
+                            @foreach ($first['builds'] as $build)
+                                <li>{{ $build }}</li>
+                            @endforeach
+                        </ul>
+                        <div class="ind-panel__actions">
                             <a class="mk-btn mk-btn--solid ind-panel__cta" href="{{ route('form.contact') }}">
                                 Talk about this project
                             </a>
-                        </aside>
+                            <a class="mk-btn mk-btn--ghost" href="{{ route('pages.industries.show', ['slug' => $first['slug']]) }}" data-ind-panel-guide>
+                                Full industry guide
+                            </a>
+                        </div>
+                    </aside>
                     </div>
                 </div>
             </div>
