@@ -24,7 +24,6 @@ Apply the new frontend design to:
 - Contact
 - Services (`/services`, `/services/{slug}`)
 - Technology (`/technology`, `/technology/{slug}`)
-- Capabilities (`/capabilities`, `/capabilities/{slug}`)
 - Work (`/work`, `/work/{slug}`)
 - About
 - Privacy
@@ -38,6 +37,7 @@ Remove these pages from the site (routes, nav links, and related UI entry points
 
 - Resume Builder
 - Free Online Courses
+- Capabilities *(redirected to Services)*
 
 ## Preserve (no design changes; unlisted)
 

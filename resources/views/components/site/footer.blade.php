@@ -15,7 +15,6 @@
             <a href="{{ route('home') }}">Home</a>
             <a href="{{ route('pages.services') }}">Services</a>
             <a href="{{ route('pages.technology') }}">Technology</a>
-            <a href="{{ route('pages.capabilities') }}">Capabilities</a>
             <a href="{{ route('pages.work') }}">Work</a>
             <a href="{{ route('pages.about') }}">About</a>
             <a href="{{ route('pages.blog.list') }}">Journal</a>

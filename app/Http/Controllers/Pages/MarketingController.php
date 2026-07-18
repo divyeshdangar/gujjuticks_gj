@@ -137,16 +137,6 @@ class MarketingController extends Controller
         ]);
     }
 
-    public function capabilitiesHub(Request $request): View
-    {
-        return $this->renderHub('capabilities', 'pages.capabilities');
-    }
-
-    public function capabilitiesShow(Request $request, string $slug): View
-    {
-        return $this->renderDetail('capabilities', $slug, 'pages.capabilities.show', 'pages.capabilities');
-    }
-
     public function about(Request $request): View
     {
         $page = config('site_pages.about');

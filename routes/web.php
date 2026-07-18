@@ -58,8 +58,22 @@ Route::middleware([CheckLanguage::class])->group(function () {
     Route::get('services/{slug}', [MarketingController::class, 'servicesShow'])->name('pages.services.show');
     Route::get('technology', [MarketingController::class, 'technologyHub'])->name('pages.technology');
     Route::get('technology/{slug}', [MarketingController::class, 'technologyShow'])->name('pages.technology.show');
-    Route::get('capabilities', [MarketingController::class, 'capabilitiesHub'])->name('pages.capabilities');
-    Route::get('capabilities/{slug}', [MarketingController::class, 'capabilitiesShow'])->name('pages.capabilities.show');
+    Route::get('capabilities', fn () => redirect()->route('pages.services', [], 301));
+    Route::get('capabilities/{slug}', function (string $slug) {
+        $map = [
+            'mvp-development' => 'mvp-development',
+            'admin-dashboards' => 'admin-dashboards',
+            'business-websites' => 'websites',
+            'system-integrations' => 'system-integrations',
+            'product-redesign' => 'product-redesign',
+        ];
+
+        if (isset($map[$slug])) {
+            return redirect()->route('pages.services.show', ['slug' => $map[$slug]], 301);
+        }
+
+        return redirect()->route('pages.services', [], 301);
+    });
     Route::get('about', [MarketingController::class, 'about'])->name('pages.about');
     Route::get('work', [MarketingController::class, 'workHub'])->name('pages.work');
     Route::get('work/{slug}', [MarketingController::class, 'workShow'])->name('pages.work.show');
