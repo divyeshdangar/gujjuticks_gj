@@ -16,6 +16,12 @@
         <nav class="site-nav" id="site-nav" aria-label="Primary">
             <a href="{{ route('home') }}"
                 class="site-nav__link {{ request()->routeIs('home') ? 'is-active' : '' }}">Home</a>
+            <a href="{{ route('pages.services') }}"
+                class="site-nav__link {{ request()->routeIs('pages.services*') ? 'is-active' : '' }}">Services</a>
+            <a href="{{ route('pages.technology') }}"
+                class="site-nav__link {{ request()->routeIs('pages.technology*') ? 'is-active' : '' }}">Technology</a>
+            <a href="{{ route('pages.work') }}"
+                class="site-nav__link {{ request()->routeIs('pages.work*') ? 'is-active' : '' }}">Work</a>
             <a href="{{ route('pages.blog.list') }}"
                 class="site-nav__link {{ request()->routeIs('pages.blog.*') ? 'is-active' : '' }}">Journal</a>
             <a href="{{ route('form.contact') }}"

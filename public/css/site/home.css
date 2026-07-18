@@ -547,6 +547,14 @@ body.site-body--home .site-footer {
 
 .hm-build__cta {
     margin-top: 1.75rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+a.hm-build__item {
+    text-decoration: none;
+    color: inherit;
 }
 
 /* Stats */

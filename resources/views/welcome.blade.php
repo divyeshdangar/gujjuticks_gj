@@ -29,7 +29,7 @@
             </p>
             <div class="hm-hero__actions">
                 <a class="hm-btn hm-btn--solid" href="{{ route('form.contact') }}">Start a project</a>
-                <a class="hm-btn hm-btn--ghost" href="#services">Explore services</a>
+                <a class="hm-btn hm-btn--ghost" href="{{ route('pages.services') }}">Explore services</a>
             </div>
             <p class="hm-hero__meta">
                 <span data-local-time>—</span>
@@ -83,7 +83,7 @@
                 </p>
             </div>
             <div class="hm-build">
-                <article class="hm-build__item hm-reveal" data-tilt>
+                <a href="{{ route('pages.services.show', ['slug' => 'custom-apps']) }}" class="hm-build__item hm-reveal">
                     <p class="hm-build__tag">01</p>
                     <h3>Custom apps</h3>
                     <p>
@@ -95,8 +95,8 @@
                         <li>Admin dashboards &amp; portals</li>
                         <li>MVP to production releases</li>
                     </ul>
-                </article>
-                <article class="hm-build__item hm-reveal" data-tilt>
+                </a>
+                <a href="{{ route('pages.services.show', ['slug' => 'websites']) }}" class="hm-build__item hm-reveal">
                     <p class="hm-build__tag">02</p>
                     <h3>Websites</h3>
                     <p>
@@ -108,8 +108,8 @@
                         <li>Landing pages that convert</li>
                         <li>CMS-friendly updates</li>
                     </ul>
-                </article>
-                <article class="hm-build__item hm-reveal" data-tilt>
+                </a>
+                <a href="{{ route('pages.services.show', ['slug' => 'custom-software']) }}" class="hm-build__item hm-reveal">
                     <p class="hm-build__tag">03</p>
                     <h3>Custom software</h3>
                     <p>
@@ -121,7 +121,11 @@
                         <li>API &amp; system integrations</li>
                         <li>Automation workflows</li>
                     </ul>
-                </article>
+                </a>
+            </div>
+            <div class="hm-build__cta hm-reveal">
+                <a class="hm-btn hm-btn--solid" href="{{ route('pages.services') }}">View all services</a>
+                <a class="hm-btn hm-btn--ghost" href="{{ route('pages.technology') }}">Our technology</a>
             </div>
         </div>
     </section>
@@ -262,6 +266,7 @@
             </div>
             <div class="hm-build__cta hm-reveal">
                 <a class="hm-btn hm-btn--solid" href="{{ route('form.contact') }}">Discuss your project</a>
+                <a class="hm-btn hm-btn--ghost" href="{{ route('pages.services') }}">View all services</a>
             </div>
         </div>
     </section>

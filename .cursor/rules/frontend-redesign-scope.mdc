@@ -17,11 +17,20 @@ When writing copy, meta, or UI for redesign pages:
 
 ## Redesign (new design)
 
-Apply the new frontend design only to:
+Apply the new frontend design to:
 
 - Home
 - Blogs
 - Contact
+- Services (`/services`, `/services/{slug}`)
+- Technology (`/technology`, `/technology/{slug}`)
+- Capabilities (`/capabilities`, `/capabilities/{slug}`)
+- Work (`/work`, `/work/{slug}`)
+- About
+- Privacy
+- Terms
+
+Shared marketing pages use `page="marketing"` and [`public/css/site/marketing.css`](public/css/site/marketing.css).
 
 ## Remove
 

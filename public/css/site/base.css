@@ -114,7 +114,9 @@ body.site-body {
 .site-nav {
     display: flex;
     align-items: center;
-    gap: 2rem;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+    justify-content: flex-end;
 }
 
 .site-nav__link {

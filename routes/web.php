@@ -32,6 +32,7 @@ use App\Http\Controllers\Pages\CoolImageController;
 use App\Http\Controllers\Pages\PagesController as PublicPagesController;
 use App\Http\Controllers\Pages\FormController;
 use App\Http\Controllers\Pages\HomeController;
+use App\Http\Controllers\Pages\MarketingController;
 use App\Http\Controllers\Pages\CitiesController;
 use App\Http\Controllers\Pages\NewsController;
 use App\Http\Controllers\Pages\CardsController as PublicCardsController;
@@ -52,6 +53,19 @@ Route::middleware([CheckLanguage::class])->group(function () {
     Route::get('/', [HomeController::class, 'show'])->name('home');    
     Route::get('login', [LoginController::class, 'authenticate'])->name('login');
     Route::get('contact-us', [FormController::class, 'show'])->name('form.contact');
+
+    Route::get('services', [MarketingController::class, 'servicesHub'])->name('pages.services');
+    Route::get('services/{slug}', [MarketingController::class, 'servicesShow'])->name('pages.services.show');
+    Route::get('technology', [MarketingController::class, 'technologyHub'])->name('pages.technology');
+    Route::get('technology/{slug}', [MarketingController::class, 'technologyShow'])->name('pages.technology.show');
+    Route::get('capabilities', [MarketingController::class, 'capabilitiesHub'])->name('pages.capabilities');
+    Route::get('capabilities/{slug}', [MarketingController::class, 'capabilitiesShow'])->name('pages.capabilities.show');
+    Route::get('about', [MarketingController::class, 'about'])->name('pages.about');
+    Route::get('work', [MarketingController::class, 'workHub'])->name('pages.work');
+    Route::get('work/{slug}', [MarketingController::class, 'workShow'])->name('pages.work.show');
+    Route::get('privacy', [MarketingController::class, 'privacy'])->name('pages.privacy');
+    Route::get('terms', [MarketingController::class, 'terms'])->name('pages.terms');
+
     Route::get('blogs', [PublicBlogController::class, 'index'])->name('pages.blog.list');
     Route::get('blog-on-{slug}', [PublicBlogController::class, 'category'])->name('pages.blog.category.detail');
     Route::get('blog/{slug}', [PublicBlogController::class, 'view'])->name('pages.blog.detail');
