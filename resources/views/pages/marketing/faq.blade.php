@@ -45,10 +45,10 @@
                     <h3 class="mk-card__title">How we work</h3>
                     <p class="mk-card__summary">Discovery through launch and support.</p>
                 </a>
-                <a href="{{ route('pages.engagements') }}" class="mk-card">
-                    <p class="mk-card__tag">Buy</p>
-                    <h3 class="mk-card__title">Engagements</h3>
-                    <p class="mk-card__summary">Workshop, build, or retainer.</p>
+                <a href="{{ route('pages.services') }}" class="mk-card">
+                    <p class="mk-card__tag">Offer</p>
+                    <h3 class="mk-card__title">Services</h3>
+                    <p class="mk-card__summary">Custom apps, websites, and software.</p>
                 </a>
                 <a href="{{ route('pages.work') }}" class="mk-card">
                     <p class="mk-card__tag">Proof</p>

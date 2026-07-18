@@ -84,10 +84,10 @@
                     <h3 class="mk-card__title">Work</h3>
                     <p class="mk-card__summary">Selected project types and approaches.</p>
                 </a>
-                <a href="{{ route('pages.engagements') }}" class="mk-card">
-                    <p class="mk-card__tag">Buy</p>
-                    <h3 class="mk-card__title">Engagements</h3>
-                    <p class="mk-card__summary">Workshop, build, or ongoing support.</p>
+                <a href="{{ route('form.contact') }}" class="mk-card">
+                    <p class="mk-card__tag">Next</p>
+                    <h3 class="mk-card__title">Contact</h3>
+                    <p class="mk-card__summary">Share a brief and start a project conversation.</p>
                 </a>
             </div>
         </div>
