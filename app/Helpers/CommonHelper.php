@@ -19,6 +19,40 @@ class CommonHelper
         }
     }
 
+    /**
+     * Escape text and wrap search keywords in <mark class="jn-mark"> for public UI.
+     */
+    public static function highlightKeywords(?string $text, ?string $search = null): string
+    {
+        $escaped = e((string) ($text ?? ''));
+        $search = trim((string) ($search ?? request()->input('search', '')));
+
+        if ($search === '' || $escaped === '') {
+            return $escaped;
+        }
+
+        $tokens = preg_split('/\s+/u', $search, -1, PREG_SPLIT_NO_EMPTY) ?: [];
+        $quoted = [];
+
+        foreach ($tokens as $token) {
+            if ($token === '') {
+                continue;
+            }
+            $quoted[] = preg_quote($token, '/');
+        }
+
+        if ($quoted === []) {
+            return $escaped;
+        }
+
+        usort($quoted, static fn (string $a, string $b): int => mb_strlen($b) <=> mb_strlen($a));
+
+        $pattern = '/(' . implode('|', $quoted) . ')/iu';
+        $highlighted = preg_replace($pattern, '<mark class="jn-mark">$1</mark>', $escaped);
+
+        return is_string($highlighted) ? $highlighted : $escaped;
+    }
+
     static function encUrlParam($slug)
     {
         return Crypt::encrypt($slug);

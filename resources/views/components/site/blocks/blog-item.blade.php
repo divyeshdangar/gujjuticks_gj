@@ -1,9 +1,12 @@
-@props(['data', 'lang' => []])
+@props(['data', 'lang' => [], 'search' => null])
 
 @php
     $href = route('pages.blog.detail', ['slug' => $data->slug]);
-    $image = URL::asset('/images/blog/' . $data->image);
+    $image = !empty($data->image)
+        ? URL::asset('/images/blog/' . $data->image)
+        : asset('files/images/blogs-listing-page.png');
     $excerpt = \Illuminate\Support\Str::limit(strip_tags($data->meta_description ?? ''), 110);
+    $term = $search ?? request('search');
 @endphp
 
 <article>
@@ -21,9 +24,9 @@
                     {{ $data->created_at->format('M j, Y') }}
                 </time>
             </div>
-            <h3 class="jn-card__title">{{ $data->title }}</h3>
+            <h3 class="jn-card__title">{!! \App\Helpers\CommonHelper::highlightKeywords($data->title, $term) !!}</h3>
             @if ($excerpt)
-                <p class="jn-card__excerpt">{{ $excerpt }}</p>
+                <p class="jn-card__excerpt">{!! \App\Helpers\CommonHelper::highlightKeywords($excerpt, $term) !!}</p>
             @endif
         </div>
     </a>

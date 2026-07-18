@@ -430,6 +430,21 @@ body.site-body--blogs .site-footer {
     overflow: hidden;
 }
 
+.jn-mark {
+    padding: 0.05em 0.2em;
+    border-radius: 0.25em;
+    background: rgba(225, 29, 72, 0.16);
+    color: inherit;
+    font-weight: 700;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+}
+
+.jn-hero__title .jn-mark,
+.jn-card__title .jn-mark {
+    background: rgba(225, 29, 72, 0.18);
+}
+
 .jn-empty {
     padding: 3rem 1.25rem;
     text-align: center;

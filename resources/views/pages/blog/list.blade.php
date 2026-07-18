@@ -2,11 +2,14 @@
 
     @php
         $items = $dataList->items();
-        $featured = $dataList->currentPage() === 1 && !request('search') && count($items) > 0 ? $items[0] : null;
+        $lead = count($items) > 0 ? $items[0] : null;
+        // Featured layout only on page 1 without search; hero art always follows the lead post when present
+        $featured = $dataList->currentPage() === 1 && !request('search') && $lead ? $lead : null;
         $rest = $featured ? array_slice($items, 1) : $items;
-        $heroImage = $featured
-            ? URL::asset('/images/blog/' . $featured->image)
+        $heroImage = $lead && !empty($lead->image)
+            ? URL::asset('/images/blog/' . $lead->image)
             : asset('files/images/blogs-listing-page.png');
+        $searchTerm = request('search');
     @endphp
 
     <section class="jn-hero">
@@ -14,7 +17,11 @@
             <p class="jn-hero__label">Journal</p>
             <p class="jn-hero__brand">GujjuTicks</p>
             <h1 class="jn-hero__title">
-                Notes on custom apps, websites, software delivery, and building digital products.
+                @if ($searchTerm)
+                    Results for “{!! \App\Helpers\CommonHelper::highlightKeywords($searchTerm, $searchTerm) !!}”
+                @else
+                    Notes on custom apps, websites, software delivery, and building digital products.
+                @endif
             </h1>
             <div class="jn-hero__actions">
                 <a class="jn-btn jn-btn--solid" href="#articles">Read the latest</a>
@@ -30,7 +37,7 @@
         <div class="jn-wrap">
             <div class="jn-bar">
                 <h2 class="jn-bar__title">
-                    @if (request('search'))
+                    @if ($searchTerm)
                         Results
                     @else
                         Latest
@@ -39,11 +46,11 @@
                 <div class="jn-bar__actions">
                     <form class="jn-search" method="get" action="{{ route('pages.blog.list') }}" role="search">
                         <label class="visually-hidden" for="blog-search">Search journal</label>
-                        <input id="blog-search" type="search" name="search" value="{{ request('search') }}"
+                        <input id="blog-search" type="search" name="search" value="{{ $searchTerm }}"
                             placeholder="Search" autocomplete="off">
                         <button type="submit">Go</button>
                     </form>
-                    @if (request('search'))
+                    @if ($searchTerm)
                         <a class="jn-clear" href="{{ route('pages.blog.list') }}">Clear</a>
                     @endif
                 </div>
@@ -53,7 +60,9 @@
                 @if ($featured)
                     @php
                         $featuredHref = route('pages.blog.detail', ['slug' => $featured->slug]);
-                        $featuredImage = URL::asset('/images/blog/' . $featured->image);
+                        $featuredImage = !empty($featured->image)
+                            ? URL::asset('/images/blog/' . $featured->image)
+                            : asset('files/images/blogs-listing-page.png');
                         $featuredExcerpt = \Illuminate\Support\Str::limit(
                             strip_tags($featured->meta_description ?? ''),
                             160,
@@ -86,7 +95,7 @@
                 @if (count($rest) > 0)
                     <div class="jn-grid">
                         @foreach ($rest as $data)
-                            <x-site.blocks.blog-item :data="$data" :lang="$lang" />
+                            <x-site.blocks.blog-item :data="$data" :lang="$lang" :search="$searchTerm" />
                         @endforeach
                     </div>
                 @endif
@@ -94,8 +103,8 @@
                 {{ $dataList->links('vendor.pagination.site') }}
             @else
                 <div class="jn-empty" role="status">
-                    @if (request('search'))
-                        No articles matched “{{ request('search') }}”.
+                    @if ($searchTerm)
+                        No articles matched “{{ $searchTerm }}”.
                     @else
                         New writing will appear here soon.
                     @endif

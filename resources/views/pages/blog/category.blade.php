@@ -73,7 +73,7 @@
             @if (count($items) > 0)
                 <div class="jn-grid">
                     @foreach ($items as $data)
-                        <x-site.blocks.blog-item :data="$data" :lang="$lang" />
+                        <x-site.blocks.blog-item :data="$data" :lang="$lang" :search="request('search')" />
                     @endforeach
                 </div>
                 {{ $dataList->links('vendor.pagination.site') }}
