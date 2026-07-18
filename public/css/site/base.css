@@ -288,3 +288,183 @@ body.site-body {
         justify-content: flex-start;
     }
 }
+
+/* Flash confirmation modal */
+.site-flash {
+    position: fixed;
+    inset: 0;
+    z-index: 80;
+    display: grid;
+    place-items: center;
+    padding: 1.25rem;
+}
+
+.site-flash[hidden] {
+    display: none;
+}
+
+.site-flash__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(17, 19, 24, 0.45);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.site-flash__dialog {
+    position: relative;
+    z-index: 1;
+    width: min(100%, 24rem);
+    padding: 1.85rem 1.55rem 1.5rem;
+    border-radius: 1.15rem;
+    border: 1px solid var(--site-line);
+    background: var(--site-surface);
+    box-shadow: 0 24px 60px rgba(17, 19, 24, 0.18);
+    text-align: center;
+    opacity: 0;
+    transform: translateY(14px) scale(0.96);
+    transition:
+        opacity 0.35s var(--site-ease),
+        transform 0.45s var(--site-ease);
+}
+
+.site-flash.is-open .site-flash__backdrop {
+    opacity: 1;
+}
+
+.site-flash.is-open .site-flash__dialog {
+    opacity: 1;
+    transform: none;
+}
+
+.site-flash__icon {
+    width: 3.25rem;
+    height: 3.25rem;
+    margin: 0 auto 1rem;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: rgba(16, 185, 129, 0.12);
+    color: #047857;
+    position: relative;
+}
+
+.site-flash__icon::before {
+    content: "";
+    width: 0.85rem;
+    height: 0.45rem;
+    border-left: 2.5px solid currentColor;
+    border-bottom: 2.5px solid currentColor;
+    transform: rotate(-45deg) translate(0.05rem, -0.1rem);
+    opacity: 0;
+}
+
+.site-flash.is-open .site-flash__icon::before {
+    animation: site-flash-check 0.45s var(--site-ease) 0.15s both;
+}
+
+.site-flash[data-type="error"] .site-flash__icon,
+.site-flash[data-type="warning"] .site-flash__icon {
+    background: rgba(225, 29, 72, 0.1);
+    color: #be123c;
+}
+
+.site-flash[data-type="error"] .site-flash__icon::before,
+.site-flash[data-type="warning"] .site-flash__icon::before {
+    width: 1rem;
+    height: 1rem;
+    border: 0;
+    background:
+        linear-gradient(currentColor, currentColor) center / 2.5px 100% no-repeat,
+        linear-gradient(currentColor, currentColor) center / 100% 2.5px no-repeat;
+    transform: rotate(45deg);
+    border-radius: 1px;
+}
+
+.site-flash[data-type="info"] .site-flash__icon {
+    background: rgba(29, 78, 137, 0.12);
+    color: #1d4e89;
+}
+
+.site-flash[data-type="info"] .site-flash__icon::before {
+    width: 0.2rem;
+    height: 0.75rem;
+    border: 0;
+    border-radius: 999px;
+    background: currentColor;
+    box-shadow: 0 0.4rem 0 currentColor;
+    transform: none;
+    margin-top: -0.15rem;
+}
+
+.site-flash__title {
+    margin: 0;
+    font-family: var(--site-font-display);
+    font-size: 1.35rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--site-ink);
+}
+
+.site-flash__desc {
+    margin: 0.55rem 0 0;
+    font-size: 0.95rem;
+    line-height: 1.55;
+    color: var(--site-ink-soft);
+}
+
+.site-flash__desc:empty {
+    display: none;
+}
+
+.site-flash__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1.35rem;
+    min-height: 2.75rem;
+    padding: 0.65rem 1.35rem;
+    border: 0;
+    border-radius: 999px;
+    background: var(--site-ink);
+    color: #fff;
+    font: inherit;
+    font-size: 0.875rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.25s var(--site-ease);
+}
+
+.site-flash__btn:hover {
+    background: #e11d48;
+    transform: translateY(-1px);
+}
+
+.site-flash__btn:focus-visible {
+    outline: 2px solid rgba(225, 29, 72, 0.45);
+    outline-offset: 2px;
+}
+
+@keyframes site-flash-check {
+    from { opacity: 0; transform: rotate(-45deg) scale(0.6) translate(0.05rem, -0.1rem); }
+    to { opacity: 1; transform: rotate(-45deg) scale(1) translate(0.05rem, -0.1rem); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .site-flash__backdrop,
+    .site-flash__dialog,
+    .site-flash__icon::before,
+    .site-flash__btn {
+        animation: none !important;
+        transition: none !important;
+    }
+
+    .site-flash.is-open .site-flash__dialog {
+        opacity: 1;
+        transform: none;
+    }
+
+    .site-flash.is-open .site-flash__icon::before {
+        opacity: 1;
+    }
+}

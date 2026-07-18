@@ -52,6 +52,8 @@
 
                     <div class="mk-actions">
                         <a class="mk-btn mk-btn--solid" href="{{ route('form.contact') }}">Discuss your app</a>
+                        <a class="mk-btn mk-btn--ghost" href="{{ route('pages.tools.brief') }}">Build a brief</a>
+                        <a class="mk-btn mk-btn--ghost" href="{{ route('pages.tools.estimate') }}">Rough estimate</a>
                         <a class="mk-btn mk-btn--ghost" href="{{ route('pages.services') }}">All services</a>
                     </div>
                 </div>
@@ -296,6 +298,8 @@
                     </div>
                     <div class="mk-cta__actions">
                         <a class="mk-btn mk-btn--solid" href="{{ route('form.contact') }}">Contact GujjuTicks</a>
+                        <a class="mk-btn mk-btn--ghost" href="{{ route('pages.tools.brief') }}">Build a brief</a>
+                        <a class="mk-btn mk-btn--ghost" href="{{ route('pages.tools.estimate') }}">Rough estimate</a>
                         @if (!empty($page['cta']['secondary_route']))
                             <a class="mk-btn mk-btn--ghost"
                                 href="{{ route($page['cta']['secondary_route'], $page['cta']['secondary_params'] ?? []) }}">
@@ -323,6 +327,8 @@
                 <p class="mk-lead">{{ $page['lead'] }}</p>
                 <div class="mk-actions">
                     <a class="mk-btn mk-btn--solid" href="{{ route('form.contact') }}">Start a project</a>
+                    <a class="mk-btn mk-btn--ghost" href="{{ route('pages.tools.brief') }}">Build a brief</a>
+                    <a class="mk-btn mk-btn--ghost" href="{{ route('pages.tools.estimate') }}">Rough estimate</a>
                     <a class="mk-btn mk-btn--ghost" href="{{ route($hubRoute) }}">All services</a>
                 </div>
             </div>
@@ -352,6 +358,8 @@
             <div class="mk-wrap mk-cta__box">
                 <p>Want something like this for your team?</p>
                 <a class="mk-btn mk-btn--solid" href="{{ route('form.contact') }}">Discuss your project</a>
+                <a class="mk-btn mk-btn--ghost" href="{{ route('pages.tools.brief') }}">Build a brief</a>
+                <a class="mk-btn mk-btn--ghost" href="{{ route('pages.tools.estimate') }}">Rough estimate</a>
             </div>
         </section>
     @endif

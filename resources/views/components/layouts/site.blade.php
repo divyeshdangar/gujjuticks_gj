@@ -45,24 +45,28 @@
 
     <x-site.footer />
 
+    <div class="site-flash" id="site-flash" hidden data-site-flash
+        @if (session('message'))
+            data-open="1"
+            data-type="{{ session('message.type', 'info') }}"
+            data-title="{{ session('message.title') }}"
+            data-description="{{ session('message.description') }}"
+        @endif>
+        <div class="site-flash__backdrop" data-site-flash-close tabindex="-1"></div>
+        <div class="site-flash__dialog" role="dialog" aria-modal="true" aria-labelledby="site-flash-title"
+            aria-describedby="site-flash-desc">
+            <div class="site-flash__icon" aria-hidden="true" data-site-flash-icon></div>
+            <h2 class="site-flash__title" id="site-flash-title" data-site-flash-title></h2>
+            <p class="site-flash__desc" id="site-flash-desc" data-site-flash-desc></p>
+            <button type="button" class="site-flash__btn" data-site-flash-close>Continue</button>
+        </div>
+    </div>
+
     <script src="{{ asset('js/site/site.js') }}" defer></script>
     @if ($page && file_exists(public_path('js/site/' . $page . '.js')))
         <script src="{{ asset('js/site/' . $page . '.js') }}" defer></script>
     @endif
     {{ $scripts ?? '' }}
-
-    @if (session('message'))
-        <script>
-            (function() {
-                try {
-                    var message = @json(session('message'));
-                    if (message && message.title) {
-                        alert(message.title + (message.description ? '\n' + message.description : ''));
-                    }
-                } catch (e) {}
-            })();
-        </script>
-    @endif
 </body>
 
 </html>

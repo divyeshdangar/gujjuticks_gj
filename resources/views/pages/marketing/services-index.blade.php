@@ -167,6 +167,8 @@
             </div>
             <div class="mk-cta__actions">
                 <a class="mk-btn mk-btn--solid" href="{{ route('form.contact') }}">Contact GujjuTicks</a>
+                <a class="mk-btn mk-btn--ghost" href="{{ route('pages.tools.brief') }}">Build a brief</a>
+                <a class="mk-btn mk-btn--ghost" href="{{ route('pages.tools.estimate') }}">Rough estimate</a>
                 <a class="mk-btn mk-btn--ghost" href="{{ route('pages.how-we-work') }}">How we work</a>
             </div>
         </div>
