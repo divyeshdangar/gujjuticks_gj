@@ -34,7 +34,7 @@ Apply the new frontend design to:
 - News hub (`/news`) and category detail (`/news/{slug}`) — light animated news desk design (`page="news"`, [`public/css/site/news.css`](public/css/site/news.css), [`public/js/site/news.js`](public/js/site/news.js))
 - Login (`/login`) — light workspace sign-in (`page="login"`, [`public/css/site/login.css`](public/css/site/login.css), [`public/js/site/login.js`](public/js/site/login.js))
 - Error pages (`403`, `404`, `419`, `429`, `500`, `503`) — shared signal-desk design (`page="error"`, [`public/css/site/error.css`](public/css/site/error.css), [`public/js/site/error.js`](public/js/site/error.js))
-- Project tools (unlisted): Brief Builder (`/project-brief`) and Estimate Calculator (`/project-estimate`) — `page="tools"`, [`public/css/site/tools.css`](public/css/site/tools.css), [`public/js/site/tools.js`](public/js/site/tools.js); linked from Contact and Services only, not main nav
+- Project tools (unlisted): Brief Builder (`/project-brief`), Estimate Calculator (`/project-estimate`), and Tech Stack Recommender (`/tech-stack`) — `page="tools"`, [`public/css/site/tools.css`](public/css/site/tools.css), [`public/js/site/tools.js`](public/js/site/tools.js); linked from Contact and Services only, not main nav
 
 Shared marketing pages use `page="marketing"` and [`public/css/site/marketing.css`](public/css/site/marketing.css).
 
@@ -48,4 +48,4 @@ Remove these pages from the site (routes, nav links, and related UI entry points
 
 ## Unlisted modules
 
-Cities, AI Prompts, Post Builder, Image Editor, News, and Project tools (Brief / Estimate) remain available by direct URL. Do not add or restore links to them from Home, shared nav, or other marketing surfaces except the approved Contact and Services entry CTAs for Project tools.
+Cities, AI Prompts, Post Builder, Image Editor, News, and Project tools (Brief / Estimate / Tech Stack) remain available by direct URL. Do not add or restore links to them from Home, shared nav, or other marketing surfaces except the approved Contact and Services entry CTAs for Project tools.

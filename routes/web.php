@@ -50,6 +50,8 @@ Route::middleware([CheckLanguage::class])->group(function () {
     Route::post('project-brief', [ToolsController::class, 'storeBrief'])->name('pages.tools.brief.post');
     Route::get('project-estimate', [ToolsController::class, 'estimate'])->name('pages.tools.estimate');
     Route::post('project-estimate', [ToolsController::class, 'storeEstimate'])->name('pages.tools.estimate.post');
+    Route::get('tech-stack', [ToolsController::class, 'stack'])->name('pages.tools.stack');
+    Route::post('tech-stack', [ToolsController::class, 'storeStack'])->name('pages.tools.stack.post');
 
     Route::get('services', [MarketingController::class, 'servicesHub'])->name('pages.services');
     Route::get('services/{slug}', [MarketingController::class, 'servicesShow'])->name('pages.services.show');

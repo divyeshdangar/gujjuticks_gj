@@ -12,6 +12,7 @@
                 <a class="mk-btn mk-btn--solid" href="{{ route('form.contact') }}">Start a project</a>
                 <a class="mk-btn mk-btn--ghost" href="{{ route('pages.tools.brief') }}">Build a brief</a>
                 <a class="mk-btn mk-btn--ghost" href="{{ route('pages.tools.estimate') }}">Rough estimate</a>
+                <a class="mk-btn mk-btn--ghost" href="{{ route('pages.tools.stack') }}">Tech stack quiz</a>
                 <a class="mk-btn mk-btn--ghost" href="#service-list">Browse services</a>
             </div>
         </div>
@@ -169,6 +170,7 @@
                 <a class="mk-btn mk-btn--solid" href="{{ route('form.contact') }}">Contact GujjuTicks</a>
                 <a class="mk-btn mk-btn--ghost" href="{{ route('pages.tools.brief') }}">Build a brief</a>
                 <a class="mk-btn mk-btn--ghost" href="{{ route('pages.tools.estimate') }}">Rough estimate</a>
+                <a class="mk-btn mk-btn--ghost" href="{{ route('pages.tools.stack') }}">Tech stack quiz</a>
                 <a class="mk-btn mk-btn--ghost" href="{{ route('pages.how-we-work') }}">How we work</a>
             </div>
         </div>

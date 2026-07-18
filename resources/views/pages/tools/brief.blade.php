@@ -21,6 +21,8 @@
                 <p class="tl-cross">
                     Need a ballpark first?
                     <a href="{{ route('pages.tools.estimate', array_filter(['type' => $startType])) }}">Open the estimate calculator</a>
+                    ·
+                    <a href="{{ route('pages.tools.stack') }}">Tech stack quiz</a>
                 </p>
             </div>
         </section>

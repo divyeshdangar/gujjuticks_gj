@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Pages;
 
 use App\Http\Controllers\Controller;
 use App\Models\ContactUs;
+use App\Support\SitePages;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -45,6 +46,170 @@ class ToolsController extends Controller
         '₹8L+',
         'Not sure',
     ];
+
+    public const STACK_PRODUCTS = [
+        'Custom app' => 'Product with accounts, workflows, and ongoing use',
+        'Website' => 'Marketing, brochure, or content-led site',
+        'Custom software' => 'Internal ops, portals, or multi-system tools',
+        'MVP' => 'First version to validate with real users',
+        'Not sure' => 'Still shaping the product — we will suggest a safe default',
+    ];
+
+    public const STACK_SURFACES = [
+        'marketing' => [
+            'label' => 'Marketing / brochure site',
+            'hint' => 'Pages, SEO, and content edits matter most',
+        ],
+        'web' => [
+            'label' => 'Web product / portal',
+            'hint' => 'Logged-in workflows in the browser',
+        ],
+        'spa' => [
+            'label' => 'App-like SPA dashboard',
+            'hint' => 'Rich client UI with heavier interactivity',
+        ],
+        'mobile' => [
+            'label' => 'Mobile-first (PWA)',
+            'hint' => 'Phone-first without requiring app stores yet',
+        ],
+        'native' => [
+            'label' => 'Native store apps',
+            'hint' => 'iOS/Android presence, push, or device APIs',
+        ],
+    ];
+
+    public const STACK_CAPABILITIES = [
+        'auth' => 'User accounts / login',
+        'payments' => 'Payments',
+        'admin' => 'Admin dashboard',
+        'integrations' => 'Third-party integrations',
+        'cms' => 'Content / CMS',
+        'ai' => 'AI features',
+        'mobile' => 'Mobile experience',
+        'notifications' => 'Notifications',
+        'analytics' => 'Reporting / analytics',
+        'multiuser' => 'Roles & multi-user teams',
+    ];
+
+    public const STACK_PRIORITIES = [
+        'fast' => [
+            'label' => 'Ship a first version fast',
+            'hint' => 'Lean defaults, fewer moving parts',
+        ],
+        'scale' => [
+            'label' => 'Build for scale & reliability',
+            'hint' => 'Testing, hosting, and data discipline',
+        ],
+        'growth' => [
+            'label' => 'SEO & growth after launch',
+            'hint' => 'Performance, content, and discoverability',
+        ],
+        'maintain' => [
+            'label' => 'Easy to maintain long term',
+            'hint' => 'Boring, coherent stack your team can own',
+        ],
+    ];
+
+    public const STACK_PRINCIPLES = [
+        [
+            'title' => 'Ship the job, not the fashion',
+            'text' => 'Bias toward proven layers that get users online — then add complexity only when the product proves it needs it.',
+        ],
+        [
+            'title' => 'One coherent spine',
+            'text' => 'Most products need a clear backend, a clear UI, and clean integrations — not five frameworks fighting each other.',
+        ],
+        [
+            'title' => 'Room to grow after v1',
+            'text' => 'Leave a path to admin, mobile, AI, or native later without forcing a rewrite on day one.',
+        ],
+    ];
+
+    /**
+     * Catalog + copy for the tech stack recommender (client-side quiz).
+     */
+    public function stackConfig(): array
+    {
+        $hubItems = SitePages::get('technology.hub.items', []);
+        $catalog = [];
+
+        foreach (is_array($hubItems) ? $hubItems : [] as $item) {
+            $slug = $item['slug'] ?? null;
+            if (! is_string($slug) || $slug === '') {
+                continue;
+            }
+
+            $detail = SitePages::page('technology', $slug) ?? [];
+            $fitPoints = [];
+            if (is_array($detail['when_fit']['points'] ?? null)) {
+                $fitPoints = array_values(array_slice($detail['when_fit']['points'], 0, 3));
+            }
+
+            $tools = [];
+            if (is_array($detail['tools'] ?? null)) {
+                $tools = array_values(array_slice($detail['tools'], 0, 6));
+            }
+
+            $catalog[$slug] = [
+                'title' => $detail['label'] ?? ($item['title'] ?? $slug),
+                'tag' => $detail['category'] ?? ($item['tag'] ?? ''),
+                'summary' => $item['summary'] ?? ($detail['lead'] ?? ''),
+                'lead' => $detail['lead'] ?? ($item['summary'] ?? ''),
+                'best_for' => $detail['best_for'] ?? '',
+                'maturity' => $detail['maturity'] ?? '',
+                'delivery' => $detail['delivery'] ?? '',
+                'tools' => $tools,
+                'fit_points' => $fitPoints,
+                'url' => route('pages.technology.show', ['slug' => $slug]),
+            ];
+        }
+
+        return [
+            'catalog' => $catalog,
+            'hubUrl' => route('pages.technology'),
+            'whys' => [
+                'laravel' => 'Solid backend for apps, APIs, and admin workflows you can maintain long term.',
+                'web-apps' => 'Clear, fast interfaces for products, portals, and day-to-day tools.',
+                'apis-integrations' => 'Connect payments, CRMs, and ops systems without fragile handoffs.',
+                'mobile-apps' => 'Mobile-ready experience without jumping straight to native store apps.',
+                'hosting-devops' => 'Deploy, SSL, uptime basics, and a path to ongoing maintenance.',
+                'databases' => 'Reliable data models and schemas that stay easy to report on.',
+                'authentication-security' => 'Login, roles, and practical hardening for real user accounts.',
+                'admin-panels' => 'Internal consoles your team needs to run the product day to day.',
+                'quality-testing' => 'Critical-path checks and staging confidence before go-live.',
+                'mvp-stack' => 'A lean path to ship a first version without overbuilding the stack.',
+                'cms-content' => 'Editable pages and content workflows for marketing and publishing.',
+                'payments' => 'Checkout and billing flows wired into the product, not bolted on later.',
+                'performance-seo' => 'Speed, crawlability, and launch hygiene that support growth.',
+                'react' => 'Interactive SPA surfaces when the product needs richer client state.',
+                'wordpress' => 'Fast marketing sites when content editing matters more than custom product logic.',
+                'ai-features' => 'Practical AI assist features where they improve the product, not as decoration.',
+                'native-mobile' => 'Store apps when push, device APIs, or app-store presence are required.',
+            ],
+            'nextSteps' => [
+                'fast' => [
+                    'Lock three core user flows before expanding the stack',
+                    'Prefer one backend spine and a clear web UI for v1',
+                    'Defer native apps and heavy SPA until demand is proven',
+                ],
+                'scale' => [
+                    'Plan staging, backups, and critical-path tests early',
+                    'Keep data models and permissions explicit from the start',
+                    'Add hosting/ops discipline before feature sprawl',
+                ],
+                'growth' => [
+                    'Treat performance and crawlability as launch requirements',
+                    'Keep content editable where marketing needs to move fast',
+                    'Measure the funnel before adding experimental layers',
+                ],
+                'maintain' => [
+                    'Choose boring defaults your next engineer can read',
+                    'Limit frameworks to what the product actually uses',
+                    'Document integrations and ownership as you build',
+                ],
+            ],
+        ];
+    }
 
     /**
      * Indicative estimate config (weeks + INR lakhs). Not a quote.
@@ -220,6 +385,91 @@ class ToolsController extends Controller
         return redirect()->route('home')->with($this->successFlash());
     }
 
+    public function stack(): View
+    {
+        return view('pages.tools.stack', [
+            'metaData' => $this->meta(
+                'Tech Stack Recommender',
+                'Answer a short quiz to get a recommended technology stack for your custom app, website, or software — with why each layer fits and links to Technology pages.',
+                route('pages.tools.stack')
+            ),
+            'productTypes' => self::STACK_PRODUCTS,
+            'surfaces' => self::STACK_SURFACES,
+            'capabilities' => self::STACK_CAPABILITIES,
+            'priorities' => self::STACK_PRIORITIES,
+            'principles' => self::STACK_PRINCIPLES,
+            'stackConfig' => $this->stackConfig(),
+        ]);
+    }
+
+    public function storeStack(Request $request): RedirectResponse
+    {
+        $capabilityKeys = array_keys(self::STACK_CAPABILITIES);
+        $surfaceKeys = array_keys(self::STACK_SURFACES);
+        $priorityKeys = array_keys(self::STACK_PRIORITIES);
+        $productKeys = array_keys(self::STACK_PRODUCTS);
+        $techSlugs = array_keys($this->stackConfig()['catalog']);
+
+        $validator = Validator::make($request->all(), [
+            'product_type' => 'required|in:' . implode(',', $productKeys),
+            'surface' => 'required|in:' . implode(',', $surfaceKeys),
+            'capabilities' => 'nullable|array',
+            'capabilities.*' => 'in:' . implode(',', $capabilityKeys),
+            'priority' => 'required|in:' . implode(',', $priorityKeys),
+            'primary_slug' => 'required|in:' . implode(',', $techSlugs),
+            'layer_slugs' => 'nullable|array',
+            'layer_slugs.*' => 'in:' . implode(',', $techSlugs),
+            'name' => 'required|max:255',
+            'email' => 'required|max:255|email',
+            'phone' => 'required|digits:10',
+            'notes' => 'nullable|max:5000',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->route('pages.tools.stack')->withErrors($validator)->withInput();
+        }
+
+        $data = $validator->validated();
+        $catalog = $this->stackConfig()['catalog'];
+
+        $capLabels = [];
+        foreach ($data['capabilities'] ?? [] as $key) {
+            if (isset(self::STACK_CAPABILITIES[$key])) {
+                $capLabels[] = self::STACK_CAPABILITIES[$key];
+            }
+        }
+
+        $layerTitles = [];
+        foreach ($data['layer_slugs'] ?? [] as $slug) {
+            if (isset($catalog[$slug])) {
+                $layerTitles[] = $catalog[$slug]['title'];
+            }
+        }
+
+        $primaryTitle = $catalog[$data['primary_slug']]['title'] ?? $data['primary_slug'];
+        $surfaceLabel = self::STACK_SURFACES[$data['surface']]['label'] ?? $data['surface'];
+        $priorityLabel = self::STACK_PRIORITIES[$data['priority']]['label'] ?? $data['priority'];
+
+        $parts = array_filter([
+            'Source: Tech Stack Recommender',
+            'Product type: ' . $data['product_type'],
+            'Surface: ' . $surfaceLabel,
+            $capLabels !== [] ? 'Capabilities: ' . implode(', ', $capLabels) : null,
+            'Priority: ' . $priorityLabel,
+            'Recommended primary: ' . $primaryTitle . ' (' . $data['primary_slug'] . ')',
+            $layerTitles !== [] ? 'Supporting layers: ' . implode(', ', $layerTitles) : null,
+        ]);
+
+        $body = implode("\n", $parts);
+        if (! empty($data['notes'])) {
+            $body .= "\n\n" . $data['notes'];
+        }
+
+        $this->saveContact($data['name'], $data['email'], $data['phone'], $body);
+
+        return redirect()->route('home')->with($this->successFlash());
+    }
+
     private function formatNum($value): string
     {
         $n = (float) $value;
@@ -257,7 +507,7 @@ class ToolsController extends Controller
         return [
             'title' => $title,
             'description' => $description,
-            'keywords' => 'project brief, software estimate, MVP cost, custom app timeline, GujjuTicks',
+            'keywords' => 'project brief, software estimate, tech stack, MVP cost, custom app timeline, GujjuTicks',
             'url' => $url,
             'image' => asset('brand/pages/gujjuticks-homepage.png'),
             'robots' => 'noindex, follow',

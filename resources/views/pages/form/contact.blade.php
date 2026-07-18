@@ -181,6 +181,7 @@
                 <div class="ct-tools-cta">
                     <a href="{{ route('pages.tools.brief') }}">Build a project brief</a>
                     <a href="{{ route('pages.tools.estimate') }}">Get a rough estimate</a>
+                    <a href="{{ route('pages.tools.stack') }}">Recommend a tech stack</a>
                 </div>
             </div>
         </aside>

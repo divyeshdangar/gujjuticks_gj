@@ -23,6 +23,8 @@
                 <p class="tl-cross">
                     Ready to write it up?
                     <a href="{{ route('pages.tools.brief', array_filter(['type' => $startType])) }}">Open the brief builder</a>
+                    ·
+                    <a href="{{ route('pages.tools.stack') }}">Tech stack quiz</a>
                 </p>
             </div>
         </section>
