@@ -17,6 +17,10 @@
             <a href="{{ route('pages.technology') }}">Technology</a>
             <a href="{{ route('pages.work') }}">Work</a>
             <a href="{{ route('pages.about') }}">About</a>
+            <a href="{{ route('pages.how-we-work') }}">How we work</a>
+            <a href="{{ route('pages.engagements') }}">Engagements</a>
+            <a href="{{ route('pages.faq') }}">FAQ</a>
+            <a href="{{ route('pages.careers') }}">Careers</a>
             <a href="{{ route('pages.blog.list') }}">Journal</a>
             <a href="{{ route('form.contact') }}">Contact</a>
             <a href="{{ route('pages.privacy') }}">Privacy</a>

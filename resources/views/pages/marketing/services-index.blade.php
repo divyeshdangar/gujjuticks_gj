@@ -165,8 +165,7 @@
             </div>
             <div class="mk-cta__actions">
                 <a class="mk-btn mk-btn--solid" href="{{ route('form.contact') }}">Contact GujjuTicks</a>
-                <a class="mk-btn mk-btn--ghost"
-                    href="https://wa.me/917600126800?text=Hello%20GujjuTicks%20%E2%80%94%20I%27d%20like%20to%20discuss%20a%20project.">WhatsApp</a>
+                <a class="mk-btn mk-btn--ghost" href="{{ route('pages.how-we-work') }}">How we work</a>
             </div>
         </div>
     </section>

@@ -265,6 +265,9 @@
                                 </details>
                             @endforeach
                         </div>
+                        <p class="sv-faq-more">
+                            <a href="{{ route('pages.faq') }}">More buyer questions on our FAQ page</a>
+                        </p>
                     </div>
                 </section>
             @endif

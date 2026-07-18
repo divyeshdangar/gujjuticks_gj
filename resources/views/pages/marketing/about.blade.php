@@ -7,12 +7,56 @@
             <p class="mk-lead">{{ $page['lead'] }}</p>
             <div class="mk-actions">
                 <a class="mk-btn mk-btn--solid" href="{{ route('form.contact') }}">Start a project</a>
-                <a class="mk-btn mk-btn--ghost" href="{{ route('pages.services') }}">View services</a>
+                <a class="mk-btn mk-btn--ghost" href="{{ route('pages.how-we-work') }}">How we work</a>
             </div>
         </div>
     </section>
 
-    <section class="mk-section">
+    @if (!empty($page['story']))
+        <section class="mk-section">
+            <div class="mk-wrap mk-prose mk-prose--narrow">
+                <article class="mk-block">
+                    <h2>{{ $page['story']['heading'] }}</h2>
+                    <p>{{ $page['story']['body'] }}</p>
+                </article>
+            </div>
+        </section>
+    @endif
+
+    @if (!empty($page['location']))
+        <section class="mk-section mk-section--alt">
+            <div class="mk-wrap mk-prose mk-prose--narrow">
+                <article class="mk-block">
+                    <h2>{{ $page['location']['heading'] }}</h2>
+                    <p>{{ $page['location']['body'] }}</p>
+                </article>
+            </div>
+        </section>
+    @endif
+
+    @if (!empty($page['team']))
+        <section class="mk-section" aria-labelledby="about-team-heading">
+            <div class="mk-wrap">
+                <div class="mk-section__head">
+                    <h2 id="about-team-heading">{{ $page['team']['heading'] }}</h2>
+                    @if (!empty($page['team']['lead']))
+                        <p>{{ $page['team']['lead'] }}</p>
+                    @endif
+                </div>
+                <div class="cs-features cs-features--{{ count($page['team']['people']) >= 3 ? '3' : '2' }}">
+                    @foreach ($page['team']['people'] as $person)
+                        <article class="cs-features__item mk-team-card">
+                            <p class="mk-card__tag">{{ $person['role'] }}</p>
+                            <h3>{{ $person['name'] }}</h3>
+                            <p>{{ $person['bio'] }}</p>
+                        </article>
+                    @endforeach
+                </div>
+            </div>
+        </section>
+    @endif
+
+    <section class="mk-section mk-section--alt">
         <div class="mk-wrap mk-prose">
             @foreach ($page['sections'] as $section)
                 <article class="mk-block">
@@ -23,7 +67,7 @@
         </div>
     </section>
 
-    <section class="mk-section mk-section--alt">
+    <section class="mk-section">
         <div class="mk-wrap">
             <div class="mk-section__head">
                 <h2>Explore</h2>
@@ -35,15 +79,15 @@
                     <h3 class="mk-card__title">Services</h3>
                     <p class="mk-card__summary">Custom apps, websites, and software.</p>
                 </a>
-                <a href="{{ route('pages.technology') }}" class="mk-card">
-                    <p class="mk-card__tag">Stack</p>
-                    <h3 class="mk-card__title">Technology</h3>
-                    <p class="mk-card__summary">Laravel, web apps, APIs, hosting, and more.</p>
-                </a>
                 <a href="{{ route('pages.work') }}" class="mk-card">
                     <p class="mk-card__tag">Proof</p>
                     <h3 class="mk-card__title">Work</h3>
                     <p class="mk-card__summary">Selected project types and approaches.</p>
+                </a>
+                <a href="{{ route('pages.engagements') }}" class="mk-card">
+                    <p class="mk-card__tag">Buy</p>
+                    <h3 class="mk-card__title">Engagements</h3>
+                    <p class="mk-card__summary">Workshop, build, or ongoing support.</p>
                 </a>
             </div>
         </div>

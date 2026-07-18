@@ -139,21 +139,27 @@ class MarketingController extends Controller
 
     public function about(Request $request): View
     {
-        $page = config('site_pages.about');
-        $url = route('pages.about');
+        return $this->renderCompanyPage('about', 'pages.about', 'pages.marketing.about', 'About');
+    }
 
-        return view('pages.marketing.about', [
-            'page' => $page,
-            'metaData' => $this->meta(
-                $page['meta_title'],
-                $page['meta_description'],
-                $url,
-                [
-                    ['name' => 'Home', 'item' => route('home')],
-                    ['name' => 'About', 'item' => $url],
-                ]
-            ),
-        ]);
+    public function howWeWork(Request $request): View
+    {
+        return $this->renderCompanyPage('how_we_work', 'pages.how-we-work', 'pages.marketing.how-we-work', 'How we work');
+    }
+
+    public function engagements(Request $request): View
+    {
+        return $this->renderCompanyPage('engagements', 'pages.engagements', 'pages.marketing.engagements', 'Engagements');
+    }
+
+    public function faq(Request $request): View
+    {
+        return $this->renderCompanyPage('faq', 'pages.faq', 'pages.marketing.faq', 'FAQ');
+    }
+
+    public function careers(Request $request): View
+    {
+        return $this->renderCompanyPage('careers', 'pages.careers', 'pages.marketing.careers', 'Careers');
     }
 
     public function workHub(Request $request): View
@@ -279,6 +285,25 @@ class MarketingController extends Controller
                     ['name' => 'Home', 'item' => route('home')],
                     ['name' => $hub['label'], 'item' => route($hubRoute)],
                     ['name' => $page['label'], 'item' => $url],
+                ]
+            ),
+        ]);
+    }
+
+    private function renderCompanyPage(string $configKey, string $routeName, string $view, string $crumbLabel): View
+    {
+        $page = config("site_pages.{$configKey}");
+        $url = route($routeName);
+
+        return view($view, [
+            'page' => $page,
+            'metaData' => $this->meta(
+                $page['meta_title'],
+                $page['meta_description'],
+                $url,
+                [
+                    ['name' => 'Home', 'item' => route('home')],
+                    ['name' => $crumbLabel, 'item' => $url],
                 ]
             ),
         ]);

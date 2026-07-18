@@ -572,6 +572,57 @@ a.cs-features__item--link:hover {
     grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+.cs-features--2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.cs-timeline--5 {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.mk-include-list {
+    margin: 1rem 0 0;
+    padding: 0 0 0 1.1rem;
+    color: var(--site-ink-soft);
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.mk-include-list li {
+    margin-bottom: 0.35rem;
+}
+
+.mk-include-list li::marker {
+    color: var(--site-accent);
+}
+
+.mk-split {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem;
+}
+
+.mk-split__col h3 {
+    margin: 0 0 0.85rem;
+    font-size: 1.05rem;
+    font-weight: 700;
+}
+
+.mk-team-card .mk-card__tag {
+    margin-bottom: 0.5rem;
+}
+
+.cs-hub__card--static {
+    cursor: default;
+    pointer-events: none;
+}
+
+.cs-hub__card--static:hover {
+    transform: none;
+    border-color: var(--site-line);
+    box-shadow: none;
+}
+
 .sv-faq__item {
     border: 1px solid var(--site-line);
     border-radius: 0.85rem;
@@ -612,6 +663,22 @@ a.cs-features__item--link:hover {
     color: var(--site-muted);
     font-size: 0.9375rem;
     line-height: 1.6;
+}
+
+.sv-faq-more {
+    margin: 1.25rem 0 0;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.sv-faq-more a {
+    color: var(--site-accent);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.sv-faq-more a:hover {
+    text-decoration: underline;
 }
 
 .cs-features__item h3 {
@@ -888,15 +955,18 @@ a.cs-features__item--link:hover {
     .cs-facts,
     .cs-features,
     .cs-timeline,
+    .cs-timeline--5,
     .cs-outcome,
     .cs-related,
-    .cs-related--3 {
+    .cs-related--3,
+    .mk-split {
         grid-template-columns: 1fr;
     }
 
     .cs-hub__metrics,
     .sv-hub__hints,
-    .cs-features--3 {
+    .cs-features--3,
+    .cs-features--2 {
         grid-template-columns: 1fr;
     }
 
@@ -913,7 +983,13 @@ a.cs-features__item--link:hover {
     .cs-facts,
     .cs-features,
     .cs-timeline,
-    .cs-related {
+    .cs-related,
+    .mk-split,
+    .cs-features--2 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .cs-timeline--5 {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 

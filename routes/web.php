@@ -75,6 +75,10 @@ Route::middleware([CheckLanguage::class])->group(function () {
         return redirect()->route('pages.services', [], 301);
     });
     Route::get('about', [MarketingController::class, 'about'])->name('pages.about');
+    Route::get('how-we-work', [MarketingController::class, 'howWeWork'])->name('pages.how-we-work');
+    Route::get('engagements', [MarketingController::class, 'engagements'])->name('pages.engagements');
+    Route::get('faq', [MarketingController::class, 'faq'])->name('pages.faq');
+    Route::get('careers', [MarketingController::class, 'careers'])->name('pages.careers');
     Route::get('work', [MarketingController::class, 'workHub'])->name('pages.work');
     Route::get('work/{slug}', [MarketingController::class, 'workShow'])->name('pages.work.show');
     Route::get('privacy', [MarketingController::class, 'privacy'])->name('pages.privacy');

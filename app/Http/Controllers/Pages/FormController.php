@@ -96,6 +96,10 @@ class FormController extends Controller
             'email' => 'required|max:255|email',
             'phone' => 'required|digits:10',
             'message' => 'required',
+            'goal' => 'nullable|max:100',
+            'timeline' => 'nullable|max:100',
+            'budget' => 'nullable|max:100',
+            'links' => 'nullable|max:500',
         ]);
 
         if ($validator->fails()) {
@@ -103,9 +107,22 @@ class FormController extends Controller
         }
 
         $dataToInsert = $validator->validated();
+
+        $briefParts = array_filter([
+            ! empty($dataToInsert['goal']) ? 'Goal: ' . $dataToInsert['goal'] : null,
+            ! empty($dataToInsert['timeline']) ? 'Timeline: ' . $dataToInsert['timeline'] : null,
+            ! empty($dataToInsert['budget']) ? 'Budget: ' . $dataToInsert['budget'] : null,
+            ! empty($dataToInsert['links']) ? 'Links: ' . $dataToInsert['links'] : null,
+        ]);
+
+        $messageBody = $dataToInsert['message'];
+        if ($briefParts !== []) {
+            $messageBody = implode("\n", $briefParts) . "\n\n" . $messageBody;
+        }
+
         $dataDetail = new ContactUs;
         $dataDetail->user_id = Auth::id();
-        $dataDetail->message = $dataToInsert['message'];
+        $dataDetail->message = $messageBody;
         $dataDetail->phone = $dataToInsert['phone'];
         $dataDetail->email = $dataToInsert['email'];
         $dataDetail->name = $dataToInsert['name'];

@@ -3811,6 +3811,279 @@ return [
                 ],
                 'sections' => [],
             ],
+            'customer-portal' => [
+                'label' => 'Case study',
+                'heading' => 'Customer portal for service clients',
+                'lead' => 'A secure login area where clients check status, submit requests, and download files — so the team stops answering the same update emails every week.',
+                'meta_title' => 'Case Study: Customer Portal | GujjuTicks',
+                'meta_description' => 'How GujjuTicks built a customer portal with login, status tracking, and file sharing for a service business.',
+                'client' => 'Service business',
+                'industry' => 'B2B services',
+                'year' => '2025',
+                'role' => 'Build partner — discovery, UX, portal, rollout',
+                'duration' => '7 weeks to v1',
+                'stack' => ['Laravel', 'Auth & roles', 'File storage', 'Email notifications'],
+                'highlights' => [
+                    ['value' => '1', 'label' => 'Client self-serve home'],
+                    ['value' => '3', 'label' => 'Core portal jobs'],
+                    ['value' => '7 wks', 'label' => 'Brief to live portal'],
+                    ['value' => 'Less', 'label' => 'Status chase email'],
+                ],
+                'overview' => 'Clients kept asking for the same updates. Staff spent hours digging through email and folders. GujjuTicks scoped a focused portal around three jobs — see status, submit a request, download files — then shipped a secure login area the team could administer without building a full product platform.',
+                'challenge' => [
+                    'heading' => 'The challenge',
+                    'body' => 'The business looked professional on sales calls, but day-to-day client communication lived in inboxes. Status was hard to find, files went missing, and every “quick update” interrupted real work.',
+                    'points' => [
+                        'Clients emailed repeatedly for status they could have self-served',
+                        'Files and deliverables lived across shared drives and threads',
+                        'No single place for clients to submit structured requests',
+                        'Staff lacked a simple admin view of who needed attention',
+                    ],
+                ],
+                'approach' => [
+                    'heading' => 'Our approach',
+                    'body' => 'We mapped the repeating client jobs — not a wish-list portal — then cut v1 to auth, status, requests, and downloads with a light staff admin.',
+                    'points' => [
+                        'Interviewed staff on the emails they answered most',
+                        'Locked three client jobs for v1; parked billing and chat for later',
+                        'Designed roles so clients and staff see the right surfaces',
+                        'Shipped weekly demos with a pilot client group before wide rollout',
+                    ],
+                ],
+                'solution' => [
+                    'heading' => 'What we built',
+                    'body' => 'A practical customer portal the business could run daily — not a bloated client “community.”',
+                    'features' => [
+                        [
+                            'title' => 'Secure client login',
+                            'text' => 'Account access with clear separation between clients and staff.',
+                        ],
+                        [
+                            'title' => 'Status at a glance',
+                            'text' => 'Clients see where work stands without waiting for an email reply.',
+                        ],
+                        [
+                            'title' => 'Request intake',
+                            'text' => 'Structured submissions replace vague “quick question” threads.',
+                        ],
+                        [
+                            'title' => 'File downloads',
+                            'text' => 'Deliverables in one place with staff control over what is shared.',
+                        ],
+                    ],
+                ],
+                'timeline' => [
+                    ['phase' => 'Week 1', 'title' => 'Discover', 'text' => 'Map client jobs, staff pain, and a hard cut for v1.'],
+                    ['phase' => 'Week 2', 'title' => 'Design', 'text' => 'Key screens, roles, and notification rules.'],
+                    ['phase' => 'Weeks 3–6', 'title' => 'Build', 'text' => 'Auth, status, requests, files, and admin.'],
+                    ['phase' => 'Week 7', 'title' => 'Rollout', 'text' => 'Pilot clients, train staff, then widen access.'],
+                ],
+                'outcome' => [
+                    'heading' => 'The outcome',
+                    'body' => 'Clients get answers without waiting. Staff spend less time on status theatre. The portal is ready for billing or messaging later — without rewriting v1.',
+                    'results' => [
+                        'Fewer repetitive status emails',
+                        'Clearer ownership of client requests inside the team',
+                        'Files and updates in one trusted place',
+                        'A backlog ordered by real portal usage',
+                    ],
+                ],
+                'quote' => [
+                    'text' => 'Clients stopped asking “any update?” every Monday. The portal became the source of truth.',
+                    'by' => 'Operations manager (anonymized)',
+                    'role' => 'B2B services',
+                ],
+                'cta' => [
+                    'eyebrow' => 'Build a client portal',
+                    'text' => 'Want a secure place where clients self-serve status and files?',
+                    'secondary_label' => 'Customer portals',
+                    'secondary_route' => 'pages.services.show',
+                    'secondary_params' => ['slug' => 'customer-portals'],
+                ],
+                'sections' => [],
+            ],
+            'integrations-sync' => [
+                'label' => 'Case study',
+                'heading' => 'CRM and payments sync',
+                'lead' => 'A practical integration layer that stopped copy-paste between CRM, payments, and a spreadsheet — with failure handling the ops team could trust.',
+                'meta_title' => 'Case Study: System Integrations | GujjuTicks',
+                'meta_description' => 'How GujjuTicks connected CRM and payments so a growing team stopped reconciling data by hand.',
+                'client' => 'Growing operations team',
+                'industry' => 'Operations / SaaS ops',
+                'year' => '2024',
+                'role' => 'Integration partner — mapping, build, monitoring basics',
+                'duration' => '5 weeks to stable sync',
+                'stack' => ['APIs', 'Webhooks', 'Laravel jobs', 'Logging'],
+                'highlights' => [
+                    ['value' => '2', 'label' => 'Systems connected'],
+                    ['value' => '0', 'label' => 'Daily copy-paste'],
+                    ['value' => '5 wks', 'label' => 'Map to stable sync'],
+                    ['value' => 'Alerts', 'label' => 'On failed jobs'],
+                ],
+                'overview' => 'Sales lived in the CRM. Payments lived elsewhere. Ops reconciled both in a spreadsheet every day. GujjuTicks mapped the real handoffs, built a sync with clear rules and retries, and left the team with visibility when something failed — instead of silent drift.',
+                'challenge' => [
+                    'heading' => 'The challenge',
+                    'body' => 'Growth made manual reconciliation fragile. Missed updates meant wrong customer status, delayed follow-ups, and hours of cleanup every week.',
+                    'points' => [
+                        'Customer and payment state lived in two tools',
+                        'Staff copied fields by hand into a master sheet',
+                        'Failures were discovered late — often by a confused customer',
+                        'No agreed source of truth for “paid” vs “active”',
+                    ],
+                ],
+                'approach' => [
+                    'heading' => 'Our approach',
+                    'body' => 'We treated integration as an ops product: define ownership of each field, sync only what matters, and make failures visible.',
+                    'points' => [
+                        'Mapped which system owns each piece of data',
+                        'Started with one direction of sync for the highest-pain fields',
+                        'Added retries, logs, and a simple failure alert',
+                        'Documented runbooks so the team could recover without us',
+                    ],
+                ],
+                'solution' => [
+                    'heading' => 'What we built',
+                    'body' => 'A focused sync — not a brittle “connect everything” mashup.',
+                    'features' => [
+                        [
+                            'title' => 'Field-level sync rules',
+                            'text' => 'Clear ownership so CRM and payments stop fighting over the same facts.',
+                        ],
+                        [
+                            'title' => 'Webhook + job processing',
+                            'text' => 'Events processed reliably with retries when a provider blips.',
+                        ],
+                        [
+                            'title' => 'Failure visibility',
+                            'text' => 'Logs and alerts when a sync fails — so ops can act before customers notice.',
+                        ],
+                        [
+                            'title' => 'Ops runbook',
+                            'text' => 'Handover notes for common failures and how to re-run safely.',
+                        ],
+                    ],
+                ],
+                'timeline' => [
+                    ['phase' => 'Week 1', 'title' => 'Map', 'text' => 'Systems, fields, ownership, and failure modes.'],
+                    ['phase' => 'Weeks 2–4', 'title' => 'Build', 'text' => 'Sync jobs, webhooks, retries, and logging.'],
+                    ['phase' => 'Week 5', 'title' => 'Stabilize', 'text' => 'Pilot with live traffic, alerts, and runbook.'],
+                    ['phase' => 'After', 'title' => 'Hand over', 'text' => 'Document next integrations worth doing.'],
+                ],
+                'outcome' => [
+                    'heading' => 'The outcome',
+                    'body' => 'Ops stopped reconciling by hand. Customer status stayed consistent. The team has a pattern for the next integration instead of another spreadsheet bridge.',
+                    'results' => [
+                        'Daily copy-paste removed for the synced fields',
+                        'Fewer “why is this customer wrong?” fire drills',
+                        'Visible failures instead of silent drift',
+                        'A clear backlog for the next system to connect',
+                    ],
+                ],
+                'quote' => [
+                    'text' => 'The spreadsheet was the product. Now the sync is — and we only look when something actually breaks.',
+                    'by' => 'Ops lead (anonymized)',
+                    'role' => 'Growing team',
+                ],
+                'cta' => [
+                    'eyebrow' => 'Connect your tools',
+                    'text' => 'Tired of copy-paste between CRM, payments, and sheets?',
+                    'secondary_label' => 'System integrations',
+                    'secondary_route' => 'pages.services.show',
+                    'secondary_params' => ['slug' => 'system-integrations'],
+                ],
+                'sections' => [],
+            ],
+            'landing-campaign' => [
+                'label' => 'Case study',
+                'heading' => 'Campaign landing pages',
+                'lead' => 'A set of focused landing pages for a sales-led team that needed sharper offers, faster pages, and one clear path to enquire — without rebuilding the whole marketing site.',
+                'meta_title' => 'Case Study: Landing Pages | GujjuTicks',
+                'meta_description' => 'How GujjuTicks built campaign landing pages with clear offers and conversion paths for a B2B sales team.',
+                'client' => 'Sales-led company',
+                'industry' => 'B2B marketing',
+                'year' => '2025',
+                'role' => 'Design & build — messaging structure, pages, forms',
+                'duration' => '3 weeks to first pages live',
+                'stack' => ['Responsive UI', 'SEO basics', 'Contact forms', 'Analytics hooks'],
+                'highlights' => [
+                    ['value' => '4', 'label' => 'Campaign pages shipped'],
+                    ['value' => '1', 'label' => 'Primary CTA per page'],
+                    ['value' => '3 wks', 'label' => 'Brief to first live set'],
+                    ['value' => 'Fast', 'label' => 'Mobile-first loads'],
+                ],
+                'overview' => 'Paid traffic was landing on a generic homepage that buried the offer. GujjuTicks built dedicated landing pages around specific services — one story, one CTA, mobile-first performance — so sales conversations could start warmer from day one.',
+                'challenge' => [
+                    'heading' => 'The challenge',
+                    'body' => 'Campaign spend was leaking into a site that explained everything and sold nothing specific. Prospects bounced or asked basic “what do you do?” questions on the first call.',
+                    'points' => [
+                        'Homepage tried to cover every service at once',
+                        'No page matched a specific campaign promise',
+                        'Mobile experience felt slow and crowded',
+                        'Sales had to re-qualify intent that ads had already bought',
+                    ],
+                ],
+                'approach' => [
+                    'heading' => 'Our approach',
+                    'body' => 'We treated each landing page as a sales aid for one offer — not a mini brochure of the whole company.',
+                    'points' => [
+                        'Pulled real objections and offer language from sales calls',
+                        'One primary CTA per page — enquire or WhatsApp',
+                        'Kept layout calm and fast; cut decorative clutter',
+                        'Shipped a reusable pattern so the next campaign page is quicker',
+                    ],
+                ],
+                'solution' => [
+                    'heading' => 'What we built',
+                    'body' => 'Campaign pages that match ad promise to page promise — and make the next step obvious.',
+                    'features' => [
+                        [
+                            'title' => 'Offer-led sections',
+                            'text' => 'Headline, proof, and FAQ structured around one service outcome.',
+                        ],
+                        [
+                            'title' => 'Conversion paths',
+                            'text' => 'Form and WhatsApp CTAs placed where intent is highest.',
+                        ],
+                        [
+                            'title' => 'Mobile-first performance',
+                            'text' => 'Light layouts that stay readable on phones — where many clicks arrive.',
+                        ],
+                        [
+                            'title' => 'Reusable template',
+                            'text' => 'A pattern the team can repeat for the next campaign without a full redesign.',
+                        ],
+                    ],
+                ],
+                'timeline' => [
+                    ['phase' => 'Week 1', 'title' => 'Brief', 'text' => 'Offers, audiences, and success criteria for each page.'],
+                    ['phase' => 'Week 2', 'title' => 'Build', 'text' => 'Copy structure, layout, forms, and responsive polish.'],
+                    ['phase' => 'Week 3', 'title' => 'Launch', 'text' => 'QA, tracking hooks, go-live, and handover notes.'],
+                    ['phase' => 'After', 'title' => 'Iterate', 'text' => 'Small copy tweaks based on early campaign feedback.'],
+                ],
+                'outcome' => [
+                    'heading' => 'The outcome',
+                    'body' => 'Campaign traffic lands on a page that matches the promise. Sales starts warmer. The team can spin up the next offer page without rebuilding from scratch.',
+                    'results' => [
+                        'Clearer message match from ad to page',
+                        'Stronger enquire paths on campaign URLs',
+                        'Faster mobile experience for paid traffic',
+                        'A repeatable landing pattern for future campaigns',
+                    ],
+                ],
+                'quote' => [
+                    'text' => 'We stopped sending expensive clicks to a homepage apology. Each campaign finally has a page that sells the thing we advertised.',
+                    'by' => 'Growth lead (anonymized)',
+                    'role' => 'Sales-led company',
+                ],
+                'cta' => [
+                    'eyebrow' => 'Ship campaign pages',
+                    'text' => 'Need landing pages built around one clear conversion goal?',
+                    'secondary_label' => 'Landing pages',
+                    'secondary_route' => 'pages.services.show',
+                    'secondary_params' => ['slug' => 'landing-pages'],
+                ],
+                'sections' => [],
+            ],
         ],
     ],
 
@@ -3820,6 +4093,30 @@ return [
         'lead' => 'GujjuTicks designs and develops custom apps, websites, and business software for startups and growing teams — from Gujarat, India, working with clients locally and online.',
         'meta_title' => 'About GujjuTicks | Custom Apps, Websites & Software',
         'meta_description' => 'GujjuTicks is a software startup in Gujarat, India building custom apps, websites, and software for startups and growing businesses.',
+        'story' => [
+            'heading' => 'Why GujjuTicks exists',
+            'body' => 'Too many custom software projects start with vague promises and end with late launches. We started GujjuTicks to be the opposite: a small software partner that locks a clear v1, ships weekly demos you can click, and stays through go-live — so founders and operators get software they can actually run.',
+        ],
+        'location' => [
+            'heading' => 'Based in Gujarat, working online',
+            'body' => 'We are based in Gujarat, India, and work with startups and growing businesses locally and remotely. You talk directly with the build team — usually by email or WhatsApp — not a long chain of account layers.',
+        ],
+        'team' => [
+            'heading' => 'Who you work with',
+            'lead' => 'A compact founding team — product, engineering, and delivery in one place.',
+            'people' => [
+                [
+                    'name' => 'Founding team',
+                    'role' => 'Product & engineering',
+                    'bio' => 'We scope, design, and build together — so decisions stay close to the work and updates stay honest.',
+                ],
+                [
+                    'name' => 'Delivery partner',
+                    'role' => 'Client collaboration',
+                    'bio' => 'Your primary contact for briefs, demos, timelines, and launch handover. Direct, practical, and reachable.',
+                ],
+            ],
+        ],
         'sections' => [
             [
                 'heading' => 'What we believe',
@@ -3833,6 +4130,264 @@ return [
                 'heading' => 'Who we help',
                 'body' => 'Founders shipping an MVP, operators replacing spreadsheets, and product teams needing extra build capacity.',
             ],
+        ],
+    ],
+
+    'how_we_work' => [
+        'label' => 'How we work',
+        'heading' => 'A clear path from brief to launch',
+        'lead' => 'Every GujjuTicks engagement follows the same rhythm: lock scope, ship visible progress weekly, launch with handover, and optionally keep improving.',
+        'meta_title' => 'How We Work | GujjuTicks',
+        'meta_description' => 'See how GujjuTicks runs custom app, website, and software projects — discovery, weekly demos, launch handover, and ongoing support.',
+        'intro' => 'We keep delivery simple on purpose. You always know what phase you are in, what “done” means for this release, and what happens after go-live.',
+        'process' => [
+            ['phase' => '01', 'title' => 'Discover', 'text' => 'Goals, users, constraints, and a realistic v1 — before heavy build begins.'],
+            ['phase' => '02', 'title' => 'Plan', 'text' => 'Milestones, design direction, success criteria, and a written scope you can approve.'],
+            ['phase' => '03', 'title' => 'Build', 'text' => 'Iterative delivery with demos you can click every week — not status theatre.'],
+            ['phase' => '04', 'title' => 'Launch', 'text' => 'Hardening, deploy, access notes, and a prioritized backlog for what comes next.'],
+            ['phase' => '05', 'title' => 'Support', 'text' => 'Optional retainer for fixes, small features, and steady upkeep after launch.'],
+        ],
+        'from_you' => [
+            'heading' => 'What we need from you',
+            'items' => [
+                [
+                    'title' => 'A decision-maker',
+                    'text' => 'Someone who can approve scope, answer questions quickly, and join weekly demos.',
+                ],
+                [
+                    'title' => 'Real context',
+                    'text' => 'Who the users are, what “success” looks like, timelines, and any must-have constraints.',
+                ],
+                [
+                    'title' => 'Honest priorities',
+                    'text' => 'Willingness to cut nice-to-haves so v1 ships — everything else goes to a clear next backlog.',
+                ],
+            ],
+        ],
+        'cadence' => [
+            'heading' => 'How we stay in sync',
+            'items' => [
+                [
+                    'title' => 'Weekly demos',
+                    'text' => 'You see working software every week — so scope stays honest and surprises stay rare.',
+                ],
+                [
+                    'title' => 'Direct updates',
+                    'text' => 'Progress and blockers by email or WhatsApp. Talk to the build team, not a ticket black hole.',
+                ],
+                [
+                    'title' => 'Written milestones',
+                    'text' => 'You know what lands each phase — and what “done” means before we call a release finished.',
+                ],
+            ],
+        ],
+        'ownership' => [
+            'heading' => 'Ownership & handover',
+            'body' => 'Project deliverables and ownership are agreed in writing before build work begins. We design for handoff, not lock-in.',
+            'points' => [
+                'Code and project assets as agreed in the statement of work',
+                'Hosting basics, SSL, and access notes at launch',
+                'Handover documentation your team can run with',
+                'A prioritized post-launch backlog — not a vague “phase 2”',
+            ],
+        ],
+        'cta' => [
+            'eyebrow' => 'Ready to start?',
+            'text' => 'Tell us what you want to launch. We will recommend the right engagement and a realistic first step.',
+        ],
+    ],
+
+    'engagements' => [
+        'label' => 'Engagements',
+        'heading' => 'How you can work with us',
+        'lead' => 'Three practical ways to engage GujjuTicks — a short discovery, a scoped build, or ongoing support after launch. Ranges below are guides; we confirm after understanding the work.',
+        'meta_title' => 'Engagements & How to Buy | GujjuTicks',
+        'meta_description' => 'Discover GujjuTicks engagement models: discovery workshops, scoped project builds, and ongoing support retainers for apps, websites, and software.',
+        'intro' => 'We do not publish fake exact prices. We share typical shapes so you know what to expect — then we confirm scope, timeline, and investment after a short conversation.',
+        'models' => [
+            [
+                'tag' => '01',
+                'title' => 'Discovery workshop',
+                'summary' => 'A short paid scoping engagement so big builds start with clarity.',
+                'timeline' => 'Typically 3–5 days',
+                'best_for' => 'Teams that need a realistic v1 before committing to a full build',
+                'includes' => [
+                    'User and goal mapping',
+                    'Written v1 scope and cut list',
+                    'Milestone sketch and rough timeline',
+                    'Recommendation on build vs wait',
+                ],
+                'route' => 'pages.services.show',
+                'params' => ['slug' => 'discovery-workshop'],
+            ],
+            [
+                'tag' => '02',
+                'title' => 'Project build',
+                'summary' => 'Fixed-scope delivery for an app, website, portal, or internal tool — from plan to launch.',
+                'timeline' => 'Typically 3–12 weeks depending on scope',
+                'best_for' => 'Startups and teams with a clear outcome and a launch date in mind',
+                'includes' => [
+                    'Agreed v1 scope and milestones',
+                    'Design direction for key flows',
+                    'Build with weekly demos',
+                    'Launch, handover, and next backlog',
+                ],
+                'route' => 'pages.services',
+                'params' => [],
+            ],
+            [
+                'tag' => '03',
+                'title' => 'Ongoing support',
+                'summary' => 'A retainer for fixes, small features, and steady upkeep after you are live.',
+                'timeline' => 'Month-to-month after launch',
+                'best_for' => 'Teams that want a familiar build partner on call — not a ticket black hole',
+                'includes' => [
+                    'Agreed hours or capacity each month',
+                    'Bug fixes and small improvements',
+                    'Hosting and upkeep basics',
+                    'Help planning larger follow-on work',
+                ],
+                'route' => 'pages.services.show',
+                'params' => ['slug' => 'ongoing-support'],
+            ],
+        ],
+        'after' => [
+            'heading' => 'What happens after you enquire',
+            'items' => [
+                [
+                    'title' => 'We reply within a day',
+                    'text' => 'Usually within one business day — with clarifying questions or a suggested next step.',
+                ],
+                [
+                    'title' => 'We shape a starting point',
+                    'text' => 'Workshop, scoped build, or support — based on your goal, timeline, and how clear the work already is.',
+                ],
+                [
+                    'title' => 'We confirm in writing',
+                    'text' => 'Scope, timeline, and investment are agreed before heavy build begins. No surprise invoices for undefined work.',
+                ],
+            ],
+        ],
+        'notes' => [
+            'heading' => 'What is typically included vs not',
+            'included' => [
+                'Discovery and a written definition of “done” for the agreed release',
+                'Weekly visible progress during builds',
+                'Launch support and handover notes',
+                'Direct communication with the build team',
+            ],
+            'not_included' => [
+                'Unlimited scope changes mid-build without adjusting timeline or investment',
+                'Paid ads management or ongoing content marketing retainers',
+                'Guarantees of revenue or user growth — we build the product; market results vary',
+                'Work that starts before scope is agreed in writing',
+            ],
+        ],
+        'cta' => [
+            'eyebrow' => 'Start with a short brief',
+            'text' => 'Share your goal, timeline, and budget range if known. We will recommend the right engagement.',
+        ],
+    ],
+
+    'faq' => [
+        'label' => 'FAQ',
+        'heading' => 'Questions buyers ask before they start',
+        'lead' => 'Practical answers about timelines, ownership, how we work, and what happens after launch.',
+        'meta_title' => 'FAQ | GujjuTicks',
+        'meta_description' => 'Frequently asked questions about working with GujjuTicks — timelines, ownership, pricing shape, remote work, and launch support.',
+        'intro' => 'Service pages have deeper FAQs for specific offers. This page covers the cross-cutting questions most founders and operators ask first.',
+        'groups' => [
+            [
+                'heading' => 'Getting started',
+                'items' => [
+                    [
+                        'q' => 'How do we start a project?',
+                        'a' => 'Send a short brief via Contact or WhatsApp. We reply within about one business day, ask clarifying questions, and recommend a discovery workshop, scoped build, or support retainer.',
+                    ],
+                    [
+                        'q' => 'Do you work remotely?',
+                        'a' => 'Yes. We are based in Gujarat, India, and work with clients locally and online. Weekly demos and updates usually happen by video, email, or WhatsApp.',
+                    ],
+                    [
+                        'q' => 'How long does a typical project take?',
+                        'a' => 'A focused website often lands in about 3–6 weeks. A custom app or MVP is commonly about 6–12 weeks. We confirm timeline only after we understand the scope — not before.',
+                    ],
+                ],
+            ],
+            [
+                'heading' => 'Scope, ownership & money',
+                'items' => [
+                    [
+                        'q' => 'Will we own the code?',
+                        'a' => 'Yes. Project deliverables and ownership are agreed in writing before build work begins. We design for handoff, not lock-in.',
+                    ],
+                    [
+                        'q' => 'How does pricing work?',
+                        'a' => 'We price against a clear scope — workshop, project build, or monthly support. We share ranges and confirm investment after discovery. We do not invent fake exact price tables for undefined work.',
+                    ],
+                    [
+                        'q' => 'What if we need changes mid-build?',
+                        'a' => 'Small clarifications are normal. Larger scope changes are discussed openly — we adjust timeline or investment rather than silently expanding the work.',
+                    ],
+                ],
+            ],
+            [
+                'heading' => 'Delivery & after launch',
+                'items' => [
+                    [
+                        'q' => 'How do you keep us updated?',
+                        'a' => 'Weekly demos you can click, plus direct updates by email or WhatsApp. You talk to the build team — not a long chain of intermediaries.',
+                    ],
+                    [
+                        'q' => 'What tech stack do you use?',
+                        'a' => 'We favour practical stacks for the job — often Laravel and modern web UI for products and admin tools, with APIs, hosting, and mobile-ready experiences when needed. See Technology for details.',
+                    ],
+                    [
+                        'q' => 'Can you maintain the product after launch?',
+                        'a' => 'Yes. Many clients keep us on for fixes, small features, and hosting upkeep. Ongoing support is a separate engagement after go-live.',
+                    ],
+                ],
+            ],
+        ],
+        'cta' => [
+            'eyebrow' => 'Still have a question?',
+            'text' => 'Ask us directly — a short message is enough.',
+        ],
+    ],
+
+    'careers' => [
+        'label' => 'Careers',
+        'heading' => 'Build useful software with a small team',
+        'lead' => 'GujjuTicks is a software startup shipping custom apps, websites, and business software. We keep the team compact, the communication direct, and the work tied to real launches.',
+        'meta_title' => 'Careers | GujjuTicks',
+        'meta_description' => 'Careers at GujjuTicks — how we work, what we value, and how to apply when roles open or for open applications.',
+        'culture' => [
+            'heading' => 'How we work here',
+            'body' => 'Clear scope, weekly demos, and honest timelines. We prefer people who ship useful software, write clearly, and take ownership without needing layers of process.',
+            'points' => [
+                'Small team — your work ships to real clients',
+                'Direct communication over status theatre',
+                'Practical engineering over buzzword stacks',
+                'Respect for scope, deadlines, and handover quality',
+            ],
+        ],
+        'roles' => [
+            'heading' => 'Open roles',
+            'lead' => 'We are not hiring for a fixed slate of roles right now.',
+            'items' => [],
+            'open_note' => 'No open roles at the moment. If you build strong product software and want to be considered for future openings, send a short note with your portfolio or GitHub and what you like to work on.',
+        ],
+        'stack' => [
+            'heading' => 'What we build with',
+            'items' => ['Laravel', 'Modern web UI', 'APIs & integrations', 'MySQL / PostgreSQL', 'Cloud hosting', 'Mobile-ready / PWA'],
+        ],
+        'apply' => [
+            'heading' => 'How to apply',
+            'body' => 'Email info@gujjuticks.com with the subject “Careers — your name”, a short intro, and links to work you are proud of. We read every note; we reply when there is a fit or an opening.',
+        ],
+        'cta' => [
+            'eyebrow' => 'Not looking for a job?',
+            'text' => 'If you need an app, website, or custom software built — start a project instead.',
         ],
     ],
 
