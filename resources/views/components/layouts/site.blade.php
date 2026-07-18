@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="theme-color" content="{{ in_array(($page ?? ''), ['blogs', 'contact', 'home', 'marketing', 'cities', 'ai-prompts', 'news-post', 'image-editor', 'news', 'login', 'error'], true) ? '#f4f5f7' : '#f7f8fa' }}">
+    <meta name="theme-color" content="{{ in_array(($page ?? ''), ['blogs', 'contact', 'home', 'marketing', 'cities', 'ai-prompts', 'news-post', 'image-editor', 'news', 'login', 'error', 'tools'], true) ? '#f4f5f7' : '#f7f8fa' }}">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

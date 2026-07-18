@@ -10,6 +10,8 @@
             @endif
             <div class="mk-actions">
                 <a class="mk-btn mk-btn--solid" href="{{ route('form.contact') }}">Start a project</a>
+                <a class="mk-btn mk-btn--ghost" href="{{ route('pages.tools.brief') }}">Build a brief</a>
+                <a class="mk-btn mk-btn--ghost" href="{{ route('pages.tools.estimate') }}">Rough estimate</a>
                 <a class="mk-btn mk-btn--ghost" href="#service-list">Browse services</a>
             </div>
         </div>

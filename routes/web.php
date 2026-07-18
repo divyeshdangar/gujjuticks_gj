@@ -38,12 +38,18 @@ use App\Http\Controllers\Api\V1\BlogController as ApiBlogController;
 use App\Http\Controllers\Dashboard\PostSetController as DashboardPostSetController;
 use App\Http\Controllers\Pages\BusinessController;
 use App\Http\Controllers\Pages\PostSetController;
+use App\Http\Controllers\Pages\ToolsController;
 use App\Http\Controllers\RssFeedController;
 
 Route::middleware([CheckLanguage::class])->group(function () {
     Route::get('/', [HomeController::class, 'show'])->name('home');    
     Route::get('login', [LoginController::class, 'authenticate'])->name('login');
     Route::get('contact-us', [FormController::class, 'show'])->name('form.contact');
+
+    Route::get('project-brief', [ToolsController::class, 'brief'])->name('pages.tools.brief');
+    Route::post('project-brief', [ToolsController::class, 'storeBrief'])->name('pages.tools.brief.post');
+    Route::get('project-estimate', [ToolsController::class, 'estimate'])->name('pages.tools.estimate');
+    Route::post('project-estimate', [ToolsController::class, 'storeEstimate'])->name('pages.tools.estimate.post');
 
     Route::get('services', [MarketingController::class, 'servicesHub'])->name('pages.services');
     Route::get('services/{slug}', [MarketingController::class, 'servicesShow'])->name('pages.services.show');

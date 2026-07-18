@@ -480,6 +480,33 @@ body.site-body--contact .site-footer {
     line-height: 1.55;
 }
 
+.ct-tools-cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    margin: 1rem 0 0;
+}
+
+.ct-tools-cta a {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.55rem 0.95rem;
+    border-radius: 999px;
+    border: 1px solid var(--site-line);
+    background: rgba(244, 245, 247, 0.8);
+    color: var(--site-ink-soft);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: border-color 0.2s ease, color 0.2s ease, transform 0.25s var(--site-ease);
+}
+
+.ct-tools-cta a:hover {
+    border-color: var(--site-accent);
+    color: var(--site-accent);
+    transform: translateY(-1px);
+}
+
 .ct-services {
     margin: 0;
     padding-left: 1.1rem;

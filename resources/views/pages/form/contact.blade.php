@@ -172,6 +172,17 @@
                     help us reply with a clearer plan.
                 </p>
             </div>
+
+            <div class="ct-card">
+                <h2 class="ct-card__title">Prefer a structured start?</h2>
+                <p class="ct-note">
+                    Use a short tool to shape the request before you write — then send it our way.
+                </p>
+                <div class="ct-tools-cta">
+                    <a href="{{ route('pages.tools.brief') }}">Build a project brief</a>
+                    <a href="{{ route('pages.tools.estimate') }}">Get a rough estimate</a>
+                </div>
+            </div>
         </aside>
     </section>
 
